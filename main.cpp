@@ -7,10 +7,9 @@
 
 #include "main.h"
 
-
 // マクロ定義
 #define CLASS_NAME "WindowClass"
-#define WINDOW_NAME "DirectXの基本処理"
+#define WINDOW_NAME "C++環境下のDirectX処理"
 
 // プロトタイプ宣言
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -18,8 +17,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //グローバル変数
 LPDIRECT3D9 g_pD3D = NULL; 
 LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;
-
-
 
 //===============================
 // メイン関数

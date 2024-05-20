@@ -31,10 +31,10 @@ HRESULT CObject2D::Init()
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(m_pos.x - m_size.x, m_pos.y - m_size.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_pos.x + m_size.x, m_pos.y - m_size.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_pos.x - m_size.x, m_pos.y + m_size.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_pos.x + m_size.x, m_pos.y + m_size.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y - m_nSize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y - m_nSize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
 
 	pVtx[0].rhw = 1.0f;
 	pVtx[1].rhw = 1.0f;
@@ -83,8 +83,9 @@ CObject2D* CObject2D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	CObject2D* Object2D = new CObject2D;
 
-	Object2D->m_pos = pos;
-	Object2D->m_size = size;
+	Object2D->m_nPos = pos;
+
+	Object2D->m_nSize = size;
 
 	Object2D->Init();
 

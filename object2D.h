@@ -16,8 +16,8 @@ public:
 	static CObject2D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	D3DXVECTOR3 m_pos;
-	D3DXVECTOR3 m_size;
+	D3DXVECTOR3 m_nPos;
+	D3DXVECTOR3 m_nSize;
 };
 
 #endif

@@ -7,12 +7,13 @@
 #include "main.h"
 #include "object.h"
 #include "object2D.h"
+#include "manager.h"
 
 // プロトタイプ宣言
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // グローバル変数
-CRenderer* g_pRenderer = nullptr;
+CManager* g_pManager = nullptr;
 
 //======================
 // メイン関数
@@ -49,15 +50,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	// ウィンドウを生成
 	hWnd = CreateWindowEx(0, "WindowClass", "C++環境下でのDirectX基本処理", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, (rect.right - rect.left), (rect.bottom - rect.top), NULL, NULL, hInstance, NULL);
 
-	g_pRenderer = new CRenderer;
+	g_pManager = new CManager;
 
 
-	if (FAILED(g_pRenderer->Init(hWnd, TRUE)))
+	if (FAILED(g_pManager->Init(hWnd, TRUE)))
 	{
 		return -1;
 	}
 
-	CObject2D::Create(D3DXVECTOR3(640.0f, 360.0f, 0.0f), D3DXVECTOR3(200.0f, 200.0f, 0.0f));
 
 	//ウィンドウの表示
 	ShowWindow(hWnd, nCmdShow);
@@ -84,10 +84,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 		else
 		{
 			//レンダラー更新
-			g_pRenderer->Update();
+			g_pManager->Update();
 
 			//レンダラー描画
-			g_pRenderer->Draw();
+			g_pManager->Draw();
 		}
 	}
 
@@ -95,8 +95,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	CObject::ReleaseAll();
 
 	//レンダラー開放
-	delete g_pRenderer;
-	g_pRenderer = nullptr;
+	delete g_pManager;
+	g_pManager = nullptr;
 
 	UnregisterClass("WindowClass", wcex.hInstance);
 
@@ -148,9 +148,4 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-CRenderer* GetRenderer()
-{
-	return g_pRenderer;
 }

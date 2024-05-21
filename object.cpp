@@ -39,7 +39,7 @@ void CObject::Uninit()
 
 void CObject::Update()
 {
-
+	
 }
 
 void CObject::Draw()

@@ -13,10 +13,7 @@
 
 static const int SCREEN_WIDTH(1280);
 static const int SCREEN_HEIGHT(720);
-static const int FVF_VERTEX_2D(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-
-
-CRenderer* GetRenderer();
+static const int FVF_VERTEX_2D(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 #endif
 

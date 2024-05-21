@@ -2,6 +2,7 @@
 #define _OBJECT_H_
 
 #include "main.h"
+#include "manager.h"
 
 
 class CObject
@@ -12,6 +13,7 @@ public:
 		D3DXVECTOR3 pos;
 		float rhw;
 		D3DCOLOR col;
+		D3DXVECTOR2 tex;
 	}VERTEX_2D;
 
 	CObject();

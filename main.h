@@ -8,15 +8,18 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#define DIRECTINPUT_VERSION (0x0800)
 #include <iostream>
 #include <Windows.h>
 #include"d3dx9.h"
+#include "dinput.h"
 
 #include "renderer.h"
 
 #pragma comment(lib,"d3d9.lib")
 #pragma comment(lib,"d3dx9.lib")
 #pragma comment(lib,"dxguid.lib")
+#pragma comment (lib,"dinput8.lib")
 
 static const int SCREEN_WIDTH(1280); //画面解像度（幅）
 static const int SCREEN_HEIGHT(720);//画面解像度（高さ）

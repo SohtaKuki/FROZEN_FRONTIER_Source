@@ -9,6 +9,7 @@
 #define _MANAGER_H_
 
 #include "main.h"
+#include "input.h"
 
 //マネージャクラス
 class CManager
@@ -21,8 +22,10 @@ public:
 	void Update();
 	void Draw();
 	static CRenderer* GetRenderer();
+	static CInputKeyboard* GetKeyboard();
 private:
 	static CRenderer* m_pRenderer;
+	static CInputKeyboard* m_pKeyborad;
 };
 
 #endif

@@ -43,7 +43,7 @@ CObject::~CObject()
 //======================
 HRESULT CObject::Init()
 {
-
+	return S_OK;
 }
 
 //======================
@@ -59,7 +59,7 @@ void CObject::Uninit()
 //======================
 void CObject::Update()
 {
-	
+
 }
 
 //======================

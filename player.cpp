@@ -5,12 +5,12 @@
 //
 //=================================================
 
-#include "object2D.h"
+#include "player.h"
 
 //======================
 // コンストラクタ
 //======================
-CObject2D::CObject2D()
+CPlayer::CPlayer()
 {
 
 }
@@ -18,7 +18,7 @@ CObject2D::CObject2D()
 //======================
 // デストラクタ
 //======================
-CObject2D::~CObject2D()
+CPlayer::~CPlayer()
 {
 
 }
@@ -26,7 +26,7 @@ CObject2D::~CObject2D()
 //======================
 // 初期化処理
 //======================
-HRESULT CObject2D::Init()
+HRESULT CPlayer::Init()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -81,7 +81,7 @@ HRESULT CObject2D::Init()
 //======================
 // 終了処理
 //======================
-void CObject2D::Uninit()
+void CPlayer::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{
@@ -99,7 +99,7 @@ void CObject2D::Uninit()
 //======================
 // 更新処理
 //======================
-void CObject2D::Update()
+void CPlayer::Update()
 {
 	int nCntExplosion;
 	VERTEX_2D* pVtx; //頂点情報へのポインタ
@@ -107,26 +107,26 @@ void CObject2D::Update()
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-    // アニメーションフレームの更新
+	// アニメーションフレームの更新
 	m_Frametimer += m_FrameDuration;
-    if (m_Frametimer >= m_FrameDuration)
-    {
-        // 次のフレームに進める
+	if (m_Frametimer >= m_FrameDuration)
+	{
+		// 次のフレームに進める
 		m_CurrentFrame = (m_CurrentFrame + 1) % m_Numframes;
 
-        // フレームの経過時間をリセット
+		// フレームの経過時間をリセット
 		m_Frametimer = 0.0f;
 
-        // テクスチャ座標の更新
-        VERTEX_2D* pVtx;
+		// テクスチャ座標の更新
+		VERTEX_2D* pVtx;
 		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-        pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
-        pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
-        pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
-        pVtx[3].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 1.0f);
+		pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 1.0f);
 
 		m_pVtxBuff->Unlock();
-    }
+	}
 
 	//if (CManager::GetKeyboard)
 	//{
@@ -136,9 +136,9 @@ void CObject2D::Update()
 	//	}
 	//}
 
-	//if (CObject2D::AnimationPTN > IMAGE_PATTERN_ANIM)
+	//if (CPlayer::AnimationPTN > IMAGE_PATTERN_ANIM)
 	//{
-	//	CObject2D::AnimationPTN = 0;
+	//	CPlayer::AnimationPTN = 0;
 	//}
 
 }
@@ -146,7 +146,7 @@ void CObject2D::Update()
 //======================
 // 描画処理
 //======================
-void CObject2D::Draw()
+void CPlayer::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -163,9 +163,9 @@ void CObject2D::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CObject2D* CObject2D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	CObject2D* Object2D = new CObject2D;
+	CPlayer* Object2D = new CPlayer;
 
 	Object2D->m_nPos = pos;
 

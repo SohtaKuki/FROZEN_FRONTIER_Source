@@ -1,2 +1,1 @@
-C:\Users\student\Documents\Visual Studio 2019\Project52\Release\Project52.exe
-C:\Users\student\Desktop\old projectfiles\Project52 必須\Release\Project52.exe
+C:\Users\student\Desktop\ProjectC++_phase2\Release\ProjectC++_phase2.exe

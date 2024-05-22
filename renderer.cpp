@@ -1,17 +1,33 @@
+//=================================================
+//
+// レンダラーの処理 (renderer.cpp)
+// Author: Sohta Kuki
+//
+//=================================================
+
 #include "renderer.h"
 #include "object.h"
 
+//======================
+// コンストラクタ
+//======================
 CRenderer::CRenderer()
 {
 	m_pD3D = nullptr;
 	m_pD3DDevice = nullptr;
 }
 
+//======================
+// デストラクタ
+//======================
 CRenderer::~CRenderer()
 {
 
 }
 
+//======================
+// 初期化処理
+//======================
 HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 {
 	D3DDISPLAYMODE d3ddm;
@@ -60,6 +76,9 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 	return S_OK;
 }
 
+//======================
+// 終了処理
+//======================
 void CRenderer::Uninit()
 {
 	 
@@ -77,12 +96,18 @@ void CRenderer::Uninit()
 	}
 }
 
+//======================
+// 更新処理
+//======================
 void CRenderer::Update()
 {
 
 	CObject::UpdateAll();
 }
 
+//======================
+// 描画処理
+//======================
 void CRenderer::Draw()
 {
 	
@@ -102,6 +127,9 @@ void CRenderer::Draw()
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
 
+//======================
+// デバイス取得
+//======================
 LPDIRECT3DDEVICE9 CRenderer::GetDevice()
 {
 	return m_pD3DDevice;

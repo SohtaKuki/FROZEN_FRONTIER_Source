@@ -1,8 +1,16 @@
+//=================================================
+//
+// レンダラーの処理 (renderer.h)
+// Author: Sohta Kuki
+//
+//=================================================
+
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
 #include"d3dx9.h"
 
+//レンダークラス
 class CRenderer
 {
 public:

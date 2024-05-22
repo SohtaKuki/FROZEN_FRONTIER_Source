@@ -5,12 +5,12 @@
 //
 //=================================================
 
-#include "object2D.h"
+#include "objbg.h"
 
 //======================
 // コンストラクタ
 //======================
-CObject2D::CObject2D()
+CObjectBG::CObjectBG()
 {
 
 }
@@ -18,7 +18,7 @@ CObject2D::CObject2D()
 //======================
 // デストラクタ
 //======================
-CObject2D::~CObject2D()
+CObjectBG::~CObjectBG()
 {
 
 }
@@ -26,7 +26,7 @@ CObject2D::~CObject2D()
 //======================
 // 初期化処理
 //======================
-HRESULT CObject2D::Init()
+HRESULT CObjectBG::Init()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -43,17 +43,18 @@ HRESULT CObject2D::Init()
 	}
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\runningman000.png", &m_pTexBuff);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\minirush_preview.png", &m_pTexBuff);
 
 	VERTEX_2D* pVtx;
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 
-	pVtx[0].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y - m_nSize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y - m_nSize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_nSize.x, 0.0f, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(0.0f, m_nSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_nSize.x, m_nSize.y, 0.0f);
 
 	pVtx[0].rhw = 1.0f;
 	pVtx[1].rhw = 1.0f;
@@ -81,7 +82,7 @@ HRESULT CObject2D::Init()
 //======================
 // 終了処理
 //======================
-void CObject2D::Uninit()
+void CObjectBG::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{
@@ -99,47 +100,16 @@ void CObject2D::Uninit()
 //======================
 // 更新処理
 //======================
-void CObject2D::Update()
+void CObjectBG::Update()
 {
-	int nCntExplosion;
-	VERTEX_2D* pVtx; //頂点情報へのポインタ
 
-	//頂点バッファをロック
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-    // アニメーションフレームの更新
-	m_Frametimer += m_FrameDuration;
-    if (m_Frametimer >= m_FrameDuration)
-    {
-        // 次のフレームに進める
-		m_CurrentFrame = (m_CurrentFrame + 1) % m_Numframes;
-
-        // フレームの経過時間をリセット
-		m_Frametimer = 0.0f;
-
-        // テクスチャ座標の更新
-        VERTEX_2D* pVtx;
-		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-        pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
-        pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
-        pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
-        pVtx[3].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 1.0f);
-
-		m_pVtxBuff->Unlock();
-    }
-
-
-	//if (CObject2D::AnimationPTN > IMAGE_PATTERN_ANIM)
-	//{
-	//	CObject2D::AnimationPTN = 0;
-	//}
 
 }
 
 //======================
 // 描画処理
 //======================
-void CObject2D::Draw()
+void CObjectBG::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -156,15 +126,15 @@ void CObject2D::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CObject2D* CObject2D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CObjectBG* CObjectBG::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	CObject2D* Object2D = new CObject2D;
+	CObjectBG* ObjectBG = new CObjectBG;
 
-	Object2D->m_nPos = pos;
+	ObjectBG->m_nPos = pos;
 
-	Object2D->m_nSize = size;
+	ObjectBG->m_nSize = size;
 
-	Object2D->Init();
+	ObjectBG->Init();
 
-	return Object2D;
+	return ObjectBG;
 }

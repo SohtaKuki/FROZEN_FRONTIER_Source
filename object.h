@@ -1,10 +1,17 @@
+//=================================================
+//
+// オブジェクトの処理 (object.h)
+// Author: Sohta Kuki
+//
+//=================================================
+
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
 #include "main.h"
 #include "manager.h"
 
-
+//オブジェクトクラス
 class CObject
 {
 public:

@@ -1,9 +1,19 @@
+//=================================================
+//
+// オブジェクトの処理 (object.cpp)
+// Author: Sohta Kuki
+//
+//=================================================
+
 #include "object.h"
 
 unsigned const int MAX_OBJECT = 1028;	// オブジェクトの最大数
 int CObject::m_nNumAll = 0;				// オブジェクト総数
 CObject* CObject::m_apObject[MAX_OBJECT] = {};	// オブジェクト管理
 
+//======================
+// コンストラクタ
+//======================
 CObject::CObject()
 {
 
@@ -20,33 +30,49 @@ CObject::CObject()
 	}
 }
 
+//======================
+// デストラクタ
+//======================
 CObject::~CObject()
 {
 
 }
 
+//======================
+// 初期化処理
+//======================
 HRESULT CObject::Init()
 {
 
-
-	return S_OK;
 }
 
+//======================
+// 終了処理
+//======================
 void CObject::Uninit()
 {
 
 }
 
+//======================
+// 更新処理
+//======================
 void CObject::Update()
 {
 	
 }
 
+//======================
+// 描画処理
+//======================
 void CObject::Draw()
 {
 	
 }
 
+//======================
+// 解放処理
+//======================
 void CObject::Release()
 {
 	int nID = m_nID;
@@ -59,6 +85,9 @@ void CObject::Release()
 	}
 }
 
+//======================
+// 全開放処理
+//======================
 void CObject::ReleaseAll()
 {
 	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
@@ -71,6 +100,9 @@ void CObject::ReleaseAll()
 	}
 }
 
+//======================
+// 全更新処理
+//======================
 void CObject::UpdateAll()
 {
 	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
@@ -82,6 +114,9 @@ void CObject::UpdateAll()
 	}
 }
 
+//======================
+// 全描画処理
+//======================
 void CObject::DrawAll()
 {
 	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)

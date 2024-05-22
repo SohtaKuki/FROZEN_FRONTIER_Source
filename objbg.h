@@ -5,27 +5,23 @@
 //
 //=================================================
 
-#ifndef _OBJECT_2D_H_
-#define _OBJECT_2D_H_
-
+#ifndef _OBJECT_BG_H_
+#define _OBJECT_BG_H_
 
 #include "object.h"
 
-static const int IMAGE_PATTERN_ANIM(8);  //アニメのパターン数
-static const int DELAY_ANIM (20);//アニメの待機時間
-
-//オブジェクト2Dクラス
-class CObject2D :public CObject
+//背景オブジェクトクラス
+class CObjectBG :public CObject
 {
 public:
-	CObject2D();
-	~CObject2D()override;
+	CObjectBG();
+	~CObjectBG()override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
 
-	static CObject2D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	static CObjectBG* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
@@ -40,3 +36,4 @@ private:
 };
 
 #endif
+

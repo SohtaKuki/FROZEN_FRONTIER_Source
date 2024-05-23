@@ -48,7 +48,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	CPlayer::Create(D3DXVECTOR3(640.0f, 360.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
-	CBullet::Create(D3DXVECTOR3(90.0f, 360.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),D3DXVECTOR3(50.0f, 50.0f, 0.0f) );
+
 
 	return S_OK;
 }

@@ -15,12 +15,12 @@
 static const int CP_IMAGE_PATTERN_ANIM(8);  //アニメのパターン数
 static const int CP_DELAY_ANIM(20);//アニメの待機時間
 
-static const int Angle_value1(0.25f); //ポリゴン角度調整(値1)
-static const int Angle_value2(0.75f); //ポリゴン角度調整(値2)
-static const int Angle_value3(0.35f); //ポリゴン角度調整 (値3)
-static const int Length_value1(3.0f); //ポリゴン長さ調整 (値1)
-static const int Length_value2(0.0f); //ポリゴン長さ調整 (値2)
-static const int Attenuation_value(0.10f); //ポリゴン移動量減衰係数
+static const float Angle_value1(0.25f); //ポリゴン角度調整(値1)
+static const float Angle_value2(0.75f); //ポリゴン角度調整(値2)
+static const float Angle_value3(0.35f); //ポリゴン角度調整 (値3)
+static const float Length_value1(3.0f); //ポリゴン長さ調整 (値1)
+static const float Length_value2(0.0f); //ポリゴン長さ調整 (値2)
+static const float Attenuation_value(0.10f); //ポリゴン移動量減衰係数
 
 //オブジェクト2Dクラス
 class CPlayer :public CObject2D
@@ -35,10 +35,7 @@ public:
 	
 	static CPlayer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	D3DXVECTOR3 m_nPlayerPos;
-	D3DXVECTOR3 m_movePlayer;
-	D3DXVECTOR3 m_rotPlayer;
-	D3DXVECTOR3 m_nPlayerSize;
-	D3DXVECTOR3& GetPos() { return m_nPlayerPos; }
+
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
@@ -56,7 +53,9 @@ private:
 	CObject2D* m_apObject2D;
 	CInputKeyboard* m_apInputKey;
 protected:
-
+	D3DXVECTOR3 m_movePlayer;
+	D3DXVECTOR3 m_rotPlayer;
+	D3DXVECTOR3 m_nPlayerSize;
 	
 };
 

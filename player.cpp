@@ -6,6 +6,7 @@
 //=================================================
 
 #include "player.h"
+#include "bullet.h"
 
 //======================
 // コンストラクタ
@@ -123,9 +124,29 @@ void CPlayer::Update()
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (CManager::GetKeyboard())
+	if (CManager::GetKeyboard()->GetPress(DIK_W))
 	{
-		m_movePlayer.x += 1;
+		m_movePlayer.y -= Length_value1;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_S))
+	{
+		m_movePlayer.y += Length_value1;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_D))
+	{
+		m_movePlayer.x += Length_value1;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_A))
+	{
+		m_movePlayer.x -= Length_value1;
+	}
+	if (CManager::GetKeyboard()->GetPress(DIK_SPACE))
+	{
+		//弾の生成
+		CBullet::Create(CObject2D::GetPos(), m_rot);
 	}
 
 	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);

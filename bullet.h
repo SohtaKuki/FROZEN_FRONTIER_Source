@@ -7,41 +7,25 @@
 #include "player.h"
 
 
-//オブジェクト2Dクラス
-class CBullet :public CObject2D
+class CBullet : public CObject2D
 {
 public:
-	CBullet();
-	~CBullet()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
 
-	static CBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move,D3DXVECTOR3 size);
-	D3DXVECTOR3 m_nBulletPos;
-	D3DXVECTOR3 m_moveBullet;
-	D3DXVECTOR3 m_rotBullet;
-	D3DXVECTOR3 m_nBulletSize;
+	//定数の初期化
+	static const int BULLET_SIZE = 30;
+	static const int BULLET_LIFE = 120;
+
+	//メンバ関数
+	CBullet();					//コンストラクタ
+	~CBullet() override;		//デストラクタ
+	HRESULT Init() override;	//初期化
+	void Uninit() override;		//終了
+	void Update() override;		//更新
+	void Draw() override;		//描画
+	static CBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);	//弾の生成
+
 private:
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	LPDIRECT3DTEXTURE9 m_pTexBuff;
-	int AnimationPTN;
-	bool bUse;
-	int m_CurrentFrame;           // 現在のフレーム
-	int m_Numframes;        // アニメーションの総フレーム数
-	float m_FrameDuration; // フレームの表示時間
-	float m_Frametimer;        // フレームの経過時間
-	float m_fLengthBullet; //対角線の長さ
-	float m_fAngleBullet; //対角線の角度
-	float m_PolygonMoveSpeed;	// ポリゴンの移動速度
-	float m_PolygonPosX;	// ポリゴン初期X座標
-	float m_PolygonPosY;	// ポリゴン初期Y座標
-	CObject2D* m_apObject2D;
-	CInputKeyboard* m_apInputKey;
-protected:
-
-
+	int m_Life;					//寿命
 };
 
 #endif

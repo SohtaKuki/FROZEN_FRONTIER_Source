@@ -26,8 +26,9 @@ public:
 	virtual void Update()override;
 	virtual void Draw()override;
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
-
+	LPDIRECT3DVERTEXBUFFER9 GetBuff(void);
 	static CObject2D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	D3DXVECTOR3& GetPos() { return m_nPos; }
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
@@ -36,6 +37,9 @@ private:
 	D3DXVECTOR3 m_nSize;
 	int AnimationPTN;
 	bool bUse;
+protected:
+	D3DXVECTOR3 m_nMove;
+	D3DXVECTOR3 m_rot;
 };
 
 #endif

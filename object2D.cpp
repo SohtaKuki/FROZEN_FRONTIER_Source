@@ -155,3 +155,11 @@ CObject2D* CObject2D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 	return Object2D;
 }
+
+//============================
+//頂点バッファの取得
+//============================
+LPDIRECT3DVERTEXBUFFER9 CObject2D::GetBuff(void)
+{
+	return m_pVtxBuff;
+}

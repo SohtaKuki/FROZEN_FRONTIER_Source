@@ -52,7 +52,7 @@ void CInput::Uninit()
 
 CInputKeyboard::CInputKeyboard()
 {
-
+    //LPDIRECTINPUTDEVICE8 g_pDevKeyboard = nullptr;
 }
 
 CInputKeyboard::~CInputKeyboard()
@@ -63,10 +63,10 @@ CInputKeyboard::~CInputKeyboard()
 //キーボードの初期化処理
 HRESULT CInputKeyboard::Init(HINSTANCE hInstance, HWND hWnd)
 {
-
+    CInput::Init(hInstance, hWnd);
 
     //入力デバイス(キーボード)の生成
-    if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevKeyboard, NULL)))
+    if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevKeyboard, nullptr)))
     {
         return E_FAIL;
     }
@@ -98,6 +98,7 @@ void CInputKeyboard::Uninit(void)
 //キーボードの更新処理
 void CInputKeyboard::Update(void)
 {
+
     BYTE aKeyState[NUM_KEY_MAX];
     int nCntKey;
 
@@ -109,6 +110,7 @@ void CInputKeyboard::Update(void)
             m_aKeyState[nCntKey] = aKeyState[nCntKey];
         }
     }
+
     else
     {
         m_pDevKeyboard->Acquire();

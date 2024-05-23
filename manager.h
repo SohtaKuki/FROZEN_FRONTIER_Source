@@ -17,7 +17,7 @@ class CManager
 public:
 	CManager();
 	~CManager();
-	HRESULT Init(HWND hWnd, BOOL bWindow);
+	HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 	void Uninit();
 	void Update();
 	void Draw();
@@ -25,7 +25,7 @@ public:
 	static CInputKeyboard* GetKeyboard();
 private:
 	static CRenderer* m_pRenderer;
-	static CInputKeyboard* m_pKeyborad;
+	static CInputKeyboard* m_pKeyboard;
 };
 
 #endif

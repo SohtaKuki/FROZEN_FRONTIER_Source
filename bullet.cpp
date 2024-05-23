@@ -5,12 +5,12 @@
 //
 //=================================================
 
-#include "player.h"
+#include "bullet.h"
 
 //======================
 // コンストラクタ
 //======================
-CPlayer::CPlayer()
+CBullet::CBullet()
 {
 	m_PolygonMoveSpeed = 1.0f;
 	m_PolygonPosX = 500.0f;
@@ -23,7 +23,7 @@ CPlayer::CPlayer()
 //======================
 // デストラクタ
 //======================
-CPlayer::~CPlayer()
+CBullet::~CBullet()
 {
 
 }
@@ -31,7 +31,7 @@ CPlayer::~CPlayer()
 //======================
 // 初期化処理
 //======================
-HRESULT CPlayer::Init()
+HRESULT CBullet::Init()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -48,27 +48,27 @@ HRESULT CPlayer::Init()
 	}
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\runningman000.png", &m_pTexBuff);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\bullet_yellow.png", &m_pTexBuff);
 
 	VERTEX_2D* pVtx;
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 
-	pVtx[0].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75) * m_fLengthPlayer;
-	pVtx[0].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[0].pos.x = m_PolygonPosX + sinf(m_rotBullet.z - D3DX_PI * 0.75) * m_fLengthBullet;
+	pVtx[0].pos.y = m_PolygonPosY + cosf(m_rotBullet.z - D3DX_PI * 0.75f) * m_fLengthBullet;
 	pVtx[0].pos.z = 0.0f;
 
-	pVtx[1].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[1].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[1].pos.x = m_PolygonPosX + sinf(m_rotBullet.z + D3DX_PI * 0.75f) * m_fLengthBullet;
+	pVtx[1].pos.y = m_PolygonPosY + cosf(m_rotBullet.z + D3DX_PI * 0.75f) * m_fLengthBullet;
 	pVtx[1].pos.z = 0.0f;
 
-	pVtx[2].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[2].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[2].pos.x = m_PolygonPosX + sinf(m_rotBullet.z - D3DX_PI * 0.75f) * m_fLengthBullet;
+	pVtx[2].pos.y = m_PolygonPosY + cosf(m_rotBullet.z - D3DX_PI * 0.75f) * m_fLengthBullet;
 	pVtx[2].pos.z = 0.0f;
 
-	pVtx[3].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
-	pVtx[3].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
+	pVtx[3].pos.x = m_PolygonPosX + sinf(m_rotBullet.z + D3DX_PI * 0.25f) * m_fLengthBullet;
+	pVtx[3].pos.y = m_PolygonPosY + cosf(m_rotBullet.z + D3DX_PI * 0.25f) * m_fLengthBullet;
 	pVtx[3].pos.z = 0.0f;
 
 	pVtx[0].rhw = 1.0f;
@@ -97,7 +97,7 @@ HRESULT CPlayer::Init()
 //======================
 // 終了処理
 //======================
-void CPlayer::Uninit()
+void CBullet::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{
@@ -115,7 +115,7 @@ void CPlayer::Uninit()
 //======================
 // 更新処理
 //======================
-void CPlayer::Update()
+void CBullet::Update()
 {
 	int nCntExplosion;
 	VERTEX_2D* pVtx; //頂点情報へのポインタ
@@ -125,49 +125,26 @@ void CPlayer::Update()
 
 	if (CManager::GetKeyboard())
 	{
-		m_movePlayer.x += 1;
+		m_moveBullet.x += 1;
 	}
 
-	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
-
-	// アニメーションフレームの更新
-	m_Frametimer += m_FrameDuration;
-
-	if (m_Frametimer >= m_FrameDuration)
-	{
-		// 次のフレームに進める
-		m_CurrentFrame = (m_CurrentFrame + 1) % m_Numframes;
-
-		// フレームの経過時間をリセット
-		m_Frametimer = 0.0f;
-
-		// テクスチャ座標の更新
-		VERTEX_2D* pVtx;
-		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-		pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
-		pVtx[3].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 1.0f);
+	pVtx[0].pos = D3DXVECTOR3(m_nBulletPos.x - m_nBulletSize.x, m_nBulletPos.y - m_nBulletSize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_nBulletPos.x + m_nBulletSize.x, m_nBulletPos.y - m_nBulletSize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(m_nBulletPos.x - m_nBulletSize.x, m_nBulletPos.y + m_nBulletSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_nBulletPos.x + m_nBulletSize.x, m_nBulletPos.y + m_nBulletSize.y, 0.0f);
 
 
-
-		m_pVtxBuff->Unlock();
-	}
-
-	m_nPlayerPos.x += m_movePlayer.x;
-	m_nPlayerPos.y += m_movePlayer.y;
+	m_nBulletPos.x += m_moveBullet.x;
+	m_nBulletPos.y += m_moveBullet.y;
 
 	//移動量を更新
-	m_movePlayer.x += (Length_value2 - m_movePlayer.x) * Attenuation_value;
-	m_movePlayer.y += (Length_value2 - m_movePlayer.y) * Attenuation_value;
+	m_moveBullet.x += (Length_value2 - m_moveBullet.x) * Attenuation_value;
+	m_moveBullet.y += (Length_value2 - m_moveBullet.y) * Attenuation_value;
 
 
-	//if (CPlayer::AnimationPTN > IMAGE_PATTERN_ANIM)
+	//if (CBullet::AnimationPTN > IMAGE_PATTERN_ANIM)
 	//{
-	//	CPlayer::AnimationPTN = 0;
+	//	CBullet::AnimationPTN = 0;
 	//}
 
 }
@@ -175,7 +152,7 @@ void CPlayer::Update()
 //======================
 // 描画処理
 //======================
-void CPlayer::Draw()
+void CBullet::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -192,15 +169,15 @@ void CPlayer::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXVECTOR3 size)
 {
-	CPlayer* player = new CPlayer;
+	CBullet* bullet = new CBullet;
 
-	player->m_nPlayerPos = pos;
+	bullet->m_nBulletPos = pos;
 
-	player->m_nPlayerSize = size;
+	bullet->m_nBulletSize = size;
 
-	player->Init();
+	bullet->Init();
 
-	return player;
+	return bullet;
 }

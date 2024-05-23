@@ -101,32 +101,7 @@ void CObject2D::Uninit()
 //======================
 void CObject2D::Update()
 {
-	int nCntExplosion;
-	VERTEX_2D* pVtx; //頂点情報へのポインタ
 
-	//頂点バッファをロック
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-    // アニメーションフレームの更新
-	m_Frametimer += m_FrameDuration;
-    if (m_Frametimer >= m_FrameDuration)
-    {
-        // 次のフレームに進める
-		m_CurrentFrame = (m_CurrentFrame + 1) % m_Numframes;
-
-        // フレームの経過時間をリセット
-		m_Frametimer = 0.0f;
-
-        // テクスチャ座標の更新
-        VERTEX_2D* pVtx;
-		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-        pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
-        pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
-        pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
-        pVtx[3].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 1.0f);
-
-		m_pVtxBuff->Unlock();
-    }
 
 	//if (CManager::GetKeyboard)
 	//{
@@ -158,6 +133,11 @@ void CObject2D::Draw()
 	pDevice->SetTexture(0, m_pTexBuff);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+}
+
+void CObject2D::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+{
+	m_pTexture = pTex;
 }
 
 //======================

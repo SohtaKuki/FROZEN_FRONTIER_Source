@@ -53,7 +53,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	g_pManager = new CManager;
 
 
-	if (FAILED(g_pManager->Init(hWnd, TRUE)))
+	if (FAILED(g_pManager->Init(hInstance,hWnd, TRUE)))
 	{
 		return -1;
 	}
@@ -132,7 +132,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DestroyWindow(hWnd);
 			}
 		}
-
+		break;
 
 	//ウィンドウ上（×ボタン）入力時
 	case WM_CLOSE:

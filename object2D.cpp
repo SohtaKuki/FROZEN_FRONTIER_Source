@@ -42,8 +42,6 @@ HRESULT CObject2D::Init()
 		return E_FAIL;
 	}
 
-	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\runningman000.png", &m_pTexBuff);
 
 	VERTEX_2D* pVtx;
 
@@ -96,25 +94,19 @@ void CObject2D::Uninit()
 	}
 }
 
+//=======================
+//テクスチャの設定
+//=======================
+void CObject2D::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+{
+	m_pTexBuff = pTex;
+}
+
 //======================
 // 更新処理
 //======================
 void CObject2D::Update()
 {
-
-
-	//if (CManager::GetKeyboard)
-	//{
-	//	if ((DIK_A) == true)
-	//	{
-	//		m_nPos.x += 20;
-	//	}
-	//}
-
-	//if (CObject2D::AnimationPTN > IMAGE_PATTERN_ANIM)
-	//{
-	//	CObject2D::AnimationPTN = 0;
-	//}
 
 }
 
@@ -133,11 +125,6 @@ void CObject2D::Draw()
 	pDevice->SetTexture(0, m_pTexBuff);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-}
-
-void CObject2D::BindTexture(LPDIRECT3DTEXTURE9 pTex)
-{
-	m_pTexture = pTex;
 }
 
 //======================

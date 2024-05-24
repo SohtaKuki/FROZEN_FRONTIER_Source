@@ -110,7 +110,6 @@ void CInputKeyboard::Update(void)
             m_aKeyState[nCntKey] = aKeyState[nCntKey];
         }
     }
-
     else
     {
         m_pDevKeyboard->Acquire();

@@ -32,10 +32,8 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	
 	static CPlayer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	D3DXVECTOR3 m_nPlayerPos;
-
+	D3DXVECTOR3& GetPlayerPos() { return m_nPlayerPos; }
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
@@ -50,8 +48,7 @@ private:
 	float m_PolygonMoveSpeed;	// ポリゴンの移動速度
 	float m_PolygonPosX;	// ポリゴン初期X座標
 	float m_PolygonPosY;	// ポリゴン初期Y座標
-	CObject2D* m_apObject2D;
-	CInputKeyboard* m_apInputKey;
+	D3DXVECTOR3 m_nPlayerPos;
 protected:
 	D3DXVECTOR3 m_movePlayer;
 	D3DXVECTOR3 m_rotPlayer;

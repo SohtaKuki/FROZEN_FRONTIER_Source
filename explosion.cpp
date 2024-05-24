@@ -5,13 +5,13 @@
 //
 //=================================================
 
-#include "player.h"
+#include "explosion.h"
 #include "bullet.h"
 
 //======================
 // コンストラクタ
 //======================
-CPlayer::CPlayer()
+CExplosion::CExplosion()
 {
 	m_PolygonMoveSpeed = 1.0f;
 	m_PolygonPosX = 500.0f;
@@ -24,7 +24,7 @@ CPlayer::CPlayer()
 //======================
 // デストラクタ
 //======================
-CPlayer::~CPlayer()
+CExplosion::~CExplosion()
 {
 
 }
@@ -32,7 +32,7 @@ CPlayer::~CPlayer()
 //======================
 // 初期化処理
 //======================
-HRESULT CPlayer::Init()
+HRESULT CExplosion::Init()
 {
 	//初期化
 	CObject2D::Init();
@@ -43,20 +43,20 @@ HRESULT CPlayer::Init()
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
 
-	pVtx[0].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75) * m_fLengthPlayer;
-	pVtx[0].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[0].pos.x = m_PolygonPosX + sinf(m_rotExplosion.z - D3DX_PI * 0.75) * m_fLengthExplosion;
+	pVtx[0].pos.y = m_PolygonPosY + cosf(m_rotExplosion.z - D3DX_PI * 0.75f) * m_fLengthExplosion;
 	pVtx[0].pos.z = 0.0f;
 
-	pVtx[1].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[1].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[1].pos.x = m_PolygonPosX + sinf(m_rotExplosion.z + D3DX_PI * 0.75f) * m_fLengthExplosion;
+	pVtx[1].pos.y = m_PolygonPosY + cosf(m_rotExplosion.z + D3DX_PI * 0.75f) * m_fLengthExplosion;
 	pVtx[1].pos.z = 0.0f;
 
-	pVtx[2].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[2].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
+	pVtx[2].pos.x = m_PolygonPosX + sinf(m_rotExplosion.z - D3DX_PI * 0.75f) * m_fLengthExplosion;
+	pVtx[2].pos.y = m_PolygonPosY + cosf(m_rotExplosion.z - D3DX_PI * 0.75f) * m_fLengthExplosion;
 	pVtx[2].pos.z = 0.0f;
 
-	pVtx[3].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
-	pVtx[3].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
+	pVtx[3].pos.x = m_PolygonPosX + sinf(m_rotExplosion.z + D3DX_PI * 0.25f) * m_fLengthExplosion;
+	pVtx[3].pos.y = m_PolygonPosY + cosf(m_rotExplosion.z + D3DX_PI * 0.25f) * m_fLengthExplosion;
 	pVtx[3].pos.z = 0.0f;
 
 	pVtx[0].rhw = 1.0f;
@@ -85,7 +85,7 @@ HRESULT CPlayer::Init()
 //======================
 // 終了処理
 //======================
-void CPlayer::Uninit()
+void CExplosion::Uninit()
 {
 	CObject2D::Uninit();
 }
@@ -93,7 +93,7 @@ void CPlayer::Uninit()
 //======================
 // 更新処理
 //======================
-void CPlayer::Update()
+void CExplosion::Update()
 {
 	int nCntExplosion;
 	VERTEX_2D* pVtx; //頂点情報へのポインタ
@@ -101,47 +101,10 @@ void CPlayer::Update()
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (CManager::GetKeyboard()->GetPress(DIK_SPACE))
-	{
-		//弾の生成
-		CBullet::Create(m_nPlayerPos, m_rotPlayer);
-	}
-
-
-	if (CManager::GetKeyboard()->GetPress(DIK_W))
-	{
-		m_movePlayer.y -= Length_value1;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_S))
-	{
-		m_movePlayer.y += Length_value1;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_D))
-	{
-		m_movePlayer.x += Length_value1;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_A))
-	{
-		m_movePlayer.x -= Length_value1;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_Q))
-	{
-		m_rotPlayer.z += 0.2f;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_E))
-	{
-		m_rotPlayer.z -= 0.2f;
-	}
-
-	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(m_nExplosionPos.x - m_nExplosionSize.x, m_nExplosionPos.y - m_nExplosionSize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_nExplosionPos.x + m_nExplosionSize.x, m_nExplosionPos.y - m_nExplosionSize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(m_nExplosionPos.x - m_nExplosionSize.x, m_nExplosionPos.y + m_nExplosionSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_nExplosionPos.x + m_nExplosionSize.x, m_nExplosionPos.y + m_nExplosionSize.y, 0.0f);
 
 	// アニメーションフレームの更新
 	m_Frametimer += m_FrameDuration;
@@ -165,13 +128,13 @@ void CPlayer::Update()
 		CObject2D::GetBuff()->Unlock();
 	}
 
-	m_nPlayerPos.x += m_movePlayer.x;
-	m_nPlayerPos.y += m_movePlayer.y;
+	m_nExplosionPos.x += m_moveExplosion.x;
+	m_nExplosionPos.y += m_moveExplosion.y;
 
 
 	//移動量を更新
-	m_movePlayer.x += (Length_value2 - m_movePlayer.x) * Attenuation_value;
-	m_movePlayer.y += (Length_value2 - m_movePlayer.y) * Attenuation_value;
+	m_moveExplosion.x += (Length_value2 - m_moveExplosion.x) * Attenuation_value;
+	m_moveExplosion.y += (Length_value2 - m_moveExplosion.y) * Attenuation_value;
 
 
 
@@ -180,7 +143,7 @@ void CPlayer::Update()
 //======================
 // 描画処理
 //======================
-void CPlayer::Draw()
+void CExplosion::Draw()
 {
 	CObject2D::Draw();
 }
@@ -188,22 +151,20 @@ void CPlayer::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CExplosion* CExplosion::Create(D3DXVECTOR3 pos)
 {
-	CPlayer* player = new CPlayer;
+	CExplosion* explosion = new CExplosion;
 
-	player->m_nPlayerPos = pos;
+	explosion->m_nExplosionPos = pos;
 
-	player->m_nPlayerSize = size;
-
-	player->Init();
+	explosion->Init();
 
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込む
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\runningman000.png", &pTexture);
+	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\explosion000.png", &pTexture);
 
-	player->BindTexture(pTexture);
+	explosion->BindTexture(pTexture);
 
-	return player;
+	return explosion;
 }

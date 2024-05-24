@@ -9,9 +9,10 @@
 #define _OBJECT_BG_H_
 
 #include "object.h"
+#include "object2D.h"
 
 //背景オブジェクトクラス
-class CObjectBG :public CObject
+class CObjectBG :public CObject2D
 {
 public:
 	CObjectBG();

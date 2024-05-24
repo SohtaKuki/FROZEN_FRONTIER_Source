@@ -32,7 +32,7 @@ public:
 	static void ReleaseAll();
 	static void UpdateAll();
 	static void DrawAll();	
-	static unsigned const int MAX_OBJECT = 4;	//オブジェクト最大数
+	static unsigned const int MAX_OBJECT = 1024;	//オブジェクト最大数
 
 protected:
 	void Release();

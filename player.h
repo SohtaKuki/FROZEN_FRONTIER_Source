@@ -8,12 +8,8 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-
 #include "object.h"
 #include "object2D.h"
-
-static const int CP_IMAGE_PATTERN_ANIM(8);  //アニメのパターン数
-static const int CP_DELAY_ANIM(20);//アニメの待機時間
 
 static const float Angle_value1(0.25f); //ポリゴン角度調整(値1)
 static const float Angle_value2(0.75f); //ポリゴン角度調整(値2)
@@ -34,6 +30,9 @@ public:
 	void Draw()override;
 	static CPlayer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	D3DXVECTOR3& GetPlayerPos() { return m_nPlayerPos; }
+	static const int CP_IMAGE_PATTERN_ANIM = 8;  //アニメのパターン数
+	static const int CP_DELAY_ANIM = 20;//アニメの待機時間
+
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;

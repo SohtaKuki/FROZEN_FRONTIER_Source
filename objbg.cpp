@@ -35,7 +35,6 @@ HRESULT CObjectBG::Init()
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(m_nSize.x, 0.0f, 0.0f);

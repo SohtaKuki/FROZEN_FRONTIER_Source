@@ -14,13 +14,12 @@
 #include "object2D.h"
 #include "player.h"
 
-
 //弾オブジェクトクラス
 class CBullet : public CPlayer
 {
 public:
 	static const int BULLET_SIZE = 30;
-	static const int BULLET_LIFE = 120;
+	static const int BULLET_LIFE = 80;
 
 	CBullet();				
 	~CBullet() override;	
@@ -29,9 +28,11 @@ public:
 	void Update() override;	
 	void Draw() override;	
 	static CBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	D3DXVECTOR3& GetBulletPos() { return m_nPos; }
 
 private:
 	int m_Life;	
+	D3DXVECTOR3 m_nPos;
 };
 
 #endif

@@ -115,7 +115,7 @@ void CObject2D::Update()
 //======================
 void CObject2D::Draw()
 {
-	CRenderer* Renderer = CManager::GetRenderer();
+ 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
 	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));

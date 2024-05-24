@@ -35,45 +35,6 @@ HRESULT CBullet::Init()
 	//初期化
 	CObject2D::Init();
 
-	VERTEX_2D* pVtx;
-
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
-
-	//頂点座標の更新
-	pVtx[0].pos.x = CPlayer::GetPlayerPos().x - 35 * 0.5f;
-	pVtx[0].pos.y = CPlayer::GetPlayerPos().y - 35 * 0.5f;
-											 
-	pVtx[1].pos.x = CPlayer::GetPlayerPos().x + 35 * 0.5f;
-	pVtx[1].pos.y = CPlayer::GetPlayerPos().y - 35 * 0.5f;
-											 
-	pVtx[2].pos.x = CPlayer::GetPlayerPos().x - 35 * 0.5f;
-	pVtx[2].pos.y = CPlayer::GetPlayerPos().y + 35 * 0.5f;
-											 
-	pVtx[3].pos.x = CPlayer::GetPlayerPos().x + 35 * 0.5f;
-	pVtx[3].pos.y = CPlayer::GetPlayerPos().y + 35 * 0.5f;
-
-	//rhwの設定
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
-
-	//頂点カラーの設定
-	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);//x.y
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-
-	//頂点バッファをアンロックする
-	CObject2D::GetBuff()->Unlock();
-
 	return S_OK;
 }
 
@@ -95,6 +56,7 @@ void CBullet::Update()
 
 	m_Life--;
 
+	
 	if (m_Life <= 0)
 	{
 		CExplosion::Create(CPlayer::GetPlayerPos());
@@ -148,8 +110,8 @@ CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	//移動量を設定
 
-	pBullet->m_nMove.x = sinf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 5.0f;
-	pBullet->m_nMove.y = cosf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 5.0f;
+	pBullet->m_nMove.x = sinf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 6.0f;
+	pBullet->m_nMove.y = cosf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 6.0f;
 
 	pBullet->Init();
 

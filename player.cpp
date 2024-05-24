@@ -36,49 +36,6 @@ HRESULT CPlayer::Init()
 {
 	//初期化
 	CObject2D::Init();
-
-	VERTEX_2D* pVtx;
-
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
-
-
-	pVtx[0].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75) * m_fLengthPlayer;
-	pVtx[0].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[0].pos.z = 0.0f;
-
-	pVtx[1].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[1].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[1].pos.z = 0.0f;
-
-	pVtx[2].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[2].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z - D3DX_PI * 0.75f) * m_fLengthPlayer;
-	pVtx[2].pos.z = 0.0f;
-
-	pVtx[3].pos.x = m_PolygonPosX + sinf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
-	pVtx[3].pos.y = m_PolygonPosY + cosf(m_rotPlayer.z + D3DX_PI * 0.25f) * m_fLengthPlayer;
-	pVtx[3].pos.z = 0.0f;
-
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
-
-	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-
-	pVtx += 4;
-
-	CObject2D::GetBuff()->Unlock();
-
 	return S_OK;
 }
 
@@ -136,6 +93,8 @@ void CPlayer::Update()
 	if (CManager::GetKeyboard()->GetPress(DIK_E))
 	{
 		m_rotPlayer.z -= 0.2f;
+
+
 	}
 
 	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
@@ -168,6 +127,7 @@ void CPlayer::Update()
 	m_nPlayerPos.x += m_movePlayer.x;
 	m_nPlayerPos.y += m_movePlayer.y;
 
+	//CObject2D::GetPos() += m_movePlayer;
 
 	//移動量を更新
 	m_movePlayer.x += (Length_value2 - m_movePlayer.x) * Attenuation_value;

@@ -16,7 +16,7 @@
 //============================
 CBullet::CBullet()
 {
-	m_Life = 0;
+	m_nLife = 0;
 }
 
 //============================
@@ -54,10 +54,10 @@ void CBullet::Update()
 {
 	CPlayer::GetPlayerPos() += m_nMove;
 
-	m_Life--;
+	m_nLife--;
 
 	
-	if (m_Life <= 0)
+	if (m_nLife <= 0)
 	{
 		CExplosion::Create(CPlayer::GetPlayerPos());
 		CObject2D::Uninit();
@@ -106,12 +106,11 @@ CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pBullet->CPlayer::GetPlayerPos() = pos;
 	pBullet->m_rot = rot;
-	pBullet->m_Life = BULLET_LIFE;
+	pBullet->m_nLife = BULLET_LIFE;
 
 	//ˆÚ“®—Ê‚ðÝ’è
-
-	pBullet->m_nMove.x = sinf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 6.0f;
-	pBullet->m_nMove.y = cosf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * 6.0f;
+	pBullet->m_nMove.x = sinf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * BULLET_SPD;
+	pBullet->m_nMove.y = cosf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * BULLET_SPD;
 
 	pBullet->Init();
 

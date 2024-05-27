@@ -9,16 +9,25 @@
 
 LPDIRECTINPUT8 CInput::m_pInput = nullptr;
 
+//============================
+//コンストラクタ
+//============================
 CInput::CInput()
 {
 
 }
 
+//============================
+//デストラクタ
+//============================
 CInput::~CInput()
 {
 
 }
 
+//============================
+//初期化処理
+//============================
 HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 {
     if (m_pInput == nullptr)
@@ -50,17 +59,25 @@ void CInput::Uninit()
     }
 }
 
+//============================
+//コンストラクタ
+//============================
 CInputKeyboard::CInputKeyboard()
 {
     //LPDIRECTINPUTDEVICE8 g_pDevKeyboard = nullptr;
 }
 
+//============================
+//デストラクタ
+//============================
 CInputKeyboard::~CInputKeyboard()
 {
 
 }
 
+//============================
 //キーボードの初期化処理
+//============================
 HRESULT CInputKeyboard::Init(HINSTANCE hInstance, HWND hWnd)
 {
     CInput::Init(hInstance, hWnd);
@@ -89,13 +106,17 @@ HRESULT CInputKeyboard::Init(HINSTANCE hInstance, HWND hWnd)
     return S_OK;
 }
 
+//============================
 //キーボードの終了処理
+//============================
 void CInputKeyboard::Uninit(void)
 {
     CInput::Uninit();
 }
 
+//============================
 //キーボードの更新処理
+//============================
 void CInputKeyboard::Update(void)
 {
 
@@ -116,19 +137,25 @@ void CInputKeyboard::Update(void)
     }
 }
 
+//============================
 //キーボードのプレス情報を取得
+//============================
 bool CInputKeyboard::GetPress(int nKey)
 {
     return ((m_aKeyState[nKey] & 0x80) != 0) ? true : false;
 }
 
+//============================
 //キーボードのプレス情報を取得
+//============================
 bool CInputKeyboard::GetTrigger(int nKey)
 {
     return ((m_aKeyStateTrigger[nKey] & 0x80) != 0) ? true : false;
 }
 
+//============================
 //キーボードのプレス情報を取得
+//============================
 bool CInputKeyboard::GetRelease(int nKey)
 {
     return ((m_aKeyStateTrigger[nKey] & 0x80) != 0) ? true : false;

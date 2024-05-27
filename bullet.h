@@ -14,6 +14,9 @@
 #include "object2D.h"
 #include "player.h"
 
+//弾の速度
+static const float BULLET_SPD = 6.0f;
+
 //弾オブジェクトクラス
 class CBullet : public CPlayer
 {
@@ -31,7 +34,7 @@ public:
 	D3DXVECTOR3& GetBulletPos() { return m_nPos; }
 
 private:
-	int m_Life;	
+	int m_nLife;	
 	D3DXVECTOR3 m_nPos;
 };
 

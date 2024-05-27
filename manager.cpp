@@ -11,6 +11,7 @@
 #include "objbg.h"
 #include "player.h"
 #include "bullet.h"
+#include "enemy.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -47,6 +48,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
 
 	CPlayer::Create(D3DXVECTOR3(640.0f, 360.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+
+	CEnemy::Create(D3DXVECTOR3(640.0f, 150.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 	return S_OK;
 }
@@ -92,6 +95,9 @@ CRenderer* CManager::GetRenderer()
 	return m_pRenderer;
 }
 
+//======================
+// キーボードクラスポインタ取得処理
+//======================
 CInputKeyboard* CManager::GetKeyboard()
 {
 	return m_pKeyboard;

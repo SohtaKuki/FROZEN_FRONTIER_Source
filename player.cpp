@@ -58,12 +58,17 @@ void CPlayer::Update()
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (CManager::GetKeyboard()->GetPress(DIK_SPACE))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
 	{
 		//弾の生成
 		CBullet::Create(m_nPlayerPos, m_rotPlayer);
 	}
 
+	if (CManager::GetKeyboard()->GetPress(DIK_P))
+	{
+		//弾の生成
+		CBullet::Create(m_nPlayerPos, m_rotPlayer);
+	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_W))
 	{

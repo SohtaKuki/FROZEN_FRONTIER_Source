@@ -7,6 +7,9 @@
 
 #include "enemy.h"
 #include "bullet.h"
+#include "manager.h"
+
+LPDIRECT3DTEXTURE9 CEnemy::m_pTexTemp = nullptr;
 
 //======================
 // コンストラクタ
@@ -35,7 +38,11 @@ CEnemy::~CEnemy()
 HRESULT CEnemy::Init()
 {
 	//初期化
-	CObject2D::Init();
+	if (FAILED(CObject2D::Init()))
+	{
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -44,6 +51,7 @@ HRESULT CEnemy::Init()
 //======================
 void CEnemy::Uninit()
 {
+	Unload();
 	CObject2D::Uninit();
 }
 
@@ -89,20 +97,44 @@ void CEnemy::Draw()
 //======================
 CEnemy* CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	CEnemy* enemy = new CEnemy;
+	CEnemy* enemy = nullptr;
 
-	enemy->m_nEnemyPos = pos;
+	enemy = new CEnemy;
 
-	enemy->m_nEnemySize = size;
+	if (!FAILED(enemy->Init()))
+	{
+		enemy->Init();
 
-	enemy->Init();
+		enemy->Load();
 
-	LPDIRECT3DTEXTURE9 pTexture;
+		enemy->m_nEnemyPos = pos;
 
-	//テクスチャの読み込む
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\enemy000.png", &pTexture);
+		enemy->m_nEnemySize = size;
 
-	enemy->BindTexture(pTexture);
+		enemy->BindTexture(m_pTexTemp);
+	}
 
 	return enemy;
+}
+
+HRESULT CEnemy::Load()
+{
+	LPDIRECT3DDEVICE9 pDevice = nullptr;
+	pDevice = CManager::GetRenderer()->GetDevice();
+
+	if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\enemy000.png", &m_pTexTemp)))
+	{
+		return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+void CEnemy::Unload()
+{
+	if (m_pTexTemp != nullptr)
+	{
+		m_pTexTemp->Release();
+		m_pTexTemp = nullptr;
+	}
 }

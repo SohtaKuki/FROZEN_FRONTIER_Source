@@ -22,6 +22,8 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
+	HRESULT Load();
+	static void Unload();
 	static CEnemy* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	D3DXVECTOR3& GetEnemyPos() { return m_nEnemyPos; }
 	static const int CP_IMAGE_PATTERN_ANIM = 8;  //アニメのパターン数
@@ -45,6 +47,7 @@ private:
 	D3DXVECTOR3 m_rotEnemy;
 	D3DXVECTOR3 m_nEnemySize;
 	D3DXVECTOR3 m_nEnemyPos;
+	static LPDIRECT3DTEXTURE9 m_pTexTemp;
 
 };
 

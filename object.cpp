@@ -131,15 +131,11 @@ void CObject::DrawAll()
 //=====================
 // オブジェクト取得
 //=====================
-CObject * CObject::GetObject(int nIdx)
+CObject * CObject::GetObj(int nIdx)
 {
 	return m_apObject[nIdx];
 }
 
-CObject::TYPE CObject::GetType()
-{
-	return m_type;
-}
 
 void CObject::SetType(TYPE type)
 {

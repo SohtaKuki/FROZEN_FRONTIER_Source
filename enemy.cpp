@@ -16,13 +16,11 @@ LPDIRECT3DTEXTURE9 CEnemy::m_pTexTemp = nullptr;
 //======================
 CEnemy::CEnemy()
 {
+	m_nLife = 4;
 	m_PolygonMoveSpeed = 1.0f;
 	m_PolygonPosX = 500.0f;
 	m_PolygonPosY = 200.0f;
-	m_FrameDuration = 0.5f;
-	m_Frametimer = 0.5f;
-	m_CurrentFrame = 0;           // 現在のフレーム
-	m_Numframes = 8;        // アニメーションの総フレーム数
+
 }
 //======================
 // デストラクタ
@@ -72,6 +70,10 @@ void CEnemy::Update()
 	pVtx[2].pos = D3DXVECTOR3(m_nEnemyPos.x - m_nEnemySize.x, m_nEnemyPos.y + m_nEnemySize.y, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(m_nEnemyPos.x + m_nEnemySize.x, m_nEnemyPos.y + m_nEnemySize.y, 0.0f);
 
+	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	m_nEnemyPos.x += m_moveEnemy.x;
 	m_nEnemyPos.y += m_moveEnemy.y;
@@ -79,8 +81,6 @@ void CEnemy::Update()
 	//移動量を更新
 	m_moveEnemy.x += (Length_value2 - m_moveEnemy.x) * Attenuation_value;
 	m_moveEnemy.y += (Length_value2 - m_moveEnemy.y) * Attenuation_value;
-
-
 
 }
 
@@ -101,9 +101,9 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 	enemy = new CEnemy;
 
-	if (!FAILED(enemy->Init()))
+	if (SUCCEEDED(enemy->Init()))
 	{
-		enemy->Init();
+		enemy->SetType(TYPE::ENEMY);
 
 		enemy->Load();
 
@@ -111,12 +111,54 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 		enemy->m_nEnemySize = size;
 
+		//テクスチャの設定
 		enemy->BindTexture(m_pTexTemp);
 	}
 
 	return enemy;
 }
 
+//======================
+// ダメージ処理
+//======================
+void CEnemy::Damage()
+{
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+			if (type == CObject::TYPE::ENEMY)
+			{
+				m_nLife -= 1;
+
+				VERTEX_2D* pVtx;
+
+				CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
+				pVtx[0].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+				pVtx[1].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+				pVtx[2].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+				pVtx[3].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+
+				pVtx += 4;
+
+				CObject2D::GetBuff()->Unlock();
+			}
+
+			if (m_nLife == 0)
+			{
+				CObject2D::Uninit();
+				CObject::Release();
+			}
+		}
+	}
+}
+
+//======================
+// テクスチャロード処理
+//======================
 HRESULT CEnemy::Load()
 {
 	LPDIRECT3DDEVICE9 pDevice = nullptr;
@@ -130,6 +172,9 @@ HRESULT CEnemy::Load()
 	return S_OK;
 }
 
+//======================
+// テクスチャアンロード(終了)処理
+//======================
 void CEnemy::Unload()
 {
 	if (m_pTexTemp != nullptr)
@@ -137,4 +182,9 @@ void CEnemy::Unload()
 		m_pTexTemp->Release();
 		m_pTexTemp = nullptr;
 	}
+}
+
+void CEnemy::SetPos(D3DXVECTOR3 pos)
+{
+	CEnemy* enemy = nullptr;
 }

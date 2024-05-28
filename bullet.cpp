@@ -10,6 +10,7 @@
 #include "object2D.h"
 #include "player.h"
 #include "explosion.h"
+#include "enemy.h"
 
 //============================
 //コンストラクタ
@@ -52,11 +53,13 @@ void CBullet::Uninit()
 //============================
 void CBullet::Update()
 {
+	//弾の移動処理
 	CPlayer::GetPlayerPos() += m_nMove;
 
+	//寿命を減らす
 	m_nLife--;
 
-	
+	//寿命が尽きたときの処理
 	if (m_nLife <= 0)
 	{
 		CExplosion::Create(CPlayer::GetPlayerPos());
@@ -85,6 +88,34 @@ void CBullet::Update()
 
 	//頂点バッファをアンロックする
 	CObject2D::GetBuff()->Unlock();
+
+	//弾の当たり判定
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			CEnemy* pEnemy = (CEnemy*)pObj;
+
+			if (type == CObject::TYPE::ENEMY)
+			{
+				if (CPlayer::GetPlayerPos().x >= pEnemy->GetEnemyPos().x - ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().x <= pEnemy->GetEnemyPos().x + ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().y >= pEnemy->GetEnemyPos().y  - ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().y <= pEnemy->GetEnemyPos().y + ENEMY_HITPOINT)
+				{
+					CExplosion::Create(CPlayer::GetPlayerPos());
+					pEnemy->Damage();
+					CObject2D::Uninit();
+					CObject::Release();
+					return;
+				}
+			}
+		}
+	}
 }
 
 //============================
@@ -104,6 +135,7 @@ CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pBullet = new CBullet;
 
+	pBullet->SetType(TYPE::BULLET);
 	pBullet->CPlayer::GetPlayerPos() = pos;
 	pBullet->m_rot = rot;
 	pBullet->m_nLife = BULLET_LIFE;
@@ -112,6 +144,7 @@ CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	pBullet->m_nMove.x = sinf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * BULLET_SPD;
 	pBullet->m_nMove.y = cosf(D3DX_PI * (pBullet->m_rot.z / D3DX_PI) - D3DX_PI * 0.5f) * BULLET_SPD;
 
+	//弾の初期化
 	pBullet->Init();
 
 	LPDIRECT3DTEXTURE9 pTexture;

@@ -101,7 +101,6 @@ void CRenderer::Uninit()
 //======================
 void CRenderer::Update()
 {
-
 	CObject::UpdateAll();
 }
 

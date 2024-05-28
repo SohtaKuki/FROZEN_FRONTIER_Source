@@ -26,7 +26,9 @@ public:
 	typedef enum
 	{
 		NONE= 0,
+		BULLET,
 		ENEMY,
+		MAX_TYPE,
 	}TYPE;
 
 	CObject();
@@ -39,8 +41,8 @@ public:
 	static void UpdateAll();
 	static void DrawAll();	
 	static unsigned const int MAX_OBJECT = 1024;	//オブジェクト最大数
-	static CObject* GetObject(int nIdx);
-	TYPE GetType();
+	static CObject* GetObj(int nIdx);
+	TYPE GetType() { return m_type; }
 	void SetType(TYPE type);
 protected:
 	void Release();

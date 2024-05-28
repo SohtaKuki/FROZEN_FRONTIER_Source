@@ -23,6 +23,7 @@ class CBullet : public CPlayer
 public:
 	static const int BULLET_SIZE = 30;
 	static const int BULLET_LIFE = 80;
+	static const int ENEMY_HITPOINT = 50;
 
 	CBullet();				
 	~CBullet() override;	

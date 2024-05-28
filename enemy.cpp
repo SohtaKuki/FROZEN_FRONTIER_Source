@@ -64,7 +64,6 @@ void CEnemy::Update()
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-
 	pVtx[0].pos = D3DXVECTOR3(m_nEnemyPos.x - m_nEnemySize.x, m_nEnemyPos.y - m_nEnemySize.y, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(m_nEnemyPos.x + m_nEnemySize.x, m_nEnemyPos.y - m_nEnemySize.y, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(m_nEnemyPos.x - m_nEnemySize.x, m_nEnemyPos.y + m_nEnemySize.y, 0.0f);
@@ -125,7 +124,7 @@ void CEnemy::Damage()
 {
 	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
 	{
-		CObject* pObj = CObject::GetObj(nCntObj);
+		CObject* pObj = CObject::GetObj(3,nCntObj);
 
 		if (pObj != nullptr)
 		{

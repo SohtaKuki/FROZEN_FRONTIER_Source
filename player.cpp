@@ -98,8 +98,6 @@ void CPlayer::Update()
 	if (CManager::GetKeyboard()->GetPress(DIK_E))
 	{
 		m_rotPlayer.z -= 0.2f;
-
-
 	}
 
 	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
@@ -118,9 +116,8 @@ void CPlayer::Update()
 		// フレームの経過時間をリセット
 		m_Frametimer = 0.0f;
 
-		// テクスチャ座標の更新
-		VERTEX_2D* pVtx;
 		CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
+
 		pVtx[0].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 0.0f);
 		pVtx[1].tex = D3DXVECTOR2(0.125f * (m_CurrentFrame + 1), 0.0f);
 		pVtx[2].tex = D3DXVECTOR2(0.125f * m_CurrentFrame, 1.0f);
@@ -156,6 +153,8 @@ void CPlayer::Draw()
 CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	CPlayer* player = new CPlayer;
+
+	player->SetType(TYPE::PLAYER);
 
 	player->m_nPlayerPos = pos;
 

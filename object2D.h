@@ -19,7 +19,7 @@ static const int DELAY_ANIM (20);//ƒAƒjƒ‚Ì‘Ò‹@ŠÔ
 class CObject2D :public CObject
 {
 public:
-	CObject2D();
+	CObject2D(int nPriority = 3);
 	~CObject2D()override;
 	HRESULT Init()override;
 	virtual void Uninit()override;

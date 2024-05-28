@@ -9,19 +9,20 @@
 
 unsigned const int MAX_OBJECT = 1028;	// オブジェクトの最大数
 int CObject::m_nNumAll = 0;				// オブジェクト総数
-CObject* CObject::m_apObject[MAX_OBJECT] = {};	// オブジェクト管理
+CObject* CObject::m_apObject[MAX_PRIORITY][MAX_OBJECT] = {};	// オブジェクト管理
 
 //======================
 // コンストラクタ
 //======================
-CObject::CObject()
+CObject::CObject(int nPriority)
 {
+	m_nPriority = nPriority;
 
 	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
 	{
-		if (m_apObject[nCnt] == nullptr)
+		if (m_apObject[m_nPriority][nCnt] == nullptr)
 		{
-			m_apObject[nCnt] = this;	// 自身を代入
+			m_apObject[m_nPriority][nCnt] = this;	// 自身を代入
 			m_nID = nCnt;	// IDを代入
 			m_nNumAll++; // オブジェクト総数を増やす
 
@@ -77,10 +78,12 @@ void CObject::Release()
 {
 	int nID = m_nID;
 
+	int nPriority = m_nPriority;
+	
 	if (m_apObject[nID] != nullptr)
 	{
-		delete m_apObject[nID];
-		m_apObject[nID] = nullptr;
+		delete m_apObject[nPriority][nID];
+		m_apObject[nPriority][nID] = nullptr;
 		m_nNumAll--;
 	}
 }
@@ -90,12 +93,16 @@ void CObject::Release()
 //======================
 void CObject::ReleaseAll()
 {
-	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
+	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
 	{
-		if (m_apObject[nCnt] != nullptr)
+
+		for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
 		{
-			delete m_apObject[nCnt];
-			m_apObject[nCnt] = nullptr;
+			if (m_apObject[nCntPriority][nCnt] != nullptr)
+			{
+				delete m_apObject[nCntPriority][nCnt];
+				m_apObject[nCntPriority][nCnt] = nullptr;
+			}
 		}
 	}
 }
@@ -105,11 +112,14 @@ void CObject::ReleaseAll()
 //======================
 void CObject::UpdateAll()
 {
-	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
+	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
 	{
-		if (m_apObject[nCnt] != nullptr)
+		for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
 		{
-			m_apObject[nCnt]->Update();
+			if (m_apObject[nCntPriority][nCnt] != nullptr)
+			{
+				m_apObject[nCntPriority][nCnt]->Update();
+			}
 		}
 	}
 }
@@ -119,11 +129,14 @@ void CObject::UpdateAll()
 //======================
 void CObject::DrawAll()
 {
-	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
+	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
 	{
-		if (m_apObject[nCnt] != nullptr)
+		for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
 		{
-			m_apObject[nCnt]->Draw();
+			if (m_apObject[nCntPriority][nCnt] != nullptr)
+			{
+				m_apObject[nCntPriority][nCnt]->Draw();
+			}
 		}
 	}
 }
@@ -131,9 +144,11 @@ void CObject::DrawAll()
 //=====================
 // オブジェクト取得
 //=====================
-CObject * CObject::GetObj(int nIdx)
+CObject * CObject::GetObj(int nPriority ,int nIdx)
 {
-	return m_apObject[nIdx];
+	nPriority;
+
+	return m_apObject[nPriority][nIdx];
 }
 
 

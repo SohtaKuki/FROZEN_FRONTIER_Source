@@ -92,7 +92,7 @@ void CBullet::Update()
 	//’e‚Ì“–‚½‚è”»’è
 	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
 	{
-		CObject* pObj = CObject::GetObj(nCntObj);
+		CObject* pObj = CObject::GetObj(3,nCntObj);
 
 		if (pObj != nullptr)
 		{

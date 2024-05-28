@@ -10,7 +10,7 @@
 //======================
 // コンストラクタ
 //======================
-CObject2D::CObject2D()
+CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 {
 
 }

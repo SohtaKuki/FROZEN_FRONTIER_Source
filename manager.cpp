@@ -49,7 +49,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	CPlayer::Create(D3DXVECTOR3(640.0f, 360.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
-	CEnemy::Create(D3DXVECTOR3(640.0f, 150.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	CEnemy::Create(D3DXVECTOR3(640.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+
+	CEnemy::Create(D3DXVECTOR3(640.0f, 100.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 	return S_OK;
 }

@@ -28,10 +28,11 @@ public:
 		NONE= 0,
 		BULLET,
 		ENEMY,
+		PLAYER,
 		MAX_TYPE,
 	}TYPE;
 
-	CObject();
+	CObject(int nPriority = 3);
 	virtual ~CObject();
 	virtual HRESULT Init() = 0;
 	virtual void Uninit() = 0;
@@ -39,19 +40,20 @@ public:
 	virtual void Draw() = 0;
 	static void ReleaseAll();
 	static void UpdateAll();
-	static void DrawAll();	
+	static void DrawAll();
 	static unsigned const int MAX_OBJECT = 1024;	//オブジェクト最大数
-	static CObject* GetObj(int nIdx);
+	static CObject* GetObj(int nPriority ,int nIdx);
 	TYPE GetType() { return m_type; }
 	void SetType(TYPE type);
 protected:
 	void Release();
 
 private:
-	static CObject* m_apObject[MAX_OBJECT];	//オブジェクト管理
+	static CObject* m_apObject[MAX_PRIORITY][MAX_OBJECT];	//オブジェクト管理
 	TYPE m_type;
 	static int m_nNumAll;	//オブジェクトの総数
 	int m_nID;	// 自分自身のID
+	int m_nPriority;
 };
 
 #endif

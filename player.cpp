@@ -7,11 +7,12 @@
 
 #include "player.h"
 #include "bullet.h"
+#include "object.h"
 
 //======================
 // コンストラクタ
 //======================
-CPlayer::CPlayer()
+CPlayer::CPlayer(int nPriority) : CObject2D(nPriority)
 {
 	m_PolygonMoveSpeed = 1.0f;
 	m_PolygonPosX = 500.0f;

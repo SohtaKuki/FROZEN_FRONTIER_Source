@@ -22,7 +22,7 @@ static const float Attenuation_value(0.10f); //ƒ|ƒŠƒSƒ“ˆÚ“®—ÊŒ¸ŠŒW”
 class CPlayer :public CObject2D
 {
 public:
-	CPlayer();
+	CPlayer(int nPriority = 5);
 	~CPlayer()override;
 	HRESULT Init()override;
 	void Uninit()override;

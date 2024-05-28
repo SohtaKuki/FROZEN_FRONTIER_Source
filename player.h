@@ -32,6 +32,7 @@ public:
 	D3DXVECTOR3& GetPlayerPos() { return m_nPlayerPos; }
 	static const int CP_IMAGE_PATTERN_ANIM = 8;  //アニメのパターン数
 	static const int CP_DELAY_ANIM = 20;//アニメの待機時間
+	static const int BLOCK_CLLISION = 90;
 
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -45,12 +46,11 @@ private:
 	float m_fLengthPlayer; //対角線の長さ
 	float m_fAnglePlayer; //対角線の角度
 	float m_PolygonMoveSpeed;	// ポリゴンの移動速度
-	float m_PolygonPosX;	// ポリゴン初期X座標
-	float m_PolygonPosY;	// ポリゴン初期Y座標
 	D3DXVECTOR3 m_movePlayer;
 	D3DXVECTOR3 m_rotPlayer;
 	D3DXVECTOR3 m_nPlayerSize;
 	D3DXVECTOR3 m_nPlayerPos;
+	D3DXVECTOR3 m_nOldPlayerPos;
 	
 };
 

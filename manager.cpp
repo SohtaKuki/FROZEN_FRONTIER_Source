@@ -12,6 +12,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "block.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -47,11 +48,11 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
 
-	CPlayer::Create(D3DXVECTOR3(640.0f, 360.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	CPlayer::Create(D3DXVECTOR3(640.0f, 500.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 	CEnemy::Create(D3DXVECTOR3(640.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
-	CEnemy::Create(D3DXVECTOR3(640.0f, 100.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	CBlock::Create(D3DXVECTOR3(640.0f, 100.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 	return S_OK;
 }

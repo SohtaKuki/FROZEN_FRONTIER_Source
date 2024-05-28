@@ -8,6 +8,8 @@
 #include "player.h"
 #include "bullet.h"
 #include "object.h"
+#include "enemy.h"
+#include "block.h"
 
 //======================
 // コンストラクタ
@@ -15,8 +17,6 @@
 CPlayer::CPlayer(int nPriority) : CObject2D(nPriority)
 {
 	m_PolygonMoveSpeed = 1.0f;
-	m_PolygonPosX = 500.0f;
-	m_PolygonPosY = 200.0f;
 	m_FrameDuration = 0.5f;
 	m_Frametimer = 0.5f;
 	m_CurrentFrame = 0;           // 現在のフレーム
@@ -71,15 +71,6 @@ void CPlayer::Update()
 		CBullet::Create(m_nPlayerPos, m_rotPlayer);
 	}
 
-	if (CManager::GetKeyboard()->GetPress(DIK_W))
-	{
-		m_movePlayer.y -= Length_value1;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_S))
-	{
-		m_movePlayer.y += Length_value1;
-	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_D))
 	{
@@ -89,6 +80,16 @@ void CPlayer::Update()
 	if (CManager::GetKeyboard()->GetPress(DIK_A))
 	{
 		m_movePlayer.x -= Length_value1;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_W))
+	{
+		m_movePlayer.y -= Length_value1;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_S))
+	{
+		m_movePlayer.y += Length_value1;
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_Q))
@@ -127,6 +128,33 @@ void CPlayer::Update()
 		CObject2D::GetBuff()->Unlock();
 	}
 
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			CBlock* pBlock = (CBlock*)pObj;
+
+			if (type == CObject::TYPE::BLOCK)
+			{
+				if (m_nPlayerPos.x >= pBlock->GetBlockPos().x - BLOCK_CLLISION
+					&& m_nPlayerPos.x <= pBlock->GetBlockPos().x + BLOCK_CLLISION
+					&& m_nPlayerPos.y >= pBlock->GetBlockPos().y - BLOCK_CLLISION
+					&& m_nPlayerPos.y <= pBlock->GetBlockPos().y + BLOCK_CLLISION)
+				{
+					m_nOldPlayerPos = m_nPlayerPos;
+					return;
+				}
+			}
+		}
+	}
+
+	////プレイヤーの重力
+	//m_movePlayer.y += Length_value1;
+
 	m_nPlayerPos.x += m_movePlayer.x;
 	m_nPlayerPos.y += m_movePlayer.y;
 
@@ -158,6 +186,8 @@ CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	player->SetType(TYPE::PLAYER);
 
 	player->m_nPlayerPos = pos;
+
+	player->m_nOldPlayerPos = pos;
 
 	player->m_nPlayerSize = size;
 

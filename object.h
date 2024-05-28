@@ -29,6 +29,7 @@ public:
 		BULLET,
 		ENEMY,
 		PLAYER,
+		BLOCK,
 		MAX_TYPE,
 	}TYPE;
 

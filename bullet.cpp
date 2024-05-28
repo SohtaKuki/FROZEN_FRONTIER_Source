@@ -11,11 +11,12 @@
 #include "player.h"
 #include "explosion.h"
 #include "enemy.h"
+#include "block.h"
 
 //============================
 //コンストラクタ
 //============================
-CBullet::CBullet()
+CBullet::CBullet(int nPriority) : CPlayer(nPriority)
 {
 	m_nLife = 0;
 }
@@ -109,6 +110,22 @@ void CBullet::Update()
 				{
 					CExplosion::Create(CPlayer::GetPlayerPos());
 					pEnemy->Damage();
+					CObject2D::Uninit();
+					CObject::Release();
+					return;
+				}
+			}
+
+			CBlock* pBlock = (CBlock*)pObj;
+
+			if (type == CObject::TYPE::BLOCK)
+			{
+				if (CPlayer::GetPlayerPos().x >= pBlock->GetBlockPos().x - ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().x <= pBlock->GetBlockPos().x + ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().y >= pBlock->GetBlockPos().y - ENEMY_HITPOINT
+					&& CPlayer::GetPlayerPos().y <= pBlock->GetBlockPos().y + ENEMY_HITPOINT)
+				{
+					CExplosion::Create(CPlayer::GetPlayerPos());
 					CObject2D::Uninit();
 					CObject::Release();
 					return;

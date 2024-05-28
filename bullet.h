@@ -25,7 +25,7 @@ public:
 	static const int BULLET_LIFE = 80;
 	static const int ENEMY_HITPOINT = 50;
 
-	CBullet();				
+	CBullet(int nPriority = 6);
 	~CBullet() override;	
 	HRESULT Init() override;
 	void Uninit() override;	

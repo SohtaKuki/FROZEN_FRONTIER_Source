@@ -14,7 +14,7 @@ LPDIRECT3DTEXTURE9 CBlock::m_pTexTemp = nullptr;
 //======================
 // コンストラクタ
 //======================
-CBlock::CBlock()
+CBlock::CBlock(int nPriority) : CObject2D(nPriority)
 {
 	m_nLife = 4;
 	m_PolygonMoveSpeed = 1.0f;

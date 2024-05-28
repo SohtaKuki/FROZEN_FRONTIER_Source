@@ -16,7 +16,7 @@
 class CBlock :public CObject2D
 {
 public:
-	CBlock();
+	CBlock(int nPriority = 3);
 	~CBlock()override;
 	HRESULT Init()override;
 	void Uninit()override;

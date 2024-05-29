@@ -22,17 +22,16 @@ static const float Attenuation_value(0.10f); //ポリゴン移動量減衰係数
 class CPlayer :public CObject2D
 {
 public:
-	CPlayer(int nPriority = 5);
+	CPlayer(int nPriority = 3);
 	~CPlayer()override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
 	static CPlayer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	D3DXVECTOR3& GetPlayerPos() { return m_nPlayerPos; }
 	static const int CP_IMAGE_PATTERN_ANIM = 8;  //アニメのパターン数
 	static const int CP_DELAY_ANIM = 20;//アニメの待機時間
-	static const int BLOCK_CLLISION = 90;
+	static const int BLOCK_CLLISION = 550;
 
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -49,7 +48,6 @@ private:
 	D3DXVECTOR3 m_movePlayer;
 	D3DXVECTOR3 m_rotPlayer;
 	D3DXVECTOR3 m_nPlayerSize;
-	D3DXVECTOR3 m_nPlayerPos;
 	D3DXVECTOR3 m_nOldPlayerPos;
 	
 };

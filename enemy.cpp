@@ -62,18 +62,22 @@ void CEnemy::Update()
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(m_nEnemyPos.x - m_nEnemySize.x, m_nEnemyPos.y - m_nEnemySize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nEnemyPos.x + m_nEnemySize.x, m_nEnemyPos.y - m_nEnemySize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nEnemyPos.x - m_nEnemySize.x, m_nEnemyPos.y + m_nEnemySize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nEnemyPos.x + m_nEnemySize.x, m_nEnemyPos.y + m_nEnemySize.y, 0.0f);
+	D3DXVECTOR3 Pos = CObject2D::GetPos();
+
+	pVtx[0].pos = D3DXVECTOR3(Pos.x - m_nEnemySize.x, Pos.y - m_nEnemySize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(Pos.x + m_nEnemySize.x, Pos.y - m_nEnemySize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(Pos.x - m_nEnemySize.x, Pos.y + m_nEnemySize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(Pos.x + m_nEnemySize.x, Pos.y + m_nEnemySize.y, 0.0f);
 
 	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	m_nEnemyPos.x += m_moveEnemy.x;
-	m_nEnemyPos.y += m_moveEnemy.y;
+	Pos.x += m_moveEnemy.x;
+	Pos.y += m_moveEnemy.y;
+
+	SetPos(Pos);
 
 	//移動量を更新
 	m_moveEnemy.x += (Length_value2 - m_moveEnemy.x) * Attenuation_value;
@@ -104,7 +108,7 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 		enemy->Load();
 
-		enemy->m_nEnemyPos = pos;
+		enemy->CObject2D::SetPos(pos);
 
 		enemy->m_nEnemySize = size;
 

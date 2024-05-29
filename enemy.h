@@ -27,7 +27,6 @@ public:
 	static void Unload();
 	static CEnemy* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	void SetPos(D3DXVECTOR3 pos);
-	D3DXVECTOR3& GetEnemyPos() { return m_nEnemyPos; }
 	static const int CP_IMAGE_PATTERN_ANIM = 8;  //アニメのパターン数
 	static const int CP_DELAY_ANIM = 20;//アニメの待機時間
 
@@ -42,7 +41,6 @@ private:
 	D3DXVECTOR3 m_moveEnemy;
 	D3DXVECTOR3 m_rotEnemy;
 	D3DXVECTOR3 m_nEnemySize;
-	D3DXVECTOR3 m_nEnemyPos;
 	static LPDIRECT3DTEXTURE9 m_pTexTemp;
 
 };

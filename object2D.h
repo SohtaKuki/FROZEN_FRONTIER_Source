@@ -28,6 +28,7 @@ public:
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	LPDIRECT3DVERTEXBUFFER9 GetBuff(void);
 	static CObject2D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	void SetPos(D3DXVECTOR3 pos) { m_nPos = pos; }
 	D3DXVECTOR3& GetPos() { return m_nPos; }
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

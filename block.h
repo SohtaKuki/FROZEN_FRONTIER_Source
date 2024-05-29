@@ -26,8 +26,14 @@ public:
 	HRESULT Load();
 	static void Unload();
 	static CBlock* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
+	static unsigned const int PLAYER_HEIGHT = 50;
+	static unsigned const int PLAYER_WIDTH = 50;
+	static unsigned const int BLOCK_SIZE = 40;
+	static unsigned const int BLOCK_COLIDTC_X = 40;
+	static unsigned const int BLOCK_COLIDTC_Y = 40;
 	void SetPos(D3DXVECTOR3 pos);
-	D3DXVECTOR3& GetBlockPos() { return m_nBlockPos; }
+	bool CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -40,7 +46,6 @@ private:
 	D3DXVECTOR3 m_moveBlock;
 	D3DXVECTOR3 m_rotBlock;
 	D3DXVECTOR3 m_nBlockSize;
-	D3DXVECTOR3 m_nBlockPos;
 	static LPDIRECT3DTEXTURE9 m_pTexTemp;
 
 };

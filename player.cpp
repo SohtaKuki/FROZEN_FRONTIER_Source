@@ -56,19 +56,21 @@ void CPlayer::Update()
 	int nCntExplosion;
 	VERTEX_2D* pVtx; //頂点情報へのポインタ
 
+	D3DXVECTOR3 Pos = CObject2D::GetPos();
+
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
 	{
 		//弾の生成
-		CBullet::Create(m_nPlayerPos, m_rotPlayer);
+		CBullet::Create(Pos, m_rotPlayer);
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_P))
 	{
 		//弾の生成
-		CBullet::Create(m_nPlayerPos, m_rotPlayer);
+		CBullet::Create(Pos, m_rotPlayer);
 	}
 
 
@@ -102,10 +104,10 @@ void CPlayer::Update()
 		m_rotPlayer.z -= 0.2f;
 	}
 
-	pVtx[0].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y - m_nPlayerSize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPlayerPos.x - m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPlayerPos.x + m_nPlayerSize.x, m_nPlayerPos.y + m_nPlayerSize.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(Pos.x - m_nPlayerSize.x, Pos.y - m_nPlayerSize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(Pos.x + m_nPlayerSize.x, Pos.y - m_nPlayerSize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(Pos.x - m_nPlayerSize.x, Pos.y + m_nPlayerSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(Pos.x + m_nPlayerSize.x, Pos.y + m_nPlayerSize.y, 0.0f);
 
 	// アニメーションフレームの更新
 	m_Frametimer += m_FrameDuration;
@@ -140,13 +142,18 @@ void CPlayer::Update()
 
 			if (type == CObject::TYPE::BLOCK)
 			{
-				if (m_nPlayerPos.x >= pBlock->GetBlockPos().x - BLOCK_CLLISION
-					&& m_nPlayerPos.x <= pBlock->GetBlockPos().x + BLOCK_CLLISION
-					&& m_nPlayerPos.y >= pBlock->GetBlockPos().y - BLOCK_CLLISION
-					&& m_nPlayerPos.y <= pBlock->GetBlockPos().y + BLOCK_CLLISION)
+				//if (Pos.x >= pBlock->GetBlockPos().x - BLOCK_CLLISION
+				//	&& Pos.x <= pBlock->GetBlockPos().x + BLOCK_CLLISION
+				//	&& Pos.y >= pBlock->GetBlockPos().y - BLOCK_CLLISION
+					//&& Pos.y <= pBlock->GetBlockPos().y + BLOCK_CLLISION)
+						//ブロックの当たり判定(プレイヤー側)
+
+				bool bIsCollision = pBlock->CollisionBlock(&Pos, &m_nOldPlayerPos, &m_movePlayer, 50, 50);
+
+				if (bIsCollision == true)
 				{
-					m_nOldPlayerPos = m_nPlayerPos;
-					return;
+					m_nOldPlayerPos = Pos;
+					//return;
 				}
 			}
 		}
@@ -155,8 +162,10 @@ void CPlayer::Update()
 	////プレイヤーの重力
 	//m_movePlayer.y += Length_value1;
 
-	m_nPlayerPos.x += m_movePlayer.x;
-	m_nPlayerPos.y += m_movePlayer.y;
+	Pos.x += m_movePlayer.x;
+	Pos.y += m_movePlayer.y;
+
+	SetPos(Pos);
 
 	//CObject2D::GetPos() += m_movePlayer;
 
@@ -185,7 +194,7 @@ CPlayer* CPlayer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 	player->SetType(TYPE::PLAYER);
 
-	player->m_nPlayerPos = pos;
+	player->CObject2D::SetPos(pos);
 
 	player->m_nOldPlayerPos = pos;
 

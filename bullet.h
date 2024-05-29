@@ -32,11 +32,9 @@ public:
 	void Update() override;	
 	void Draw() override;	
 	static CBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
-	D3DXVECTOR3& GetBulletPos() { return m_nPos; }
 
 private:
 	int m_nLife;	
-	D3DXVECTOR3 m_nPos;
 };
 
 #endif

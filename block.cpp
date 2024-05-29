@@ -62,18 +62,20 @@ void CBlock::Update()
 	//頂点バッファをロック
 	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(m_nBlockPos.x - m_nBlockSize.x, m_nBlockPos.y - m_nBlockSize.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nBlockPos.x + m_nBlockSize.x, m_nBlockPos.y - m_nBlockSize.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nBlockPos.x - m_nBlockSize.x, m_nBlockPos.y + m_nBlockSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nBlockPos.x + m_nBlockSize.x, m_nBlockPos.y + m_nBlockSize.y, 0.0f);
+	D3DXVECTOR3 BlockPos = CObject2D::GetPos();
+
+	pVtx[0].pos = D3DXVECTOR3(BlockPos.x - m_nBlockSize.x, BlockPos.y - m_nBlockSize.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(BlockPos.x + m_nBlockSize.x, BlockPos.y - m_nBlockSize.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(BlockPos.x - m_nBlockSize.x, BlockPos.y + m_nBlockSize.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(BlockPos.x + m_nBlockSize.x, BlockPos.y + m_nBlockSize.y, 0.0f);
 
 	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	m_nBlockPos.x += m_moveBlock.x;
-	m_nBlockPos.y += m_moveBlock.y;
+	BlockPos.x += m_moveBlock.x;
+	BlockPos.y += m_moveBlock.y;
 
 	//移動量を更新
 	m_moveBlock.x += (Length_value2 - m_moveBlock.x) * Attenuation_value;
@@ -94,25 +96,25 @@ void CBlock::Draw()
 //======================
 CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	CBlock* enemy = nullptr;
+	CBlock* block = nullptr;
 
-	enemy = new CBlock;
+	block = new CBlock;
 
-	if (SUCCEEDED(enemy->Init()))
+	if (SUCCEEDED(block->Init()))
 	{
-		enemy->SetType(TYPE::BLOCK);
+		block->SetType(TYPE::BLOCK);
 
-		enemy->Load();
+		block->Load();
 
-		enemy->m_nBlockPos = pos;
+		block->CObject2D::SetPos(pos);
 
-		enemy->m_nBlockSize = size;
+		block->m_nBlockSize = size;
 
 		//テクスチャの設定
-		enemy->BindTexture(m_pTexTemp);
+		block->BindTexture(m_pTexTemp);
 	}
 
-	return enemy;
+	return block;
 }
 
 //======================
@@ -183,5 +185,73 @@ void CBlock::Unload()
 
 void CBlock::SetPos(D3DXVECTOR3 pos)
 {
-	CBlock* enemy = nullptr;
+	CBlock* block = nullptr;
+}
+
+//===============================
+// ブロックの衝突判定
+//===============================
+bool CBlock::CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+{
+	//int g_JumpCnt;
+
+	//g_JumpCnt = GetJumpCnt();
+
+	//g_LavaPosY = GetLavaPos();
+
+	//g_LavaPosX = GetLavaPosX();
+
+	//g_nJmpCnt = GetJumpCnt();
+
+	//if ((pPosOld->y < g_LavaPosY * BLOCK_COLIDTC_Y && pPos->y > g_LavaPosY * BLOCK_COLIDTC_Y) && g_LavaPosX * BLOCK_COLIDTC_X - (BLOCK_SIZE / 2) < pPos->x && pPos->x < (g_LavaPosX + 1) * BLOCK_COLIDTC_X + (BLOCK_SIZE / 2))
+	//{
+	//	MoveResult = true;
+	//}
+
+	float fBlockWidth = 0.0f;  //ブロックの横幅
+	float fBlockHeight = 0.0f; //ブロックの高さ
+
+	bool bLanding = false;	// 着地しているかどうか
+
+	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+	{
+		for (int nCntBlock = 0; nCntBlock < MAX_BLOCK; nCntBlock++)
+		{
+			CObject* pObj = CObject::GetObj(nCntPriority, nCntBlock);
+
+			if (pObj != nullptr)
+			{
+				CObject::TYPE type = pObj->GetType();
+
+				if (type == CObject::TYPE::BLOCK)
+				{
+					CBlock* pBlock = (CBlock*)pObj;
+
+					D3DXVECTOR3 BlockPos = pBlock->GetPos();      //現在の位置を取得
+
+					//ブロック上側判定
+					if (pPos->x - fWidth <= BlockPos.x + fBlockWidth &&pPosOld->x - fWidth >= BlockPos.x + fBlockWidth &&pPos->y - fHeight < BlockPos.y + fBlockHeight &&pPos->y  > BlockPos.y - fBlockHeight)
+					{//右側との当たり判定
+						pPos->x = BlockPos.x + fBlockWidth + fWidth;
+					}
+					else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth &&pPosOld->x + fWidth <= BlockPos.x - fBlockWidth &&pPos->y - fHeight < BlockPos.y + fBlockHeight &&	pPos->y > BlockPos.y - fBlockHeight)
+					{//左側との当たり判定
+						pPos->x = BlockPos.x - fBlockWidth - fWidth;
+					}
+					//else if (pPos->x - fWidth < BlockPos.x + fBlockWidth &&pPos->x + fWidth > BlockPos.x - fBlockWidth &&	pPos->y - fHeight <= BlockPos.y + fBlockHeight &&pPosOld->y - fHeight >= BlockPos.y + fBlockHeight)
+					//{//下側との当たり判定
+					//	pPos->y = BlockPos.y + fBlockHeight + fHeight;
+
+					//}
+					else if (pPos->x - fWidth < BlockPos.x + fBlockWidth &&pPos->x + fWidth > BlockPos.x - fBlockWidth &&pPos->y >= BlockPos.y - fBlockHeight &&pPosOld->y <= BlockPos.y - fBlockHeight)
+					{//上側との着地判定
+						pPos->y = BlockPos.y - fBlockHeight;
+						//bLanding = true;
+					}
+				}
+				//}
+			}
+		}
+	}
+	return bLanding;
 }

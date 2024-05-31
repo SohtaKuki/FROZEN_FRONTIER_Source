@@ -92,6 +92,8 @@ void CObject2D::Uninit()
 		m_pTexBuff->Release();
 		m_pTexBuff = nullptr;
 	}
+	CObject::Release();
+
 }
 
 //=======================

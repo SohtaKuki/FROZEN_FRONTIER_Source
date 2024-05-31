@@ -65,7 +65,6 @@ void CBullet::Update()
 	{
 		CExplosion::Create(CObject2D::GetPos());
 		CObject2D::Uninit();
-		CObject::Release();
 		return;
 	}
 
@@ -113,7 +112,6 @@ void CBullet::Update()
 					CExplosion::Create(CObject2D::GetPos());
 					pEnemy->Damage();
 					CObject2D::Uninit();
-					CObject::Release();
 					return;
 				}
 			}
@@ -132,7 +130,6 @@ void CBullet::Update()
 					CExplosion::Create(CObject2D::GetPos());
 					pEnemy->Damage();
 					CObject2D::Uninit();
-					CObject::Release();
 					return;
 				}
 			}

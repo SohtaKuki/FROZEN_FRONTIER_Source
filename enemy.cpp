@@ -151,7 +151,6 @@ void CEnemy::Damage()
 			if (m_nLife == 0)
 			{
 				CObject2D::Uninit();
-				CObject::Release();
 			}
 		}
 	}

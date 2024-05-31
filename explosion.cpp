@@ -101,7 +101,6 @@ void CExplosion::Update()
 		if (m_nCounterAnimExpl > EXPLOSION_PATTERN_ANIM)
 		{
 			CObject2D::Uninit();
-			CObject::Release();
 			return;
 		}
 

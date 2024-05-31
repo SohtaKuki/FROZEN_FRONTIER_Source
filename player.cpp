@@ -21,6 +21,7 @@ CPlayer::CPlayer(int nPriority) : CObject2D(nPriority)
 	m_Frametimer = 0.5f;
 	m_CurrentFrame = 0;           // 現在のフレーム
 	m_Numframes = 8;        // アニメーションの総フレーム数
+	m_movePlayer = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 //======================
 // デストラクタ
@@ -56,6 +57,9 @@ void CPlayer::Update()
 	int nCntExplosion;
 	VERTEX_2D* pVtx; //頂点情報へのポインタ
 
+	//重力
+	m_movePlayer.y += 1.0f;
+
 	D3DXVECTOR3 Pos = CObject2D::GetPos();
 
 	//頂点バッファをロック
@@ -64,10 +68,15 @@ void CPlayer::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
 	{
 		//弾の生成
+		m_movePlayer.y = -30.0f;
+	}
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_P))
+	{
 		CBullet::Create(Pos, m_rotPlayer);
 	}
 
-	if (CManager::GetKeyboard()->GetPress(DIK_P))
+	if (CManager::GetKeyboard()->GetPress(DIK_L))
 	{
 		//弾の生成
 		CBullet::Create(Pos, m_rotPlayer);
@@ -77,11 +86,13 @@ void CPlayer::Update()
 	if (CManager::GetKeyboard()->GetPress(DIK_D))
 	{
 		m_movePlayer.x += Length_value1;
+		m_movePlayer.y += cosf(D3DX_PI / 2) * 2.0f;
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_A))
 	{
 		m_movePlayer.x -= Length_value1;
+		m_movePlayer.y += cosf(-D3DX_PI / 2) * 2.0f;
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_W))
@@ -130,30 +141,32 @@ void CPlayer::Update()
 		CObject2D::GetBuff()->Unlock();
 	}
 
-	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	//過去座標を保存
+	m_nOldPlayerPos = Pos;
+
+	Pos.x += m_movePlayer.x;
+	Pos.y += m_movePlayer.y;
+
+	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
 	{
-		CObject* pObj = CObject::GetObj(3, nCntObj);
-
-		if (pObj != nullptr)
+		for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
 		{
-			CObject::TYPE type = pObj->GetType();
+			CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-			CBlock* pBlock = (CBlock*)pObj;
-
-			if (type == CObject::TYPE::BLOCK)
+			if (pObj != nullptr)
 			{
-				//if (Pos.x >= pBlock->GetBlockPos().x - BLOCK_CLLISION
-				//	&& Pos.x <= pBlock->GetBlockPos().x + BLOCK_CLLISION
-				//	&& Pos.y >= pBlock->GetBlockPos().y - BLOCK_CLLISION
-					//&& Pos.y <= pBlock->GetBlockPos().y + BLOCK_CLLISION)
-						//ブロックの当たり判定(プレイヤー側)
+				CObject::TYPE type = pObj->GetType();
 
-				bool bIsCollision = pBlock->CollisionBlock(&Pos, &m_nOldPlayerPos, &m_movePlayer, 50, 50);
-
-				if (bIsCollision == true)
+				if (type == CObject::TYPE::BLOCK)
 				{
-					m_nOldPlayerPos = Pos;
-					//return;
+					CBlock* pBlock = (CBlock*)pObj;
+
+					bool bIsCollision = pBlock->CollisionBlock(&Pos, &m_nOldPlayerPos, &m_movePlayer, 50, 0);
+
+					if (bIsCollision == true)
+					{
+						m_movePlayer.y = 0.0f;
+					}
 				}
 			}
 		}
@@ -162,16 +175,16 @@ void CPlayer::Update()
 	////プレイヤーの重力
 	//m_movePlayer.y += Length_value1;
 
-	Pos.x += m_movePlayer.x;
-	Pos.y += m_movePlayer.y;
-
 	SetPos(Pos);
 
 	//CObject2D::GetPos() += m_movePlayer;
 
-	//移動量を更新
+	//X座標の移動量を更新
 	m_movePlayer.x += (Length_value2 - m_movePlayer.x) * Attenuation_value;
-	m_movePlayer.y += (Length_value2 - m_movePlayer.y) * Attenuation_value;
+
+	////Y座標の移動量を更新(STGのみ有効にする)
+	//m_movePlayer.y += (Length_value2 - m_movePlayer.y) * Attenuation_value;
+
 
 
 

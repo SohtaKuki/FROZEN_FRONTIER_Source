@@ -94,7 +94,7 @@ void CBlock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size , int nBlockType)
 {
 	CBlock* block = nullptr;
 
@@ -109,6 +109,8 @@ CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 		block->CObject2D::SetPos(pos);
 
 		block->m_nBlockSize = size;
+
+		block->m_nBlockType = nBlockType;
 
 		//テクスチャの設定
 		block->BindTexture(m_pTexTemp);
@@ -129,7 +131,8 @@ void CBlock::Damage()
 		if (pObj != nullptr)
 		{
 			CObject::TYPE type = pObj->GetType();
-			if (type == CObject::TYPE::ENEMY)
+
+			if (type == CObject::TYPE::BLOCK)
 			{
 				m_nLife -= 1;
 
@@ -162,6 +165,7 @@ HRESULT CBlock::Load()
 {
 	LPDIRECT3DDEVICE9 pDevice = nullptr;
 	pDevice = CManager::GetRenderer()->GetDevice();
+
 
 	if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\block003.png", &m_pTexTemp)))
 	{
@@ -208,10 +212,10 @@ bool CBlock::CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3
 	//	MoveResult = true;
 	//}
 
-	float fBlockWidth = 0.0f;  //ブロックの横幅
-	float fBlockHeight = 0.0f; //ブロックの高さ
+	float fBlockWidth = 40.0f;
+	float fBlockHeight = 100.0f;
 
-	bool bLanding = false;	// 着地しているかどうか
+	bool bLanding = false;
 
 	for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
 	{
@@ -223,33 +227,42 @@ bool CBlock::CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3
 			{
 				CObject::TYPE type = pObj->GetType();
 
+				//オブジェクトタイプがブロックの場合
 				if (type == CObject::TYPE::BLOCK)
 				{
-					CBlock* pBlock = (CBlock*)pObj;
+					//ブロックの種類が普通だった場合
+					if (BLOCKTYPE::NORMAL)
+					{
+						CBlock* pBlock = (CBlock*)pObj;
 
-					D3DXVECTOR3 BlockPos = pBlock->GetPos();      //現在の位置を取得
+						D3DXVECTOR3 BlockPos = pBlock->GetPos();
 
-					//ブロック上側判定
-					if (pPos->x - fWidth <= BlockPos.x + fBlockWidth &&pPosOld->x - fWidth >= BlockPos.x + fBlockWidth &&pPos->y - fHeight < BlockPos.y + fBlockHeight &&pPos->y  > BlockPos.y - fBlockHeight)
-					{//右側との当たり判定
-						pPos->x = BlockPos.x + fBlockWidth + fWidth;
-					}
-					else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth &&pPosOld->x + fWidth <= BlockPos.x - fBlockWidth &&pPos->y - fHeight < BlockPos.y + fBlockHeight &&	pPos->y > BlockPos.y - fBlockHeight)
-					{//左側との当たり判定
-						pPos->x = BlockPos.x - fBlockWidth - fWidth;
-					}
-					//else if (pPos->x - fWidth < BlockPos.x + fBlockWidth &&pPos->x + fWidth > BlockPos.x - fBlockWidth &&	pPos->y - fHeight <= BlockPos.y + fBlockHeight &&pPosOld->y - fHeight >= BlockPos.y + fBlockHeight)
-					//{//下側との当たり判定
-					//	pPos->y = BlockPos.y + fBlockHeight + fHeight;
+						//右側当たり判定
+						if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->y - fHeight < BlockPos.y + fBlockHeight && pPos->y  > BlockPos.y - fBlockHeight)
+						{
+							pPos->x = BlockPos.x + fBlockWidth + fWidth;
+						}
 
-					//}
-					else if (pPos->x - fWidth < BlockPos.x + fBlockWidth &&pPos->x + fWidth > BlockPos.x - fBlockWidth &&pPos->y >= BlockPos.y - fBlockHeight &&pPosOld->y <= BlockPos.y - fBlockHeight)
-					{//上側との着地判定
-						pPos->y = BlockPos.y - fBlockHeight;
-						//bLanding = true;
+						//左側当たり判定
+						else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->y - fHeight < BlockPos.y + fBlockHeight && pPos->y > BlockPos.y - fBlockHeight)
+						{
+							pPos->x = BlockPos.x - fBlockWidth - fWidth;
+						}
+
+						//下側当たり判定
+						if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->y - fHeight <= BlockPos.y + fBlockHeight && pPosOld->y - fHeight >= BlockPos.y + fBlockHeight)
+						{
+							pPos->y = BlockPos.y + fBlockHeight + fHeight;
+						}
+
+						//上側当たり判定
+						else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->y >= BlockPos.y - fBlockHeight && pPosOld->y <= BlockPos.y - fBlockHeight)
+						{
+							pPos->y = BlockPos.y - fBlockHeight;
+							bLanding = true;
+						}
 					}
 				}
-				//}
 			}
 		}
 	}

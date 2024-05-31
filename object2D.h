@@ -30,6 +30,7 @@ public:
 	static CObject2D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	void SetPos(D3DXVECTOR3 pos) { m_nPos = pos; }
 	D3DXVECTOR3& GetPos() { return m_nPos; }
+	D3DXVECTOR3& GetSize() { return m_nSize; }		//ƒTƒCƒY‚ÌŽæ“¾
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;

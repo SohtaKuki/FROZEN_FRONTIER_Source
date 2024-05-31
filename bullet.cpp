@@ -130,6 +130,7 @@ void CBullet::Update()
 					&& CObject2D::GetPos().y <= BlockPos.y + ENEMY_HITPOINT)
 				{
 					CExplosion::Create(CObject2D::GetPos());
+					pEnemy->Damage();
 					CObject2D::Uninit();
 					CObject::Release();
 					return;

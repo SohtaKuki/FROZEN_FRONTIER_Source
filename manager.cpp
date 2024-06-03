@@ -17,6 +17,7 @@
 #include "item.h"
 #include "camera.h"
 #include "light.h"
+#include "floor.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -60,7 +61,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pLight->Init();
 
-	CObject3D::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
+	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
 
 	//«2Dƒ|ƒŠƒSƒ“¶¬‚ÌcŠ[
 

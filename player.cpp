@@ -185,9 +185,6 @@ void CPlayer::Update()
 	////Y座標の移動量を更新(STGのみ有効にする)
 	//m_movePlayer.y += (Length_value2 - m_movePlayer.y) * Attenuation_value;
 
-
-
-
 }
 
 //======================

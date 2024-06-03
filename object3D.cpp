@@ -49,10 +49,10 @@ HRESULT CObject3D::Init()
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-    pVtx[0].pos = D3DXVECTOR3(-FIELD_SIZE, 0.0f, FIELD_SIZE);
-    pVtx[1].pos = D3DXVECTOR3(FIELD_SIZE, 0.0f, FIELD_SIZE);
-    pVtx[2].pos = D3DXVECTOR3(-FIELD_SIZE, 0.0f, -FIELD_SIZE);
-    pVtx[3].pos = D3DXVECTOR3(FIELD_SIZE, 0.0f, -FIELD_SIZE);
+    pVtx[0].pos = D3DXVECTOR3(-m_nPos.x, 0.0f, m_nPos.z);
+    pVtx[1].pos = D3DXVECTOR3(m_nPos.x, 0.0f, m_nPos.z);
+    pVtx[2].pos = D3DXVECTOR3(-m_nPos.x, 0.0f, -m_nPos.z);
+    pVtx[3].pos = D3DXVECTOR3(m_nPos.x, 0.0f, -m_nPos.z);
 
     // 法線ベクトルの設定
     pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);

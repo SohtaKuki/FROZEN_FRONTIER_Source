@@ -13,7 +13,7 @@
 
 #define FIELD_SIZE (500.0f)
 
-//オブジェクト2Dクラス
+//オブジェクト3Dクラス
 class CObject3D : public CObject
 {
 public:
@@ -29,8 +29,8 @@ public:
 	void SetPos(D3DXVECTOR3 pos) { m_nPos = pos; }
 	static HRESULT Load();
 	static void Unload();
-	D3DXVECTOR3& GetPos() { return m_nPos; }
-	D3DXVECTOR3& GetSize() { return m_nSize; }		//サイズの取得
+	D3DXVECTOR3& GetPos() { return m_nPos; }//座標の取得
+	D3DXVECTOR3& GetSize() { return m_nSize; }//サイズの取得
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;

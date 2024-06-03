@@ -25,6 +25,9 @@ CCamera::~CCamera()
 
 }
 
+//======================
+// 初期化処理
+//======================
 HRESULT CCamera::Init()
 {
 	m_posV = D3DXVECTOR3(0.0f, 110.0f, -700.0f);
@@ -36,16 +39,25 @@ HRESULT CCamera::Init()
 	return S_OK;
 }
 
+//======================
+// 終了処理
+//======================
 void CCamera::Uninit()
 {
 
 }
 
+//======================
+// 更新処理
+//======================
 void CCamera::Update()
 {
 
 }
 
+//======================
+// カメラの設定処理
+//======================
 void CCamera::SetCamera()
 {
 	CRenderer* Renderer = CManager::GetRenderer();

@@ -41,6 +41,9 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
     return S_OK;
 }
 
+//============================
+//終了処理
+//============================
 void CInput::Uninit()
 {
     //入力デバイス(キーボード)の破棄

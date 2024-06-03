@@ -23,6 +23,16 @@ public:
 		D3DXVECTOR2 tex;
 	}VERTEX_2D;
 
+	//í∏ì_èÓïÒ[3D]ÇÃç\ë¢ëÃÇíËã`
+	typedef struct
+	{
+		D3DXVECTOR3 pos;
+		D3DXVECTOR3 nor;
+		D3DCOLOR col;
+		D3DXVECTOR2 tex;
+
+	}VERTEX_3D;
+
 	typedef enum
 	{
 		NONE= 0,
@@ -30,6 +40,7 @@ public:
 		ENEMY,
 		PLAYER,
 		BLOCK,
+		ITEM,
 		MAX_TYPE,
 	}TYPE;
 

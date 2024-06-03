@@ -8,15 +8,20 @@
 #include "manager.h"
 #include "renderer.h"
 #include "object2D.h"
+#include "object3D.h"
 #include "objbg.h"
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "block.h"
 #include "item.h"
+#include "camera.h"
+#include "light.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
+CCamera* CManager::m_pCamera = nullptr;
+CLight* CManager::m_pLight = nullptr;
 
 //======================
 // コンストラクタ
@@ -47,18 +52,31 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pKeyboard->Init(hInstance, hWnd);
 
+	m_pCamera = new CCamera();
 
-	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+	m_pCamera->Init();
 
-	CBlock::Create(D3DXVECTOR3(340.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),(CBlock::BLOCKTYPE::NORMAL));
-	CBlock::Create(D3DXVECTOR3(390.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),( CBlock::BLOCKTYPE::NORMAL));
-	CBlock::Create(D3DXVECTOR3(1000.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),(CBlock::BLOCKTYPE::NORMAL));
+	m_pLight = new CLight();
 
-	CItem::Create(D3DXVECTOR3(570.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	m_pLight->Init();
 
-	CPlayer::Create(D3DXVECTOR3(640.0f, 600.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	CObject3D::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
 
-	CEnemy::Create(D3DXVECTOR3(690.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+	//↓2Dポリゴン生成の残骸
+
+	//CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
+	//CBlock::Create(D3DXVECTOR3(340.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),(CBlock::BLOCKTYPE::NORMAL));
+	//CBlock::Create(D3DXVECTOR3(390.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),( CBlock::BLOCKTYPE::NORMAL));
+	//CBlock::Create(D3DXVECTOR3(640.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), (CBlock::BLOCKTYPE::NORMAL));
+	//CBlock::Create(D3DXVECTOR3(1000.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),(CBlock::BLOCKTYPE::NORMAL));
+	//CBlock::Create(D3DXVECTOR3(200.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), (CBlock::BLOCKTYPE::NORMAL));
+
+	//CItem::Create(D3DXVECTOR3(570.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+
+	//CPlayer::Create(D3DXVECTOR3(640.0f, 600.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+
+	//CEnemy::Create(D3DXVECTOR3(690.0f, 300.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 
 	return S_OK;
@@ -111,5 +129,21 @@ CRenderer* CManager::GetRenderer()
 CInputKeyboard* CManager::GetKeyboard()
 {
 	return m_pKeyboard;
+}
+
+//======================
+// カメラクラスポインタ取得処理
+//======================
+CCamera* CManager::GetCamera()
+{
+	return m_pCamera;
+}
+
+//======================
+// ライトクラスポインタ取得処理
+//======================
+CLight* CManager::GetLight()
+{
+	return m_pLight;
 }
 

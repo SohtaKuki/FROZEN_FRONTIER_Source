@@ -1,6 +1,6 @@
 //=================================================
 //
-// 弾の処理 (bullet.h)
+// アイテムの処理 (item.h)
 // Author: Sohta Kuki
 //
 //=================================================
@@ -14,13 +14,11 @@
 #include "object2D.h"
 #include "player.h"
 
-//弾オブジェクトクラス
+//アイテムオブジェクトクラス
 class CItem : public CPlayer
 {
 public:
-	static const int BULLET_SIZE = 30;
-	static const int BULLET_LIFE = 80;
-	static const int ENEMY_HITPOINT = 50;
+	static const int PLAYER_HITPOINT = 50;
 
 	CItem(int nPriority = 6);
 	~CItem() override;
@@ -31,7 +29,6 @@ public:
 	static CItem* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
-	int m_nLife;
 };
 
 #endif

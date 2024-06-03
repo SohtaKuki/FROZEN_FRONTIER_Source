@@ -10,6 +10,8 @@
 
 #include "main.h"
 #include "input.h"
+#include "camera.h"
+#include "light.h"
 
 //マネージャクラス
 class CManager
@@ -23,9 +25,13 @@ public:
 	void Draw();
 	static CRenderer* GetRenderer();
 	static CInputKeyboard* GetKeyboard();
+	static CCamera* GetCamera();
+	static CLight* GetLight();
 private:
 	static CRenderer* m_pRenderer;
 	static CInputKeyboard* m_pKeyboard;
+	static CCamera* m_pCamera;
+	static CLight* m_pLight;
 };
 
 #endif

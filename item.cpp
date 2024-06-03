@@ -1,6 +1,6 @@
 //=================================================
 //
-// 弾の処理 (bullet.cpp)
+// アイテムの処理 (item.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
@@ -18,7 +18,7 @@
 //============================
 CItem::CItem(int nPriority) : CPlayer(nPriority)
 {
-	m_nLife = 0;
+
 }
 
 //============================
@@ -30,7 +30,7 @@ CItem::~CItem()
 }
 
 //============================
-//弾の初期化処理
+//アイテムの初期化処理
 //============================
 HRESULT CItem::Init()
 {
@@ -41,7 +41,7 @@ HRESULT CItem::Init()
 }
 
 //============================
-//弾の初期化処理
+//アイテムの初期化処理
 //============================
 void CItem::Uninit()
 {
@@ -50,21 +50,12 @@ void CItem::Uninit()
 }
 
 //============================
-//弾の更新処理
+//アイテムの更新処理
 //============================
 void CItem::Update()
 {
 	//弾の移動処理
 	CObject2D::GetPos() += m_nMove;
-
-
-	//寿命が尽きたときの処理
-	if (m_nLife <= 0)
-	{
-		CExplosion::Create(CObject2D::GetPos());
-		CObject2D::Uninit();
-		return;
-	}
 
 	VERTEX_2D* pVtx;
 
@@ -87,7 +78,7 @@ void CItem::Update()
 	//頂点バッファをアンロックする
 	CObject2D::GetBuff()->Unlock();
 
-	//弾の当たり判定
+	//アイテムの当たり判定
 	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
 	{
 		CObject* pObj = CObject::GetObj(3, nCntObj);
@@ -102,10 +93,10 @@ void CItem::Update()
 
 			if (type == CObject::TYPE::PLAYER)
 			{
-				if (CObject2D::GetPos().x >= PlayerPos.x - ENEMY_HITPOINT
-					&& CObject2D::GetPos().x <= PlayerPos.x + ENEMY_HITPOINT
-					&& CObject2D::GetPos().y >= PlayerPos.y - ENEMY_HITPOINT
-					&& CObject2D::GetPos().y <= PlayerPos.y + ENEMY_HITPOINT)
+				if (CObject2D::GetPos().x >= PlayerPos.x - PLAYER_HITPOINT
+					&& CObject2D::GetPos().x <= PlayerPos.x + PLAYER_HITPOINT
+					&& CObject2D::GetPos().y >= PlayerPos.y - PLAYER_HITPOINT
+					&& CObject2D::GetPos().y <= PlayerPos.y + PLAYER_HITPOINT)
 				{
 					CObject2D::Uninit();
 					return;
@@ -117,7 +108,7 @@ void CItem::Update()
 }
 
 //============================
-//弾の描画処理
+//アイテムの描画処理
 //============================
 void CItem::Draw()
 {
@@ -125,7 +116,7 @@ void CItem::Draw()
 }
 
 //============================
-//弾の生成処理
+//アイテムの生成処理
 //============================
 CItem* CItem::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
@@ -133,13 +124,12 @@ CItem* CItem::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pItem = new CItem;
 
-	pItem->SetType(TYPE::BULLET);
+	pItem->SetType(TYPE::ITEM);
 	pItem->CObject2D::SetPos(pos);
 	pItem->m_rot = rot;
-	pItem->m_nLife = BULLET_LIFE;
 
 
-	//弾の初期化
+	//アイテムの初期化
 	pItem->Init();
 
 	LPDIRECT3DTEXTURE9 pTexture;

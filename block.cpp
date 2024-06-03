@@ -196,23 +196,10 @@ void CBlock::SetPos(D3DXVECTOR3 pos)
 //===============================
 bool CBlock::CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-	//int g_JumpCnt;
 
-	//g_JumpCnt = GetJumpCnt();
 
-	//g_LavaPosY = GetLavaPos();
-
-	//g_LavaPosX = GetLavaPosX();
-
-	//g_nJmpCnt = GetJumpCnt();
-
-	//if ((pPosOld->y < g_LavaPosY * BLOCK_COLIDTC_Y && pPos->y > g_LavaPosY * BLOCK_COLIDTC_Y) && g_LavaPosX * BLOCK_COLIDTC_X - (BLOCK_SIZE / 2) < pPos->x && pPos->x < (g_LavaPosX + 1) * BLOCK_COLIDTC_X + (BLOCK_SIZE / 2))
-	//{
-	//	MoveResult = true;
-	//}
-
-	float fBlockWidth = 40.0f;
-	float fBlockHeight = 100.0f;
+	float fBlockWidth = m_nBlockSize.x;
+	float fBlockHeight = m_nBlockSize.y + 50.0f;
 
 	bool bLanding = false;
 

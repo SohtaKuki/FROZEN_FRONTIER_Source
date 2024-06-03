@@ -147,30 +147,36 @@
   <ItemGroup>
     <ClCompile Include="block.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="objbg.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
+    <ClCompile Include="object3D.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="objbg.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
+    <ClInclude Include="object3D.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
   </ItemGroup>

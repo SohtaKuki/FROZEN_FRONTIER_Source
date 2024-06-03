@@ -117,6 +117,8 @@ void CRenderer::Draw()
 	 
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
+		CManager::GetCamera()->SetCamera();
+
 		// ‘S‚Ä•`‰æ
 		CObject::DrawAll();
 

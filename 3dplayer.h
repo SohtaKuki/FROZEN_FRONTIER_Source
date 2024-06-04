@@ -1,20 +1,21 @@
 //=================================================
 //
-// モデルの描画処理 (model.h)
+// 3Dモデルのプレイヤーの表示処理 (3dplayer.h)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#ifndef _MODEL_H_
-#define _MODEL_H_
+#ifndef _3DPLAYER_H_
+#define _3DPLAYER_H_
 
 #include "object3D.h"
+#include "model.h"
 
 #define MAX_CHAR (256) //行の読み込む数
 #define NUM_MODEL (16) //モデルの数
 
 //オブジェクト3Dクラス
-class CModel : public CObject3D
+class C3dplayer : public CModel
 {
 public:
 
@@ -42,17 +43,17 @@ public:
 
 	}ModelPartsEnemy;
 
-	CModel(int nPriority = 3);
-	~CModel() override;
+	C3dplayer(int nPriority = 3);
+	~C3dplayer() override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static CModel* Create(D3DXVECTOR3 pos);
+	static C3dplayer* Create(D3DXVECTOR3 pos);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
-	virtual void LoadEnemyData();
+	void LoadPlayerData();
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -65,11 +66,11 @@ private:
 	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
 	DWORD m_nNumMat[NUM_MODEL];
 	//Enemy m_aEnemy;
-	bool bUse;
-protected:
-	FILE* m_pFile;//ファイルポインタを宣言
 	LoadEnemy m_aLoadEnemy[NUM_MODEL];
 	ModelPartsEnemy m_aModel[NUM_MODEL];
+	bool bUse;
+	FILE* m_pFile;//ファイルポインタを宣言
+protected:
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;
 

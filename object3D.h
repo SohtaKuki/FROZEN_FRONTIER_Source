@@ -37,9 +37,9 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
-	D3DXMATRIX m_mtxWorld;
 	bool bUse;
 protected:
+	D3DXMATRIX m_mtxWorld;
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;
 };

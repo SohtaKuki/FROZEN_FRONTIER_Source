@@ -197,7 +197,6 @@ void CBlock::SetPos(D3DXVECTOR3 pos)
 bool CBlock::CollisionBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
 
-
 	float fBlockWidth = m_nBlockSize.x;
 	float fBlockHeight = m_nBlockSize.y + 50.0f;
 

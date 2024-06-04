@@ -1,18 +1,18 @@
 //=================================================
 //
-// モデルの表示処理 (model.cpp)
+// 3Dモデルのプレイヤーの表示処理 (3dblock.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#include "model.h"
+#include "3dblock.h"
 
-LPDIRECT3DTEXTURE9 CModel::m_pTexBuff = nullptr;
+LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
 
 //======================
 // コンストラクタ
 //======================
-CModel::CModel(int nPriority) : CObject3D(nPriority)
+C3dblock::C3dblock(int nPriority) : CModel(nPriority)
 {
 
 }
@@ -20,7 +20,7 @@ CModel::CModel(int nPriority) : CObject3D(nPriority)
 //======================
 // デストラクタ
 //======================
-CModel::~CModel()
+C3dblock::~C3dblock()
 {
 
 }
@@ -28,37 +28,40 @@ CModel::~CModel()
 //======================
 // 初期化処理
 //======================
-HRESULT CModel::Init()
+HRESULT C3dblock::Init()
 {
-	//初期化
-	if (FAILED(CObject3D::Init()))
-	{
-		return E_FAIL;
-	}
+    //初期化
+    if (FAILED(CModel::Init()))
+    {
+        return E_FAIL;
+    }
 
-	return S_OK;
+    return S_OK;
 }
 
 //======================
 // 終了処理
 //======================
-void CModel::Uninit()
+void C3dblock::Uninit()
 {
-	CObject3D::Uninit();
+    CModel::Uninit();
 }
 
 //======================
 // 更新処理
 //======================
-void CModel::Update()
+void C3dblock::Update()
 {
 
+
+    //m_nPos.x += m_nMove.x;
+    //m_nPos.y += m_nMove.y;
 }
 
 //======================
 // 描画処理
 //======================
-void CModel::Draw()
+void C3dblock::Draw()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -141,71 +144,67 @@ void CModel::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CModel* CModel::Create(D3DXVECTOR3 pos)
+C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
 {
-	CModel* Model = nullptr;
+    C3dblock* D3Dblock = nullptr;
 
-	Model = new CModel;
+    D3Dblock = new C3dblock;
 
-	//初期化に成功した場合
-	if (SUCCEEDED(Model->Init()))
-	{
-        Model->LoadEnemyData();
-		//Model->Load();
+    //初期化に成功した場合
+    if (SUCCEEDED(D3Dblock->Init()))
+    {
+        D3Dblock->LoadBlockData();
 
-		Model->m_nPos = pos;
+        //D3Dblock->Load();//テクスチャを設定(仮)
 
-		////テクスチャの設定
-		//Model->BindTexture(m_pTexBuff);
-	}
+        D3Dblock->m_nPos = pos;
 
-	return Model;
+        ////テクスチャの設定
+        //Model->BindTexture(m_pTexBuff);
+    }
+
+    return D3Dblock;
 }
 
 //======================
 // テクスチャロード処理
 //======================
-HRESULT CModel::Load()
+HRESULT C3dblock::Load()
 {
-	LPDIRECT3DDEVICE9 pDevice = nullptr;
-	pDevice = CManager::GetRenderer()->GetDevice();
+    LPDIRECT3DDEVICE9 pDevice = nullptr;
+    pDevice = CManager::GetRenderer()->GetDevice();
 
-	if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
-	{
-		return E_FAIL;
-	}
+    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
+    {
+        return E_FAIL;
+    }
 
-	return S_OK;
+    return S_OK;
 }
 
 //======================
 // テクスチャアンロード(終了)処理
 //======================
-void CModel::Unload()
+void C3dblock::Unload()
 {
-	if (m_pTexBuff != nullptr)
-	{
-		m_pTexBuff->Release();
-		m_pTexBuff = nullptr;
-	}
+    CModel::Unload();
 }
+
 
 
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void CModel::LoadEnemyData(void)
+void C3dblock::LoadBlockData(void)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-
-    FILE* pFile;//ファイルポインタを宣言
-    pFile = fopen("data\\MODEL\\model_kuki\\Charamotion.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
-    if (pFile == NULL)
+    if (m_pFile == NULL)
     {
         return;
     }
@@ -213,11 +212,11 @@ void CModel::LoadEnemyData(void)
     //外部ファイル文字列読み取り
     while (1)
     {
-        fscanf(pFile, "%s", Datacheck);
+        fscanf(m_pFile, "%s", Datacheck);
 
         if (!strcmp(Datacheck, "END_CHARACTERSET"))
         {
-            fclose(pFile);
+            fclose(m_pFile);
             break;
         }
 
@@ -229,15 +228,15 @@ void CModel::LoadEnemyData(void)
         //パーツ数
         if (!strcmp(Datacheck, "NUM_PARTS"))
         {
-            fscanf(pFile, "%s", Datacheck);
-            fscanf(pFile, "%d", &EnemyModelSave);
+            fscanf(m_pFile, "%s", Datacheck);
+            fscanf(m_pFile, "%d", &EnemyModelSave);
         }
 
         //ファイル名
         if (!strcmp(Datacheck, "MODEL_FILENAME"))
         {
-            fscanf(pFile, "%s", Datacheck);
-            fscanf(pFile, "%s", &m_aLoadEnemy[EnemyModelSave].filename[0]);
+            fscanf(m_pFile, "%s", Datacheck);
+            fscanf(m_pFile, "%s", &CModel::m_aLoadEnemy[EnemyModelSave].filename[0]);
             EnemyModelSave++;
         }
 
@@ -246,7 +245,7 @@ void CModel::LoadEnemyData(void)
         {
             while (1)
             {
-                fscanf(pFile, "%s", Datacheck);
+                fscanf(m_pFile, "%s", Datacheck);
 
                 //パーツ詳細終わり検知
                 if (!strcmp(Datacheck, "END_PARTSSET"))
@@ -257,57 +256,58 @@ void CModel::LoadEnemyData(void)
                 //インデックス
                 else if (!strcmp(Datacheck, "INDEX"))
                 {
-                    fscanf(pFile, "%s", Datacheck);
-                    fscanf(pFile, "%d", &m_aLoadEnemy[nCntEnemyData].index);
+                    fscanf(m_pFile, "%s", Datacheck);
+                    fscanf(m_pFile, "%d", &CModel::m_aLoadEnemy[nCntEnemyData].index);
                 }
 
                 //親設定
                 else if (!strcmp(Datacheck, "PARENT"))
                 {
-                    fscanf(pFile, "%s", Datacheck);
-                    fscanf(pFile, "%d", &m_aLoadEnemy[nCntEnemyData].parent);
+                    fscanf(m_pFile, "%s", Datacheck);
+                    fscanf(m_pFile, "%d", &CModel::m_aLoadEnemy[nCntEnemyData].parent);
                 }
 
                 //立ち位置
                 else if (!strcmp(Datacheck, "POS"))
                 {
-                    fscanf(pFile, "%s", Datacheck);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].pos.x);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].pos.y);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].pos.z);
+                    fscanf(m_pFile, "%s", Datacheck);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].pos.x);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].pos.y);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].pos.z);
                 }
 
                 //向き
                 else if (!strcmp(Datacheck, "ROT"))
                 {
-                    fscanf(pFile, "%s", Datacheck);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].rot.x);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].rot.y);
-                    fscanf(pFile, "%f", &m_aLoadEnemy[nCntEnemyData].rot.z);
+                    fscanf(m_pFile, "%s", Datacheck);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].rot.x);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].rot.y);
+                    fscanf(m_pFile, "%f", &CModel::m_aLoadEnemy[nCntEnemyData].rot.z);
                 }
             }
             nCntEnemyData++;
         }
     }
 
+    //デバイスの取得
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
     //ここで上記の処理で得た数値を代入
     for (int nCnt = 0; nCnt < EnemyModelSave; nCnt++)
     {
-        D3DXLoadMeshFromX(&m_aLoadEnemy[nCnt].filename[0], D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[nCnt], NULL, &m_nNumMat[nCnt], &m_pMesh[nCnt]);
+        D3DXLoadMeshFromX(&CModel::m_aLoadEnemy[nCnt].filename[0], D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[nCnt], NULL, &m_nNumMat[nCnt], &m_pMesh[nCnt]);
         //D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\golden000.jpg", &g_pTextureEnemy);
         m_aModel[nCnt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
         m_aModel[nCnt].nLife = 4;
-        m_aModel[nCnt].nIdxModelParent = m_aLoadEnemy[nCnt].parent;
+        m_aModel[nCnt].nIdxModelParent = CModel::m_aLoadEnemy[nCnt].parent;
         m_aModel[nCnt].bUse = true;
 
         //敵の立ち位置初期化
         //m_nPos = D3DXVECTOR3(-0.0f, -0.0f, 0.0f);
         //m_aEnemy.rot = D3DXVECTOR3(-0.0f, 0.0f, 0.0f);
 
-        m_aModel[nCnt].pos = D3DXVECTOR3(m_aLoadEnemy[nCnt].pos.x, m_aLoadEnemy[nCnt].pos.y, m_aLoadEnemy[nCnt].pos.z);
-        m_aModel[nCnt].rot = D3DXVECTOR3(m_aLoadEnemy[nCnt].rot.x, m_aLoadEnemy[nCnt].rot.y, m_aLoadEnemy[nCnt].rot.z);
+        m_aModel[nCnt].pos = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].pos.x, CModel::m_aLoadEnemy[nCnt].pos.y, CModel::m_aLoadEnemy[nCnt].pos.z);
+        m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);
     }
 }

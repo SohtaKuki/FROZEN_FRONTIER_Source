@@ -161,7 +161,6 @@ CObject3D* CObject3D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 		Object3D->m_nPos = pos;
 
 		Object3D->m_nSize = size;
-
 	}
 
 	return Object3D;

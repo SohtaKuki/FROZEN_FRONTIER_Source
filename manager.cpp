@@ -20,6 +20,8 @@
 #include "floor.h"
 #include "model.h"
 #include "3dplayer.h"
+#include "billboard.h"
+#include "3dblock.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -65,6 +67,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 	C3dplayer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
+	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f));
+	//CBillboard::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 
 
 	//Å´2DÉ|ÉäÉSÉìê∂ê¨ÇÃécä[

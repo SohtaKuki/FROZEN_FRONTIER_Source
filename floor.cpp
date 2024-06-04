@@ -1,6 +1,6 @@
 //=================================================
 //
-// 3Dƒ|ƒŠƒSƒ“‚Ì•`‰æˆ— (object3D.cpp)
+// °‚Ì•`‰æˆ— (floor.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
@@ -99,6 +99,7 @@ CFloor* CFloor::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 
 	Floor = new CFloor;
 
+	//‰Šú‰»‚É¬Œ÷‚µ‚½ê‡
 	if (SUCCEEDED(Floor->Init()))
 	{
 		Floor->Load();

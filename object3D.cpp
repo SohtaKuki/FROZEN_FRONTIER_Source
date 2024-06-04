@@ -153,13 +153,16 @@ CObject3D* CObject3D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	CObject3D* Object3D = new CObject3D;
 
-	Object3D->Load();
+	//‰Šú‰»‚É¬Œ÷‚µ‚½ê‡
+	if (SUCCEEDED(Object3D->Init()))
+	{
+		Object3D->Load();
 
-	Object3D->m_nPos = pos;
+		Object3D->m_nPos = pos;
 
-	Object3D->m_nSize = size;
+		Object3D->m_nSize = size;
 
-	Object3D->Init();
+	}
 
 	return Object3D;
 }

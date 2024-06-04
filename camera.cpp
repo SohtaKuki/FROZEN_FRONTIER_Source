@@ -52,7 +52,43 @@ void CCamera::Uninit()
 //======================
 void CCamera::Update()
 {
+	if (CManager::GetKeyboard()->GetPress(DIK_D))
+	{
+		m_posV.x += 2.0f;
+		m_posR.x += 2.0f;
 
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_A))
+	{
+		m_posV.x -= 2.0f;
+		m_posR.x -= 2.0f;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_W))
+	{
+		m_posV.y += 2.0f;
+		m_posR.y += 2.0f;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_S))
+	{
+		m_posV.y -= 2.0f;
+		m_posR.y -= 2.0f;
+	}
+
+
+	if (CManager::GetKeyboard()->GetPress(DIK_F))
+	{
+		m_posV.z -= 6.0f;
+		m_posR.z -= 6.0f;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_R))
+	{
+		m_posV.z += 6.0f;
+		m_posR.z += 6.0f;
+	}
 }
 
 //======================

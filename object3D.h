@@ -25,10 +25,10 @@ public:
 	void Draw()override;
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	LPDIRECT3DVERTEXBUFFER9 GetBuff(void);
-	static CObject3D* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
-	void SetPos(D3DXVECTOR3 pos) { m_nPos = pos; }
+	static CObject3D* Create(D3DXVECTOR3 pos);
 	static HRESULT Load();
 	static void Unload();
+	void SetPos(D3DXVECTOR3 pos) { m_nPos = pos; }
 	D3DXVECTOR3& GetPos() { return m_nPos; }//座標の取得
 	D3DXVECTOR3& GetSize() { return m_nSize; }//サイズの取得
 private:

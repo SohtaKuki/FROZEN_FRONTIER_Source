@@ -149,7 +149,7 @@ void CObject3D::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CObject3D* CObject3D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CObject3D* CObject3D::Create(D3DXVECTOR3 pos)
 {
 	CObject3D* Object3D = new CObject3D;
 
@@ -159,8 +159,6 @@ CObject3D* CObject3D::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 		Object3D->Load();
 
 		Object3D->m_nPos = pos;
-
-		Object3D->m_nSize = size;
 	}
 
 	return Object3D;

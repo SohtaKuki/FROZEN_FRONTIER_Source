@@ -54,12 +54,15 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadPlayerData();
+	void OldPlayerPos() {  m_nPos = m_nOld3DPlayerPos; }
+	D3DXVECTOR3& GetPlayerPos() { return m_nPos; }//座標の取得
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
+	D3DXVECTOR3 m_nOld3DPlayerPos;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;
 	LPD3DXMESH m_pMesh[NUM_MODEL];
@@ -71,7 +74,7 @@ private:
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
 protected:
-	D3DXVECTOR3 m_nMove;
+	D3DXVECTOR3 m_n3DPlayerMove;
 	D3DXVECTOR3 m_rot;
 
 };

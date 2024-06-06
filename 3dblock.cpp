@@ -6,6 +6,7 @@
 //=================================================
 
 #include "3dblock.h"
+#include "3dplayer.h"
 
 LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
 
@@ -52,6 +53,40 @@ void C3dblock::Uninit()
 //======================
 void C3dblock::Update()
 {
+    bool bLanding = false;
+
+    //ブロックの当たり判定
+    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+    {
+        CObject* pObj = CObject::GetObj(3, nCntObj);
+
+        if (pObj != nullptr)
+        {
+            CObject::TYPE type = pObj->GetType();
+
+            C3dplayer* pD3DPlayer = (C3dplayer*)pObj;
+
+            D3DXVECTOR3 D3DPlayerPos = pD3DPlayer->GetPlayerPos();
+
+            //プレイヤーだった場合
+            if (type == CObject::TYPE::PLAYER)
+            {
+                if (D3DPlayerPos.x >= m_nPos.x - 50 + 20 &&
+                    D3DPlayerPos.x <= m_nPos.x + 50 - 20 &&
+                    D3DPlayerPos.z >= m_nPos.z - 50 + 30 &&
+                    D3DPlayerPos.z <= m_nPos.z + 50 - 30)
+                {
+                    for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
+                    {
+                        //m_aModel[nCnt].bUse = false;
+                        pD3DPlayer->OldPlayerPos();
+                    }
+                }
+
+            }
+
+        }
+    }
 
 
     //m_nPos.x += m_nMove.x;
@@ -310,4 +345,44 @@ void C3dblock::LoadBlockData(void)
         m_aModel[nCnt].pos = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].pos.x, CModel::m_aLoadEnemy[nCnt].pos.y, CModel::m_aLoadEnemy[nCnt].pos.z);
         m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);
     }
+}
+
+bool C3dblock::Collision3DBlock()
+{
+    bool bLanding = false;
+
+    //ブロックの当たり判定
+    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+    {
+        CObject* pObj = CObject::GetObj(3, nCntObj);
+
+        if (pObj != nullptr)
+        {
+            CObject::TYPE type = pObj->GetType();
+
+            C3dplayer* pD3DPlayer = (C3dplayer*)pObj;
+
+            D3DXVECTOR3 D3DPlayerPos = pD3DPlayer->GetPlayerPos();
+
+            //プレイヤーだった場合
+            if (type == CObject::TYPE::PLAYER)
+            {
+                if (D3DPlayerPos.x >= m_nPos.x - 50 + 20 &&
+                    D3DPlayerPos.x <= m_nPos.x + 50 - 20 &&
+                    D3DPlayerPos.z >= m_nPos.z - 50 + 30 &&
+                    D3DPlayerPos.z <= m_nPos.z + 50 - 30)
+                {
+                    for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
+                    {
+                        m_aModel[nCnt].bUse = false;
+                        bLanding = true;
+
+                    }
+                }
+
+            }
+
+        }
+    }
+    return bLanding;
 }

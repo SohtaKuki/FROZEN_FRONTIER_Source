@@ -10,6 +10,7 @@
 
 #include "object3D.h"
 #include "model.h"
+#include "3dplayer.h"
 
 #define MAX_CHAR (256) //行の読み込む数
 #define NUM_MODEL (16) //モデルの数
@@ -54,6 +55,8 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
+	bool Collision3DBlock();
+	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -70,6 +73,7 @@ private:
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
+
 protected:
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;

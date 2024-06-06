@@ -5,7 +5,9 @@
 //
 //=================================================
 
-#include "3dplayer.h"
+#include "3dblock.h"
+#include "player.h"
+#include "block.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 
@@ -54,30 +56,64 @@ void C3dplayer::Update()
 {
     if (CManager::GetKeyboard()->GetPress(DIK_D))
     {
-        m_nPos.x += 1.0f;
+        m_n3DPlayerMove.x += 1.0f;
         m_rot.y = D3DX_PI * -0.5f;
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_A))
     {
-        m_nPos.x -= 1.0f;
+        m_n3DPlayerMove.x -= 1.0f;
         m_rot.y = D3DX_PI * 0.5f;
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_W))
     {
-        m_nPos.z += 1.0f;
+        m_n3DPlayerMove.z += 1.0f;
         m_rot.y = D3DX_PI * 1.0f;
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_S))
     {
-        m_nPos.z -= 1.0f;
+        m_n3DPlayerMove.z -= 1.0f;
         m_rot.y = D3DX_PI * -0.0f;
     }
 
-    //m_nPos.x += m_nMove.x;
-    //m_nPos.y += m_nMove.y;
+    //過去座標を保存
+    m_nOld3DPlayerPos = m_nPos;
+
+    m_nPos.x += m_n3DPlayerMove.x;
+    m_nPos.z += m_n3DPlayerMove.z;
+
+    //for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    //{
+    //    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+    //    {
+    //        CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+    //        if (pObj != nullptr)
+    //        {
+    //            CObject::TYPE type = pObj->GetType();
+
+    //            if (type == CObject::TYPE::BLOCK)
+    //            {
+    //                C3dblock* p3dblock = (C3dblock*)pObj;
+
+    //                bool bIsCollision = p3dblock->Collision3DBlock();
+
+    //                if (bIsCollision == true)
+    //                {
+    //                    m_n3DPlayerMove.y = 0.0f;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    //X座標の移動量を更新
+    m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
+
+    //Z座標の移動量を更新
+    m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
 }
 
 //======================
@@ -175,6 +211,8 @@ C3dplayer* C3dplayer::Create(D3DXVECTOR3 pos)
     //初期化に成功した場合
     if (SUCCEEDED(D3Dplayer->Init()))
     {
+        D3Dplayer->SetType(TYPE::PLAYER);
+
         D3Dplayer->LoadPlayerData();
 
         //D3Dplayer->Load();//テクスチャを設定(仮)

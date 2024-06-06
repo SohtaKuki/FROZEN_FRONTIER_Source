@@ -54,7 +54,7 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadPlayerData();
-	void OldPlayerPos() {  m_nPos = m_nOld3DPlayerPos; }
+	void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	D3DXVECTOR3& GetPlayerPos() { return m_nPos; }//ç¿ïWÇÃéÊìæ
 private:
 	D3DXMATRIX m_mtxworld;

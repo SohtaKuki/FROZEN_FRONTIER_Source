@@ -73,14 +73,15 @@ void C3dblock::Update()
             {
                 if (D3DPlayerPos.x >= m_nPos.x - 50 + 20 &&
                     D3DPlayerPos.x <= m_nPos.x + 50 - 20 &&
-                    D3DPlayerPos.z >= m_nPos.z - 50 + 30 &&
-                    D3DPlayerPos.z <= m_nPos.z + 50 - 30)
+                    D3DPlayerPos.z >= m_nPos.z - 50 + 20 &&
+                    D3DPlayerPos.z <= m_nPos.z + 50 - 20)
                 {
-                    for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
-                    {
+                    //for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
+                    //{
                         //m_aModel[nCnt].bUse = false;
-                        pD3DPlayer->OldPlayerPos();
-                    }
+                    //}
+
+                    pD3DPlayer->OldPlayerPos();
                 }
 
             }

@@ -196,6 +196,19 @@ void C3dplayer::Draw()
                 //テクスチャの設定
                 pDevice->SetTexture(0, m_pTexBuff);
 
+                ////テクスチャが存在する
+                //if (pMat[nCntMat].pTextureFilename != NULL)
+                //{
+                //    //テクスチャの設定
+                //    pDevice->SetTexture(0, m_aModel[0].m_pTexture[nCntMat]);
+                //}
+
+                //else
+                //{
+                //    //テクスチャの設定
+                //    pDevice->SetTexture(0, NULL);
+                //}
+
                 //モデル(パーツ)の描画
                 m_pMesh[nCntParts]->DrawSubset(nCntMat);
             }
@@ -364,7 +377,7 @@ void C3dplayer::LoadPlayerData(void)
     for (int nCnt = 0; nCnt < EnemyModelSave; nCnt++)
     {
         D3DXLoadMeshFromX(&CModel::m_aLoadEnemy[nCnt].filename[0], D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[nCnt], NULL, &m_nNumMat[nCnt], &m_pMesh[nCnt]);
-        //D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\golden000.jpg", &g_pTextureEnemy);
+        //D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\golden000.jpg", &m_pTexture);
         m_aModel[nCnt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
         m_aModel[nCnt].nLife = 4;
         m_aModel[nCnt].nIdxModelParent = CModel::m_aLoadEnemy[nCnt].parent;

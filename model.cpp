@@ -150,7 +150,7 @@ CModel* CModel::Create(D3DXVECTOR3 pos)
 	//初期化に成功した場合
 	if (SUCCEEDED(Model->Init()))
 	{
-        Model->LoadEnemyData();
+        Model->LoadModelData();
 		//Model->Load();
 
 		Model->m_nPos = pos;
@@ -194,7 +194,7 @@ void CModel::Unload()
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void CModel::LoadEnemyData(void)
+void CModel::LoadModelData(void)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;

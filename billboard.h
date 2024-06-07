@@ -9,8 +9,6 @@
 
 #include "object3D.h"
 
-static const int MAX_BIL(3);
-
 //オブジェクト2Dクラス
 class CBillboard :public CObject3D
 {
@@ -28,7 +26,7 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
-	CBillboard* m_apBillboard[MAX_BIL];
+
 };
 
 #endif

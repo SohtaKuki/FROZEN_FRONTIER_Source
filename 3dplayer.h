@@ -36,6 +36,7 @@ public:
 		D3DXMATRIX mtxworld;
 		D3DXVECTOR3 pos;
 		D3DXVECTOR3 rot;
+		LPDIRECT3DTEXTURE9 m_pTexture;
 		int nLife;
 		bool bUse;
 		int nCounterState;

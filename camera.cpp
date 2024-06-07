@@ -52,6 +52,8 @@ void CCamera::Uninit()
 //======================
 void CCamera::Update()
 {
+
+
 	if (CManager::GetKeyboard()->GetPress(DIK_RIGHT))
 	{
 		m_posV.x += 2.0f;
@@ -77,6 +79,16 @@ void CCamera::Update()
 		m_posR.y -= 2.0f;
 	}
 
+	if (CManager::GetKeyboard()->GetPress(DIK_E))
+	{
+		m_rot.y += 0.03f;
+	}
+
+	if (CManager::GetKeyboard()->GetPress(DIK_Q))
+	{
+		m_rot.y -= 0.03f;
+	}
+
 
 	if (CManager::GetKeyboard()->GetPress(DIK_F))
 	{
@@ -89,6 +101,9 @@ void CCamera::Update()
 		m_posV.z += 6.0f;
 		m_posR.z += 6.0f;
 	}
+
+	m_posV.x = m_posR.x - sinf(m_rot.y) * 600;
+	m_posV.z = m_posR.z - cosf(m_rot.y) * 600;
 }
 
 //======================

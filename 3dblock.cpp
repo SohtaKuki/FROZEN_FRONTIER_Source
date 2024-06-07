@@ -318,9 +318,9 @@ void C3dblock::LoadBlockData(void)
 //===========================
 bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-    bool bLanding = false;
+    bool bLanding = false; //重力を適応した場合のみ使用
     float fBlockWidth = 10.0f;
-    float fBlockHeight = 30.0f;
+    float fBlockDepth = 10.0f;
 
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
@@ -333,7 +333,6 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
             {
                 CObject::TYPE type = pObj->GetType();
 
-
                 //プレイヤーだった場合
                 if (type == CObject::TYPE::BLOCK)
                 {
@@ -342,28 +341,27 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                     D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
 
                     //右側当たり判定
-                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockHeight && pPos->z  > BlockPos.z - fBlockHeight)
+                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
                     {
                         pPos->x = BlockPos.x + fBlockWidth + fWidth;
                     }
 
                     //左側当たり判定
-                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockHeight && pPos->z > BlockPos.z - fBlockHeight)
+                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
                     {
                         pPos->x = BlockPos.x - fBlockWidth - fWidth;
                     }
 
                     //上側当たり判定
-                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockHeight && pPosOld->z - fHeight >= BlockPos.z + fBlockHeight)
+                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
                     {
-                        pPos->z = BlockPos.z + fBlockHeight + fHeight;
+                        pPos->z = BlockPos.z + fBlockDepth + fHeight;
                     }
 
                     //下側当たり判定
-                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockHeight && pPosOld->z <= BlockPos.z - fBlockHeight)
+                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
                     {
-                        pPos->z = BlockPos.z - fBlockHeight;
-                        bLanding = true;
+                        pPos->z = BlockPos.z - fBlockDepth;
                     }
                 }
 

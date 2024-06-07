@@ -1,3 +1,10 @@
+//=================================================
+//
+// ビルボードの処理 (billboard.cpp)
+// Author: Sohta Kuki
+//
+//=================================================
+
 #include "billboard.h"
 
 //======================
@@ -24,22 +31,6 @@ HRESULT CBillboard::Init()
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
-	for (int nCnt = 0; nCnt < MAX_BIL; nCnt++)
-	{
-		switch (nCnt)
-		{
-		case 0:
-			m_apBillboard[nCnt]->m_nPos = D3DXVECTOR3(37.0f, 55.0f, -10.0f);
-			break;
-		case 1:
-			m_apBillboard[nCnt]->m_nPos = D3DXVECTOR3(57.0f, 50.0f, -17.0f);
-			break;
-		case 2:
-			m_apBillboard[nCnt]->m_nPos = D3DXVECTOR3(50.0f, 65.0f, -69.0f);
-			break;
-		}
-	}
-
 	//テクスチャの読込み
 	D3DXCreateTextureFromFile(pDevice, "data\\texture\\billboard000.png", &m_pTexture);
 
@@ -52,13 +43,12 @@ HRESULT CBillboard::Init()
 	//頂点バッファをロックし頂点情報時へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	for (int nCnt = 0; nCnt < 1; nCnt++)
-	{
+
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-5.0f, 5.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(-5.0f, -5.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(5.0f, -5.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(-m_nSize.x, m_nSize.y, m_nSize.z);
+		pVtx[1].pos = D3DXVECTOR3(m_nSize.x, m_nSize.y, m_nSize.z);
+		pVtx[2].pos = D3DXVECTOR3(-m_nSize.x, -m_nSize.y, m_nSize.z);
+		pVtx[3].pos = D3DXVECTOR3(m_nSize.x, -m_nSize.y, m_nSize.z);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -79,7 +69,6 @@ HRESULT CBillboard::Init()
 		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 		pVtx += 4;
-	}
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
@@ -100,7 +89,41 @@ void CBillboard::Uninit()
 //======================
 void CBillboard::Update()
 {
+	//頂点情報のポインタ
+	VERTEX_3D* pVtx;
 
+	//頂点バッファをロックし頂点情報時へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(-m_nSize.x, m_nSize.y, m_nSize.z);
+	pVtx[1].pos = D3DXVECTOR3(m_nSize.x, m_nSize.y, m_nSize.z);
+	pVtx[2].pos = D3DXVECTOR3(-m_nSize.x, -m_nSize.y, m_nSize.z);
+	pVtx[3].pos = D3DXVECTOR3(m_nSize.x, -m_nSize.y, m_nSize.z);
+
+	//法線ベクトルの設定
+	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+	//頂点カラーの初期設定
+	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//テクスチャ座標の初期設定
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	pVtx += 4;
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
 }
 
 //======================
@@ -134,40 +157,38 @@ void CBillboard::Draw()
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	for (int nCnt = 0; nCnt < MAX_BIL; nCnt++)
-	{
-		//ワールドマトリックスの初期化
-		D3DXMatrixIdentity(&m_apBillboard[nCnt]->m_mtxWorld);
 
-		//ビューマトリックス取得
-		pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
 
-		//ポリゴンをカメラの正面に向け続ける
-		D3DXMatrixInverse(&m_apBillboard[nCnt]->m_mtxWorld, NULL, &mtxView);	//逆行列を求める
+	//ビューマトリックス取得
+	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
-		m_apBillboard[nCnt]->m_mtxWorld._41 = 0.0f;
-		m_apBillboard[nCnt]->m_mtxWorld._42 = 0.0f;
-		m_apBillboard[nCnt]->m_mtxWorld._43 = 0.0f;
+	//ポリゴンをカメラの正面に向け続ける
+	D3DXMatrixInverse(&m_mtxWorld, NULL, &mtxView);	//逆行列を求める
 
-		D3DXMatrixTranslation(&mtxTrans, m_apBillboard[nCnt]->m_nPos.x, m_apBillboard[nCnt]->m_nPos.y, m_apBillboard[nCnt]->m_nPos.z);
+	m_mtxWorld._41 = 0.0f;
+	m_mtxWorld._42 = 0.0f;
+	m_mtxWorld._43 = 0.0f;
 
-		D3DXMatrixMultiply(&m_apBillboard[nCnt]->m_mtxWorld, &m_apBillboard[nCnt]->m_mtxWorld, &mtxTrans);
+	D3DXMatrixTranslation(&mtxTrans,m_nPos.x, m_nPos.y,m_nPos.z);
 
-		//ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &m_apBillboard[nCnt]->m_mtxWorld);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-		//頂点バッファをデータストリームに設定
-		pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_3D));
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
-		//頂点フォーマットの設定
-		pDevice->SetFVF(FVF_VERTEX_3D);
+	//頂点バッファをデータストリームに設定
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_3D));
 
-		//テクスチャの設定
-		pDevice->SetTexture(0, m_pTexture);
+	//頂点フォーマットの設定
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
-		//ビルボードの描画
-		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCnt * 0, 2);
-	}
+	//テクスチャの設定
+	pDevice->SetTexture(0, m_pTexture);
+
+	//ビルボードの描画
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 
 	//アルファテストを元に戻す
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -197,11 +218,9 @@ CBillboard* CBillboard::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	//初期化に成功した場合
 	if (SUCCEEDED(Billboard->Init()))
 	{
-		//Billboard->Load();
+		Billboard->m_nPos = pos;
 
-		//Billboard->m_nPos = pos;
-
-		//Billboard->m_nSize = size;
+		Billboard->m_nSize = size;
 	}
 
 	return Billboard;

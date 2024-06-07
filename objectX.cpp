@@ -5,7 +5,7 @@
 //
 //=================================================
 
-#include "model.h"
+#include "objectX.h"
 
 LPDIRECT3DTEXTURE9 CModel::m_pTexBuff = nullptr;
 

@@ -9,7 +9,7 @@
 #define _3DBLOCK_H_
 
 #include "object3D.h"
-#include "model.h"
+#include "objectX.h"
 #include "3dplayer.h"
 
 #define MAX_CHAR (256) //s‚Ì“Ç‚İ‚Ş”

@@ -9,7 +9,7 @@
 #define _3DPLAYER_H_
 
 #include "object3D.h"
-#include "model.h"
+#include "objectX.h"
 
 #define MAX_CHAR (256) //s‚Ì“Ç‚İ‚Ş”
 #define NUM_MODEL (16) //ƒ‚ƒfƒ‹‚Ì”

@@ -364,7 +364,6 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                         pPos->z = BlockPos.z - fBlockDepth;
                     }
                 }
-
             }
         }
     }

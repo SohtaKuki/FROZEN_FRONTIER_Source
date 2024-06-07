@@ -18,7 +18,7 @@
 #include "camera.h"
 #include "light.h"
 #include "floor.h"
-#include "model.h"
+#include "objectX.h"
 #include "3dplayer.h"
 #include "billboard.h"
 #include "3dblock.h"

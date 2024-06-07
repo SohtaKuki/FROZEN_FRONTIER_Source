@@ -54,14 +54,14 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadPlayerData();
-	void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
-	D3DXVECTOR3& GetPlayerPos() { return m_nPos; }//ç¿ïWÇÃéÊìæ
+	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
+	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
+	//D3DXVECTOR3& GetPlayerPos() { return m_nPos; }//ç¿ïWÇÃéÊìæ
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nOld3DPlayerPos;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;

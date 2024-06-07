@@ -54,6 +54,8 @@ void C3dplayer::Uninit()
 //======================
 void C3dplayer::Update()
 {
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
     if (CManager::GetKeyboard()->GetPress(DIK_D))
     {
         m_n3DPlayerMove.x += 1.0f;
@@ -79,41 +81,45 @@ void C3dplayer::Update()
     }
 
     //過去座標を保存
-    m_nOld3DPlayerPos = m_nPos;
+    m_nOld3DPlayerPos = Pos;
 
-    m_nPos.x += m_n3DPlayerMove.x;
-    m_nPos.z += m_n3DPlayerMove.z;
+    Pos.x += m_n3DPlayerMove.x;
+    Pos.z += m_n3DPlayerMove.z;
 
-    //for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    //{
-    //    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-    //    {
-    //        CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-    //        if (pObj != nullptr)
-    //        {
-    //            CObject::TYPE type = pObj->GetType();
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
 
-    //            if (type == CObject::TYPE::BLOCK)
-    //            {
-    //                C3dblock* p3dblock = (C3dblock*)pObj;
+                if (type == CObject::TYPE::BLOCK)
+                {
+                    C3dblock* p3dblock = (C3dblock*)pObj;
 
-    //                bool bIsCollision = p3dblock->Collision3DBlock();
+                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos,&m_nOld3DPlayerPos,&m_n3DPlayerMove,50.0f,50.0f);
 
-    //                if (bIsCollision == true)
-    //                {
-    //                    m_n3DPlayerMove.y = 0.0f;
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+                    if (bIsCollision == true)
+                    {
+                        m_n3DPlayerMove.y = 0.0f;
+                    }
+                }
+            }
+        }
+    }
+
+    SetPos(Pos);
 
     //X座標の移動量を更新
     m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
 
     //Z座標の移動量を更新
     m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
+
+ 
 }
 
 //======================
@@ -127,6 +133,7 @@ void C3dplayer::Draw()
     D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
     D3DMATERIAL9 matDef; //現在のマテリアル保存用
     D3DXMATERIAL* pMat; //マテリアルデータへのポインタ
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
 
     //ワールドマトリックスの初期化
     D3DXMatrixIdentity(&m_mtxworld);
@@ -136,7 +143,7 @@ void C3dplayer::Draw()
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxRot);
 
     //位置を反映
-    D3DXMatrixTranslation(&mtxTrans, m_nPos.x, m_nPos.y, m_nPos.z);
+    D3DXMatrixTranslation(&mtxTrans, Pos.x, Pos.y, Pos.z);
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxTrans);
 
     //ワールドマトリックスの設定
@@ -217,7 +224,7 @@ C3dplayer* C3dplayer::Create(D3DXVECTOR3 pos)
 
         //D3Dplayer->Load();//テクスチャを設定(仮)
 
-        D3Dplayer->m_nPos = pos;
+        D3Dplayer->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);

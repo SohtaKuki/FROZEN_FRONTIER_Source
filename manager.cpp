@@ -70,7 +70,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 	CObject3D::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f));
-	C3dblock::Create(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	C3dblock::Create(D3DXVECTOR3(-100.0f, 0.0f, 50.0f));
 	//CBillboard::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 
 

@@ -53,45 +53,7 @@ void C3dblock::Uninit()
 //======================
 void C3dblock::Update()
 {
-    bool bLanding = false;
 
-    //ブロックの当たり判定
-    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-    {
-        CObject* pObj = CObject::GetObj(3, nCntObj);
-
-        if (pObj != nullptr)
-        {
-            CObject::TYPE type = pObj->GetType();
-
-            C3dplayer* pD3DPlayer = (C3dplayer*)pObj;
-
-            D3DXVECTOR3 D3DPlayerPos = pD3DPlayer->GetPlayerPos();
-
-            //プレイヤーだった場合
-            if (type == CObject::TYPE::PLAYER)
-            {
-                if (D3DPlayerPos.x >= m_nPos.x - 50 + 20 &&
-                    D3DPlayerPos.x <= m_nPos.x + 50 - 20 &&
-                    D3DPlayerPos.z >= m_nPos.z - 50 + 20 &&
-                    D3DPlayerPos.z <= m_nPos.z + 50 - 20)
-                {
-                    //for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
-                    //{
-                        //m_aModel[nCnt].bUse = false;
-                    //}
-
-                    pD3DPlayer->OldPlayerPos();
-                }
-
-            }
-
-        }
-    }
-
-
-    //m_nPos.x += m_nMove.x;
-    //m_nPos.y += m_nMove.y;
 }
 
 //======================
@@ -105,6 +67,7 @@ void C3dblock::Draw()
     D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
     D3DMATERIAL9 matDef; //現在のマテリアル保存用
     D3DXMATERIAL* pMat; //マテリアルデータへのポインタ
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
 
     //ワールドマトリックスの初期化
     D3DXMatrixIdentity(&m_mtxworld);
@@ -114,7 +77,7 @@ void C3dblock::Draw()
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxRot);
 
     //位置を反映
-    D3DXMatrixTranslation(&mtxTrans, m_nPos.x, m_nPos.y, m_nPos.z);
+    D3DXMatrixTranslation(&mtxTrans, Pos.x, Pos.y, Pos.z);
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxTrans);
 
     //ワールドマトリックスの設定
@@ -189,11 +152,13 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
     //初期化に成功した場合
     if (SUCCEEDED(D3Dblock->Init()))
     {
+        D3Dblock->SetType(TYPE::BLOCK);
+
         D3Dblock->LoadBlockData();
 
         //D3Dblock->Load();//テクスチャを設定(仮)
 
-        D3Dblock->m_nPos = pos;
+        D3Dblock->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
@@ -348,41 +313,61 @@ void C3dblock::LoadBlockData(void)
     }
 }
 
-bool C3dblock::Collision3DBlock()
+//===========================
+// ブロックの当たり判定
+//===========================
+bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
     bool bLanding = false;
+    float fBlockWidth = 10.0f;
+    float fBlockHeight = 30.0f;
 
-    //ブロックの当たり判定
-    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
-        CObject* pObj = CObject::GetObj(3, nCntObj);
-
-        if (pObj != nullptr)
+        //ブロックの当たり判定
+        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
         {
-            CObject::TYPE type = pObj->GetType();
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-            C3dplayer* pD3DPlayer = (C3dplayer*)pObj;
-
-            D3DXVECTOR3 D3DPlayerPos = pD3DPlayer->GetPlayerPos();
-
-            //プレイヤーだった場合
-            if (type == CObject::TYPE::PLAYER)
+            if (pObj != nullptr)
             {
-                if (D3DPlayerPos.x >= m_nPos.x - 50 + 20 &&
-                    D3DPlayerPos.x <= m_nPos.x + 50 - 20 &&
-                    D3DPlayerPos.z >= m_nPos.z - 50 + 30 &&
-                    D3DPlayerPos.z <= m_nPos.z + 50 - 30)
-                {
-                    for (int nCnt = 0; nCnt < NUM_MODEL; nCnt++)
-                    {
-                        m_aModel[nCnt].bUse = false;
-                        bLanding = true;
+                CObject::TYPE type = pObj->GetType();
 
+
+                //プレイヤーだった場合
+                if (type == CObject::TYPE::BLOCK)
+                {
+                    C3dblock* pD3DBlock = (C3dblock*)pObj;
+
+                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
+
+                    //右側当たり判定
+                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockHeight && pPos->z  > BlockPos.z - fBlockHeight)
+                    {
+                        pPos->x = BlockPos.x + fBlockWidth + fWidth;
+                    }
+
+                    //左側当たり判定
+                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockHeight && pPos->z > BlockPos.z - fBlockHeight)
+                    {
+                        pPos->x = BlockPos.x - fBlockWidth - fWidth;
+                    }
+
+                    //上側当たり判定
+                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockHeight && pPosOld->z - fHeight >= BlockPos.z + fBlockHeight)
+                    {
+                        pPos->z = BlockPos.z + fBlockHeight + fHeight;
+                    }
+
+                    //下側当たり判定
+                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockHeight && pPosOld->z <= BlockPos.z - fBlockHeight)
+                    {
+                        pPos->z = BlockPos.z - fBlockHeight;
+                        bLanding = true;
                     }
                 }
 
             }
-
         }
     }
     return bLanding;

@@ -55,14 +55,13 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
-	bool Collision3DBlock();
+	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;
 	LPD3DXMESH m_pMesh[NUM_MODEL];

@@ -41,6 +41,7 @@ public:
 		PLAYER,
 		BLOCK,
 		ITEM,
+		START,
 		MAX_TYPE,
 	}TYPE;
 

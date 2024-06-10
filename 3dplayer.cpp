@@ -8,6 +8,7 @@
 #include "3dblock.h"
 #include "player.h"
 #include "block.h"
+#include "startobj.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 
@@ -196,18 +197,18 @@ void C3dplayer::Draw()
                 //テクスチャの設定
                 pDevice->SetTexture(0, m_pTexBuff);
 
-                ////テクスチャが存在する
-                //if (pMat[nCntMat].pTextureFilename != NULL)
-                //{
-                //    //テクスチャの設定
-                //    pDevice->SetTexture(0, m_aModel[0].m_pTexture[nCntMat]);
-                //}
+                //テクスチャが存在する
+                if (pMat[nCntMat].pTextureFilename != NULL)
+                {
+                    //テクスチャの設定
+                    pDevice->SetTexture(0,&m_aModel[0].m_pTexture[nCntMat]);
+                }
 
-                //else
-                //{
-                //    //テクスチャの設定
-                //    pDevice->SetTexture(0, NULL);
-                //}
+                else
+                {
+                    //テクスチャの設定
+                    pDevice->SetTexture(0, NULL);
+                }
 
                 //モデル(パーツ)の描画
                 m_pMesh[nCntParts]->DrawSubset(nCntMat);
@@ -237,7 +238,24 @@ C3dplayer* C3dplayer::Create(D3DXVECTOR3 pos)
 
         //D3Dplayer->Load();//テクスチャを設定(仮)
 
-        D3Dplayer->CObject3D::SetPos(pos);
+        CObject* pObj = CObject::GetObj(3, 1);
+
+        if (pObj != nullptr)
+        {
+            CObject::TYPE type = pObj->GetType();
+
+            //ブロックだった場合
+            if (type == CObject::TYPE::START)
+            {
+                C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
+
+                D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
+
+                D3Dplayer->CObject3D::SetPos(StartObjPos);
+            }
+        }
+
+
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
@@ -281,6 +299,7 @@ void C3dplayer::LoadPlayerData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
+    //m_pFile = fopen("data\\MODEL\\MODEL_golden_man\\motion.txt", "r");//ファイルを開く
     m_pFile = fopen("data\\MODEL\\model_kuki\\Charamotion.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合

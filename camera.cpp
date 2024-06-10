@@ -7,6 +7,8 @@
 
 #include "camera.h"
 #include "manager.h"
+#include "object.h"
+#include "3dplayer.h"
 
 
 //======================
@@ -52,7 +54,23 @@ void CCamera::Uninit()
 //======================
 void CCamera::Update()
 {
+	CObject* pObj = CObject::GetObj(3, 1);
 
+	if (pObj != nullptr)
+	{
+		CObject::TYPE type = pObj->GetType();
+
+		//ƒuƒƒbƒN‚¾‚Á‚½ê‡
+		if (type == CObject::TYPE::PLAYER)
+		{
+			C3dplayer* p3dPlayer = (C3dplayer*)pObj;
+
+			D3DXVECTOR3 PlayerPos = p3dPlayer->GetPos();
+
+			m_posV.x = PlayerPos.x;
+			m_posR.x = PlayerPos.x;
+		}
+	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_RIGHT))
 	{

@@ -22,6 +22,7 @@
 #include "3dplayer.h"
 #include "billboard.h"
 #include "3dblock.h"
+#include "startobj.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -66,6 +67,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 	m_pLight->Init();
 
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
+	C3dstartobj::Create(D3DXVECTOR3(-150.0f, 0.0f, 200.0f));
 	C3dplayer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CObject3D::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 

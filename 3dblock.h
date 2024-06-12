@@ -50,7 +50,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dblock* Create(D3DXVECTOR3 pos);
+	static C3dblock* Create(D3DXVECTOR3 pos, int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
@@ -64,6 +64,7 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;
+	static int m_nType;
 	LPD3DXMESH m_pMesh[NUM_MODEL];
 	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
 	DWORD m_nNumMat[NUM_MODEL];

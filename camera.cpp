@@ -60,16 +60,14 @@ void CCamera::Update()
 	{
 		CObject::TYPE type = pObj->GetType();
 
-		//ブロックだった場合
-		if (type == CObject::TYPE::PLAYER)
-		{
-			C3dplayer* p3dPlayer = (C3dplayer*)pObj;
+		C3dplayer* p3dPlayer = (C3dplayer*)pObj;
 
-			D3DXVECTOR3 PlayerPos = p3dPlayer->GetPos();
+		//D3DXVECTOR3 PlayerPos = p3dPlayer->GetPos();
 
-			m_posV.x = PlayerPos.x;
-			m_posR.x = PlayerPos.x;
-		}
+		m_posV.x = p3dPlayer->GetPos().x;
+		m_posR.x = p3dPlayer->GetPos().x;
+		m_posV.z = p3dPlayer->GetPos().z + 200.0f;
+		m_posR.z = p3dPlayer->GetPos().z + 200.0f;
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_RIGHT))
@@ -136,6 +134,8 @@ void CCamera::SetCamera()
 	D3DXMatrixIdentity(&m_mtxProjection);
 
 	//プロジェクションマトリックスを作成
+	//D3DXMatrixOrthoLH(&m_mtxProjection, (float)SCREEN_WIDTH ,(float)SCREEN_HEIGHT, 10.0f, 1800.0f);
+
 	D3DXMatrixPerspectiveFovLH(&m_mtxProjection, D3DXToRadian(50.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 10.0f, 1800.0f);
 
 	//プロジェクションマトリックスの設定

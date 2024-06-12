@@ -142,7 +142,7 @@ void C3dstartobj::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dstartobj* C3dstartobj::Create(D3DXVECTOR3 pos)
+C3dstartobj* C3dstartobj::Create()
 {
     C3dstartobj* D3Dblock = nullptr;
 
@@ -157,7 +157,22 @@ C3dstartobj* C3dstartobj::Create(D3DXVECTOR3 pos)
 
         //D3Dblock->Load();//テクスチャを設定(仮)
 
-        D3Dblock->CObject3D::SetPos(pos);
+        CObject* pObj = CObject::GetObj(3, 1);
+
+        if (pObj != nullptr)
+        {
+            CObject::TYPE type = pObj->GetType();
+
+            //ブロックだった場合
+            if (type == CObject::TYPE::PLAYER)
+            {
+                C3dplayer* p3dplayer = (C3dplayer*)pObj;
+
+                D3DXVECTOR3 PlayerPos = p3dplayer->GetPos();
+
+                D3Dblock->CObject3D::SetPos(PlayerPos);
+            }
+        }
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);

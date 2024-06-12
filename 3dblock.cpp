@@ -9,6 +9,7 @@
 #include "3dplayer.h"
 
 LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
+int C3dblock::m_nType = 0;				// オブジェクト総数
 
 //======================
 // コンストラクタ
@@ -121,7 +122,6 @@ void C3dblock::Draw()
 
             pMat = (D3DXMATERIAL*)m_pBuffMat[nCntParts]->GetBufferPointer();
 
-
             for (int nCntMat = 0; nCntMat < (int)m_nNumMat[nCntParts]; nCntMat++)
             {
                 //マテリアルの設定
@@ -143,11 +143,13 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
+C3dblock* C3dblock::Create(D3DXVECTOR3 pos,int nType)
 {
     C3dblock* D3Dblock = nullptr;
 
     D3Dblock = new C3dblock;
+
+    m_nType = nType;
 
     //初期化に成功した場合
     if (SUCCEEDED(D3Dblock->Init()))
@@ -175,11 +177,12 @@ HRESULT C3dblock::Load()
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
+    
     if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
     {
         return E_FAIL;
     }
-
+    
     return S_OK;
 }
 
@@ -202,7 +205,15 @@ void C3dblock::LoadBlockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
+    if (m_nType == 0)
+    {
+        m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 1)
+    {
+        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs3.txt", "r");//ファイルを開く
+    }
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -320,7 +331,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
 {
     bool bLanding = false; //重力を適応した場合のみ使用
     float fBlockWidth = 10.0f;
-    float fBlockDepth = 10.0f;
+    float fBlockDepth = 20.0f;
 
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
@@ -336,33 +347,39 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 //ブロックだった場合
                 if (type == CObject::TYPE::BLOCK)
                 {
-                    C3dblock* pD3DBlock = (C3dblock*)pObj;
 
-                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
+                        C3dblock* pD3DBlock = (C3dblock*)pObj;
 
-                    //右側当たり判定
-                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
-                    {
-                        pPos->x = BlockPos.x + fBlockWidth + fWidth;
-                    }
+                        D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
 
-                    //左側当たり判定
-                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
-                    {
-                        pPos->x = BlockPos.x - fBlockWidth - fWidth;
-                    }
+                        //右側当たり判定
+                        if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
+                        {
+                            pPos->x = BlockPos.x + fBlockWidth + fWidth;
+                            
+                        }
 
-                    //上側当たり判定
-                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
-                    {
-                        pPos->z = BlockPos.z + fBlockDepth + fHeight;
-                    }
+                        //左側当たり判定
+                        else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
+                        {
 
-                    //下側当たり判定
-                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
-                    {
-                        pPos->z = BlockPos.z - fBlockDepth;
-                    }
+                             pPos->x = BlockPos.x - fBlockWidth - fWidth;
+ 
+                        }
+
+                        //上側当たり判定
+                        if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
+                        {
+                             pPos->z = BlockPos.z + fBlockDepth + fHeight;
+                        }
+
+                        //下側当たり判定
+                        else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
+                        {
+
+                              pPos->z = BlockPos.z - fBlockDepth;
+                        }
+
                 }
             }
         }

@@ -173,6 +173,7 @@ HRESULT CObject3D::Load()
 	pDevice = CManager::GetRenderer()->GetDevice();
 
 	if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
+	//if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\icetexture000.png", &m_pTexBuff)))
 	{
 		return E_FAIL;
 	}

@@ -38,10 +38,10 @@ public:
 		NONE= 0,
 		BULLET,
 		ENEMY,
+		START,
 		PLAYER,
 		BLOCK,
 		ITEM,
-		START,
 		MAX_TYPE,
 	}TYPE;
 

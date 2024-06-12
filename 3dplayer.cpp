@@ -57,6 +57,8 @@ void C3dplayer::Update()
 {
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
+    SetPlayerPos();
+
     if (CManager::GetKeyboard()->GetPress(DIK_D))
     {
         m_n3DPlayerMove.x += 1.0f;
@@ -236,25 +238,9 @@ C3dplayer* C3dplayer::Create(D3DXVECTOR3 pos)
 
         D3Dplayer->LoadPlayerData();
 
+        D3Dplayer->CObject3D::SetPos(pos);
+
         //D3Dplayer->Load();//テクスチャを設定(仮)
-
-        CObject* pObj = CObject::GetObj(3, 1);
-
-        if (pObj != nullptr)
-        {
-            CObject::TYPE type = pObj->GetType();
-
-            //ブロックだった場合
-            if (type == CObject::TYPE::START)
-            {
-                C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
-
-                D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
-
-                D3Dplayer->CObject3D::SetPos(StartObjPos);
-            }
-        }
-
 
 
         ////テクスチャの設定
@@ -300,7 +286,7 @@ void C3dplayer::LoadPlayerData(void)
     int EnemyModelSave = 0;
 
     //m_pFile = fopen("data\\MODEL\\MODEL_golden_man\\motion.txt", "r");//ファイルを開く
-    m_pFile = fopen("data\\MODEL\\model_kuki\\Charamotion.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_SLIME\\motion.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -408,5 +394,26 @@ void C3dplayer::LoadPlayerData(void)
 
         m_aModel[nCnt].pos = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].pos.x, CModel::m_aLoadEnemy[nCnt].pos.y, CModel::m_aLoadEnemy[nCnt].pos.z);
         m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);
+    }
+}
+
+void C3dplayer::SetPlayerPos()
+{
+
+    CObject* pObj = CObject::GetObj(3, 1);
+
+    if (pObj != nullptr)
+    {
+        CObject::TYPE type = pObj->GetType();
+
+        //ブロックだった場合
+        if (type == CObject::TYPE::START)
+        {
+            C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
+
+            D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
+
+            CObject3D::SetPos(StartObjPos);
+        }
     }
 }

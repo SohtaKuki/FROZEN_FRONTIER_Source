@@ -51,7 +51,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dstartobj* Create(D3DXVECTOR3 pos);
+	static C3dstartobj* Create();
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();

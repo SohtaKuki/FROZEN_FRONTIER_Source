@@ -50,6 +50,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
+	void SetPlayerPos();
 	static C3dplayer* Create(D3DXVECTOR3 pos);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
@@ -57,7 +58,7 @@ public:
 	void LoadPlayerData();
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
-	//D3DXVECTOR3& GetPlayerPos() { return m_nPos; }//ç¿ïWÇÃéÊìæ
+	D3DXVECTOR3& GetPlayerPos() { return m_nOld3DPlayerPos; }//ç¿ïWÇÃéÊìæ
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

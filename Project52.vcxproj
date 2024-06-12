@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3dblock.cpp" />
+    <ClCompile Include="3ditem.cpp" />
     <ClCompile Include="3dplayer.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="block.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dblock.h" />
+    <ClInclude Include="3ditem.h" />
     <ClInclude Include="3dplayer.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="block.h" />

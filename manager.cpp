@@ -23,6 +23,7 @@
 #include "billboard.h"
 #include "3dblock.h"
 #include "startobj.h"
+#include "3ditem.h"
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
@@ -71,7 +72,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 	C3dstartobj::Create();
 
 	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f),0);
-	C3dblock::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f),1);
+	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f),0);
 	CBillboard::Create(D3DXVECTOR3(37.0f, 55.0f, -10.0f),D3DXVECTOR3(10.0f, 10.0f, 0.0f));
 	CBillboard::Create(D3DXVECTOR3(67.0f, 55.0f, -30.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
 

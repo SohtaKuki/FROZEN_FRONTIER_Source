@@ -1,20 +1,20 @@
 //=================================================
 //
-// 3Dモデルのプレイヤーの表示処理 (3dblock.cpp)
+// 3Dモデルのプレイヤーの表示処理 (3ditem.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#include "3dblock.h"
+#include "3ditem.h"
 #include "3dplayer.h"
 
-LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
-int C3dblock::m_nType = 0;				// オブジェクト総数
+LPDIRECT3DTEXTURE9 C3ditem::m_pTexBuff = nullptr;
+int C3ditem::m_nType = 0;				// オブジェクト総数
 
 //======================
 // コンストラクタ
 //======================
-C3dblock::C3dblock(int nPriority) : CModel(nPriority)
+C3ditem::C3ditem(int nPriority) : CModel(nPriority)
 {
 
 }
@@ -22,7 +22,7 @@ C3dblock::C3dblock(int nPriority) : CModel(nPriority)
 //======================
 // デストラクタ
 //======================
-C3dblock::~C3dblock()
+C3ditem::~C3ditem()
 {
 
 }
@@ -30,7 +30,7 @@ C3dblock::~C3dblock()
 //======================
 // 初期化処理
 //======================
-HRESULT C3dblock::Init()
+HRESULT C3ditem::Init()
 {
     //初期化
     if (FAILED(CModel::Init()))
@@ -44,7 +44,7 @@ HRESULT C3dblock::Init()
 //======================
 // 終了処理
 //======================
-void C3dblock::Uninit()
+void C3ditem::Uninit()
 {
     CModel::Uninit();
 }
@@ -52,15 +52,18 @@ void C3dblock::Uninit()
 //======================
 // 更新処理
 //======================
-void C3dblock::Update()
+void C3ditem::Update()
 {
-
+    for (int nCnt = 0; nCnt < 1; nCnt++)
+    {
+        m_aModel[nCnt].rot.y -= 0.1f;
+    }
 }
 
 //======================
 // 描画処理
 //======================
-void C3dblock::Draw()
+void C3ditem::Draw()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -143,54 +146,54 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos,int nType)
+C3ditem* C3ditem::Create(D3DXVECTOR3 pos, int nType)
 {
-    C3dblock* D3Dblock = nullptr;
+    C3ditem* D3Ditem = nullptr;
 
-    D3Dblock = new C3dblock;
+    D3Ditem = new C3ditem;
 
     m_nType = nType;
 
     //初期化に成功した場合
-    if (SUCCEEDED(D3Dblock->Init()))
+    if (SUCCEEDED(D3Ditem->Init()))
     {
 
-        D3Dblock->SetType(TYPE::BLOCK);
+        D3Ditem->SetType(TYPE::ITEM);
 
-        D3Dblock->LoadBlockData();
+        D3Ditem->LoadBlockData();
 
-        //D3Dblock->Load();//テクスチャを設定(仮)
+        //D3Ditem->Load();//テクスチャを設定(仮)
 
-        D3Dblock->CObject3D::SetPos(pos);
+        D3Ditem->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
     }
 
-    return D3Dblock;
+    return D3Ditem;
 }
 
 //======================
 // テクスチャロード処理
 //======================
-HRESULT C3dblock::Load()
+HRESULT C3ditem::Load()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
-    
+
     if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
     {
         return E_FAIL;
     }
-    
+
     return S_OK;
 }
 
 //======================
 // テクスチャアンロード(終了)処理
 //======================
-void C3dblock::Unload()
+void C3ditem::Unload()
 {
     CModel::Unload();
 }
@@ -200,7 +203,7 @@ void C3dblock::Unload()
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void C3dblock::LoadBlockData(void)
+void C3ditem::LoadBlockData(void)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;
@@ -208,7 +211,7 @@ void C3dblock::LoadBlockData(void)
 
     if (m_nType == 0)
     {
-        m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
+        m_pFile = fopen("data\\MODEL_RING\\motion.txt", "r");//ファイルを開く
     }
 
     if (m_nType == 1)
@@ -328,7 +331,7 @@ void C3dblock::LoadBlockData(void)
 //===========================
 // ブロックの当たり判定
 //===========================
-bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
     bool bLanding = false; //重力を適応した場合のみ使用
     float fBlockWidth = 10.0f;
@@ -346,40 +349,49 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 CObject::TYPE type = pObj->GetType();
 
                 //ブロックだった場合
-                if (type == CObject::TYPE::BLOCK)
+                if (type == CObject::TYPE::ITEM)
                 {
 
-                        C3dblock* pD3DBlock = (C3dblock*)pObj;
+                    C3ditem* pD3DBlock = (C3ditem*)pObj;
 
-                        D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
+                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
 
-                        //右側当たり判定
-                        if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
+                    //右側当たり判定
+                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
+                    {
+                        for (int nCnt = 0; nCnt < 1; nCnt++)
                         {
-                            pPos->x = BlockPos.x + fBlockWidth + fWidth;
-                            
+                            m_aModel[nCnt].bUse = false;
                         }
 
-                        //左側当たり判定
-                        else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
+                    }
+
+                    //左側当たり判定
+                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
+                    {
+                        for (int nCnt = 0; nCnt < 1; nCnt++)
                         {
-
-                             pPos->x = BlockPos.x - fBlockWidth - fWidth;
- 
+                            m_aModel[nCnt].bUse = false;
                         }
+                    }
 
-                        //上側当たり判定
-                        if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
+                    //上側当たり判定
+                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
+                    {
+                        for (int nCnt = 0; nCnt < 1; nCnt++)
                         {
-                             pPos->z = BlockPos.z + fBlockDepth + fHeight;
+                            m_aModel[nCnt].bUse = false;
                         }
+                    }
 
-                        //下側当たり判定
-                        else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
+                    //下側当たり判定
+                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
+                    {
+                        for (int nCnt = 0; nCnt < 1; nCnt++)
                         {
-
-                              pPos->z = BlockPos.z - fBlockDepth;
+                            m_aModel[nCnt].bUse = false;
                         }
+                    }
 
                 }
             }

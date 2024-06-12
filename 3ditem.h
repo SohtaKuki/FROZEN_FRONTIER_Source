@@ -5,8 +5,8 @@
 //
 //=================================================
 
-#ifndef _3DBLOCK_H_
-#define _3DBLOCK_H_
+#ifndef _3DITEM_H_
+#define _3DITEM_H_
 
 #include "object3D.h"
 #include "objectX.h"
@@ -16,7 +16,7 @@
 #define NUM_MODEL (16) //モデルの数
 
 //オブジェクト3Dクラス
-class C3dblock : public CModel
+class C3ditem : public CModel
 {
 public:
 
@@ -45,18 +45,18 @@ public:
 
 	}ModelPartsEnemy;
 
-	C3dblock(int nPriority = 3);
-	~C3dblock() override;
+	C3ditem(int nPriority = 3);
+	~C3ditem() override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dblock* Create(D3DXVECTOR3 pos, int nType);
+	static C3ditem* Create(D3DXVECTOR3 pos, int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
-	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	bool Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
 private:
 	D3DXMATRIX m_mtxworld;

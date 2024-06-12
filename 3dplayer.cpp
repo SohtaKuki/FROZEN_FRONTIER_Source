@@ -9,6 +9,7 @@
 #include "player.h"
 #include "block.h"
 #include "startobj.h"
+#include "3ditem.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 
@@ -104,6 +105,18 @@ void C3dplayer::Update()
                     C3dblock* p3dblock = (C3dblock*)pObj;
 
                     bool bIsCollision = p3dblock->Collision3DBlock(&Pos,&m_nOld3DPlayerPos,&m_n3DPlayerMove,50.0f,50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        m_n3DPlayerMove.y = 0.0f;
+                    }
+                }
+
+                if (type == CObject::TYPE::ITEM)
+                {
+                    C3ditem* p3ditem = (C3ditem*)pObj;
+
+                    bool bIsCollision = p3ditem->Collision3DItem(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {

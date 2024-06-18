@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3dblock.cpp" />
+    <ClCompile Include="3denemy.cpp" />
     <ClCompile Include="3ditem.cpp" />
     <ClCompile Include="3dplayer.cpp" />
     <ClCompile Include="billboard.cpp" />
@@ -167,11 +168,14 @@
     <ClCompile Include="object3D.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="startobj.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dblock.h" />
+    <ClInclude Include="3denemy.h" />
     <ClInclude Include="3ditem.h" />
     <ClInclude Include="3dplayer.h" />
     <ClInclude Include="billboard.h" />
@@ -193,8 +197,10 @@
     <ClInclude Include="object3D.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="startobj.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

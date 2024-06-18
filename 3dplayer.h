@@ -50,7 +50,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	void SetPlayerPos();
+	//void SetPlayerPos();
 	static C3dplayer* Create(D3DXVECTOR3 pos);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
@@ -75,6 +75,8 @@ private:
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
+	bool m_bPlayerBuff;
+	int m_nBuffTime;
 protected:
 	D3DXVECTOR3 m_n3DPlayerMove;
 	D3DXVECTOR3 m_rot;

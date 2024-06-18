@@ -42,6 +42,7 @@ public:
 		PLAYER,
 		BLOCK,
 		ITEM,
+		TIMER,
 		MAX_TYPE,
 	}TYPE;
 

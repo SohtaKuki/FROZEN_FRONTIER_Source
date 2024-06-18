@@ -88,12 +88,6 @@ void CObject3D::Uninit()
 		m_pVtxBuff = nullptr;
 	}
 
-	if (m_pTexBuff != nullptr)
-	{
-		m_pTexBuff->Release();
-		m_pTexBuff = nullptr;
-	}
-
 	CObject::Release();
 
 }

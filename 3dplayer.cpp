@@ -18,7 +18,8 @@ LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 //======================
 C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
 {
-
+    m_bPlayerBuff = false;
+    m_nBuffTime = 0;
 }
 
 //======================
@@ -58,30 +59,71 @@ void C3dplayer::Update()
 {
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-    SetPlayerPos();
+    //SetPlayerPos();
 
     if (CManager::GetKeyboard()->GetPress(DIK_D))
     {
-        m_n3DPlayerMove.x += 1.0f;
-        m_rot.y = D3DX_PI * -0.5f;
+        if (m_bPlayerBuff == false)
+        {
+            m_n3DPlayerMove.x += 1.0f;
+            m_rot.y = D3DX_PI * -0.5f;
+        }
+
+        if (m_bPlayerBuff == true)
+        {
+            m_n3DPlayerMove.x += 1.0f * 2.0;
+            m_rot.y = D3DX_PI * -0.5f;
+        }
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_A))
     {
-        m_n3DPlayerMove.x -= 1.0f;
-        m_rot.y = D3DX_PI * 0.5f;
+        if (m_bPlayerBuff == false)
+        {
+            m_n3DPlayerMove.x -= 1.0f;
+            m_rot.y = D3DX_PI * 0.5f;
+        }
+
+        if (m_bPlayerBuff == true)
+        {
+            m_n3DPlayerMove.x -= 1.0f * 2.0;
+            m_rot.y = D3DX_PI * 0.5f;
+        }
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_W))
     {
-        m_n3DPlayerMove.z += 1.0f;
-        m_rot.y = D3DX_PI * 1.0f;
+        if (m_bPlayerBuff == false)
+        {
+            m_n3DPlayerMove.z += 1.0f;
+            m_rot.y = D3DX_PI * 1.0f;
+        }
+
+        if (m_bPlayerBuff == true)
+        {
+            m_n3DPlayerMove.z += 1.0f * 2.0;
+            m_rot.y = D3DX_PI * 1.0f;
+        }
     }
 
     if (CManager::GetKeyboard()->GetPress(DIK_S))
     {
-        m_n3DPlayerMove.z -= 1.0f;
-        m_rot.y = D3DX_PI * -0.0f;
+        if (m_bPlayerBuff == false)
+        {
+            m_n3DPlayerMove.z -= 1.0f;
+            m_rot.y = D3DX_PI * -0.0f;
+        }
+
+        if (m_bPlayerBuff == true)
+        {
+            m_n3DPlayerMove.z -= 1.0f * 2.0;
+            m_rot.y = D3DX_PI * -0.0f;
+        }
+    }
+
+    if (CManager::GetKeyboard()->GetTrigger(DIK_P))
+    {
+
     }
 
     //過去座標を保存
@@ -89,6 +131,47 @@ void C3dplayer::Update()
 
     Pos.x += m_n3DPlayerMove.x;
     Pos.z += m_n3DPlayerMove.z;
+
+    //バフアイテムの当たり判定
+    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+    {
+        CObject* pObj = CObject::GetObj(3, nCntObj);
+
+        if (pObj != nullptr)
+        {
+            CObject::TYPE type = pObj->GetType();
+
+            C3ditem * p3dItem = (C3ditem*)pObj;
+
+            D3DXVECTOR3 EnemyPos = p3dItem->GetPos();
+
+            if (type == CObject::TYPE::ITEM)
+            {
+                if (CObject3D::GetPos().x >= EnemyPos.x - 50
+                    && CObject3D::GetPos().x <= EnemyPos.x + 50
+                    && CObject3D::GetPos().z >= EnemyPos.z - 50
+                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                {
+                    m_bPlayerBuff = true;
+                    p3dItem->Uninit();
+                    return;
+                }
+            }
+        }
+    }
+
+    //プレイヤー強化がtrueの場合
+    if (m_bPlayerBuff == true)
+    {
+        m_nBuffTime++;
+
+        //10秒たったらfalse
+        if (m_nBuffTime == 600)
+        {
+            m_bPlayerBuff = false;
+            m_nBuffTime = 0;
+        }
+    }
 
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
@@ -108,19 +191,7 @@ void C3dplayer::Update()
 
                     if (bIsCollision == true)
                     {
-                        m_n3DPlayerMove.y = 0.0f;
-                    }
-                }
-
-                if (type == CObject::TYPE::ITEM)
-                {
-                    C3ditem* p3ditem = (C3ditem*)pObj;
-
-                    bool bIsCollision = p3ditem->Collision3DItem(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
-                    {
-                        m_n3DPlayerMove.y = 0.0f;
+                        m_n3DPlayerMove.z = 0.0f;
                     }
                 }
             }
@@ -410,23 +481,23 @@ void C3dplayer::LoadPlayerData(void)
     }
 }
 
-void C3dplayer::SetPlayerPos()
-{
-
-    CObject* pObj = CObject::GetObj(3, 1);
-
-    if (pObj != nullptr)
-    {
-        CObject::TYPE type = pObj->GetType();
-
-        //ブロックだった場合
-        if (type == CObject::TYPE::START)
-        {
-            C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
-
-            D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
-
-            CObject3D::SetPos(StartObjPos);
-        }
-    }
-}
+//void C3dplayer::SetPlayerPos()
+//{
+//
+//    CObject* pObj = CObject::GetObj(3, 1);
+//
+//    if (pObj != nullptr)
+//    {
+//        CObject::TYPE type = pObj->GetType();
+//
+//        //ブロックだった場合
+//        if (type == CObject::TYPE::START)
+//        {
+//            C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
+//
+//            D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
+//
+//            CObject3D::SetPos(StartObjPos);
+//        }
+//    }
+//}

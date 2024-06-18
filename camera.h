@@ -20,6 +20,7 @@ public:
 	void Uninit();
 	void Update();
 	void SetCamera();
+	void SetShake(int shakeframe,float shake);
 private:
 	D3DXVECTOR3 m_posV;	//視点
 	D3DXVECTOR3 m_posR;	//注視点
@@ -27,7 +28,10 @@ private:
 	D3DXVECTOR3 m_rot;	//回転
 	D3DXMATRIX m_mtxProjection;	//プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;		//ビューマトリックス
+	int m_nShakeframe;
+	float m_fShake;
 	float m_fDistance;
+	
 };
 
 #endif

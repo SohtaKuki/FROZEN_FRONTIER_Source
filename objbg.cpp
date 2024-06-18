@@ -77,8 +77,11 @@ void CObjectBG::Uninit()
 //======================
 void CObjectBG::Update()
 {
-
-
+	if (CManager::GetKeyboard()->GetPress(DIK_RETURN))
+	{
+		Uninit();
+		CManager::SetMode(CScene::MODE::MODE_GAME);
+	}
 }
 
 //======================

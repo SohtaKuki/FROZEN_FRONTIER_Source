@@ -118,9 +118,21 @@ void CCamera::Update()
 		m_posR.z += 6.0f;
 	}
 
+	if (CManager::GetKeyboard()->GetPress(DIK_P))
+	{
+		SetShake(60,10.0f);
+	}
+
 	m_posV.x = m_posR.x - sinf(m_rot.y) * 600;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * 600;
 }
+
+void CCamera::SetShake(int shakeframe, float shake)
+{
+	m_nShakeframe = shakeframe;
+	m_fShake = shake;
+}
+
 
 //======================
 // カメラの設定処理
@@ -144,10 +156,25 @@ void CCamera::SetCamera()
 	//ビューマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxView);
 
+	D3DXVECTOR3 adjust = D3DXVECTOR3(0, 0, 0);
+
+	D3DXVECTOR3 PosV = D3DXVECTOR3(0, 0, 0);
+	D3DXVECTOR3 PosR = D3DXVECTOR3(0, 0, 0);
+
+	if (m_nShakeframe > 0)
+	{
+		m_nShakeframe--;
+		adjust = D3DXVECTOR3(rand() & (int)m_fShake,rand() & (int)m_fShake, rand() & (int)m_fShake);
+	}
+
+	PosV = m_posV + adjust;
+	PosR = m_posR + adjust;
+
 	//ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&m_mtxView, &m_posV, &m_posR, &m_vecU);
+	D3DXMatrixLookAtLH(&m_mtxView, &PosV, &PosR, &m_vecU);
 
 	//ビューマトリックスの設定
 	pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
 }
+
 

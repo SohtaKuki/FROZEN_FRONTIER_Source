@@ -17,18 +17,14 @@
 #include "item.h"
 #include "camera.h"
 #include "light.h"
-#include "floor.h"
-#include "objectX.h"
-#include "3dplayer.h"
-#include "billboard.h"
-#include "3dblock.h"
-#include "startobj.h"
-#include "3ditem.h"
+
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
 CCamera* CManager::m_pCamera = nullptr;
 CLight* CManager::m_pLight = nullptr;
+CScene* CManager::m_pScene = nullptr;
+
 
 //======================
 // コンストラクタ
@@ -67,21 +63,14 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pLight->Init();
 
-	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
-	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
-	C3dstartobj::Create();
-
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f),0);
-	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f),0);
-	CBillboard::Create(D3DXVECTOR3(37.0f, 55.0f, -10.0f),D3DXVECTOR3(10.0f, 10.0f, 0.0f));
-	CBillboard::Create(D3DXVECTOR3(67.0f, 55.0f, -30.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
+	SetMode(CScene::MODE::MODE_TITLE);
 
 	//CBillboard::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 
 
 	//↓2Dポリゴン生成の残骸
 
-	//CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
 
 	//CBlock::Create(D3DXVECTOR3(340.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),(CBlock::BLOCKTYPE::NORMAL));
 	//CBlock::Create(D3DXVECTOR3(390.0f, 700.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f),( CBlock::BLOCKTYPE::NORMAL));
@@ -126,6 +115,8 @@ void CManager::Update()
 	m_pLight->Update();
 
 	m_pCamera->Update();
+
+	m_pScene->Update();
 }
 
 //======================
@@ -134,6 +125,23 @@ void CManager::Update()
 void CManager::Draw()
 {
 	m_pRenderer->Draw();
+
+	m_pScene->Draw();
+}
+
+//======================
+// モードを生成
+//======================
+void CManager::SetMode(CScene::MODE mode)
+{
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Uninit();
+		delete m_pScene;
+		m_pScene = nullptr;
+	}
+
+	m_pScene = CScene::Create(mode);
 }
 
 //======================
@@ -167,4 +175,6 @@ CLight* CManager::GetLight()
 {
 	return m_pLight;
 }
+
+
 

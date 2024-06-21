@@ -73,7 +73,8 @@ void C3dblock::Update()
 
                     if (m_bTurn == false)
                     {
-                        Pos.z += 1.0f;
+                        m_MoveBlock.z += 0.1f;
+
                         m_nTurnCnt += 5;
 
                         if (m_nTurnCnt == 600)
@@ -85,7 +86,7 @@ void C3dblock::Update()
 
                     if (m_bTurn == true)
                     {
-                        Pos.z -= 1.0f;
+                        m_MoveBlock.z -= 0.1f;
                         m_nTurnCnt += 5;
 
                         if (m_nTurnCnt == 600)
@@ -94,7 +95,17 @@ void C3dblock::Update()
                             m_nTurnCnt = 0;
                         }
                     }
+
+                    Pos.x += m_MoveBlock.x;
+                    Pos.z += m_MoveBlock.z;
+
                     SetPos(Pos);
+
+                    //X座標の移動量を更新
+                    m_MoveBlock.x += (0.0f - m_MoveBlock.x) * 0.1f;
+
+                    //Z座標の移動量を更新
+                    m_MoveBlock.z += (0.0f - m_MoveBlock.z) * 0.1f;
 
                 }
 
@@ -420,7 +431,6 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 //ブロックだった場合
                 if (type == CObject::TYPE::BLOCK)
                 {
-
                         C3dblock* pD3DBlock = (C3dblock*)pObj;
 
                         D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();

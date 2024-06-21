@@ -58,6 +58,7 @@ public:
 	static void Unload();
 	void LoadBlockData();
 	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	D3DXVECTOR3 GetMoveBlock() { return m_MoveBlock; }
 	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
 private:
 	D3DXMATRIX m_mtxworld;
@@ -65,6 +66,7 @@ private:
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nSize;
+	D3DXVECTOR3 m_MoveBlock;
 	D3DXMATRIX m_mtxWorld;
 	int m_nType;
 	LPD3DXMESH m_pMesh[NUM_MODEL];

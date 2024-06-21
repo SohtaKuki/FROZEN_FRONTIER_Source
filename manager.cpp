@@ -24,6 +24,7 @@ CInputKeyboard* CManager::m_pKeyboard = nullptr;
 CCamera* CManager::m_pCamera = nullptr;
 CLight* CManager::m_pLight = nullptr;
 CScene* CManager::m_pScene = nullptr;
+CFade* CManager::m_pFade = nullptr;
 
 
 //======================
@@ -63,7 +64,13 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pLight->Init();
 
+	m_pFade = new CFade();
+	
+	m_pFade->Init();
+
 	SetMode(CScene::MODE::MODE_TITLE);
+
+	//m_pFade->SetFade(CScene::MODE::MODE_TITLE);
 
 	//CBillboard::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 
@@ -117,6 +124,8 @@ void CManager::Update()
 	m_pCamera->Update();
 
 	m_pScene->Update();
+
+	m_pFade->Update();
 }
 
 //======================

@@ -43,6 +43,7 @@ public:
 		BLOCK,
 		ITEM,
 		TIMER,
+		FADE,
 		MAX_TYPE,
 	}TYPE;
 

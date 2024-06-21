@@ -27,12 +27,15 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	int GetTimer() { return m_nTime; }
 	static CTimer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
 	int m_nTime;
 	int m_nTimerCnt;
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
+	LPDIRECT3DTEXTURE9 m_pTexBuff;
 	D3DXVECTOR3 m_nPos;
 };
 

@@ -18,7 +18,7 @@
 //============================
 CTimer::CTimer(int nPriority) : CObject2D(nPriority)
 {
-	m_nTime = 10;
+	m_nTime = 40;
 	m_nTimerCnt = 0;
 }
 
@@ -35,17 +35,24 @@ CTimer::~CTimer()
 //============================
 HRESULT CTimer::Init()
 {
-	//for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
-	//{
-		//初期化
-		CObject2D::Init();
-	//}
+	CRenderer* Renderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
-	LPDIRECT3DDEVICE9 pDevice;
+	if (FAILED(pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4 * MAX_OBJECT,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&m_pVtxBuff,
+		nullptr)))
+	{
+		return E_FAIL;
+	}
+
+
 	VERTEX_2D* pVtx;
 
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
 	{
@@ -77,7 +84,7 @@ HRESULT CTimer::Init()
 	}
 
 	//頂点バッファをアンロックする
-	CObject2D::GetBuff()->Unlock();
+	m_pVtxBuff->Unlock();
 
 	return S_OK;
 }
@@ -87,8 +94,19 @@ HRESULT CTimer::Init()
 //============================
 void CTimer::Uninit()
 {
-	//初期化
-	CObject2D::Uninit();
+	if (m_pVtxBuff != nullptr)
+	{
+		m_pVtxBuff->Release();
+		m_pVtxBuff = nullptr;
+	}
+
+	if (m_pTexBuff != nullptr)
+	{
+		m_pTexBuff->Release();
+		m_pTexBuff = nullptr;
+	}
+
+	CObject::Release();
 }
 
 //============================
@@ -119,10 +137,8 @@ void CTimer::Update()
 		CopyTime /= 10;
 	}
 
-
-
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//テクスチャ座標の更新
 	for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
@@ -155,10 +171,11 @@ void CTimer::Update()
 			pVtx[2].col = D3DCOLOR_RGBA(255, 0, 0, 255);
 			pVtx[3].col = D3DCOLOR_RGBA(255, 0, 0, 255);
 		}
+		pVtx += 4;
 	}
 
 	//頂点バッファをアンロックする
-	CObject2D::GetBuff()->Unlock();
+	m_pVtxBuff->Unlock();
 
 	if (m_nTime < 0)
 	{
@@ -173,9 +190,20 @@ void CTimer::Update()
 //アイテムの描画処理
 //============================
 void CTimer::Draw()
+{
+	CRenderer* Renderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
-{	//テクスチャ座標の更新
-	CObject2D::Draw();
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+
+	pDevice->SetFVF(FVF_VERTEX_2D);
+
+	pDevice->SetTexture(0, m_pTexBuff);
+
+	for (int nCntTime = 0; nCntTime < 3; nCntTime++)
+	{
+		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntTime * 4, 2);
+	}
 }
 
 //============================
@@ -188,7 +216,7 @@ CTimer* CTimer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	pTimer = new CTimer;
 
 	pTimer->SetType(TYPE::TIMER);
-	pTimer->CObject2D::SetPos(pos);
+	pTimer->m_nPos = pos;
 	pTimer->m_rot = rot;
 
 	//アイテムの初期化
@@ -199,8 +227,15 @@ CTimer* CTimer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	//テクスチャの読み込む
 	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER.png", &pTexture);
 
-	//テクスチャの設定
 	pTimer->BindTexture(pTexture);
 
 	return pTimer;
+}
+
+//=======================
+//テクスチャの設定
+//=======================
+void CTimer::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+{
+	m_pTexBuff = pTex;
 }

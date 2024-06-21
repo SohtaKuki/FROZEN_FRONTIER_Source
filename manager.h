@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "light.h"
 #include "scene.h"
+#include "fade.h"
 
 //マネージャクラス
 class CManager
@@ -28,6 +29,7 @@ public:
 	static CInputKeyboard* GetKeyboard();
 	static CCamera* GetCamera();
 	static CLight* GetLight();
+	static CFade* GetFade();
 	static void SetMode(CScene::MODE mode);
 private:
 	static CRenderer* m_pRenderer;
@@ -35,6 +37,7 @@ private:
 	static CCamera* m_pCamera;
 	static CLight* m_pLight;
 	static CScene* m_pScene;
+	static CFade* m_pFade;
 };
 
 #endif

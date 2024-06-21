@@ -191,9 +191,19 @@ void C3dplayer::Update()
 
                     if (bIsCollision == true)
                     {
-                        m_n3DPlayerMove.z = 0.0f;
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f)
+                        {
+                            Pos.z += p3dblock->GetMoveBlock().z;
+                        }
+
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dblock->GetMoveBlock().z >= 0.1f)
+                        {
+                            Pos.z += (p3dblock->GetMoveBlock().z * 2);
+                        }
                     }
+
                 }
+
             }
         }
     }

@@ -97,7 +97,7 @@ CScene* CScene::Create(MODE mode)
 //======================
 CGame::CGame()
 {
-	CTimer::Create(D3DXVECTOR3(0.0f, 70.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 00.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
 	C3dstartobj::Create();

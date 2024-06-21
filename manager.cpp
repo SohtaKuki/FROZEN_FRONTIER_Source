@@ -18,7 +18,6 @@
 #include "camera.h"
 #include "light.h"
 
-
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
 CCamera* CManager::m_pCamera = nullptr;
@@ -64,11 +63,15 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pLight->Init();
 
+	m_pScene = new CScene();
+
+	m_pScene->Init();
+
 	m_pFade = new CFade();
 	
 	m_pFade->Init();
-
-	SetMode(CScene::MODE::MODE_TITLE);
+	
+	//SetMode(CScene::MODE::MODE_TITLE);
 
 	//m_pFade->SetFade(CScene::MODE::MODE_TITLE);
 
@@ -135,7 +138,7 @@ void CManager::Draw()
 {
 	m_pRenderer->Draw();
 
-	m_pScene->Draw();
+	m_pFade->Draw();
 }
 
 //======================
@@ -152,6 +155,7 @@ void CManager::SetMode(CScene::MODE mode)
 
 	m_pScene = CScene::Create(mode);
 }
+
 
 //======================
 // レンダラークラスポインタ取得処理
@@ -183,6 +187,14 @@ CCamera* CManager::GetCamera()
 CLight* CManager::GetLight()
 {
 	return m_pLight;
+}
+
+//======================
+// ライトクラスポインタ取得処理
+//======================
+CFade* CManager::GetFade()
+{
+	return m_pFade;
 }
 
 

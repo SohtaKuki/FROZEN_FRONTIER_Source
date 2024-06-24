@@ -87,9 +87,16 @@ CScene* CScene::Create(MODE mode)
 
 	}
 
-	Scene->m_mode = mode;
-	Scene->Init();
-	return Scene;
+	if (Scene != nullptr)
+	{
+		//‰Šú‰»
+		Scene->Init();
+
+		return Scene;
+	}
+
+
+	return nullptr;
 }
 
 //======================

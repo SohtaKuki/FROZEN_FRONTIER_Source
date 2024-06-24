@@ -181,7 +181,14 @@ void CTimer::Update()
 	{
 		m_nTime = 0;
 		Uninit();
-		CManager::SetMode(CScene::MODE_TITLE);
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+	}
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+		m_nTime = 0;
+		Uninit();
 	}
 
 }

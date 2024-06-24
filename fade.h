@@ -14,7 +14,7 @@
 class CFade
 {
 public:
-	static const int FADE_TIME = 60;
+	static const int FADE_TIME = 90;
 
 	//フェード処理の列挙型
 	typedef enum
@@ -31,12 +31,12 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	void SetAlpha(float falpha);
+	void SetAlpha(int nAlpha);
 	static void SetFade(CScene::MODE mode);
 
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	float m_fAlpha;						
+	int m_nAlpha;						
 	static FADE m_FadeState;			
 	static bool m_bEndFade;				
 	static CScene::MODE m_Mode;			

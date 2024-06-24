@@ -1,7 +1,45 @@
-﻿  camera.cpp
+﻿  3dblock.cpp
+  3denemy.cpp
+  3ditem.cpp
+  3dplayer.cpp
+  billboard.cpp
+  block.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\block.cpp(59,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
+  bullet.cpp
+  camera.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(167,78): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(167,54): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(167,31): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+  enemy.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\enemy.cpp(59,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
+  explosion.cpp
+  fade.cpp
+  floor.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\floor.h(15,1): warning C4005: 'FIELD_SIZE': マクロが再定義されました。
+C:\Users\student\Desktop\ProjectC++_phase2\object3D.h(14): message : 'FIELD_SIZE' の以前の定義を確認してください
+  input.cpp
+  item.cpp
+  light.cpp
+  main.cpp
+  manager.cpp
+  objectX.cpp
+  objbg.cpp
+  object.cpp
+  コンパイル中...
+  object2D.cpp
+  object3D.cpp
+  player.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\player.cpp(57,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
+  renderer.cpp
+  scene.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\floor.h(15,1): warning C4005: 'FIELD_SIZE': マクロが再定義されました。
+C:\Users\student\Desktop\ProjectC++_phase2\object3D.h(14): message : 'FIELD_SIZE' の以前の定義を確認してください
+  startobj.cpp
+  timer.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\timer.cpp(159,20): warning C4804: '<': 演算中の 'bool' 型の使用方法が安全ではありません
   コード生成しています。
-  2 of 196 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  182 of 270 functions (67.4%) were compiled, the rest were copied from previous compilation.
+    74 functions were new in current compilation
+    25 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2\Release\ProjectC++_phase2.exe

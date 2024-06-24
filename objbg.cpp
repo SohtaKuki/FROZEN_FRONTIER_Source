@@ -6,6 +6,7 @@
 //=================================================
 
 #include "objbg.h"
+#include "manager.h"
 
 //======================
 // コンストラクタ
@@ -79,8 +80,9 @@ void CObjectBG::Update()
 {
 	if (CManager::GetKeyboard()->GetPress(DIK_RETURN))
 	{
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 		Uninit();
-		CManager::SetMode(CScene::MODE::MODE_GAME);
+
 	}
 }
 

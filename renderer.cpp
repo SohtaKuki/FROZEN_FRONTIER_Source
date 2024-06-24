@@ -102,6 +102,8 @@ void CRenderer::Uninit()
 void CRenderer::Update()
 {
 	CObject::UpdateAll();
+
+	CManager::GetFade()->Update();
 }
 
 //======================
@@ -121,6 +123,8 @@ void CRenderer::Draw()
 
 		// ‘S‚Ä•`‰æ
 		CObject::DrawAll();
+
+		CManager::GetFade()->Draw();
 
 		m_pD3DDevice->EndScene();
 	}

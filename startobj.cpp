@@ -216,7 +216,7 @@ void C3dstartobj::LoadStartObjData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL_Crystal\\motion_crs3.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\FLAG\\motion.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)

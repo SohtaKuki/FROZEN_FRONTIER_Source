@@ -20,6 +20,7 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
 {
     m_bPlayerBuff = false;
     m_nBuffTime = 0;
+    m_nLife = 4;
 }
 
 //======================
@@ -61,69 +62,74 @@ void C3dplayer::Update()
 
     //SetPlayerPos();
 
-    if (CManager::GetKeyboard()->GetPress(DIK_D))
+    //プレイヤーのHPが0以上の場合のみ通す
+    if (m_nLife > 0)
     {
-        if (m_bPlayerBuff == false)
+        if (CManager::GetKeyboard()->GetPress(DIK_D))
         {
-            m_n3DPlayerMove.x += 1.0f;
-            m_rot.y = D3DX_PI * -0.5f;
+            if (m_bPlayerBuff == false)
+            {
+                m_n3DPlayerMove.x += 1.0f;
+                m_rot.y = D3DX_PI * -0.5f;
+            }
+
+            if (m_bPlayerBuff == true)
+            {
+                m_n3DPlayerMove.x += 1.0f * 2.0;
+                m_rot.y = D3DX_PI * -0.5f;
+            }
         }
 
-        if (m_bPlayerBuff == true)
+        if (CManager::GetKeyboard()->GetPress(DIK_A))
         {
-            m_n3DPlayerMove.x += 1.0f * 2.0;
-            m_rot.y = D3DX_PI * -0.5f;
+            if (m_bPlayerBuff == false)
+            {
+                m_n3DPlayerMove.x -= 1.0f;
+                m_rot.y = D3DX_PI * 0.5f;
+            }
+
+            if (m_bPlayerBuff == true)
+            {
+                m_n3DPlayerMove.x -= 1.0f * 2.0;
+                m_rot.y = D3DX_PI * 0.5f;
+            }
+        }
+
+        if (CManager::GetKeyboard()->GetPress(DIK_W))
+        {
+            if (m_bPlayerBuff == false)
+            {
+                m_n3DPlayerMove.z += 1.0f;
+                m_rot.y = D3DX_PI * 1.0f;
+            }
+
+            if (m_bPlayerBuff == true)
+            {
+                m_n3DPlayerMove.z += 1.0f * 2.0;
+                m_rot.y = D3DX_PI * 1.0f;
+            }
+        }
+
+        if (CManager::GetKeyboard()->GetPress(DIK_S))
+        {
+            if (m_bPlayerBuff == false)
+            {
+                m_n3DPlayerMove.z -= 1.0f;
+                m_rot.y = D3DX_PI * -0.0f;
+            }
+
+            if (m_bPlayerBuff == true)
+            {
+                m_n3DPlayerMove.z -= 1.0f * 2.0;
+                m_rot.y = D3DX_PI * -0.0f;
+            }
         }
     }
 
-    if (CManager::GetKeyboard()->GetPress(DIK_A))
+    //プレイヤーのHPを減らす
+    if (CManager::GetKeyboard()->GetTrigger(DIK_K))
     {
-        if (m_bPlayerBuff == false)
-        {
-            m_n3DPlayerMove.x -= 1.0f;
-            m_rot.y = D3DX_PI * 0.5f;
-        }
-
-        if (m_bPlayerBuff == true)
-        {
-            m_n3DPlayerMove.x -= 1.0f * 2.0;
-            m_rot.y = D3DX_PI * 0.5f;
-        }
-    }
-
-    if (CManager::GetKeyboard()->GetPress(DIK_W))
-    {
-        if (m_bPlayerBuff == false)
-        {
-            m_n3DPlayerMove.z += 1.0f;
-            m_rot.y = D3DX_PI * 1.0f;
-        }
-
-        if (m_bPlayerBuff == true)
-        {
-            m_n3DPlayerMove.z += 1.0f * 2.0;
-            m_rot.y = D3DX_PI * 1.0f;
-        }
-    }
-
-    if (CManager::GetKeyboard()->GetPress(DIK_S))
-    {
-        if (m_bPlayerBuff == false)
-        {
-            m_n3DPlayerMove.z -= 1.0f;
-            m_rot.y = D3DX_PI * -0.0f;
-        }
-
-        if (m_bPlayerBuff == true)
-        {
-            m_n3DPlayerMove.z -= 1.0f * 2.0;
-            m_rot.y = D3DX_PI * -0.0f;
-        }
-    }
-
-    if (CManager::GetKeyboard()->GetTrigger(DIK_P))
-    {
-
+        m_nLife -= 1;
     }
 
     //過去座標を保存
@@ -306,8 +312,12 @@ void C3dplayer::Draw()
                     pDevice->SetTexture(0, NULL);
                 }
 
-                //モデル(パーツ)の描画
-                m_pMesh[nCntParts]->DrawSubset(nCntMat);
+                if (m_nLife > 0)
+                {
+                    //モデル(パーツ)の描画
+                    m_pMesh[nCntParts]->DrawSubset(nCntMat);
+                }
+
             }
         }
 

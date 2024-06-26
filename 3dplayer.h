@@ -77,6 +77,7 @@ private:
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff;
 	int m_nBuffTime;
+	int m_nLife;
 protected:
 	D3DXVECTOR3 m_n3DPlayerMove;
 	D3DXVECTOR3 m_rot;

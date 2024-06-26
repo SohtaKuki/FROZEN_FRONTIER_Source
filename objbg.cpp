@@ -80,8 +80,8 @@ void CObjectBG::Update()
 {
 	if (CManager::GetKeyboard()->GetPress(DIK_RETURN))
 	{
-		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 		Uninit();
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 
 	}
 }

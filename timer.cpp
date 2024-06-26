@@ -179,9 +179,9 @@ void CTimer::Update()
 
 	if (m_nTime < 0)
 	{
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
 		m_nTime = 0;
 		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
 	}
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))

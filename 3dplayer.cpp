@@ -12,6 +12,7 @@
 #include "3ditem.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
+int C3dplayer::m_nLife = 0;
 
 //======================
 // コンストラクタ

@@ -58,6 +58,7 @@ public:
 	void LoadPlayerData();
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
+	static int GetPlayerLife() {return m_nLife ; }
 	D3DXVECTOR3& GetPlayerPos() { return m_nOld3DPlayerPos; }//座標の取得
 private:
 	D3DXMATRIX m_mtxworld;
@@ -77,7 +78,7 @@ private:
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff;
 	int m_nBuffTime;
-	int m_nLife;
+	static int m_nLife;
 protected:
 	D3DXVECTOR3 m_n3DPlayerMove;
 	D3DXVECTOR3 m_rot;

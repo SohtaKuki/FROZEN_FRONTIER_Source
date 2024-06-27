@@ -9,9 +9,9 @@
 #include "manager.h"
 #include "object.h"
 
-CScene::MODE CFade::m_Mode = CScene::MODE_TITLE;
-bool CFade::m_bEndFade = false;					
+CScene::MODE CFade::m_Mode = CScene::MODE_TITLE;			
 CFade::FADE CFade::m_FadeState = CFade::FADE_NONE;
+bool CFade::m_bEndFade = false;
 
 //============================
 // コンストラクタ
@@ -21,7 +21,7 @@ CFade::CFade()
     m_pVtxBuff = nullptr;			
     m_Mode = CScene::MODE_TITLE;	
     m_bEndFade = true;				
-    m_FadeState = CFade::FADE_NONE;	
+    m_FadeState == CFade::FADE_NONE;	
 }
 
 //============================

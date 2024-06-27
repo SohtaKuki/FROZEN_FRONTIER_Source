@@ -15,6 +15,7 @@
 #include "startobj.h"
 #include "3ditem.h"
 #include "timer.h"
+#include "playerhpbar.h"
 
 //======================
 //コンストラクタ
@@ -87,9 +88,9 @@ CScene* CScene::Create(MODE mode)
 
 	}
 
+	//シーンの初期化
 	if (Scene != nullptr)
 	{
-		//初期化
 		Scene->Init();
 
 		return Scene;
@@ -104,7 +105,8 @@ CScene* CScene::Create(MODE mode)
 //======================
 CGame::CGame()
 {
-	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 00.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, 10.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
 	C3dstartobj::Create();

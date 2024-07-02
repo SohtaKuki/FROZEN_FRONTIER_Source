@@ -359,7 +359,6 @@ bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
                     //‰E‘¤“–‚½‚è”»’è
                     if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
                     {
-
                             bLanding = true;
                             CObject3D::Uninit();
 

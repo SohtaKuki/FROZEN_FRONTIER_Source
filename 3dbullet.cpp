@@ -6,6 +6,7 @@
 //=================================================
 
 #include "3dbullet.h"
+#include "3dblock.h"
 
 //======================
 // コンストラクタ
@@ -88,7 +89,6 @@ void C3dbullet::Uninit()
 //======================
 void C3dbullet::Update()
 {
-
 	//頂点情報のポインタ
 	VERTEX_3D* pVtx;
 
@@ -107,10 +107,10 @@ void C3dbullet::Update()
 	}
 
 	//頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3((- m_nSize.x), (+ m_nSize.y), (+ m_nSize.z));
-	pVtx[1].pos = D3DXVECTOR3((+ m_nSize.x), (+ m_nSize.y), (+ m_nSize.z));
-	pVtx[2].pos = D3DXVECTOR3((- m_nSize.x), (- m_nSize.y), (+ m_nSize.z));
-	pVtx[3].pos = D3DXVECTOR3((+ m_nSize.x), (- m_nSize.y), (+ m_nSize.z));
+	pVtx[0].pos = D3DXVECTOR3((-m_nSize.x), (m_nSize.y), (m_nSize.z));
+	pVtx[1].pos = D3DXVECTOR3((m_nSize.x), (m_nSize.y), (m_nSize.z));
+	pVtx[2].pos = D3DXVECTOR3((-m_nSize.x), (-m_nSize.y), (m_nSize.z));
+	pVtx[3].pos = D3DXVECTOR3((m_nSize.x), (-m_nSize.y), (m_nSize.z));
 
 	//法線ベクトルの設定
 	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -134,6 +134,34 @@ void C3dbullet::Update()
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
+
+	//バフアイテムの当たり判定
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			C3dblock* p3dblock = (C3dblock*)pObj;
+
+			D3DXVECTOR3 BlockPos = p3dblock->GetPos();
+
+			//アイテムの場合
+			if (type == CObject::TYPE::BROKENBLOCK)
+			{
+				if (m_nPos.x >= BlockPos.x - 50
+					&& m_nPos.x <= BlockPos.x + 50
+					&& m_nPos.z >= BlockPos.z - 50
+					&& m_nPos.z <= BlockPos.z + 50)
+				{
+					p3dblock->Uninit();
+					return;
+				}
+			}
+		}
+	}
 }
 
 //======================

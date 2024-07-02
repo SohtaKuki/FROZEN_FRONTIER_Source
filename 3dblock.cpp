@@ -420,7 +420,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 CObject::TYPE type = pObj->GetType();
 
                 //ƒuƒƒbƒN‚¾‚Á‚½ê‡
-                if (type == CObject::TYPE::BLOCK)
+                if (type == CObject::TYPE::BLOCK || type == CObject::TYPE::BROKENBLOCK)
                 {
                         C3dblock* pD3DBlock = (C3dblock*)pObj;
 
@@ -444,7 +444,6 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                         //ã‘¤“–‚½‚è”»’è
                         if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
                         {
-                            
                             pPos->z = (BlockPos.z) + fBlockDepth + fHeight;
                             bLanding = true;
                         }
@@ -452,10 +451,8 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                         //‰º‘¤“–‚½‚è”»’è
                         else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
                         {
-
                              pPos->z = BlockPos.z - fBlockDepth;
                              bLanding = true;
-
                         }
                 }
             }

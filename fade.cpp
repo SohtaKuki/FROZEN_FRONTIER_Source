@@ -14,7 +14,7 @@ CFade::FADE CFade::m_FadeState = CFade::FADE_NONE;
 bool CFade::m_bEndFade = false;
 
 //============================
-// コンストラクタ
+//コンストラクタ
 //============================
 CFade::CFade()
 {
@@ -25,7 +25,7 @@ CFade::CFade()
 }
 
 //============================
-// デストラクタ
+//デストラクタ
 //============================
 CFade::~CFade()
 {
@@ -33,7 +33,7 @@ CFade::~CFade()
 }
 
 //============================
-// 初期化処理
+//初期化処理
 //============================
 HRESULT CFade::Init()
 {
@@ -49,39 +49,35 @@ HRESULT CFade::Init()
 
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-    // 頂点座標の更新
+
     pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
     pVtx[1].pos = D3DXVECTOR3(SCREEN_WIDTH, 0.0f, 0.0f);
     pVtx[2].pos = D3DXVECTOR3(0.0f, SCREEN_HEIGHT, 0.0f);
     pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
 
-    // rhwの設定
     pVtx[0].rhw = 1.0f;
     pVtx[1].rhw = 1.0f;
     pVtx[2].rhw = 1.0f;
     pVtx[3].rhw = 1.0f;
 
-    // 頂点カラーの設定
     pVtx[0].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
     pVtx[1].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
     pVtx[2].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
     pVtx[3].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // 頂点バッファをアンロックする
     m_pVtxBuff->Unlock();
 
-    // 最初のシーンの設定
+    //初期画面
     SetFade(CScene::MODE::MODE_TITLE);
 
     return S_OK;
 }
 
 //============================
-// 終了処理
+//終了処理
 //============================
 void CFade::Uninit()
 {
-    // 使用していたら破棄
     if (m_pVtxBuff != nullptr)
     {
         m_pVtxBuff->Release();
@@ -90,7 +86,7 @@ void CFade::Uninit()
 }
 
 //============================
-// 更新処理
+//更新処理
 //============================
 void CFade::Update()
 {
@@ -105,13 +101,12 @@ void CFade::Update()
 
             if (m_nAlpha < 255)
             {
-                m_nAlpha += 5;
+                m_nAlpha += 15;
 
                 SetAlpha(m_nAlpha);
 
                 if (m_nAlpha >= 255)
                 {
-                    // 最大値に補正
                     m_nAlpha = 255;
 
                     CManager::SetMode(m_Mode);
@@ -126,7 +121,7 @@ void CFade::Update()
 
             if (m_nAlpha > 0)
             {
-                m_nAlpha -= 5;
+                m_nAlpha -= 15;
 
                 SetAlpha(m_nAlpha);
 
@@ -144,7 +139,7 @@ void CFade::Update()
 }
 
 //============================
-// アルファ値の設定
+//アルファ値の設定
 //============================
 void CFade::SetAlpha(int nAlpha)
 {
@@ -152,18 +147,17 @@ void CFade::SetAlpha(int nAlpha)
 
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+    //アルファ値を変動させる
     for (int nCount = 0; nCount < 4; nCount++)
     {
-        //頂点カラーの設定
         pVtx[nCount].col = D3DCOLOR_RGBA(0, 0, 0, nAlpha);
     }
 
-    // 頂点バッファをアンロックする
     m_pVtxBuff->Unlock();
 }
 
 //============================
-// 描画処理
+//描画処理
 //============================
 void CFade::Draw()
 {

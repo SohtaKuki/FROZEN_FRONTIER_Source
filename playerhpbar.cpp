@@ -90,13 +90,13 @@ void CPlayerHpBar::Update()
 	pVtx[0].pos.x = CObject2D::GetPos().x - 50 * 0.5f;
 	pVtx[0].pos.y = CObject2D::GetPos().y - 50 * 0.5f;
 
-	pVtx[1].pos.x = (m_nSize.x + CObject2D::GetPos().x) + 50 * 0.5f * (C3dplayer::GetPlayerLife() * 4);
+	pVtx[1].pos.x = (m_nSize.x + CObject2D::GetPos().x) + 50 * 0.5f * (C3dplayer::GetPlayerLife() * 2);
 	pVtx[1].pos.y = CObject2D::GetPos().y - 50 * 0.5f;
 
 	pVtx[2].pos.x = CObject2D::GetPos().x - 50 * 0.5f;
 	pVtx[2].pos.y = (m_nSize.y + CObject2D::GetPos().y) + 50 * 0.5f;
 
-	pVtx[3].pos.x = (m_nSize.x + CObject2D::GetPos().x) + 50 * 0.5f * (C3dplayer::GetPlayerLife() * 4);
+	pVtx[3].pos.x = (m_nSize.x + CObject2D::GetPos().x) + 50 * 0.5f * (C3dplayer::GetPlayerLife() * 2);
 	pVtx[3].pos.y = (m_nSize.y + CObject2D::GetPos().y) + 50 * 0.5f;
 
 

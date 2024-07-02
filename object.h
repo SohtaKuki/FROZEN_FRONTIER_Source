@@ -41,6 +41,7 @@ public:
 		START,
 		PLAYER,
 		BLOCK,
+		BROKENBLOCK,
 		ITEM,
 		TIMER,
 		FADE,

@@ -80,7 +80,7 @@ HRESULT CBillboard::Init()
 //======================
 void CBillboard::Uninit()
 {
-	CBillboard::Uninit();
+	CObject3D::Uninit();
 }
 
 //======================

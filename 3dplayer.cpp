@@ -10,6 +10,7 @@
 #include "block.h"
 #include "startobj.h"
 #include "3ditem.h"
+#include "3dbullet.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -21,7 +22,7 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
 {
     m_bPlayerBuff = false;
     m_nBuffTime = 0;
-    m_nLife = 4;
+    m_nLife = 12;
 }
 
 //======================
@@ -101,13 +102,13 @@ void C3dplayer::Update()
             if (m_bPlayerBuff == false)
             {
                 m_n3DPlayerMove.z += 1.0f;
-                m_rot.y = D3DX_PI * 1.0f;
+                m_rot.y = D3DX_PI;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z += 1.0f * 2.0;
-                m_rot.y = D3DX_PI * 1.0f;
+                m_n3DPlayerMove.z += 1.0f * 2.0f;
+                m_rot.y = D3DX_PI;
             }
         }
 
@@ -116,21 +117,34 @@ void C3dplayer::Update()
             if (m_bPlayerBuff == false)
             {
                 m_n3DPlayerMove.z -= 1.0f;
-                m_rot.y = D3DX_PI * -0.0f;
+                m_rot.y = -D3DX_PI * -0.0f;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z -= 1.0f * 2.0;
+                m_n3DPlayerMove.z -= 1.0f * 2.0f;
                 m_rot.y = D3DX_PI * -0.0f;
             }
         }
     }
 
+    //球発射
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+    {
+        C3dbullet::Create(Pos,D3DXVECTOR3(10.0f,10.0f,0.0f),m_rot);
+    }
+    
+
     //プレイヤーのHPを減らす
     if (CManager::GetKeyboard()->GetTrigger(DIK_K))
     {
         m_nLife -= 1;
+    }
+
+    if (m_nLife == 0)
+    {
+        Uninit();
+        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
     }
 
     //過去座標を保存
@@ -152,6 +166,7 @@ void C3dplayer::Update()
 
             D3DXVECTOR3 EnemyPos = p3dItem->GetPos();
 
+            //アイテムの場合
             if (type == CObject::TYPE::ITEM)
             {
                 if (CObject3D::GetPos().x >= EnemyPos.x - 50

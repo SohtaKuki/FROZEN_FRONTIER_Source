@@ -51,8 +51,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dblock* Create(D3DXVECTOR3 pos);
-	static C3dblock* Createitem(D3DXVECTOR3 pos);
+	static C3dblock* Create(D3DXVECTOR3 pos , int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();

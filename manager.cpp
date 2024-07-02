@@ -129,6 +129,7 @@ void CManager::Update()
 	m_pScene->Update();
 
 	m_pFade->Update();
+
 }
 
 //======================

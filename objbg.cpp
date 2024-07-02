@@ -78,12 +78,7 @@ void CObjectBG::Uninit()
 //======================
 void CObjectBG::Update()
 {
-	if (CManager::GetKeyboard()->GetPress(DIK_RETURN))
-	{
-		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 
-	}
 }
 
 //======================

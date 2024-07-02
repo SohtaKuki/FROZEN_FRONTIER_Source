@@ -16,6 +16,7 @@
 #include "3ditem.h"
 #include "timer.h"
 #include "playerhpbar.h"
+#include "result.h"
 
 //======================
 //コンストラクタ
@@ -106,16 +107,20 @@ CScene* CScene::Create(MODE mode)
 CGame::CGame()
 {
 	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, 10.0f, 0.0f));
+	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
 	C3dstartobj::Create();
 
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f));
+	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f),0);
+	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f), 1);
 
 	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
 
 	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 0);
+
+	C3ditem::Create(D3DXVECTOR3(-200.0f, 0.0f, 50.0f), 0);
+
 	CBillboard::Create(D3DXVECTOR3(37.0f, 55.0f, -10.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
 	CBillboard::Create(D3DXVECTOR3(67.0f, 55.0f, -30.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
 
@@ -168,7 +173,7 @@ void CGame::Draw()
 //======================
 CResult::CResult()
 {
-
+	CResultBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
 }
 
 //======================
@@ -200,7 +205,10 @@ void CResult::Uninit()
 //======================
 void CResult::Update()
 {
-
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+	}
 }
 
 //======================
@@ -240,7 +248,7 @@ HRESULT CTitle::Init()
 //======================
 void CTitle::Uninit()
 {
-
+	CScene::Uninit();
 }
 
 //======================
@@ -248,7 +256,10 @@ void CTitle::Uninit()
 //======================
 void CTitle::Update()
 {
-
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+	}
 
 }
 

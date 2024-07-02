@@ -71,30 +71,30 @@ void C3dblock::Update()
                 {
                     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-                    if (m_bTurn == false)
-                    {
-                        m_MoveBlock.z += 0.1f;
+                    //if (m_bTurn == false)
+                    //{
+                    //    m_MoveBlock.z += 0.1f;
 
-                        m_nTurnCnt += 5;
+                    //    m_nTurnCnt += 5;
 
-                        if (m_nTurnCnt == 600)
-                        {
-                            m_bTurn = true;
-                            m_nTurnCnt = 0;
-                        }
-                    }
+                    //    if (m_nTurnCnt == 600)
+                    //    {
+                    //        m_bTurn = true;
+                    //        m_nTurnCnt = 0;
+                    //    }
+                    //}
 
-                    if (m_bTurn == true)
-                    {
-                        m_MoveBlock.z -= 0.1f;
-                        m_nTurnCnt += 5;
+                    //if (m_bTurn == true)
+                    //{
+                    //    m_MoveBlock.z -= 0.1f;
+                    //    m_nTurnCnt += 5;
 
-                        if (m_nTurnCnt == 600)
-                        {
-                            m_bTurn = false;
-                            m_nTurnCnt = 0;
-                        }
-                    }
+                    //    if (m_nTurnCnt == 600)
+                    //    {
+                    //        m_bTurn = false;
+                    //        m_nTurnCnt = 0;
+                    //    }
+                    //}
 
                     Pos.x += m_MoveBlock.x;
                     Pos.z += m_MoveBlock.z;
@@ -200,7 +200,7 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
+C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 {
     C3dblock* D3Dblock = nullptr;
 
@@ -210,13 +210,31 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
     if (SUCCEEDED(D3Dblock->Init()))
     {
 
-        D3Dblock->SetType(TYPE::BLOCK);
+        D3Dblock->m_nType = nType;
 
-        D3Dblock->LoadBlockData();
+        if (nType == 0)
+        {
 
-        //D3Dblock->Load();//テクスチャを設定(仮)
+            D3Dblock->SetType(TYPE::BLOCK);
 
-        D3Dblock->CObject3D::SetPos(pos);
+            D3Dblock->LoadBlockData();
+
+            //D3Dblock->Load();//テクスチャを設定(仮)
+
+            D3Dblock->CObject3D::SetPos(pos);
+        }
+
+        if (nType == 1)
+        {
+
+            D3Dblock->SetType(TYPE::BROKENBLOCK);
+
+            D3Dblock->LoadBlockData();
+
+            //D3Dblock->Load();//テクスチャを設定(仮)
+
+            D3Dblock->CObject3D::SetPos(pos);
+        }
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
@@ -225,33 +243,6 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
     return D3Dblock;
 }
 
-//======================
-// オブジェクト生成処理
-//======================
-C3dblock* C3dblock::Createitem(D3DXVECTOR3 pos)
-{
-    C3dblock* D3Dblock3 = nullptr;
-
-    D3Dblock3 = new C3dblock;
-
-    //初期化に成功した場合
-    if (SUCCEEDED(D3Dblock3->Init()))
-    {
-
-        D3Dblock3->SetType(TYPE::ITEM);
-
-        D3Dblock3->LoadBlockData();
-
-        //D3Dblock->Load();//テクスチャを設定(仮)
-
-        D3Dblock3->CObject3D::SetPos(pos);
-
-        ////テクスチャの設定
-        //Model->BindTexture(m_pTexBuff);
-    }
-
-    return D3Dblock3;
-}
 
 //======================
 // テクスチャロード処理

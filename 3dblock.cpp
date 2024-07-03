@@ -212,6 +212,7 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 
         D3Dblock->m_nType = nType;
 
+        //通常ブロックの場合
         if (nType == 0)
         {
 
@@ -224,6 +225,7 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
             D3Dblock->CObject3D::SetPos(pos);
         }
 
+        //破壊可能ブロックの場合
         if (nType == 1)
         {
 
@@ -280,14 +282,16 @@ void C3dblock::LoadBlockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-
+    if (m_nType == 0)
+    {
         m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
+    }
 
 
-    //if (m_nType == 1)
-    //{
-        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs3.txt", "r");//ファイルを開く
-    //}
+    if (m_nType == 1)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_Block\\motion.txt", "r");//ファイルを開く
+    }
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)

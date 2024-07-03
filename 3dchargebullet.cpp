@@ -1,17 +1,17 @@
 //=================================================
 //
-// ビルボード描画式弾の処理 (3dbullet.cpp)
+// ビルボード描画式チャージ弾の処理 (3dchargebullet.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#include "3dbullet.h"
+#include "3dchargebullet.h"
 #include "3dblock.h"
 
 //======================
 // コンストラクタ
 //======================
-C3dbullet::C3dbullet(int nPriority) : CObject3D(nPriority)
+C3dchargebullet::C3dchargebullet(int nPriority) : CObject3D(nPriority)
 {
 
 }
@@ -19,7 +19,7 @@ C3dbullet::C3dbullet(int nPriority) : CObject3D(nPriority)
 //======================
 // デストラクタ
 //======================
-C3dbullet::~C3dbullet()
+C3dchargebullet::~C3dchargebullet()
 {
 
 }
@@ -27,7 +27,7 @@ C3dbullet::~C3dbullet()
 //======================
 // 初期化処理
 //======================
-HRESULT C3dbullet::Init()
+HRESULT C3dchargebullet::Init()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -79,7 +79,7 @@ HRESULT C3dbullet::Init()
 //======================
 //終了処理
 //======================
-void C3dbullet::Uninit()
+void C3dchargebullet::Uninit()
 {
 	CObject3D::Uninit();
 }
@@ -87,7 +87,7 @@ void C3dbullet::Uninit()
 //======================
 //終了処理
 //======================
-void C3dbullet::Update()
+void C3dchargebullet::Update()
 {
 	//頂点情報のポインタ
 	VERTEX_3D* pVtx;
@@ -148,6 +148,8 @@ void C3dbullet::Update()
 
 			D3DXVECTOR3 BlockPos = p3dblock->GetPos();
 
+			//敵の場合Uninitは使わない
+
 			//破壊可能ブロックの場合
 			if (type == CObject::TYPE::BROKENBLOCK)
 			{
@@ -181,7 +183,7 @@ void C3dbullet::Update()
 //======================
 // 描画処理
 //======================
-void C3dbullet::Draw()
+void C3dchargebullet::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -263,9 +265,9 @@ void C3dbullet::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot)
+C3dchargebullet* C3dchargebullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 {
-	C3dbullet* bullet3d = new C3dbullet;
+	C3dchargebullet* bullet3d = new C3dchargebullet;
 
 	//初期化に成功した場合
 	if (SUCCEEDED(bullet3d->Init()))
@@ -282,7 +284,7 @@ C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot)
 		bullet3d->m_nLife = 80;
 
 		//弾の発射方向
- 		bullet3d->m_nMove.x = sinf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
+		bullet3d->m_nMove.x = sinf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
 		bullet3d->m_nMove.z = cosf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
 
 	}

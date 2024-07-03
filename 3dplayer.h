@@ -75,9 +75,12 @@ private:
 	LoadEnemy m_aLoadEnemy[NUM_MODEL];
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
+	DWORD m_bAButtonPressStartTime;
+	bool m_bAButtonPressed;
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff;
 	int m_nBuffTime;
+	int m_KeyStart;
 	static int m_nLife;
 protected:
 	D3DXVECTOR3 m_n3DPlayerMove;

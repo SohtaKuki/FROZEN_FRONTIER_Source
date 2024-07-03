@@ -11,6 +11,7 @@
 #include "startobj.h"
 #include "3ditem.h"
 #include "3dbullet.h"
+#include "3dchargebullet.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -23,6 +24,8 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
     m_bPlayerBuff = false;
     m_nBuffTime = 0;
     m_nLife = 12;
+    m_bAButtonPressStartTime = false;
+    m_bAButtonPressed = 0;
 }
 
 //======================
@@ -63,6 +66,8 @@ void C3dplayer::Update()
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
     //SetPlayerPos();
+
+    int nCnt = 0;
 
     //プレイヤーのHPが0以上の場合のみ通す
     if (m_nLife > 0)
@@ -131,9 +136,42 @@ void C3dplayer::Update()
     //球発射
     if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
     {
-        C3dbullet::Create(Pos,D3DXVECTOR3(10.0f,10.0f,0.0f),m_rot);
+        C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
     }
-    
+
+    // スペースキーが押されたとき (長押し発射)
+    if (CManager::GetKeyboard()->GetPress(DIK_U))
+    {
+        // スペースキーがまだ押されていない場合
+        if (!m_bAButtonPressed)
+        {
+            m_bAButtonPressed = true;
+            m_bAButtonPressStartTime = GetTickCount(); // タイムスタンプを記録
+        }
+        //スペースキーを2秒以上長押ししている場合
+        else if (CManager::GetKeyboard()->GetPress(DIK_U) == true && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
+        {
+
+        }
+    }
+    else
+    {
+        // スペースキーが離された場合かつ長押し時間が2秒以上の場合
+        if (m_bAButtonPressed && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
+        {
+
+            // 玉の発射を実行
+            C3dchargebullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
+
+        }
+        // Jキーのフラグをリセット
+        m_bAButtonPressed = false;
+
+
+
+
+    }
+
 
     //プレイヤーのHPを減らす
     if (CManager::GetKeyboard()->GetTrigger(DIK_K))

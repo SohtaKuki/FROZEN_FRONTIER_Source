@@ -132,6 +132,7 @@ void CInputKeyboard::Update(void)
         {
             m_aKeyStateTrigger[nCntKey] = (m_aKeyState[nCntKey] ^ aKeyState[nCntKey]) & aKeyState[nCntKey];
             m_aKeyState[nCntKey] = aKeyState[nCntKey];
+            m_aKeyStateRelease[nCntKey] = (m_aKeyState[nCntKey] ^ aKeyState[nCntKey]) & aKeyState[nCntKey];
         }
     }
     else
@@ -161,5 +162,5 @@ bool CInputKeyboard::GetTrigger(int nKey)
 //============================
 bool CInputKeyboard::GetRelease(int nKey)
 {
-    return ((m_aKeyStateTrigger[nKey] & 0x80) != 0) ? true : false;
+    return ((m_aKeyStateRelease[nKey] & 0x80) != 0) ? false : true;
 }

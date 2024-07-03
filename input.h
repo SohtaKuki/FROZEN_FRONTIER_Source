@@ -44,7 +44,7 @@ public:
 private:
 	BYTE m_aKeyState[NUM_KEY_MAX];
 	BYTE m_aKeyStateTrigger[NUM_KEY_MAX];
-	
+	BYTE m_aKeyStateRelease[NUM_KEY_MAX];
 };
 
 #endif

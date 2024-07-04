@@ -221,11 +221,12 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 
     D3Dblock = new C3dblock;
 
+    D3Dblock->m_nType = nType;
+
     //初期化に成功した場合
     if (SUCCEEDED(D3Dblock->Init()))
     {
 
-        D3Dblock->m_nType = nType;
 
         //通常ブロックの場合
         if (nType == 0)
@@ -233,11 +234,6 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 
             D3Dblock->SetType(TYPE::BLOCK);
 
-            D3Dblock->LoadBlockData();
-
-            //D3Dblock->Load();//テクスチャを設定(仮)
-
-            D3Dblock->CObject3D::SetPos(pos);
         }
 
         //破壊可能ブロックの場合
@@ -246,23 +242,20 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 
             D3Dblock->SetType(TYPE::BROKENBLOCK);
 
-            D3Dblock->LoadBlockData();
 
-            //D3Dblock->Load();//テクスチャを設定(仮)
-
-            D3Dblock->CObject3D::SetPos(pos);
         }
 
         if (nType == 3)
         {
             D3Dblock->SetType(TYPE::GOAL);
-
-            D3Dblock->LoadBlockData();
-
-            //D3Dblock->Load();//テクスチャを設定(仮)
-
-            D3Dblock->CObject3D::SetPos(pos);
         }
+
+
+        D3Dblock->LoadBlockData();
+
+        //D3Dblock->Load();//テクスチャを設定(仮)
+
+        D3Dblock->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
@@ -423,10 +416,6 @@ void C3dblock::LoadBlockData(void)
         m_aModel[nCnt].nLife = 4;
         m_aModel[nCnt].nIdxModelParent = CModel::m_aLoadEnemy[nCnt].parent;
         m_aModel[nCnt].bUse = true;
-
-        //敵の立ち位置初期化
-        //m_nPos = D3DXVECTOR3(-0.0f, -0.0f, 0.0f);
-        //m_aEnemy.rot = D3DXVECTOR3(-0.0f, 0.0f, 0.0f);
 
         m_aModel[nCnt].pos = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].pos.x, CModel::m_aLoadEnemy[nCnt].pos.y, CModel::m_aLoadEnemy[nCnt].pos.z);
         m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);

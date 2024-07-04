@@ -7,6 +7,7 @@
 
 #include "3dbullet.h"
 #include "3dblock.h"
+#include "3denemy.h"
 
 //======================
 // コンストラクタ
@@ -176,6 +177,72 @@ void C3dbullet::Update()
 			}
 		}
 	}
+
+	//弾と敵の当たり判定
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			C3denemy* p3denemy= (C3denemy*)pObj;
+
+			D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
+
+			//弾の種別がプレイヤーだった場合
+			if (m_nType == 0)
+			{
+				//敵の場合
+				if (type == CObject::TYPE::ENEMY)
+				{
+					if (m_nPos.x >= EnemyPos.x - 40
+						&& m_nPos.x <= EnemyPos.x + 40
+						&& m_nPos.z >= EnemyPos.z - 40
+						&& m_nPos.z <= EnemyPos.z + 40)
+					{
+						p3denemy->EnemyDamage();
+						Uninit();
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	//弾とプレイヤーの当たり判定
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			C3dplayer* p3dplayer = (C3dplayer*)pObj;
+
+			D3DXVECTOR3 PlayerPos = p3dplayer->GetPos();
+
+			//弾の種別が敵だった場合
+			if (m_nType == 1)
+			{
+				//プレイヤーの場合
+				if (type == CObject::TYPE::PLAYER)
+				{
+					if (m_nPos.x >= PlayerPos.x - 40
+						&& m_nPos.x <= PlayerPos.x + 40
+						&& m_nPos.z >= PlayerPos.z - 40
+						&& m_nPos.z <= PlayerPos.z + 40)
+					{
+						p3dplayer->PlayerDamage();
+						Uninit();
+						return;
+					}
+				}
+			}
+		}
+	}
 }
 
 //======================
@@ -263,14 +330,24 @@ void C3dbullet::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot)
+C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot,int type)
 {
 	C3dbullet* bullet3d = new C3dbullet;
 
 	//初期化に成功した場合
 	if (SUCCEEDED(bullet3d->Init()))
 	{
-		bullet3d->SetType(TYPE::BULLET);
+		bullet3d->m_nType = type;
+
+		if (type == 0)
+		{
+			bullet3d->SetType(TYPE::PLAYER_BULLET);
+		}
+
+		if (type == 1)
+		{
+			bullet3d->SetType(TYPE::ENEMY_BULLET);
+		}
 
 		bullet3d->m_nPos = pos;
 

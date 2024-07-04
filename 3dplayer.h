@@ -55,6 +55,7 @@ public:
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
+	void PlayerDamage();
 	void LoadPlayerData();
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }

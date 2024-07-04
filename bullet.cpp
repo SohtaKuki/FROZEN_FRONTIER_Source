@@ -154,7 +154,7 @@ CBullet* CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pBullet = new CBullet;
 
-	pBullet->SetType(TYPE::BULLET);
+	pBullet->SetType(TYPE::D2DBULLET);
 	pBullet->CObject2D::SetPos(pos);
 	pBullet->m_rot = rot;
 	pBullet->m_nLife = BULLET_LIFE;

@@ -20,7 +20,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dbullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot);
+	static C3dbullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int type);
 	D3DXVECTOR3& GetBulletPos() { return m_nPos; }
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -29,6 +29,7 @@ private:
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
 	int m_nLife;
+	int m_nType;
 
 };
 

@@ -7,6 +7,7 @@
 
 #include "3dchargebullet.h"
 #include "3dblock.h"
+#include "3denemy.h"
 
 //======================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
@@ -176,8 +177,40 @@ void C3dchargebullet::Update()
 					return;
 				}
 			}
+
+
 		}
 	}
+
+	//’e‚Æ“G‚Ì“–‚½‚è”»’è
+	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
+		{
+			CObject::TYPE type = pObj->GetType();
+
+			C3denemy* p3denemy = (C3denemy*)pObj;
+
+			D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
+
+			//“G‚Ìê‡
+			if (type == CObject::TYPE::ENEMY)
+			{
+				if (m_nPos.x >= EnemyPos.x - 40
+					&& m_nPos.x <= EnemyPos.x + 40
+					&& m_nPos.z >= EnemyPos.z - 40
+					&& m_nPos.z <= EnemyPos.z + 40)
+				{
+					p3denemy->Uninit();
+					return;
+				}
+			}
+
+		}
+	}
+
 }
 
 //======================

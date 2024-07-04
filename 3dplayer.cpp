@@ -12,6 +12,7 @@
 #include "3ditem.h"
 #include "3dbullet.h"
 #include "3dchargebullet.h"
+#include "3denemy.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -141,7 +142,7 @@ void C3dplayer::Update()
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == false)
         {
-            C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
+            C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot,0);
         }
     }
 
@@ -254,12 +255,13 @@ void C3dplayer::Update()
         }
     }
 
+
     //プレイヤー移動速度上昇強化がtrueの場合
     if (m_bPlayerBuff == true)
     {
         m_nBuffTime++;
 
-        //10秒たったらfalse
+        //10秒たったらfalseにする
         if (m_nBuffTime == 600)
         {
             m_bPlayerBuff = false;
@@ -272,8 +274,8 @@ void C3dplayer::Update()
     {
         m_nInstantShotTime++;
 
-        //10秒たったらfalse
-        if (m_nInstantShotTime == 400)
+        //6秒たったらfalseにする
+        if (m_nInstantShotTime == 360)
         {
             m_bInstantShot = false;
             m_nInstantShotTime = 0;
@@ -481,7 +483,10 @@ void C3dplayer::Unload()
     CModel::Unload();
 }
 
-
+void C3dplayer::PlayerDamage()
+{
+    m_nLife -= 1;
+}
 
 //===========================
 // 外部ファイル読み込み処理
@@ -603,24 +608,3 @@ void C3dplayer::LoadPlayerData(void)
         m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);
     }
 }
-
-//void C3dplayer::SetPlayerPos()
-//{
-//
-//    CObject* pObj = CObject::GetObj(3, 1);
-//
-//    if (pObj != nullptr)
-//    {
-//        CObject::TYPE type = pObj->GetType();
-//
-//        //ブロックだった場合
-//        if (type == CObject::TYPE::START)
-//        {
-//            C3dstartobj* p3dstartobj = (C3dstartobj*)pObj;
-//
-//            D3DXVECTOR3 StartObjPos = p3dstartobj->GetPos();
-//
-//            CObject3D::SetPos(StartObjPos);
-//        }
-//    }
-//}

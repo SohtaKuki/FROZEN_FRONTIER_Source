@@ -36,19 +36,21 @@ public:
 	typedef enum
 	{
 		NONE= 0,
-		ENEMY,
-		START,
-		GOAL,
-		PLAYER,
-		BLOCK,
-		BROKENBLOCK,
-		D2DITEM,
-		ITEM_WALKSPDUP,
-		ITEM_INSTANTSHOT,
-		TIMER,
-		FADE,
-		BULLET,
-		CHBULLET,
+		ENEMY, //敵
+		START, //スタートマーカー
+		GOAL, //ゴールマーカー
+		PLAYER, //プレイヤー
+		BLOCK, //ブロック
+		BROKENBLOCK, //破壊可能ブロック
+		D2DITEM, //2DObject用アイテム
+		ITEM_WALKSPDUP, //プレイヤー強化アイテム(移動速度上昇)
+		ITEM_INSTANTSHOT,//プレイヤー強化アイテム(チャージショット即発射)
+		TIMER, //タイマー
+		FADE, //フェード
+		D2DBULLET, //2D用プレイヤー弾
+		PLAYER_BULLET, //プレイヤー通常弾
+		CHBULLET, //プレイヤー特殊弾(チャージショット)
+		ENEMY_BULLET, //敵通常弾
 		MAX_TYPE,
 	}TYPE;
 

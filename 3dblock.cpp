@@ -126,7 +126,7 @@ void C3dblock::Update()
 //======================
 void C3dblock::BlockDamage()
 {
-    m_nLife -= 1;
+    m_nLife--;
 }
 
 //======================
@@ -221,37 +221,42 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 
     D3Dblock = new C3dblock;
 
+    CModel* D3DModel = new CModel;
+
     D3Dblock->m_nType = nType;
 
     //初期化に成功した場合
     if (SUCCEEDED(D3Dblock->Init()))
     {
-
-
-        //通常ブロックの場合
-        if (nType == 0)
+        //範囲内の種類なら設定
+        if (nType >= 0 && nType < (int)CObject::MAX_TYPE)
         {
-
-            D3Dblock->SetType(TYPE::BLOCK);
-
+            D3Dblock->SetType((CObject::TYPE)nType);
         }
 
-        //破壊可能ブロックの場合
-        if (nType == 1)
-        {
+        ////通常ブロックの場合
+        //if (nType == 0)
+        //{
 
-            D3Dblock->SetType(TYPE::BROKENBLOCK);
+        //    D3Dblock->SetType(TYPE::BLOCK);
+
+        //}
+
+        ////破壊可能ブロックの場合
+        //if (nType == 1)
+        //{
+
+        //    D3Dblock->SetType(TYPE::BROKENBLOCK);
 
 
-        }
+        //}
 
-        if (nType == 3)
-        {
-            D3Dblock->SetType(TYPE::GOAL);
-        }
+        //if (nType == 3)
+        //{
+        //    D3Dblock->SetType(TYPE::GOAL);
+        //}
 
-
-        D3Dblock->LoadBlockData();
+        D3DModel->LoadModelData("data\\MODEL_Crystal\\motion.txt");
 
         //D3Dblock->Load();//テクスチャを設定(仮)
 
@@ -265,30 +270,30 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 }
 
 
-//======================
-// テクスチャロード処理
-//======================
-HRESULT C3dblock::Load()
-{
-    LPDIRECT3DDEVICE9 pDevice = nullptr;
-    pDevice = CManager::GetRenderer()->GetDevice();
-
-    
-    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
-    {
-        return E_FAIL;
-    }
-    
-    return S_OK;
-}
-
-//======================
-// テクスチャアンロード(終了)処理
-//======================
-void C3dblock::Unload()
-{
-    CModel::Unload();
-}
+////======================
+//// テクスチャロード処理
+////======================
+//HRESULT C3dblock::Load()
+//{
+//    LPDIRECT3DDEVICE9 pDevice = nullptr;
+//    pDevice = CManager::GetRenderer()->GetDevice();
+//
+//    
+//    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
+//    {
+//        return E_FAIL;
+//    }
+//    
+//    return S_OK;
+//}
+//
+////======================
+//// テクスチャアンロード(終了)処理
+////======================
+//void C3dblock::Unload()
+//{
+//    CModel::Unload();
+//}
 
 
 
@@ -322,6 +327,8 @@ void C3dblock::LoadBlockData(void)
     {
         return;
     }
+
+    
 
     //外部ファイル文字列読み取り
     while (1)

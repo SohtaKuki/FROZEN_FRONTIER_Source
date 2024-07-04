@@ -52,24 +52,24 @@ public:
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
-	virtual void LoadModelData();
+	virtual void LoadModelData(const char* filename);
 private:
-	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
-	D3DXMATRIX m_mtxWorld;
-	LPD3DXMESH m_pMesh[NUM_MODEL];
-	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
-	DWORD m_nNumMat[NUM_MODEL];
 	//Enemy m_aEnemy;
 	bool bUse;
 protected:
 	FILE* m_pFile;//ファイルポインタを宣言
 	LoadEnemy m_aLoadEnemy[NUM_MODEL];
 	ModelPartsEnemy m_aModel[NUM_MODEL];
+	DWORD m_nNumMat[NUM_MODEL];
+	D3DXMATRIX m_mtxWorld;
+	LPD3DXMESH m_pMesh[NUM_MODEL];
+	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
+	D3DXMATRIX m_mtxworld;
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;
 

@@ -150,7 +150,7 @@ CModel* CModel::Create(D3DXVECTOR3 pos)
 	//初期化に成功した場合
 	if (SUCCEEDED(Model->Init()))
 	{
-        Model->LoadModelData();
+
 		//Model->Load();
 
 		Model->m_nPos = pos;
@@ -194,7 +194,7 @@ void CModel::Unload()
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void CModel::LoadModelData(void)
+void CModel::LoadModelData(const char* filename)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;
@@ -202,7 +202,7 @@ void CModel::LoadModelData(void)
 
 
     FILE* pFile;//ファイルポインタを宣言
-    pFile = fopen("data\\MODEL\\model_kuki\\Charamotion.txt", "r");//ファイルを開く
+    pFile = fopen(filename, "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (pFile == NULL)

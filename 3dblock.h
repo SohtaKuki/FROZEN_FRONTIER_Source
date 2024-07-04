@@ -20,30 +20,30 @@ class C3dblock : public CModel
 {
 public:
 
-	typedef struct
-	{
-		char filename[MAX_CHAR];
-		int index;
-		int parent;
-		D3DXVECTOR3 pos;
-		D3DXVECTOR3 rot;
+	//typedef struct
+	//{
+	//	char filename[MAX_CHAR];
+	//	int index;
+	//	int parent;
+	//	D3DXVECTOR3 pos;
+	//	D3DXVECTOR3 rot;
 
-	}LoadEnemy;
+	//}LoadEnemy;
 
-	//モデルの構造体
-	typedef struct
-	{
+	////モデルの構造体
+	//typedef struct
+	//{
 
-		D3DXMATRIX mtxworld;
-		D3DXVECTOR3 pos;
-		D3DXVECTOR3 rot;
-		int nType;
-		int nLife;
-		bool bUse;
-		int nCounterState;
-		int nIdxModelParent;	//親モデルのインデックス
+	//	D3DXMATRIX mtxworld;
+	//	D3DXVECTOR3 pos;
+	//	D3DXVECTOR3 rot;
+	//	int nType;
+	//	int nLife;
+	//	bool bUse;
+	//	int nCounterState;
+	//	int nIdxModelParent;	//親モデルのインデックス
 
-	}ModelPartsEnemy;
+	//}ModelPartsEnemy;
 
 	C3dblock(int nPriority = 3);
 	~C3dblock() override;
@@ -53,37 +53,33 @@ public:
 	void Draw()override;
 	static C3dblock* Create(D3DXVECTOR3 pos , int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
-	static HRESULT Load();
-	static void Unload();
+	//static HRESULT Load();
+	//static void Unload();
 	void LoadBlockData();
 	void BlockDamage();
 	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	D3DXVECTOR3 GetMoveBlock() { return m_MoveBlock; }
 	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
 private:
-	D3DXMATRIX m_mtxworld;
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
+	//D3DXMATRIX m_mtxworld;
+	//LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
-	LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_nSize;
+	//LPDIRECT3DTEXTURE9 m_pTexture;
+	//D3DXVECTOR3 m_nSize;
 	D3DXVECTOR3 m_MoveBlock;
-	D3DXMATRIX m_mtxWorld;
+	//D3DXMATRIX m_mtxWorld;
 	int m_nType;
-	LPD3DXMESH m_pMesh[NUM_MODEL];
-	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
-	DWORD m_nNumMat[NUM_MODEL];
+	//LPD3DXMESH m_pMesh[NUM_MODEL];
+	//LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
+	//DWORD m_nNumMat[NUM_MODEL];
 	//Enemy m_aEnemy;
-	LoadEnemy m_aLoadEnemy[NUM_MODEL];
-	ModelPartsEnemy m_aModel[NUM_MODEL];
+	//LoadEnemy m_aLoadEnemy[NUM_MODEL];
+	//ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool m_bTurn;
 	int m_nTurnCnt;
-	bool bUse;
-	FILE* m_pFile;//ファイルポインタを宣言
+	//bool bUse;
+	//FILE* m_pFile;//ファイルポインタを宣言
 	int m_nLife;
-
-protected:
-	D3DXVECTOR3 m_nMove;
-	D3DXVECTOR3 m_rot;
 
 };
 

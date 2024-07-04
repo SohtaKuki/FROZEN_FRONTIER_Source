@@ -107,28 +107,7 @@ CScene* CScene::Create(MODE mode)
 //======================
 CGame::CGame()
 {
-	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
-	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
-	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f));
 
-
-	C3dstartobj::Create();
-
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f),0);
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f), 1);
-
-
-	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f), 1);
-
-	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
-
-	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 1);
-
-	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
-
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 300.0f), 3);
 }
 
 //======================
@@ -145,6 +124,28 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	CScene::Init();
+
+	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
+	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
+	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
+	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f));
+
+	C3dstartobj::Create();
+
+	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f), 0);
+	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f), 1);
+
+
+	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f), 1);
+
+	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
+
+	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 1);
+
+	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
+
+	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 300.0f), 3);
 
 	return S_OK;
 }
@@ -178,7 +179,7 @@ void CGame::Draw()
 //======================
 CResult::CResult()
 {
-	CResultBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
 }
 
 //======================
@@ -194,6 +195,8 @@ CResult::~CResult()
 //======================
 HRESULT CResult::Init()
 {
+	CResultBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
 	return S_OK;
 }
 
@@ -230,7 +233,7 @@ void CResult::Draw()
 //======================
 CTitle::CTitle()
 {
-	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
 }
 
 //======================
@@ -246,6 +249,8 @@ CTitle::~CTitle()
 //======================
 HRESULT CTitle::Init()
 {
+	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+
 	return S_OK;
 }
 

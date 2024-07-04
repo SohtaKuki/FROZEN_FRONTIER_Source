@@ -211,7 +211,6 @@ void C3dchargebullet::Draw()
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
 
@@ -267,27 +266,29 @@ void C3dchargebullet::Draw()
 //======================
 C3dchargebullet* C3dchargebullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 {
-	C3dchargebullet* bullet3d = new C3dchargebullet;
+	C3dchargebullet* chbullet3d = new C3dchargebullet;
 
 	//初期化に成功した場合
-	if (SUCCEEDED(bullet3d->Init()))
+	if (SUCCEEDED(chbullet3d->Init()))
 	{
-		bullet3d->m_nPos = pos;
+		chbullet3d->SetType(TYPE::CHBULLET);
 
-		//弾の高さをすこし補正する
-		bullet3d->m_nPos.y += 10.0f;
+		chbullet3d->m_nPos = pos;
 
-		bullet3d->m_rot = rot;
+		//弾の高さを少しだけ補正する
+		chbullet3d->m_nPos.y += 10.0f;
 
-		bullet3d->m_nSize = size;
+		chbullet3d->m_rot = rot;
 
-		bullet3d->m_nLife = 80;
+		chbullet3d->m_nSize = size;
+
+		chbullet3d->m_nLife = 80;
 
 		//弾の発射方向
-		bullet3d->m_nMove.x = sinf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
-		bullet3d->m_nMove.z = cosf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
+		chbullet3d->m_nMove.x = sinf(chbullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
+		chbullet3d->m_nMove.z = cosf(chbullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;
 
 	}
 
-	return bullet3d;
+	return chbullet3d;
 }

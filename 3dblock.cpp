@@ -18,6 +18,7 @@ C3dblock::C3dblock(int nPriority) : CModel(nPriority)
    m_bTurn = false; 
    m_nTurnCnt = 0;
    m_nType = 0;
+   m_nLife = 4;
 }
 
 //======================
@@ -112,6 +113,20 @@ void C3dblock::Update()
             }
         }
     }
+
+    //ブロックの体力が0の場合
+    if (m_nLife <= 0)
+    {
+        Uninit();
+    }
+}
+
+//======================
+// ブロックダメージ処理
+//======================
+void C3dblock::BlockDamage()
+{
+    m_nLife -= 1;
 }
 
 //======================

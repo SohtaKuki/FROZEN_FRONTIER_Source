@@ -157,7 +157,7 @@ void C3dbullet::Update()
 					&& m_nPos.z <= BlockPos.z + 40)
 				{
 					Uninit();
-					p3dblock->Uninit();
+					p3dblock->BlockDamage();
 					return;
 				}
 			}
@@ -270,9 +270,11 @@ C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot)
 	//‰Šú‰»‚É¬Œ÷‚µ‚½ê‡
 	if (SUCCEEDED(bullet3d->Init()))
 	{
+		bullet3d->SetType(TYPE::BULLET);
+
 		bullet3d->m_nPos = pos;
 
-		//’e‚Ì‚‚³‚ð‚·‚±‚µ•â³‚·‚é
+		//’e‚Ì‚‚³‚ð­‚µ‚¾‚¯•â³‚·‚é
 		bullet3d->m_nPos.y += 10.0f;
 
 		bullet3d->m_rot = rot;

@@ -22,7 +22,9 @@ int C3dplayer::m_nLife = 0;
 C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
 {
     m_bPlayerBuff = false;
+    m_bInstantShot = false;
     m_nBuffTime = 0;
+    m_nInstantShotTime = 0;
     m_nLife = 12;
     m_bAButtonPressStartTime = false;
     m_bAButtonPressed = 0;
@@ -136,11 +138,15 @@ void C3dplayer::Update()
     //球発射
     if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
     {
-        C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
+        //チャージショット即発射バフが有効の場合は通さない
+        if (m_bInstantShot == false)
+        {
+            C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
+        }
     }
 
     // スペースキーが押されたとき (長押し発射)
-    if (CManager::GetKeyboard()->GetPress(DIK_U))
+    if (CManager::GetKeyboard()->GetPress(DIK_SPACE))
     {
         // スペースキーがまだ押されていない場合
         if (!m_bAButtonPressed)
@@ -149,7 +155,7 @@ void C3dplayer::Update()
             m_bAButtonPressStartTime = GetTickCount(); // タイムスタンプを記録
         }
         //スペースキーを2秒以上長押ししている場合
-        else if (CManager::GetKeyboard()->GetPress(DIK_U) == true && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
+        else if (CManager::GetKeyboard()->GetPress(DIK_SPACE) == true && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
         {
 
         }
@@ -159,9 +165,12 @@ void C3dplayer::Update()
         // スペースキーが離された場合かつ長押し時間が2秒以上の場合
         if (m_bAButtonPressed && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
         {
-
-            // 玉の発射を実行
-            C3dchargebullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot);
+            //チャージショット即発射バフが有効の場合は通さない
+            if (m_bInstantShot == false)
+            {
+                // 玉の発射を実行
+                C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+            }
 
         }
         // Jキーのフラグをリセット
@@ -171,6 +180,17 @@ void C3dplayer::Update()
 
 
     }
+
+    //球発射
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+    {
+        //チャージショット即発射バフが有効の場合は通さない
+        if (m_bInstantShot == true)
+        {
+            C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+        }
+    }
+
 
 
     //プレイヤーのHPを減らす
@@ -204,8 +224,8 @@ void C3dplayer::Update()
 
             D3DXVECTOR3 EnemyPos = p3dItem->GetPos();
 
-            //アイテムの場合
-            if (type == CObject::TYPE::ITEM)
+            //プレイヤー移動速度上昇アイテムの場合
+            if (type == CObject::TYPE::ITEM_WALKSPDUP)
             {
                 if (CObject3D::GetPos().x >= EnemyPos.x - 50
                     && CObject3D::GetPos().x <= EnemyPos.x + 50
@@ -217,10 +237,24 @@ void C3dplayer::Update()
                     return;
                 }
             }
+
+            //チャージショット即発射バフアイテムの場合
+            if (type == CObject::TYPE::ITEM_INSTANTSHOT)
+            {
+                if (CObject3D::GetPos().x >= EnemyPos.x - 50
+                    && CObject3D::GetPos().x <= EnemyPos.x + 50
+                    && CObject3D::GetPos().z >= EnemyPos.z - 50
+                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                {
+                    m_bInstantShot = true;
+                    p3dItem->Uninit();
+                    return;
+                }
+            }
         }
     }
 
-    //プレイヤー強化がtrueの場合
+    //プレイヤー移動速度上昇強化がtrueの場合
     if (m_bPlayerBuff == true)
     {
         m_nBuffTime++;
@@ -233,6 +267,20 @@ void C3dplayer::Update()
         }
     }
 
+    //チャージショット即発射バフがtrueの場合
+    if (m_bInstantShot == true)
+    {
+        m_nInstantShotTime++;
+
+        //10秒たったらfalse
+        if (m_nInstantShotTime == 400)
+        {
+            m_bInstantShot = false;
+            m_nInstantShotTime = 0;
+        }
+    }
+
+    //ブロックとの当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
         for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
@@ -268,6 +316,7 @@ void C3dplayer::Update()
         }
     }
 
+    //座標を設定
     SetPos(Pos);
 
     //X座標の移動量を更新

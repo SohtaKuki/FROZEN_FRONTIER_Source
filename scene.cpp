@@ -117,12 +117,9 @@ CGame::CGame()
 
 	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
 
-	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 0);
+	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 1);
 
-	C3ditem::Create(D3DXVECTOR3(-200.0f, 0.0f, 50.0f), 0);
-
-	CBillboard::Create(D3DXVECTOR3(37.0f, 55.0f, -10.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
-	CBillboard::Create(D3DXVECTOR3(67.0f, 55.0f, -30.0f), D3DXVECTOR3(10.0f, 10.0f, 0.0f));
+	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
 
 }
 

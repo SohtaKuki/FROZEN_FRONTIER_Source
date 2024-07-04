@@ -114,7 +114,7 @@ void CRenderer::Draw()
 	
 	m_pD3DDevice->Clear(0, NULL,
 		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-		D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+		D3DCOLOR_RGBA(155, 155, 155, 0), 1.0f, 0);
 
 	 
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))

@@ -56,6 +56,7 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
+	void BlockDamage();
 	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	D3DXVECTOR3 GetMoveBlock() { return m_MoveBlock; }
 	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
@@ -78,6 +79,7 @@ private:
 	int m_nTurnCnt;
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
+	int m_nLife;
 
 protected:
 	D3DXVECTOR3 m_nMove;

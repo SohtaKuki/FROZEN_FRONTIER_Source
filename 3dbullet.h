@@ -13,7 +13,7 @@
 class C3dbullet :public CObject3D
 {
 public:
-	static const int BULLET_SPD = 5;
+	static const int BULLET_SPD = 6;
 	C3dbullet(int nPriority = 3);
 	~C3dbullet() override;
 	HRESULT Init()override;
@@ -21,6 +21,7 @@ public:
 	void Update()override;
 	void Draw()override;
 	static C3dbullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot);
+	D3DXVECTOR3& GetBulletPos() { return m_nPos; }
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;

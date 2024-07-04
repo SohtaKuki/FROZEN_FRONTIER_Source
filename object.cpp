@@ -146,7 +146,6 @@ void CObject::DrawAll()
 //=====================
 CObject * CObject::GetObj(int nPriority ,int nIdx)
 {
-
 	return m_apObject[nPriority][nIdx];
 }
 

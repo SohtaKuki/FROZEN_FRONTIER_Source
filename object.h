@@ -36,15 +36,18 @@ public:
 	typedef enum
 	{
 		NONE= 0,
-		BULLET,
 		ENEMY,
 		START,
 		PLAYER,
 		BLOCK,
 		BROKENBLOCK,
-		ITEM,
+		D2DITEM,
+		ITEM_WALKSPDUP,
+		ITEM_INSTANTSHOT,
 		TIMER,
 		FADE,
+		BULLET,
+		CHBULLET,
 		MAX_TYPE,
 	}TYPE;
 

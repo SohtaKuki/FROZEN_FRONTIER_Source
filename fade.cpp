@@ -21,7 +21,7 @@ CFade::CFade()
     m_pVtxBuff = nullptr;			
     m_Mode = CScene::MODE_TITLE;	
     m_bEndFade = true;				
-    m_FadeState == CFade::FADE_NONE;	
+    m_FadeState = CFade::FADE_NONE;	
 }
 
 //============================

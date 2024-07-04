@@ -79,7 +79,9 @@ private:
 	bool m_bAButtonPressed;
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff;
+	bool m_bInstantShot;
 	int m_nBuffTime;
+	int m_nInstantShotTime;
 	int m_KeyStart;
 	static int m_nLife;
 protected:

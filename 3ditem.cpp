@@ -157,8 +157,15 @@ C3ditem* C3ditem::Create(D3DXVECTOR3 pos, int nType)
     //初期化に成功した場合
     if (SUCCEEDED(D3Ditem->Init()))
     {
+        if (nType == 0)
+        {
+            D3Ditem->SetType(TYPE::ITEM_WALKSPDUP);
+        }
 
-        D3Ditem->SetType(TYPE::ITEM);
+        if (nType == 1)
+        {
+            D3Ditem->SetType(TYPE::ITEM_INSTANTSHOT);
+        }
 
         D3Ditem->LoadBlockData();
 
@@ -216,7 +223,7 @@ void C3ditem::LoadBlockData(void)
 
     if (m_nType == 1)
     {
-        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs3.txt", "r");//ファイルを開く
+        m_pFile = fopen("data\\MODEL_RING\\motion_instant.txt", "r");//ファイルを開く
     }
 
     //ファイルが存在しない場合
@@ -349,7 +356,7 @@ bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
                 CObject::TYPE type = pObj->GetType();
 
                 //ブロックだった場合
-                if (type == CObject::TYPE::ITEM)
+                if (type == CObject::TYPE::ITEM_WALKSPDUP)
                 {
 
                     C3ditem* pD3DBlock = (C3ditem*)pObj;

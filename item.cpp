@@ -124,8 +124,9 @@ CItem* CItem::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pItem = new CItem;
 
-	pItem->SetType(TYPE::ITEM);
+	pItem->SetType(TYPE::D2DITEM);
 	pItem->CObject2D::SetPos(pos);
+
 	pItem->m_rot = rot;
 
 

@@ -38,6 +38,7 @@ public:
 		NONE= 0,
 		ENEMY,
 		START,
+		GOAL,
 		PLAYER,
 		BLOCK,
 		BROKENBLOCK,

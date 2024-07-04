@@ -253,6 +253,17 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
             D3Dblock->CObject3D::SetPos(pos);
         }
 
+        if (nType == 3)
+        {
+            D3Dblock->SetType(TYPE::GOAL);
+
+            D3Dblock->LoadBlockData();
+
+            //D3Dblock->Load();//テクスチャを設定(仮)
+
+            D3Dblock->CObject3D::SetPos(pos);
+        }
+
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
     }
@@ -306,6 +317,11 @@ void C3dblock::LoadBlockData(void)
     if (m_nType == 1)
     {
         m_pFile = fopen("data\\MODEL\\MODEL_Block\\motion.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 3)
+    {
+        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs2.txt", "r");//ファイルを開く
     }
 
     //ファイルが存在しない場合
@@ -473,6 +489,41 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                              pPos->z = BlockPos.z - fBlockDepth;
                              bLanding = true;
                         }
+                }
+
+                //ブロックだった場合
+                if (type == CObject::TYPE::GOAL)
+                {
+                    C3dblock* pD3DBlock = (C3dblock*)pObj;
+
+                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
+
+                    //右側当たり判定
+                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
+                    {
+                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+
+                    }
+
+                    //左側当たり判定
+                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
+                    {
+
+                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+
+                    }
+
+                    //上側当たり判定
+                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
+                    {
+                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                    }
+
+                    //下側当たり判定
+                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
+                    {
+                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                    }
                 }
             }
         }

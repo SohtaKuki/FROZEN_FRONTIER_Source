@@ -226,6 +226,12 @@ void C3ditem::LoadBlockData(void)
         m_pFile = fopen("data\\MODEL_RING\\motion_instant.txt", "r");//ファイルを開く
     }
 
+
+    if (m_nType == 3)
+    {
+        m_pFile = fopen("data\\MODEL_RING\\motion.txt", "r");//ファイルを開く
+    }
+
     //ファイルが存在しない場合
     if (m_pFile == NULL)
     {

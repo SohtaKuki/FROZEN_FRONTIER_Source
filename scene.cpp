@@ -121,6 +121,7 @@ CGame::CGame()
 
 	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
 
+	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 300.0f), 3);
 }
 
 //======================
@@ -202,6 +203,7 @@ void CResult::Uninit()
 //======================
 void CResult::Update()
 {
+	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);

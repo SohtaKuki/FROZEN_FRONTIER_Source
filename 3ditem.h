@@ -57,7 +57,7 @@ public:
 	static void Unload();
 	void LoadBlockData();
 	bool Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
-	static unsigned const int MAX_BLOCK = 1024;	//オブジェクト最大数
+	static unsigned const int MAX_ITEM = 200;
 	static int GetItemType(){return m_nType; }
 private:
 	D3DXMATRIX m_mtxworld;

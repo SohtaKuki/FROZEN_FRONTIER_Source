@@ -8,6 +8,7 @@
 #include "3dbullet.h"
 #include "3dblock.h"
 #include "3denemy.h"
+#include "3dbrokenblock.h"
 
 //======================
 // コンストラクタ
@@ -149,20 +150,6 @@ void C3dbullet::Update()
 
 			D3DXVECTOR3 BlockPos = p3dblock->GetPos();
 
-			//破壊可能ブロックの場合
-			if (type == CObject::TYPE::BROKENBLOCK)
-			{
-				if (m_nPos.x >= BlockPos.x - 40
-					&& m_nPos.x <= BlockPos.x + 40
-					&& m_nPos.z >= BlockPos.z - 40
-					&& m_nPos.z <= BlockPos.z + 40)
-				{
-					Uninit();
-					//p3dblock->BlockDamage();
-					return;
-				}
-			}
-
 			//ブロックの場合
 			if (type == CObject::TYPE::BLOCK)
 			{
@@ -175,6 +162,36 @@ void C3dbullet::Update()
 					return;
 				}
 			}
+
+			//弾とブロックの当たり判定
+			for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+			{
+				CObject* pObj = CObject::GetObj(3, nCntObj);
+
+				if (pObj != nullptr)
+				{
+					CObject::TYPE type = pObj->GetType();
+
+					C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
+
+					D3DXVECTOR3 BlockPos = p3dbrokenblock->GetPos();
+
+					//破壊可能ブロックの場合
+					if (type == CObject::TYPE::BROKENBLOCK)
+					{
+						if (m_nPos.x >= BlockPos.x - 40
+							&& m_nPos.x <= BlockPos.x + 40
+							&& m_nPos.z >= BlockPos.z - 40
+							&& m_nPos.z <= BlockPos.z + 40)
+						{
+							Uninit();
+							p3dbrokenblock->BrokenBlockDamage();
+							return;
+						}
+					}
+				}
+			}
+
 		}
 	}
 

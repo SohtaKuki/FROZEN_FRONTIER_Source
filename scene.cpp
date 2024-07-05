@@ -18,6 +18,7 @@
 #include "playerhpbar.h"
 #include "result.h"
 #include "3denemy.h"
+#include "3dbrokenblock.h"
 
 //======================
 //コンストラクタ
@@ -140,6 +141,11 @@ HRESULT CGame::Init()
 	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f));
 
 
+	C3dbrokenblock::Create(D3DXVECTOR3(100.0f, 0.0f, 250.0f));
+	C3dbrokenblock::Create(D3DXVECTOR3(300.0f, 0.0f, 250.0f));
+
+
+	C3dbrokenblock::Create(D3DXVECTOR3(400.0f, 0.0f, 250.0f));
 
 	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
 

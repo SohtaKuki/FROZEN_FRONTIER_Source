@@ -1,27 +1,27 @@
 //=================================================
 //
-// 3Dモデルのブロックの表示処理 (3dblock.cpp)
+// 3Dモデルのブロックの表示処理 (3dbrokenblock.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#include "3dblock.h"
+#include "3dbrokenblock.h"
 #include "3dplayer.h"
 
-LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
+LPDIRECT3DTEXTURE9 C3dbrokenblock::m_pTexBuff = nullptr;
 
 //======================
 // コンストラクタ
 //======================
-C3dblock::C3dblock(int nPriority) : CModel(nPriority)
+C3dbrokenblock::C3dbrokenblock(int nPriority) : CModel(nPriority)
 {
-
+    m_nLife = 4;
 }
 
 //======================
 // デストラクタ
 //======================
-C3dblock::~C3dblock()
+C3dbrokenblock::~C3dbrokenblock()
 {
 
 }
@@ -29,7 +29,7 @@ C3dblock::~C3dblock()
 //======================
 // 初期化処理
 //======================
-HRESULT C3dblock::Init()
+HRESULT C3dbrokenblock::Init()
 {
     //初期化
     if (FAILED(CModel::Init()))
@@ -43,7 +43,7 @@ HRESULT C3dblock::Init()
 //======================
 // 終了処理
 //======================
-void C3dblock::Uninit()
+void C3dbrokenblock::Uninit()
 {
     CModel::Uninit();
 }
@@ -51,15 +51,18 @@ void C3dblock::Uninit()
 //======================
 // 更新処理
 //======================
-void C3dblock::Update()
+void C3dbrokenblock::Update()
 {
-
+    if (m_nLife <= 0)
+    {
+        Uninit();
+    }
 }
 
 //======================
 // 描画処理
 //======================
-void C3dblock::Draw()
+void C3dbrokenblock::Draw()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -142,16 +145,16 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
+C3dbrokenblock* C3dbrokenblock::Create(D3DXVECTOR3 pos)
 {
-    C3dblock* D3DBlock = nullptr;
+    C3dbrokenblock* D3DBlock = nullptr;
 
-    D3DBlock = new C3dblock;
+    D3DBlock = new C3dbrokenblock;
 
     //初期化に成功した場合
     if (SUCCEEDED(D3DBlock->Init()))
     {
-        D3DBlock->SetType(TYPE::BLOCK);
+        D3DBlock->SetType(TYPE::BROKENBLOCK);
 
         D3DBlock->LoadBlockData();
 
@@ -169,7 +172,7 @@ C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
 //======================
 // テクスチャロード処理
 //======================
-HRESULT C3dblock::Load()
+HRESULT C3dbrokenblock::Load()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -186,23 +189,26 @@ HRESULT C3dblock::Load()
 //======================
 // テクスチャアンロード(終了)処理
 //======================
-void C3dblock::Unload()
+void C3dbrokenblock::Unload()
 {
     CModel::Unload();
 }
 
-
+void C3dbrokenblock::BrokenBlockDamage()
+{
+    m_nLife--;
+}
 
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void C3dblock::LoadBlockData(void)
+void C3dbrokenblock::LoadBlockData(void)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_Block\\icecrystal_profile.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_Block\\brokenice_profile.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -316,7 +322,7 @@ void C3dblock::LoadBlockData(void)
 //===========================
 // ブロックの当たり判定
 //===========================
-bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+bool C3dbrokenblock::Collision3DBrokenBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
     bool bLanding = false; //重力を適応した場合のみ使用
     float fBlockWidth = 10.0f;
@@ -334,10 +340,10 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 CObject::TYPE type = pObj->GetType();
 
                 //ブロックだった場合
-                if (type == CObject::TYPE::BLOCK)
+                if (type == CObject::TYPE::BROKENBLOCK)
                 {
 
-                    C3dblock* pD3DBlock = (C3dblock*)pObj;
+                    C3dbrokenblock* pD3DBlock = (C3dbrokenblock*)pObj;
 
                     D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
 

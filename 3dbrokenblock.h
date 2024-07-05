@@ -1,12 +1,12 @@
 //=================================================
 //
-// 3Dモデルのブロックの処理 (3dblock.h)
+// 3Dモデルのブロックの処理 (3dbrokenblock.h)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#ifndef _3DBLOCK_H_
-#define _3DBLOCK_H_
+#ifndef _3DBROKENBLOCK_H_
+#define _3DBROKENBLOCK_H_
 
 #include "object3D.h"
 #include "objectX.h"
@@ -16,7 +16,7 @@
 #define NUM_MODEL (16) //モデルの数
 
 //オブジェクト3Dクラス
-class C3dblock : public CModel
+class C3dbrokenblock : public CModel
 {
 public:
 
@@ -45,18 +45,19 @@ public:
 
 	}ModelPartsEnemy;
 
-	C3dblock(int nPriority = 3);
-	~C3dblock() override;
+	C3dbrokenblock(int nPriority = 3);
+	~C3dbrokenblock() override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dblock* Create(D3DXVECTOR3 pos);
+	static C3dbrokenblock* Create(D3DXVECTOR3 pos);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
-	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	void BrokenBlockDamage();
+	bool Collision3DBrokenBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 300;	//オブジェクト最大数
 	D3DXVECTOR3& GetMoveBlock() { return m_nMove; } //Move値取得
 private:
@@ -74,6 +75,7 @@ private:
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
+	int m_nLife;
 	bool m_bLanding;
 
 protected:

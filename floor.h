@@ -12,7 +12,7 @@
 #include "object3D.h"
 
 
-#define FIELD_SIZE (2000.0f)
+#define FLOOR_SIZE (2000.0f)
 
 //オブジェクト2Dクラス
 class CFloor : public CObject3D

@@ -51,15 +51,13 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dblock* Create(D3DXVECTOR3 pos, int nType);
+	static C3dblock* Create(D3DXVECTOR3 pos);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
 	void LoadBlockData();
 	bool Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
-
 	static unsigned const int MAX_BLOCK = 300;	//オブジェクト最大数
-	static int GetItemType() { return m_nType; }
 	D3DXVECTOR3& GetMoveBlock() { return m_nMove; } //Move値取得
 private:
 	D3DXMATRIX m_mtxworld;
@@ -68,7 +66,6 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;
-	static int m_nType;
 	LPD3DXMESH m_pMesh[NUM_MODEL];
 	LPD3DXBUFFER m_pBuffMat[NUM_MODEL];
 	DWORD m_nNumMat[NUM_MODEL];

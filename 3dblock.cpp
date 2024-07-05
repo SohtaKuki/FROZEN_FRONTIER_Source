@@ -9,7 +9,6 @@
 #include "3dplayer.h"
 
 LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
-int C3dblock::m_nType = 0;				// オブジェクト総数
 
 //======================
 // コンストラクタ
@@ -143,13 +142,11 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
+C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
 {
     C3dblock* D3DBlock = nullptr;
 
     D3DBlock = new C3dblock;
-
-    m_nType = nType;
 
     //初期化に成功した場合
     if (SUCCEEDED(D3DBlock->Init()))
@@ -323,7 +320,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
 {
     bool bLanding = false; //重力を適応した場合のみ使用
     float fBlockWidth = 10.0f;
-    float fBlockDepth = 20.0f;
+    float fBlockDepth = 10.0f;
 
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
@@ -357,15 +354,15 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                     }
 
                     //上側当たり判定
-                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
+                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + (fBlockDepth - 20) && pPosOld->z - fHeight >= BlockPos.z + (fBlockDepth - 20))
                     {
-                        pPos->z = BlockPos.z + fBlockDepth + fHeight;
+                        pPos->z = (BlockPos.z + fBlockDepth + fHeight) - 20;
                     }
 
                     //下側当たり判定
-                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
+                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - (fBlockDepth + 20) && pPosOld->z <= BlockPos.z - (fBlockDepth + 20))
                     {
-                        pPos->z = BlockPos.z - fBlockDepth;
+                        pPos->z = (BlockPos.z - fBlockDepth) - 20;
                         bLanding = true;
                     }
 

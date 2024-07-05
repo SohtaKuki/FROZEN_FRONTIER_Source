@@ -328,53 +328,32 @@ bool C3dbrokenblock::Collision3DBrokenBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPos
     float fBlockWidth = 10.0f;
     float fBlockDepth = 10.0f;
 
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+    //右側当たり判定
+    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z  > Pos.z - fBlockDepth)
     {
-        //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < MAX_BLOCK; nCntObj++)
-        {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
-            {
-                CObject::TYPE type = pObj->GetType();
-
-                //ブロックだった場合
-                if (type == CObject::TYPE::BROKENBLOCK)
-                {
-
-                    C3dbrokenblock* pD3DBlock = (C3dbrokenblock*)pObj;
-
-                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
-
-                    //右側当たり判定
-                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
-                    {
-                        pPos->x = BlockPos.x + fBlockWidth + fWidth;
-                    }
-
-                    //左側当たり判定
-                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
-                    {
-                        pPos->x = BlockPos.x - fBlockWidth - fWidth;
-                    }
-
-                    //上側当たり判定
-                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + (fBlockDepth - 20) && pPosOld->z - fHeight >= BlockPos.z + (fBlockDepth - 20))
-                    {
-                        pPos->z = (BlockPos.z + fBlockDepth + fHeight) - 20;
-                    }
-
-                    //下側当たり判定
-                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - (fBlockDepth + 20) && pPosOld->z <= BlockPos.z - (fBlockDepth + 20))
-                    {
-                        pPos->z = (BlockPos.z - fBlockDepth) - 20;
-                        bLanding = true;
-                    }
-
-                }
-            }
-        }
+        pPos->x = Pos.x + fBlockWidth + fWidth;
     }
+
+    //左側当たり判定
+    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
+    {
+        pPos->x = Pos.x - fBlockWidth - fWidth;
+    }
+
+    //上側当たり判定
+    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + (fBlockDepth - 20) && pPosOld->z - fHeight >= Pos.z + (fBlockDepth - 20))
+    {
+        pPos->z = (Pos.z + fBlockDepth + fHeight) - 20;
+    }
+
+    //下側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - (fBlockDepth + 20) && pPosOld->z <= Pos.z - (fBlockDepth + 20))
+    {
+        pPos->z = (Pos.z - fBlockDepth) - 20;
+        bLanding = true;
+    }
+
     return bLanding;
 }

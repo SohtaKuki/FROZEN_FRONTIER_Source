@@ -350,61 +350,40 @@ bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
     float fBlockWidth = 10.0f;
     float fBlockDepth = 20.0f;
 
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+    //右側当たり判定
+    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z  > Pos.z - fBlockDepth)
     {
-        //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-        {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
-            {
-                CObject::TYPE type = pObj->GetType();
-
-                //ブロックだった場合
-                if (type == CObject::TYPE::ITEM_WALKSPDUP)
-                {
-
-                    C3ditem* pD3DBlock = (C3ditem*)pObj;
-
-                    D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
-
-                    //右側当たり判定
-                    if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
-                    {
-                            bLanding = true;
-                            CObject3D::Uninit();
-
-                    }
-
-                    //左側当たり判定
-                    else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
-                    {
-
-                            bLanding = true;
-                            CObject3D::Uninit();
-
-                    }
-
-                    //上側当たり判定
-                    if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
-                    {
-
-                            bLanding = true;
-                            CObject3D::Uninit();
-
-                    }
-
-                    //下側当たり判定
-                    else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
-                    {
-                            bLanding = true;
-                            CObject3D::Uninit();
-                    }
-
-                }
-            }
-        }
+            bLanding = true;
+            CObject3D::Uninit();
+    
     }
+    
+    //左側当たり判定
+    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
+    {
+    
+            bLanding = true;
+            CObject3D::Uninit();
+    
+    }
+    
+    //上側当たり判定
+    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth && pPosOld->z - fHeight >= Pos.z + fBlockDepth)
+    {
+    
+            bLanding = true;
+            CObject3D::Uninit();
+    
+    }
+    
+    //下側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth && pPosOld->z <= Pos.z - fBlockDepth)
+    {
+            bLanding = true;
+            CObject3D::Uninit();
+    }
+
     return bLanding;
 }

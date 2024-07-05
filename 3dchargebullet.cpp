@@ -138,7 +138,7 @@ void C3dchargebullet::Update()
 	m_pVtxBuff->Unlock();
 
 	//弾とブロックの当たり判定
-	for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK - 100; nCntObj++)
+	for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
 	{
 		CObject* pObj = CObject::GetObj(3, nCntObj);
 
@@ -165,38 +165,39 @@ void C3dchargebullet::Update()
 
 		}
 
-		//弾とブロックの当たり判定
-		for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK - 100; nCntObj++)
+	}
+
+	//弾とブロックの当たり判定
+	for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+	{
+		CObject* pObj = CObject::GetObj(3, nCntObj);
+
+		if (pObj != nullptr)
 		{
-			CObject* pObj = CObject::GetObj(3, nCntObj);
+			CObject::TYPE type = pObj->GetType();
 
-			if (pObj != nullptr)
+			C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
+
+			D3DXVECTOR3 BlockPos = p3dbrokenblock->GetPos();
+
+			//破壊可能ブロックの場合
+			if (type == CObject::TYPE::BROKENBLOCK)
 			{
-				CObject::TYPE type = pObj->GetType();
-
-				C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
-
-				D3DXVECTOR3 BlockPos = p3dbrokenblock->GetPos();
-
-				//破壊可能ブロックの場合
-				if (type == CObject::TYPE::BROKENBLOCK)
+				if (m_nPos.x >= BlockPos.x - 40
+					&& m_nPos.x <= BlockPos.x + 40
+					&& m_nPos.z >= BlockPos.z - 40
+					&& m_nPos.z <= BlockPos.z + 40)
 				{
-					if (m_nPos.x >= BlockPos.x - 40
-						&& m_nPos.x <= BlockPos.x + 40
-						&& m_nPos.z >= BlockPos.z - 40
-						&& m_nPos.z <= BlockPos.z + 40)
-					{
-						Uninit();
-						p3dbrokenblock->Uninit();
-						return;
-					}
+					Uninit();
+					p3dbrokenblock->Uninit();
+					return;
 				}
 			}
 		}
 	}
 
 	//弾と敵の当たり判定
-	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+	for (int nCntObj = 0; nCntObj < C3denemy::MAX_ENEMY; nCntObj++)
 	{
 		CObject* pObj = CObject::GetObj(3, nCntObj);
 

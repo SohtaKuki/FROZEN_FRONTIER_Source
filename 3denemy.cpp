@@ -98,27 +98,10 @@ void C3denemy::Update()
     Pos.x += m_n3DPlayerMove.x;
     Pos.z += m_n3DPlayerMove.z;
 
-    //バフアイテムの当たり判定
-    for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-    {
-        CObject* pObj = CObject::GetObj(3, nCntObj);
-
-        if (pObj != nullptr)
-        {
-            CObject::TYPE type = pObj->GetType();
-
-            C3dbullet* p3dbullet = (C3dbullet*)pObj;
-
-            D3DXVECTOR3 EnemyPos = p3dbullet->GetPos();
-
-        }
-    }
-
-
     //ブロックとの当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
-        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+        for (int nCntObj = 0; nCntObj < MAX_ENEMY; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
@@ -132,18 +115,18 @@ void C3denemy::Update()
 
                     bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
 
-                    if (bIsCollision == true)
-                    {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f)
-                        {
-                            Pos.z += p3dblock->GetMoveBlock().z;
-                        }
+                    //if (bIsCollision == true)
+                    //{
+                    //    if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f)
+                    //    {
+                    //        Pos.z += p3dblock->GetMoveBlock().z;
+                    //    }
 
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dblock->GetMoveBlock().z >= 0.1f)
-                        {
-                            Pos.z += (p3dblock->GetMoveBlock().z * 2);
-                        }
-                    }
+                    //    if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dblock->GetMoveBlock().z >= 0.1f)
+                    //    {
+                    //        Pos.z += (p3dblock->GetMoveBlock().z * 2);
+                    //    }
+                    //}
 
                 }
 

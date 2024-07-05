@@ -61,6 +61,7 @@ public:
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
 	static int GetEnemyLife() { return m_nLife; }
 	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DPlayerPos; }//座標の取得
+	static unsigned const int MAX_ENEMY = 100;	//オブジェクト最大数
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

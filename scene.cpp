@@ -133,11 +133,13 @@ HRESULT CGame::Init()
 
 	C3dstartobj::Create();
 
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f), 0);
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f), 1);
+	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f),0);
+	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f),0);
 
 
-	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f), 1);
+	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f),1);
+
+
 
 	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
 
@@ -145,7 +147,6 @@ HRESULT CGame::Init()
 
 	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
 
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 300.0f), 3);
 
 	return S_OK;
 }

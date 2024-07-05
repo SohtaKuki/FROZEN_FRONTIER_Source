@@ -9,16 +9,14 @@
 #include "3dplayer.h"
 
 LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
+int C3dblock::m_nType = 0;				// オブジェクト総数
 
 //======================
 // コンストラクタ
 //======================
 C3dblock::C3dblock(int nPriority) : CModel(nPriority)
 {
-   m_bTurn = false; 
-   m_nTurnCnt = 0;
-   m_nType = 0;
-   m_nLife = 4;
+
 }
 
 //======================
@@ -56,77 +54,7 @@ void C3dblock::Uninit()
 //======================
 void C3dblock::Update()
 {
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-        {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-            if (pObj != nullptr)
-            {
-                CObject::TYPE type = pObj->GetType();
-
-                //ブロックだった場合
-                if (type == CObject::TYPE::BLOCK)
-                {
-                    D3DXVECTOR3 Pos = CObject3D::GetPos();
-
-                    //if (m_bTurn == false)
-                    //{
-                    //    m_MoveBlock.z += 0.1f;
-
-                    //    m_nTurnCnt += 5;
-
-                    //    if (m_nTurnCnt == 600)
-                    //    {
-                    //        m_bTurn = true;
-                    //        m_nTurnCnt = 0;
-                    //    }
-                    //}
-
-                    //if (m_bTurn == true)
-                    //{
-                    //    m_MoveBlock.z -= 0.1f;
-                    //    m_nTurnCnt += 5;
-
-                    //    if (m_nTurnCnt == 600)
-                    //    {
-                    //        m_bTurn = false;
-                    //        m_nTurnCnt = 0;
-                    //    }
-                    //}
-
-                    Pos.x += m_MoveBlock.x;
-                    Pos.z += m_MoveBlock.z;
-
-                    SetPos(Pos);
-
-                    //X座標の移動量を更新
-                    m_MoveBlock.x += (0.0f - m_MoveBlock.x) * 0.1f;
-
-                    //Z座標の移動量を更新
-                    m_MoveBlock.z += (0.0f - m_MoveBlock.z) * 0.1f;
-
-                }
-
-            }
-        }
-    }
-
-    //ブロックの体力が0の場合
-    if (m_nLife <= 0)
-    {
-        Uninit();
-    }
-}
-
-//======================
-// ブロックダメージ処理
-//======================
-void C3dblock::BlockDamage()
-{
-    m_nLife--;
 }
 
 //======================
@@ -217,83 +145,54 @@ void C3dblock::Draw()
 //======================
 C3dblock* C3dblock::Create(D3DXVECTOR3 pos, int nType)
 {
-    C3dblock* D3Dblock = nullptr;
+    C3dblock* D3DBlock = nullptr;
 
-    D3Dblock = new C3dblock;
+    D3DBlock = new C3dblock;
 
-    CModel* D3DModel = new CModel;
-
-    D3Dblock->m_nType = nType;
+    m_nType = nType;
 
     //初期化に成功した場合
-    if (SUCCEEDED(D3Dblock->Init()))
+    if (SUCCEEDED(D3DBlock->Init()))
     {
-        //範囲内の種類なら設定
-        if (nType >= 0 && nType < (int)CObject::MAX_TYPE)
-        {
-            D3Dblock->SetType((CObject::TYPE)nType);
-        }
+        D3DBlock->SetType(TYPE::BLOCK);
 
-        ////通常ブロックの場合
-        //if (nType == 0)
-        //{
+        D3DBlock->LoadBlockData();
 
-        //    D3Dblock->SetType(TYPE::BLOCK);
+        //D3DBlock->Load();//テクスチャを設定(仮)
 
-        //}
-
-        ////破壊可能ブロックの場合
-        //if (nType == 1)
-        //{
-
-        //    D3Dblock->SetType(TYPE::BROKENBLOCK);
-
-
-        //}
-
-        //if (nType == 3)
-        //{
-        //    D3Dblock->SetType(TYPE::GOAL);
-        //}
-
-        D3DModel->LoadModelData("data\\MODEL_Crystal\\motion.txt");
-
-        //D3Dblock->Load();//テクスチャを設定(仮)
-
-        D3Dblock->CObject3D::SetPos(pos);
+        D3DBlock->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
     }
 
-    return D3Dblock;
+    return D3DBlock;
 }
 
+//======================
+// テクスチャロード処理
+//======================
+HRESULT C3dblock::Load()
+{
+    LPDIRECT3DDEVICE9 pDevice = nullptr;
+    pDevice = CManager::GetRenderer()->GetDevice();
 
-////======================
-//// テクスチャロード処理
-////======================
-//HRESULT C3dblock::Load()
-//{
-//    LPDIRECT3DDEVICE9 pDevice = nullptr;
-//    pDevice = CManager::GetRenderer()->GetDevice();
-//
-//    
-//    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
-//    {
-//        return E_FAIL;
-//    }
-//    
-//    return S_OK;
-//}
-//
-////======================
-//// テクスチャアンロード(終了)処理
-////======================
-//void C3dblock::Unload()
-//{
-//    CModel::Unload();
-//}
+
+    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
+    {
+        return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+//======================
+// テクスチャアンロード(終了)処理
+//======================
+void C3dblock::Unload()
+{
+    CModel::Unload();
+}
 
 
 
@@ -306,29 +205,13 @@ void C3dblock::LoadBlockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    if (m_nType == 0)
-    {
-        m_pFile = fopen("data\\MODEL_Crystal\\motion.txt", "r");//ファイルを開く
-    }
-
-
-    if (m_nType == 1)
-    {
-        m_pFile = fopen("data\\MODEL\\MODEL_Block\\motion.txt", "r");//ファイルを開く
-    }
-
-    if (m_nType == 3)
-    {
-        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs2.txt", "r");//ファイルを開く
-    }
+    m_pFile = fopen("data\\MODEL\\MODEL_Block\\icecrystal_profile.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
     {
         return;
     }
-
-    
 
     //外部ファイル文字列読み取り
     while (1)
@@ -424,6 +307,10 @@ void C3dblock::LoadBlockData(void)
         m_aModel[nCnt].nIdxModelParent = CModel::m_aLoadEnemy[nCnt].parent;
         m_aModel[nCnt].bUse = true;
 
+        //敵の立ち位置初期化
+        //m_nPos = D3DXVECTOR3(-0.0f, -0.0f, 0.0f);
+        //m_aEnemy.rot = D3DXVECTOR3(-0.0f, 0.0f, 0.0f);
+
         m_aModel[nCnt].pos = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].pos.x, CModel::m_aLoadEnemy[nCnt].pos.y, CModel::m_aLoadEnemy[nCnt].pos.z);
         m_aModel[nCnt].rot = D3DXVECTOR3(CModel::m_aLoadEnemy[nCnt].rot.x, CModel::m_aLoadEnemy[nCnt].rot.y, CModel::m_aLoadEnemy[nCnt].rot.z);
     }
@@ -438,11 +325,10 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
     float fBlockWidth = 10.0f;
     float fBlockDepth = 20.0f;
 
-
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
         //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
+        for (int nCntObj = 0; nCntObj < MAX_BLOCK; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
@@ -451,45 +337,9 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                 CObject::TYPE type = pObj->GetType();
 
                 //ブロックだった場合
-                if (type == CObject::TYPE::BLOCK || type == CObject::TYPE::BROKENBLOCK)
+                if (type == CObject::TYPE::BLOCK)
                 {
-                        C3dblock* pD3DBlock = (C3dblock*)pObj;
 
-                        D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
-
-                        //右側当たり判定
-                        if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
-                        {
-                            pPos->x = BlockPos.x + fBlockWidth + fWidth;
-                            
-                        }
-
-                        //左側当たり判定
-                        else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
-                        {
-                            
-                             pPos->x = BlockPos.x - fBlockWidth - fWidth;
- 
-                        }
-
-                        //上側当たり判定
-                        if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
-                        {
-                            pPos->z = (BlockPos.z) + fBlockDepth + fHeight;
-                            bLanding = true;
-                        }
-
-                        //下側当たり判定
-                        else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
-                        {
-                             pPos->z = BlockPos.z - fBlockDepth;
-                             bLanding = true;
-                        }
-                }
-
-                //ブロックだった場合
-                if (type == CObject::TYPE::GOAL)
-                {
                     C3dblock* pD3DBlock = (C3dblock*)pObj;
 
                     D3DXVECTOR3 BlockPos = pD3DBlock->GetPos();
@@ -497,29 +347,28 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
                     //右側当たり判定
                     if (pPos->x - fWidth <= BlockPos.x + fBlockWidth && pPosOld->x - fWidth >= BlockPos.x + fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z  > BlockPos.z - fBlockDepth)
                     {
-                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-
+                        pPos->x = BlockPos.x + fBlockWidth + fWidth;
                     }
 
                     //左側当たり判定
                     else if (pPos->x + fWidth >= BlockPos.x - fBlockWidth && pPosOld->x + fWidth <= BlockPos.x - fBlockWidth && pPos->z - fHeight < BlockPos.z + fBlockDepth && pPos->z > BlockPos.z - fBlockDepth)
                     {
-
-                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-
+                        pPos->x = BlockPos.x - fBlockWidth - fWidth;
                     }
 
                     //上側当たり判定
                     if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z - fHeight <= BlockPos.z + fBlockDepth && pPosOld->z - fHeight >= BlockPos.z + fBlockDepth)
                     {
-                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                        pPos->z = BlockPos.z + fBlockDepth + fHeight;
                     }
 
                     //下側当たり判定
                     else if (pPos->x - fWidth < BlockPos.x + fBlockWidth && pPos->x + fWidth > BlockPos.x - fBlockWidth && pPos->z >= BlockPos.z - fBlockDepth && pPosOld->z <= BlockPos.z - fBlockDepth)
                     {
-                        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                        pPos->z = BlockPos.z - fBlockDepth;
+                        bLanding = true;
                     }
+
                 }
             }
         }

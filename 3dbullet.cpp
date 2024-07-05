@@ -158,7 +158,7 @@ void C3dbullet::Update()
 					&& m_nPos.z <= BlockPos.z + 40)
 				{
 					Uninit();
-					p3dblock->BlockDamage();
+					//p3dblock->BlockDamage();
 					return;
 				}
 			}

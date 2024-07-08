@@ -319,34 +319,34 @@ void C3dblock::LoadBlockData(void)
 bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
     bool bLanding = false; //重力を適応した場合のみ使用
-    float fBlockWidth = 10.0f;
-    float fBlockDepth = 10.0f;
+    float fBlockWidth = -20.0f;
+    float fBlockDepth = 0.0f;
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
 
     //右側当たり判定
-    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z  > Pos.z - fBlockDepth)
+    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
     {
         pPos->x = Pos.x + fBlockWidth + fWidth;
     }
     
     //左側当たり判定
-    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
+    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
     {
         pPos->x = Pos.x - fBlockWidth - fWidth;
     }
     
     //上側当たり判定
-    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth && pPosOld->z - fHeight >= Pos.z + fBlockDepth)
+    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
     {
-        pPos->z = Pos.z + fBlockDepth + fHeight;
+        pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
     }
     
     //下側当たり判定
-    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth && pPosOld->z <= Pos.z - fBlockDepth)
+    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f )
     {
-        pPos->z = Pos.z - fBlockDepth;
+        pPos->z = Pos.z - fBlockDepth - 20.0f;
         bLanding = true;
     }
 

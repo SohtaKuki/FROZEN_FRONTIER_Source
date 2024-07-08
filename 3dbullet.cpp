@@ -212,15 +212,15 @@ void C3dbullet::Update()
 			if (m_nType == 0)
 			{
 				//“G‚Ìê‡
-				if (type == CObject::TYPE::ENEMY)
+				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE)
 				{
 					if (m_nPos.x >= EnemyPos.x - 40
 						&& m_nPos.x <= EnemyPos.x + 40
 						&& m_nPos.z >= EnemyPos.z - 40
 						&& m_nPos.z <= EnemyPos.z + 40)
 					{
-						p3denemy->EnemyDamage();
 						Uninit();
+						p3denemy->EnemyDamage();
 						return;
 					}
 				}

@@ -15,16 +15,15 @@
 #include "3dchargebullet.h"
 
 LPDIRECT3DTEXTURE9 C3denemy::m_pTexBuff = nullptr;
-int C3denemy::m_nLife = 0;
-
 //======================
 // コンストラクタ
 //======================
 C3denemy::C3denemy(int nPriority) : CModel(nPriority)
 {
     m_nShotInterval = 0;
-    m_nInstantShotTime = 0;
+    m_nMoveInterval = 0;
     m_nLife = 3;
+    m_bMoveSwitch = false;
 }
 
 //======================
@@ -73,13 +72,58 @@ void C3denemy::Update()
     }
 
     //球発射(1秒半の間隔で発射)
-    if (m_nShotInterval == 90)
+    if (m_nShotInterval == SHOT_INTERVAL)
     {
         C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot, 1);
         m_nShotInterval = 0;
     }
 
 
+    if (m_nMoveInterval == 0)
+    {
+        m_bMoveSwitch = false;
+
+    }
+
+    if (m_nMoveInterval == MOVE_INTERVAL)
+    {
+        m_bMoveSwitch = true;
+    }
+
+
+    if (m_bMoveSwitch == false)
+    {
+        m_nMoveInterval++;
+
+        if (GetType() == TYPE::ENEMY_XMOVE)
+        {
+            m_n3DEnemyMove.x += 0.4f;
+            m_rot.y = D3DX_PI * -0.5f;
+        }
+
+        if (GetType() == TYPE::ENEMY_ZMOVE)
+        {
+            m_n3DEnemyMove.z += 0.4f;
+            m_rot.y = D3DX_PI;
+        }
+    }
+
+    if (m_bMoveSwitch == true)
+    {
+        m_nMoveInterval--;
+
+        if (GetType() == TYPE::ENEMY_XMOVE)
+        {
+            m_n3DEnemyMove.x -= 0.4f;
+            m_rot.y = D3DX_PI * 0.5f;
+        }
+
+        if (GetType() == TYPE::ENEMY_ZMOVE)
+        {
+            m_n3DEnemyMove.z -= 0.4f;
+            m_rot.y = D3DX_PI * -0.0f;
+        }
+    }
 
     //敵のHPを減らす
     if (CManager::GetKeyboard()->GetTrigger(DIK_M))
@@ -87,16 +131,18 @@ void C3denemy::Update()
         m_nLife -= 1;
     }
 
-    if (m_nLife == 0)
+    if (m_nLife <= 0)
     {
-        Uninit();
+         Uninit();
     }
+
+
 
     //過去座標を保存
     m_nOld3DPlayerPos = Pos;
 
-    Pos.x += m_n3DPlayerMove.x;
-    Pos.z += m_n3DPlayerMove.z;
+    Pos.x += m_n3DEnemyMove.x;
+    Pos.z += m_n3DEnemyMove.z;
 
     //ブロックとの当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
@@ -113,7 +159,7 @@ void C3denemy::Update()
                 {
                     C3dblock* p3dblock = (C3dblock*)pObj;
 
-                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     //if (bIsCollision == true)
                     //{
@@ -138,10 +184,10 @@ void C3denemy::Update()
     SetPos(Pos);
 
     //X座標の移動量を更新
-    m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
+    m_n3DEnemyMove.x += (Length_value2 - m_n3DEnemyMove.x) * 0.18f;
 
     //Z座標の移動量を更新
-    m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
+    m_n3DEnemyMove.z += (Length_value2 - m_n3DEnemyMove.z) * 0.18f;
 
 
 }
@@ -211,7 +257,6 @@ void C3denemy::Draw()
 
             pMat = (D3DXMATERIAL*)m_pBuffMat[nCntParts]->GetBufferPointer();
 
-
             for (int nCntMat = 0; nCntMat < (int)m_nNumMat[nCntParts]; nCntMat++)
             {
                 //マテリアルの設定
@@ -220,25 +265,8 @@ void C3denemy::Draw()
                 //テクスチャの設定
                 pDevice->SetTexture(0, m_pTexBuff);
 
-                //テクスチャが存在する
-                if (pMat[nCntMat].pTextureFilename != NULL)
-                {
-                    //テクスチャの設定
-                    pDevice->SetTexture(0, &m_aModel[0].m_pTexture[nCntMat]);
-                }
-
-                else
-                {
-                    //テクスチャの設定
-                    pDevice->SetTexture(0, NULL);
-                }
-
-                if (m_nLife > 0)
-                {
-                    //モデル(パーツ)の描画
-                    m_pMesh[nCntParts]->DrawSubset(nCntMat);
-                }
-
+                //モデル(パーツ)の描画
+                m_pMesh[nCntParts]->DrawSubset(nCntMat);
             }
         }
 
@@ -249,13 +277,13 @@ void C3denemy::Draw()
 
 void C3denemy::EnemyDamage()
 {
-    m_nLife -= 1;
+    m_nLife--;
 }
 
 //======================
 // オブジェクト生成処理
 //======================
-C3denemy* C3denemy::Create(D3DXVECTOR3 pos)
+C3denemy* C3denemy::Create(D3DXVECTOR3 pos,int MoveType)
 {
     C3denemy* D3Dplayer = nullptr;
 
@@ -264,7 +292,15 @@ C3denemy* C3denemy::Create(D3DXVECTOR3 pos)
     //初期化に成功した場合
     if (SUCCEEDED(D3Dplayer->Init()))
     {
-        D3Dplayer->SetType(TYPE::ENEMY);
+        if (MoveType == 0)
+        {
+            D3Dplayer->SetType(TYPE::ENEMY_XMOVE);
+        }
+
+        if (MoveType == 1)
+        {
+            D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
+        }
 
         D3Dplayer->LoadPlayerData();
 

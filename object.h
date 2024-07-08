@@ -36,7 +36,9 @@ public:
 	typedef enum
 	{
 		NONE= 0,
-		ENEMY, //敵
+		ENEMY, //敵(2DObject用)
+		ENEMY_XMOVE, //敵(X座標移動)
+		ENEMY_ZMOVE, //敵(Z座標移動)
 		START, //スタートマーカー
 		GOAL, //ゴールマーカー
 		PLAYER, //プレイヤー

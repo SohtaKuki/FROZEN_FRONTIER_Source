@@ -324,6 +324,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
+
     //‰E‘¤“–‚½‚è”»’è
     if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z  > Pos.z - fBlockDepth)
     {

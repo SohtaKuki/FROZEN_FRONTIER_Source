@@ -154,10 +154,10 @@ void C3dplayer::Update()
         if (!m_bAButtonPressed)
         {
             m_bAButtonPressed = true;
-            m_bAButtonPressStartTime = GetTickCount(); // タイムスタンプを記録
+            m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
         }
         //スペースキーを2秒以上長押ししている場合
-        else if (CManager::GetKeyboard()->GetPress(DIK_SPACE) == true && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
+        else if (CManager::GetKeyboard()->GetPress(DIK_SPACE) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000))
         {
 
         }
@@ -165,7 +165,7 @@ void C3dplayer::Update()
     else
     {
         // スペースキーが離された場合かつ長押し時間が2秒以上の場合
-        if (m_bAButtonPressed && (GetTickCount() - m_bAButtonPressStartTime >= 2000 - 1000))
+        if (m_bAButtonPressed && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))
         {
             //チャージショット即発射バフが有効の場合は通さない
             if (m_bInstantShot == false)
@@ -389,7 +389,25 @@ void C3dplayer::Draw()
 
     //位置を反映
     D3DXMatrixTranslation(&mtxTrans, Pos.x, Pos.y, Pos.z);
-    D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxTrans);
+    D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld , &mtxTrans);
+
+    ////モデルの影の設定
+    //D3DXMATRIX mtxshadow , mtxshadowTrans;
+    //D3DXPLANE plane;
+    //D3DXVECTOR4 vecLight;
+    //D3DXVECTOR3 pos, nor;
+
+    //D3DXMatrixIdentity(&mtxshadow);
+
+    ////ライトの逆方向ベクトルを設定
+    //vecLight = D3DXVECTOR4(0.5f, 0.6f, 0.7f,1.0f);
+    //pos = D3DXVECTOR3(0.0f,0.0f,0.0f);
+    //nor = D3DXVECTOR3(0.0f,1.0f,0.0f);
+
+    //D3DXPlaneFromPointNormal(&plane, &pos, &nor);
+    //D3DXMatrixShadow(&mtxshadow,&vecLight,&plane);
+
+    //m_mtxworld * mtxshadow;
 
     //ワールドマトリックスの設定
     pDevice->SetTransform(D3DTS_WORLD, &m_mtxworld);
@@ -412,6 +430,7 @@ void C3dplayer::Draw()
 
         //親子関係
         D3DXMATRIX mtxParent;
+
 
         if (m_aModel[nCntParts].nIdxModelParent == -1)
         {

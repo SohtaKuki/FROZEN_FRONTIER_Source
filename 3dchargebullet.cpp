@@ -210,7 +210,7 @@ void C3dchargebullet::Update()
 			D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
 
 			//“G‚Ìê‡
-			if (type == CObject::TYPE::ENEMY)
+			if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE)
 			{
 				if (m_nPos.x >= EnemyPos.x - 40
 					&& m_nPos.x <= EnemyPos.x + 40

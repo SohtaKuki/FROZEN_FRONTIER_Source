@@ -51,7 +51,7 @@ public:
 	void Update()override;
 	void Draw()override;
 	//void SetPlayerPos();
-	static C3denemy* Create(D3DXVECTOR3 pos);
+	static C3denemy* Create(D3DXVECTOR3 pos,int MoveType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
@@ -59,9 +59,10 @@ public:
 	void EnemyDamage();
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
-	static int GetEnemyLife() { return m_nLife; }
 	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DPlayerPos; }//座標の取得
 	static unsigned const int MAX_ENEMY = 100;	//オブジェクト最大数
+	static const int SHOT_INTERVAL = 120;
+	static const int MOVE_INTERVAL = 170;
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -77,12 +78,13 @@ private:
 	LoadEnemy m_aLoadEnemy[NUM_MODEL];
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
+	bool m_bMoveSwitch;
 	FILE* m_pFile;//ファイルポインタを宣言
-	int m_nShotInterval;
-	int m_nInstantShotTime;
-	static int m_nLife;
+	int m_nShotInterval; //弾の打つ間隔
+	int m_nMoveInterval; //方向転換をする間隔
+	int m_nLife;
 protected:
-	D3DXVECTOR3 m_n3DPlayerMove;
+	D3DXVECTOR3 m_n3DEnemyMove;
 	D3DXVECTOR3 m_rot;
 
 };

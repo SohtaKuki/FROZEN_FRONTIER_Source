@@ -130,7 +130,10 @@ HRESULT CGame::Init()
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f));
+
+	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f),0);
+	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -400.0f), 1);
+	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -700.0f), 1);
 
 	C3dstartobj::Create();
 

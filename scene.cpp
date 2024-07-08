@@ -7,18 +7,14 @@
 
 #include "scene.h"
 #include "objbg.h"
+#include "stagemanager.h"
 #include "floor.h"
-#include "objectX.h"
-#include "3dplayer.h"
-#include "billboard.h"
-#include "3dblock.h"
-#include "startobj.h"
-#include "3ditem.h"
+
+
 #include "timer.h"
 #include "playerhpbar.h"
 #include "result.h"
-#include "3denemy.h"
-#include "3dbrokenblock.h"
+
 
 //======================
 //コンストラクタ
@@ -129,34 +125,8 @@ HRESULT CGame::Init()
 	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
-	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
 
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f),0);
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -400.0f), 1);
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -700.0f), 1);
-
-	C3dstartobj::Create();
-
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f));
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f));
-
-
-	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f));
-
-
-
-	C3dbrokenblock::Create(D3DXVECTOR3(100.0f, 0.0f, 250.0f));
-	C3dbrokenblock::Create(D3DXVECTOR3(300.0f, 0.0f, 250.0f));
-
-
-	C3dbrokenblock::Create(D3DXVECTOR3(00.0f, 0.0f, 250.0f));
-
-	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
-
-	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 1);
-
-	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
-
+	CStageManager::Init();
 
 	return S_OK;
 }

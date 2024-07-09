@@ -126,7 +126,8 @@ HRESULT CGame::Init()
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));
 
-	CStageManager::Init();
+	//ステージマネージャー初期化処理
+	CStageManager::Create();
 
 	return S_OK;
 }

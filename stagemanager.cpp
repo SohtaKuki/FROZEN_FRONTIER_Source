@@ -37,34 +37,6 @@ CStageManager::~CStageManager()
 //======================
 HRESULT CStageManager::Init()
 {
-	C3dplayer::Create(D3DXVECTOR3(300.0f, 0.0f, -50.0f));
-
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -100.0f), 0);
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -400.0f), 1);
-	C3denemy::Create(D3DXVECTOR3(-300.0f, 0.0f, -700.0f), 1);
-
-	C3dstartobj::Create();
-
-	C3dblock::Create(D3DXVECTOR3(100.0f, 0.0f, 50.0f));
-	C3dblock::Create(D3DXVECTOR3(300.0f, 0.0f, 50.0f));
-
-
-	C3dblock::Create(D3DXVECTOR3(400.0f, 0.0f, 50.0f));
-
-
-
-	C3dbrokenblock::Create(D3DXVECTOR3(100.0f, 0.0f, 250.0f));
-	C3dbrokenblock::Create(D3DXVECTOR3(300.0f, 0.0f, 250.0f));
-
-
-	C3dbrokenblock::Create(D3DXVECTOR3(00.0f, 0.0f, 250.0f));
-
-	C3ditem::Create(D3DXVECTOR3(-50.0f, 0.0f, 50.0f), 0);
-
-	C3ditem::Create(D3DXVECTOR3(-150.0f, 0.0f, 50.0f), 1);
-
-	C3ditem::Create(D3DXVECTOR3(-300.0f, 0.0f, 50.0f), 1);
-
 	return S_OK;
 }
 
@@ -80,5 +52,135 @@ void CStageManager::Update()
 
 void CStageManager::Draw()
 {
+
+}
+
+//======================
+// オブジェクト生成処理
+//======================
+CStageManager* CStageManager::Create()
+{
+    CStageManager* D3DStageManager = nullptr;
+
+    D3DStageManager = new CStageManager;
+
+    //初期化に成功した場合
+    if (SUCCEEDED(D3DStageManager->Init()))
+    {
+        D3DStageManager->LoadStageData();
+
+    }
+
+    return D3DStageManager;
+}
+
+void CStageManager::LoadStageData()
+{
+    char Datacheck[MAX_CHAR];
+    int nCntObjectData = 0;
+    int CreateObjType[MAX_OBJ];
+    int CreateObjType2[MAX_OBJ];
+
+    m_pFile = fopen("data\\LOADSTAGE\\loadstage000.txt", "r");//ファイルを開く
+
+    //ファイルが存在しない場合
+    if (m_pFile == NULL)
+    {
+        return;
+    }
+
+    //外部ファイル文字列読み取り
+    while (1)
+    {
+        fscanf(m_pFile, "%s", Datacheck);
+
+
+            if (Datacheck[0] == '#')
+            {
+                continue;
+            }
+
+            if (!strcmp(Datacheck, "END_STAGESET"))
+            {
+                fclose(m_pFile);
+                break;
+            }
+
+            if (!strcmp(Datacheck, "OBJECTSET"))
+            {
+                while (1)
+                {
+                    fscanf(m_pFile, "%s", Datacheck);
+
+                    if (!strcmp(Datacheck, "END_OBJECTSET"))
+                    {
+                        break;
+                    }
+
+                    //生成するオブジェクトの種類
+                    if (!strcmp(Datacheck, "OBJ_TYPE"))
+                    {
+                        fscanf(m_pFile, "%s", Datacheck);
+                        fscanf(m_pFile, "%d", &CreateObjType[nCntObjectData]);
+                    }
+
+                    if (!strcmp(Datacheck, "POS"))
+                    {
+                        fscanf(m_pFile, "%s", Datacheck);
+                        fscanf(m_pFile, "%f", &m_nPos[nCntObjectData].x);
+                        fscanf(m_pFile, "%f", &m_nPos[nCntObjectData].y);
+                        fscanf(m_pFile, "%f", &m_nPos[nCntObjectData].z);
+                    }
+
+                    if (!strcmp(Datacheck, "OBJ_TYPE2"))
+                    {
+                        fscanf(m_pFile, "%s", Datacheck);
+                        fscanf(m_pFile, "%d", &CreateObjType2[nCntObjectData]);
+                    }
+                }
+                nCntObjectData++;
+            }
+
+    }
+
+    //デバイスの取得
+    LPDIRECT3DDEVICE9 pDevice = nullptr;
+    pDevice = CManager::GetRenderer()->GetDevice();
+
+    //以下で得た情報を代入
+
+    for (int nCnt = 0; nCnt < nCntObjectData; nCnt++)
+    {
+        //プレイヤー生成の場合
+        if (CreateObjType[nCnt] == 0)
+        {
+            C3dplayer::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+            C3dstartobj::Create();
+        }
+
+        //敵生成の場合
+        if (CreateObjType[nCnt] == 1)
+        {
+            C3denemy::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), CreateObjType2[nCnt]);
+        }
+
+        //ブロック生成の場合
+        if (CreateObjType[nCnt] == 2)
+        {
+            C3dblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+        }
+
+        //ブロック生成の場合
+        if (CreateObjType[nCnt] == 3)
+        {
+            C3dbrokenblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+        }
+
+        //アイテム生成の場合
+        if (CreateObjType[nCnt] == 4)
+        {
+            C3ditem::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), CreateObjType2[nCnt]);
+        }
+    }
 
 }

@@ -14,6 +14,7 @@
 #include "3ditem.h"
 #include "objectX.h"
 #include "3dplayer.h"
+#include "3dwall.h"
 #include "billboard.h"
 
 //======================
@@ -40,16 +41,25 @@ HRESULT CStageManager::Init()
 	return S_OK;
 }
 
+//======================
+// 終了処理
+//======================
 void CStageManager::Uninit()
 {
 
 }
 
+//======================
+// 更新処理
+//======================
 void CStageManager::Update()
 {
 
 }
 
+//======================
+// 描画処理
+//======================
 void CStageManager::Draw()
 {
 
@@ -68,12 +78,14 @@ CStageManager* CStageManager::Create()
     if (SUCCEEDED(D3DStageManager->Init()))
     {
         D3DStageManager->LoadStageData();
-
     }
 
     return D3DStageManager;
 }
 
+//======================
+// ステージ配置情報読み込み処理
+//======================
 void CStageManager::LoadStageData()
 {
     char Datacheck[MAX_CHAR];
@@ -124,6 +136,7 @@ void CStageManager::LoadStageData()
                         fscanf(m_pFile, "%d", &CreateObjType[nCntObjectData]);
                     }
 
+                    //オブジェクトの座標
                     if (!strcmp(Datacheck, "POS"))
                     {
                         fscanf(m_pFile, "%s", Datacheck);
@@ -132,12 +145,14 @@ void CStageManager::LoadStageData()
                         fscanf(m_pFile, "%f", &m_nPos[nCntObjectData].z);
                     }
 
+                    //オブジェクトの詳細設定 (一部のオブジェクトでしか使用しない)
                     if (!strcmp(Datacheck, "OBJ_TYPE2"))
                     {
                         fscanf(m_pFile, "%s", Datacheck);
                         fscanf(m_pFile, "%d", &CreateObjType2[nCntObjectData]);
                     }
                 }
+
                 nCntObjectData++;
             }
 
@@ -147,8 +162,7 @@ void CStageManager::LoadStageData()
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
-    //以下で得た情報を代入
-
+    //上記で得た情報を代入
     for (int nCnt = 0; nCnt < nCntObjectData; nCnt++)
     {
         //プレイヤー生成の場合
@@ -181,6 +195,11 @@ void CStageManager::LoadStageData()
         {
             C3ditem::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), CreateObjType2[nCnt]);
         }
-    }
 
+        //壁生成の場合
+        if (CreateObjType[nCnt] == 5)
+        {
+            C3dwall::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+        }
+    }
 }

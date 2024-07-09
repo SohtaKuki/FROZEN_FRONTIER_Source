@@ -19,6 +19,7 @@ SCRIPT			# この行は絶対消さないこと！
 # 2:通常ブロック
 # 3:破壊可能ブロック
 # 4:アイテム[0:移動速度 1:充填式火炎弾 即発射]
+# 5:壁ブロック
 #------------------------------------------------------------------------------
 STAGESET
 
@@ -70,6 +71,36 @@ STAGESET
 		OBJ_TYPE = 4					#アイテム 
 		POS = -150.0 0.0 50.0
 		OBJ_TYPE2 = 1					#アイテムの種類[充填式火炎弾]
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = -260.0 0.0 -500.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = 0.0 0.0 -500.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = 260.0 0.0 -500.0
+	END_OBJECTSET
+	
+		OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = -260.0 0.0 500.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = 0.0 0.0 500.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#破壊可能ブロック 
+		POS = 260.0 0.0 500.0
 	END_OBJECTSET
 
 END_STAGESET #この行は消さないでください！

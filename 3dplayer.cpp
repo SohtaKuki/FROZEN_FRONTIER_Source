@@ -14,6 +14,7 @@
 #include "3dchargebullet.h"
 #include "3denemy.h"
 #include "3dbrokenblock.h"
+#include "3dwall.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -346,6 +347,42 @@ void C3dplayer::Update()
                         if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f)
                         {
                             Pos.z += (p3dbrokenblock->GetMoveBlock().z * 2);
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    //破壊可能ブロックとの当たり判定
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                if (type == CObject::TYPE::WALL)
+                {
+                    C3dwall* p3dwall = (C3dwall*)pObj;
+
+                    bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                        {
+                            Pos.z += p3dwall->GetMoveBlock().z;
+                        }
+
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                        {
+                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
                         }
                     }
 

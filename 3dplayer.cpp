@@ -15,6 +15,7 @@
 #include "3denemy.h"
 #include "3dbrokenblock.h"
 #include "3dwall.h"
+#include "timer.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -250,6 +251,19 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z <= EnemyPos.z + 50)
                 {
                     m_bInstantShot = true;
+                    p3dItem->Uninit();
+                    return;
+                }
+            }
+            //チャージショット即発射バフアイテムの場合
+            if (type == CObject::TYPE::ITEM_ADDTIMER)
+            {
+                if (CObject3D::GetPos().x >= EnemyPos.x - 50
+                    && CObject3D::GetPos().x <= EnemyPos.x + 50
+                    && CObject3D::GetPos().z >= EnemyPos.z - 50
+                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                {
+                    CTimer::AddTimer(20);
                     p3dItem->Uninit();
                     return;
                 }

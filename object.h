@@ -35,7 +35,7 @@ public:
 
 	typedef enum
 	{
-		NONE= 0,
+		NONE = 0,
 		ENEMY, //敵(2DObject用)
 		ENEMY_XMOVE, //敵(X座標移動)
 		ENEMY_ZMOVE, //敵(Z座標移動)
@@ -48,6 +48,7 @@ public:
 		D2DITEM, //2DObject用アイテム
 		ITEM_WALKSPDUP, //プレイヤー強化アイテム(移動速度上昇)
 		ITEM_INSTANTSHOT,//プレイヤー強化アイテム(チャージショット即発射)
+		ITEM_ADDTIMER, //タイマー追加アイテム
 		TIMER, //タイマー
 		FADE, //フェード
 		D2DBULLET, //2D用プレイヤー弾

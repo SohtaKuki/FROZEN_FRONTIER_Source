@@ -13,6 +13,8 @@
 #include "enemy.h"
 #include "block.h"
 
+int CTimer::m_nTime = 0;
+
 //============================
 //コンストラクタ
 //============================
@@ -239,6 +241,11 @@ CTimer* CTimer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	return pTimer;
 }
 
+void CTimer::AddTimer(int nTime)
+{
+	m_nTime += nTime;
+}
+
 //=======================
 //テクスチャの設定
 //=======================
@@ -246,3 +253,4 @@ void CTimer::BindTexture(LPDIRECT3DTEXTURE9 pTex)
 {
 	m_pTexBuff = pTex;
 }
+

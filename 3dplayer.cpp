@@ -195,15 +195,14 @@ void C3dplayer::Update()
         }
     }
 
-
-
     //プレイヤーのHPを減らす
-    if (CManager::GetKeyboard()->GetTrigger(DIK_K))
+    if (CManager::GetKeyboard()->GetPress(DIK_K))
     {
         m_nLife -= 1;
     }
 
-    if (m_nLife == 0)
+    //プレイヤーの体力が0以下になった場合リザルト画面へ遷移
+    if (m_nLife <= 0)
     {
         Uninit();
         CManager::GetFade()->SetFade(CScene::MODE_RESULT);
@@ -611,9 +610,9 @@ void C3dplayer::Unload()
     CModel::Unload();
 }
 
-void C3dplayer::PlayerDamage()
+void C3dplayer::PlayerDamage(int nDamage)
 {
-    m_nLife -= 1;
+    m_nLife -= nDamage;
 }
 
 //===========================

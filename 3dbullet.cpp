@@ -295,7 +295,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= PlayerPos.z - 40
 						&& m_nPos.z <= PlayerPos.z + 40)
 					{
-						p3dplayer->PlayerDamage();
+						p3dplayer->PlayerDamage(10);
 						Uninit();
 						return;
 					}

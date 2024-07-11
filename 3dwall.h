@@ -51,12 +51,13 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dwall* Create(D3DXVECTOR3 pos);
+	static C3dwall* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
 	void LoadWallData();
 	bool Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	bool Collision3DHeightWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 1000;	//オブジェクト最大数
 	D3DXVECTOR3& GetMoveBlock() { return m_nMove; } //Move値取得
 private:

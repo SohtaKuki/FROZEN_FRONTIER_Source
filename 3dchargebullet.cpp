@@ -182,7 +182,7 @@ void C3dchargebullet::Update()
 			D3DXVECTOR3 WallPos = p3dwall->GetPos();
 
 			//ブロックの場合
-			if (type == CObject::TYPE::WALL)
+			if (type == CObject::TYPE::WALL_WIDTH)
 			{
 				if (m_nPos.x >= WallPos.x - 240
 					&& m_nPos.x <= WallPos.x + 240
@@ -194,6 +194,18 @@ void C3dchargebullet::Update()
 				}
 			}
 
+			//ブロックの場合
+			if (type == CObject::TYPE::WALL_HEIGHT)
+			{
+				if (m_nPos.x >= WallPos.x - 40
+					&& m_nPos.x <= WallPos.x + 40
+					&& m_nPos.z >= WallPos.z - 240
+					&& m_nPos.z <= WallPos.z + 240)
+				{
+					Uninit();
+					return;
+				}
+			}
 		}
 	}
 

@@ -44,7 +44,8 @@ public:
 		PLAYER, //プレイヤー
 		BLOCK, //ブロック
 		BROKENBLOCK, //破壊可能ブロック
-		WALL, //壁
+		WALL_WIDTH, //壁 (横長)
+		WALL_HEIGHT, //壁 (縦長)
 		D2DITEM, //2DObject用アイテム
 		ITEM_WALKSPDUP, //プレイヤー強化アイテム(移動速度上昇)
 		ITEM_INSTANTSHOT,//プレイヤー強化アイテム(チャージショット即発射)

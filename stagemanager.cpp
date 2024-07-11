@@ -145,6 +145,15 @@ void CStageManager::LoadStageData()
                         fscanf(m_pFile, "%f", &m_nPos[nCntObjectData].z);
                     }
 
+                    //オブジェクトの向き
+                    if (!strcmp(Datacheck, "ROT"))
+                    {
+                        fscanf(m_pFile, "%s", Datacheck);
+                        fscanf(m_pFile, "%f", &m_nRot[nCntObjectData].x);
+                        fscanf(m_pFile, "%f", &m_nRot[nCntObjectData].y);
+                        fscanf(m_pFile, "%f", &m_nRot[nCntObjectData].z);
+                    }
+
                     //オブジェクトの詳細設定 (一部のオブジェクトでしか使用しない)
                     if (!strcmp(Datacheck, "OBJ_TYPE2"))
                     {
@@ -199,7 +208,10 @@ void CStageManager::LoadStageData()
         //壁生成の場合
         if (CreateObjType[nCnt] == 5)
         {
-            C3dwall::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+            C3dwall::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), D3DXVECTOR3(m_nRot[nCnt].x, m_nRot[nCnt].y, m_nRot[nCnt].z), CreateObjType2[nCnt]);
         }
+
+        
+
     }
 }

@@ -25,6 +25,7 @@ public:
 private:
 	FILE* m_pFile;//ファイルポインタを宣言
 	D3DXVECTOR3 m_nPos[MAX_OBJ];
+	D3DXVECTOR3 m_nRot[MAX_OBJ];
 };
 
 #endif

@@ -142,28 +142,38 @@ void C3dwall::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dwall* C3dwall::Create(D3DXVECTOR3 pos)
+C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
 {
-    C3dwall* D3DBlock = nullptr;
+    C3dwall* D3DWall = nullptr;
 
-    D3DBlock = new C3dwall;
+    D3DWall = new C3dwall;
 
     //初期化に成功した場合
-    if (SUCCEEDED(D3DBlock->Init()))
+    if (SUCCEEDED(D3DWall->Init()))
     {
-        D3DBlock->SetType(TYPE::WALL);
+        if (nType == 0)
+        {
+            D3DWall->SetType(TYPE::WALL_WIDTH);
+        }
 
-        D3DBlock->LoadWallData();
+        if (nType == 1)
+        {
+            D3DWall->SetType(TYPE::WALL_HEIGHT);
+        }
 
-        //D3DBlock->Load();//テクスチャを設定(仮)
+        D3DWall->LoadWallData();
 
-        D3DBlock->CObject3D::SetPos(pos);
+        //D3DWall->Load();//テクスチャを設定(仮)
+
+        D3DWall->CObject3D::SetPos(pos);
+
+        D3DWall->m_rot = rot;
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
     }
 
-    return D3DBlock;
+    return D3DWall;
 }
 
 //======================
@@ -202,7 +212,15 @@ void C3dwall::LoadWallData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile.txt", "r");//ファイルを開く
+    if (GetType() == TYPE::WALL_WIDTH)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile.txt", "r");//ファイルを開く
+    }
+
+    if (GetType() == TYPE::WALL_HEIGHT)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile_yrot.txt", "r");//ファイルを開く
+    }
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -318,37 +336,83 @@ void C3dwall::LoadWallData(void)
 //===========================
 bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-    bool bLanding = false; //重力を適応した場合のみ使用
-    float fBlockWidth = 200.0f;
-    float fBlockDepth = 0.0f;
-
-    D3DXVECTOR3 Pos = CObject3D::GetPos();
-
-
-    //右側当たり判定
-    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+    if (GetType() == TYPE::WALL_WIDTH)
     {
-        pPos->x = Pos.x + fBlockWidth + fWidth;
-    }
+        bool bLanding = false; //重力を適応した場合のみ使用
+        float fBlockWidth = 200.0f;
+        float fBlockDepth = 0.0f;
 
-    //左側当たり判定
-    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+
+        //右側当たり判定
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x + fBlockWidth + fWidth;
+        }
+
+        //左側当たり判定
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x - fBlockWidth - fWidth;
+        }
+
+        //上側当たり判定
+        if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
+        }
+
+        //下側当たり判定
+        else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z - fBlockDepth - 20.0f;
+
+        }
+
+        return bLanding;
+    }
+}
+
+//===========================
+// ブロックの当たり判定
+//===========================
+bool C3dwall::Collision3DHeightWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+{
+    if (GetType() == TYPE::WALL_HEIGHT)
     {
-        pPos->x = Pos.x - fBlockWidth - fWidth;
+        bool bLanding = false; //重力を適応した場合のみ使用
+        float fBlockWidth = -20.0f;
+        float fBlockDepth = 230.0f;
+
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+
+        //右側当たり判定
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x + fBlockWidth + fWidth;
+        }
+
+        //左側当たり判定
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x - fBlockWidth - fWidth;
+        }
+
+        //上側当たり判定
+        if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
+        }
+
+        //下側当たり判定
+        else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z - fBlockDepth - 20.0f;
+
+        }
+
+        return bLanding;
     }
-
-    //上側当たり判定
-    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
-    {
-        pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
-    }
-
-    //下側当たり判定
-    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
-    {
-        pPos->z = Pos.z - fBlockDepth - 20.0f;
-
-    }
-
-    return bLanding;
 }

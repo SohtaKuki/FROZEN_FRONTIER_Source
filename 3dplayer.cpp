@@ -29,7 +29,7 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
     m_bInstantShot = false;
     m_nBuffTime = 0;
     m_nInstantShotTime = 0;
-    m_nLife = 12;
+    m_nLife = 48;
     m_bAButtonPressStartTime = false;
     m_bAButtonPressed = 0;
 }
@@ -381,11 +381,32 @@ void C3dplayer::Update()
             {
                 CObject::TYPE type = pObj->GetType();
 
-                if (type == CObject::TYPE::WALL)
+                if (type == CObject::TYPE::WALL_WIDTH)
                 {
                     C3dwall* p3dwall = (C3dwall*)pObj;
 
                     bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                        {
+                            Pos.z += p3dwall->GetMoveBlock().z;
+                        }
+
+                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                        {
+                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                        }
+                    }
+
+                }
+
+                if (type == CObject::TYPE::WALL_HEIGHT)
+                {
+                    C3dwall* p3dwall = (C3dwall*)pObj;
+
+                    bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {

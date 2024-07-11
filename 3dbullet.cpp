@@ -183,8 +183,8 @@ void C3dbullet::Update()
 			//ƒuƒƒbƒN‚Ìê‡
 			if (type == CObject::TYPE::WALL_WIDTH)
 			{
-				if (m_nPos.x >= WallPos.x - 240
-					&& m_nPos.x <= WallPos.x + 240
+				if (m_nPos.x >= WallPos.x - 120
+					&& m_nPos.x <= WallPos.x + 120
 					&& m_nPos.z >= WallPos.z - 40
 					&& m_nPos.z <= WallPos.z + 40)
 				{
@@ -198,8 +198,8 @@ void C3dbullet::Update()
 			{
 				if (m_nPos.x >= WallPos.x - 40
 					&& m_nPos.x <= WallPos.x + 40
-					&& m_nPos.z >= WallPos.z - 240
-					&& m_nPos.z <= WallPos.z + 240)
+					&& m_nPos.z >= WallPos.z - 120
+					&& m_nPos.z <= WallPos.z + 120)
 				{
 					Uninit();
 					return;

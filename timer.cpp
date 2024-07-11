@@ -22,6 +22,7 @@ CTimer::CTimer(int nPriority) : CObject2D(nPriority)
 {
 	m_nTime = 40;
 	m_nTimerCnt = 0;
+	bUpdateTime = false;
 }
 
 //============================
@@ -121,12 +122,32 @@ void CTimer::Update()
 
 	int aPosTexU[NUM_TIME];
 
+	if (bUpdateTime == false)
+	{
 	m_nTimerCnt++;
 
-	if (m_nTimerCnt == MAX_TIMESPEED)
+		if (m_nTimerCnt == MAX_TIMESPEED)
+		{
+			m_nTime--; //時間を1秒減らす
+			m_nTimerCnt = 0; //フレームカウントリセット
+		}
+	}
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_F1))
 	{
-		m_nTime--; //時間を1秒減らす
-		m_nTimerCnt = 0; //フレームカウントリセット
+
+		if (bUpdateTime == false)
+		{
+			bUpdateTime = true;
+		}
+	}
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_F2))
+	{
+		if (bUpdateTime == true)
+		{
+			bUpdateTime = false;
+		}
 	}
 
 	// 時間の値をコピー

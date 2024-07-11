@@ -181,8 +181,6 @@ void C3dplayer::Update()
         m_bAButtonPressed = false;
 
 
-
-
     }
 
     //‹…”­ŽË

@@ -35,6 +35,7 @@ public:
 private:
 	static int m_nTime;
 	int m_nTimerCnt;
+	bool bUpdateTime;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
 	D3DXVECTOR3 m_nPos;

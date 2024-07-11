@@ -339,7 +339,7 @@ bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
     if (GetType() == TYPE::WALL_WIDTH)
     {
         bool bLanding = false; //重力を適応した場合のみ使用
-        float fBlockWidth = 200.0f;
+        float fBlockWidth = 85.0f;
         float fBlockDepth = 0.0f;
 
         D3DXVECTOR3 Pos = CObject3D::GetPos();
@@ -383,7 +383,7 @@ bool C3dwall::Collision3DHeightWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3D
     {
         bool bLanding = false; //重力を適応した場合のみ使用
         float fBlockWidth = -20.0f;
-        float fBlockDepth = 230.0f;
+        float fBlockDepth = 105.0f;
 
         D3DXVECTOR3 Pos = CObject3D::GetPos();
 

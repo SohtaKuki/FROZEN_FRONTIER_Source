@@ -14,6 +14,9 @@
 #define MAX_CHAR (256) //行の読み込む数
 #define NUM_MODEL (16) //モデルの数
 
+static const float PLAYER_MOVE_SPD = 0.7f; //プレイヤーの移動速度
+static const float PLAYER_MOVE_BOOST = 1.2f; //プレイヤーの移動速度上昇の倍率
+
 //オブジェクト3Dクラス
 class C3dplayer : public CModel
 {

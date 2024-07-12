@@ -361,22 +361,18 @@ bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
     {
             bLanding = true;
             CObject3D::Uninit();
-    
     }
     
     //¶‘¤“–‚½‚è”»’è
     else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
     {
-    
             bLanding = true;
             CObject3D::Uninit();
-    
     }
     
     //ã‘¤“–‚½‚è”»’è
     if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth && pPosOld->z - fHeight >= Pos.z + fBlockDepth)
     {
-    
             bLanding = true;
             CObject3D::Uninit();
     

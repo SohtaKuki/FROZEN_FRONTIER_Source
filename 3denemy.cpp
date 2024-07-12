@@ -13,6 +13,8 @@
 #include "3denemy.h"
 #include "3dbullet.h"
 #include "3dchargebullet.h"
+#include "3dbrokenblock.h"
+#include "3dwall.h"
 
 LPDIRECT3DTEXTURE9 C3denemy::m_pTexBuff = nullptr;
 //======================
@@ -90,7 +92,7 @@ void C3denemy::Update()
         m_bMoveSwitch = true;
     }
 
-
+    //逆へ方向転換するフラグが無効の場合
     if (m_bMoveSwitch == false)
     {
         m_nMoveInterval++;
@@ -108,6 +110,7 @@ void C3denemy::Update()
         }
     }
 
+    //逆へ方向転換するフラグが有効の場合
     if (m_bMoveSwitch == true)
     {
         m_nMoveInterval--;
@@ -137,7 +140,6 @@ void C3denemy::Update()
     }
 
 
-
     //過去座標を保存
     m_nOld3DPlayerPos = Pos;
 
@@ -161,18 +163,78 @@ void C3denemy::Update()
 
                     bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
-                    //if (bIsCollision == true)
-                    //{
+                    if (bIsCollision == true)
+                    {
+                        m_bMoveSwitch = true;
+                    }
                     //    if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f)
                     //    {
                     //        Pos.z += p3dblock->GetMoveBlock().z;
                     //    }
+
 
                     //    if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dblock->GetMoveBlock().z >= 0.1f)
                     //    {
                     //        Pos.z += (p3dblock->GetMoveBlock().z * 2);
                     //    }
                     //}
+
+                }
+
+            }
+        }
+    }
+
+    //壁ブロックとの当たり判定
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                if (type == CObject::TYPE::WALL_WIDTH)
+                {
+                    C3dwall* p3dwall = (C3dwall*)pObj;
+
+                    bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        if (m_n3DEnemyMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DEnemyMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                        {
+                            Pos.z += p3dwall->GetMoveBlock().z;
+                        }
+
+                        if (m_n3DEnemyMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DEnemyMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                        {
+                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                        }
+                    }
+
+                }
+
+                if (type == CObject::TYPE::WALL_HEIGHT)
+                {
+                    C3dwall* p3dwall = (C3dwall*)pObj;
+
+                    bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        if (m_n3DEnemyMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DEnemyMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                        {
+                            Pos.z += p3dwall->GetMoveBlock().z;
+                        }
+
+                        if (m_n3DEnemyMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DEnemyMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                        {
+                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                        }
+                    }
 
                 }
 

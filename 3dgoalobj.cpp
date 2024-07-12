@@ -324,7 +324,6 @@ bool C3dgoalobj::Collision3DGoalobj(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3D
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-
     //‰E‘¤“–‚½‚è”»’è
     if (pPos->x - fWidth <= Pos.x + fGoalobjWidth && pPosOld->x - fWidth >= Pos.x + fGoalobjWidth && pPos->z - fHeight < Pos.z + fGoalobjDepth - 20.0f && pPos->z  > Pos.z - fGoalobjDepth - 20.0f)
     {

@@ -19,30 +19,24 @@ SCRIPT			# この行は消さないでください！
 # 2:通常ブロック
 # 3:破壊可能ブロック
 # 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 3:タイマー追加]
-# 5:壁ブロック
+# 5:壁ブロック[0:横長ブロック 1:縦長ブロック]
 #------------------------------------------------------------------------------
 STAGESET
 
 	OBJECTSET
 		OBJ_TYPE = 0					#プレイヤー初期位置
-		POS = 300.0 0.0 -50.0
+		POS = -390.0 0.0 -350.0
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 1					#敵 
-		POS = -300.0 0.0 -100.0
+		POS = -300.0 0.0 -300.0
 		OBJ_TYPE2 = 0					#移動タイプ[横移動]
-	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 1					#敵 
-		POS = -300.0 0.0 -400.0
-		OBJ_TYPE2 = 1					#移動タイプ[縦移動]
 	END_OBJECTSET
 
 	OBJECTSET
 		OBJ_TYPE = 1					#敵 
-		POS = -300.0 0.0 -400.0
+		POS = -250.0 0.0 -400.0
 		OBJ_TYPE2 = 1					#移動タイプ[縦移動]
 	END_OBJECTSET
 	
@@ -226,12 +220,65 @@ STAGESET
 		OBJ_TYPE2 = 1	
 	END_OBJECTSET
 	
-		OBJECTSET
+	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
 		POS = -470.0 -15.0 380.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 1	
 	END_OBJECTSET
+	
+	#==================================
+	#任意の壁の配置
+	#==================================
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -320.0 -15.0 -382.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -190.0 -15.0 -150.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -82.0 -15.0 -382.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -320.0 -15.0 -42.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -82.0 -15.0 -42.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -190.0 -15.0 -274.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 190.0 -15.0 -274.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
 	
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 

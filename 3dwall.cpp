@@ -222,6 +222,16 @@ void C3dwall::LoadWallData(void)
         m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile_yrot.txt", "r");//ファイルを開く
     }
 
+    if (GetType() == TYPE::WALL_WIDTH_SHORT)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile_short.txt", "r");//ファイルを開く
+    }
+
+    if (GetType() == TYPE::WALL_HEIGHT_SHORT)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_Wall\\icewall_profile_yrot_short.txt", "r");//ファイルを開く
+    }
+
     //ファイルが存在しない場合
     if (m_pFile == NULL)
     {

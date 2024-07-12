@@ -83,13 +83,13 @@ void C3dplayer::Update()
         {
             if (m_bPlayerBuff == false)
             {
-                m_n3DPlayerMove.x += 1.0f;
+                m_n3DPlayerMove.x += PLAYER_MOVE_SPD;
                 m_rot.y = D3DX_PI * -0.5f;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.x += 1.0f * 2.0;
+                m_n3DPlayerMove.x += PLAYER_MOVE_SPD * 2.0;
                 m_rot.y = D3DX_PI * -0.5f;
             }
         }
@@ -98,13 +98,13 @@ void C3dplayer::Update()
         {
             if (m_bPlayerBuff == false)
             {
-                m_n3DPlayerMove.x -= 1.0f;
+                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD;
                 m_rot.y = D3DX_PI * 0.5f;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.x -= 1.0f * 2.0;
+                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * 2.0;
                 m_rot.y = D3DX_PI * 0.5f;
             }
         }
@@ -113,13 +113,13 @@ void C3dplayer::Update()
         {
             if (m_bPlayerBuff == false)
             {
-                m_n3DPlayerMove.z += 1.0f;
+                m_n3DPlayerMove.z += PLAYER_MOVE_SPD;
                 m_rot.y = D3DX_PI;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z += 1.0f * 2.0f;
+                m_n3DPlayerMove.z += PLAYER_MOVE_SPD * 2.0f;
                 m_rot.y = D3DX_PI;
             }
         }
@@ -128,13 +128,13 @@ void C3dplayer::Update()
         {
             if (m_bPlayerBuff == false)
             {
-                m_n3DPlayerMove.z -= 1.0f;
+                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD;
                 m_rot.y = -D3DX_PI * -0.0f;
             }
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z -= 1.0f * 2.0f;
+                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * 2.0f;
                 m_rot.y = D3DX_PI * -0.0f;
             }
         }
@@ -248,7 +248,7 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z >= EnemyPos.z - 50
                     && CObject3D::GetPos().z <= EnemyPos.z + 50)
                 {
-                    m_bInstantShot = true;
+                    m_bInstantShot = true; //‘¦”­ŽËƒtƒ‰ƒO‚ð—LŒø‚É‚·‚é
                     p3dItem->Uninit();
                     return;
                 }
@@ -358,7 +358,7 @@ void C3dplayer::Update()
 
                         if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f)
                         {
-                            Pos.z += (p3dbrokenblock->GetMoveBlock().z * 2);
+                            Pos.z += (p3dbrokenblock->GetMoveBlock().z * PLAYER_MOVE_BOOST);
                         }
                     }
 
@@ -394,7 +394,7 @@ void C3dplayer::Update()
 
                         if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
                         {
-                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                            Pos.z += (p3dwall->GetMoveBlock().z * PLAYER_MOVE_BOOST);
                         }
                     }
 

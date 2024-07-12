@@ -46,6 +46,8 @@ public:
 		BROKENBLOCK, //破壊可能ブロック
 		WALL_WIDTH, //壁 (横長)
 		WALL_HEIGHT, //壁 (縦長)
+		WALL_WIDTH_SHORT,//壁 (横長ショート)
+		WALL_HEIGHT_SHORT, //壁(縦長ショート)
 		D2DITEM, //2DObject用アイテム
 		ITEM_WALKSPDUP, //プレイヤー強化アイテム(移動速度上昇)
 		ITEM_INSTANTSHOT,//プレイヤー強化アイテム(チャージショット即発射)

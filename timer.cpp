@@ -181,11 +181,11 @@ void CTimer::Update()
 
 		else if (m_nTime > 20 < 80)
 		{
-			pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-			pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-			pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-			pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-		}
+			pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+			pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+			pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+			pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+		}									  
 
 		if (m_nTime < 20)
 		{
@@ -255,7 +255,7 @@ CTimer* CTimer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込む
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER_BLACK.png", &pTexture);
+	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER.png", &pTexture);
 
 	pTimer->BindTexture(pTexture);
 

@@ -15,6 +15,7 @@
 #include "objectX.h"
 #include "3dplayer.h"
 #include "3dwall.h"
+#include "3dgoalobj.h"
 #include "billboard.h"
 
 //======================
@@ -211,7 +212,11 @@ void CStageManager::LoadStageData()
             C3dwall::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), D3DXVECTOR3(m_nRot[nCnt].x, m_nRot[nCnt].y, m_nRot[nCnt].z), CreateObjType2[nCnt]);
         }
 
-        
+        //ゴールマーカーの場合
+        if (CreateObjType[nCnt] == 6)
+        {
+            C3dgoalobj::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+        }
 
     }
 }

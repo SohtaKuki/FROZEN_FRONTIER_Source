@@ -15,6 +15,7 @@
 #include "3denemy.h"
 #include "3dbrokenblock.h"
 #include "3dwall.h"
+#include "3dgoalobj.h"
 #include "timer.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
@@ -260,7 +261,7 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z >= EnemyPos.z - 50
                     && CObject3D::GetPos().z <= EnemyPos.z + 50)
                 {
-                    CTimer::AddTimer(20);
+                    CTimer::AddTimer(20); //残り時間を追加
                     p3dItem->Uninit();
                     return;
                 }
@@ -367,7 +368,7 @@ void C3dplayer::Update()
         }
     }
 
-    //破壊可能ブロックとの当たり判定
+    //壁ブロックとの当たり判定
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
         for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
@@ -420,6 +421,27 @@ void C3dplayer::Update()
 
                 }
 
+            }
+        }
+    }
+
+    //ゴールマーカーとの当たり判定の補正
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                if (type == CObject::TYPE::GOAL)
+                {
+                    C3dgoalobj* p3dgoalobj = (C3dgoalobj*)pObj;
+
+                    bool bIsCollision = p3dgoalobj->Collision3DGoalobj(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+                }
             }
         }
     }

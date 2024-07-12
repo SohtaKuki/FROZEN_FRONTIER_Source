@@ -255,7 +255,7 @@ CTimer* CTimer::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込む
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER.png", &pTexture);
+	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER_BLACK.png", &pTexture);
 
 	pTimer->BindTexture(pTexture);
 

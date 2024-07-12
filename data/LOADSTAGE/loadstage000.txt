@@ -233,5 +233,10 @@ STAGESET
 		OBJ_TYPE2 = 1	
 	END_OBJECTSET
 	
+	OBJECTSET
+		OBJ_TYPE = 6					#ゴールマーカー 
+		POS = 50.0 0.0 400.0
+	END_OBJECTSET
+	
 
 END_STAGESET # この行は消さないでください！

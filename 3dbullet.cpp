@@ -154,10 +154,10 @@ void C3dbullet::Update()
 			//ブロックの場合
 			if (type == CObject::TYPE::BLOCK)
 			{
-				if (m_nPos.x >= BlockPos.x - 40
-					&& m_nPos.x <= BlockPos.x + 40
-					&& m_nPos.z >= BlockPos.z - 40
-					&& m_nPos.z <= BlockPos.z + 40)
+				if (m_nPos.x >= BlockPos.x - 30
+					&& m_nPos.x <= BlockPos.x + 30
+					&& m_nPos.z >= BlockPos.z - 30
+					&& m_nPos.z <= BlockPos.z + 30)
 				{
 					Uninit();
 					return;
@@ -185,8 +185,8 @@ void C3dbullet::Update()
 			{
 				if (m_nPos.x >= WallPos.x - 120
 					&& m_nPos.x <= WallPos.x + 120
-					&& m_nPos.z >= WallPos.z - 40
-					&& m_nPos.z <= WallPos.z + 40)
+					&& m_nPos.z >= WallPos.z - 20
+					&& m_nPos.z <= WallPos.z + 20)
 				{
 					Uninit();
 					return;
@@ -196,8 +196,8 @@ void C3dbullet::Update()
 			//ブロックの場合
 			if (type == CObject::TYPE::WALL_HEIGHT)
 			{
-				if (m_nPos.x >= WallPos.x - 40
-					&& m_nPos.x <= WallPos.x + 40
+				if (m_nPos.x >= WallPos.x - 20
+					&& m_nPos.x <= WallPos.x + 20
 					&& m_nPos.z >= WallPos.z - 120
 					&& m_nPos.z <= WallPos.z + 120)
 				{
@@ -225,10 +225,10 @@ void C3dbullet::Update()
 			//破壊可能ブロックの場合
 			if (type == CObject::TYPE::BROKENBLOCK)
 			{
-				if (m_nPos.x >= BlockPos.x - 40
-					&& m_nPos.x <= BlockPos.x + 40
-					&& m_nPos.z >= BlockPos.z - 40
-					&& m_nPos.z <= BlockPos.z + 40)
+				if (m_nPos.x >= BlockPos.x - 30
+					&& m_nPos.x <= BlockPos.x + 30
+					&& m_nPos.z >= BlockPos.z - 30
+					&& m_nPos.z <= BlockPos.z + 30)
 				{
 					Uninit();
 					p3dbrokenblock->BrokenBlockDamage();
@@ -257,10 +257,10 @@ void C3dbullet::Update()
 				//敵の場合
 				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE)
 				{
-					if (m_nPos.x >= EnemyPos.x - 40
-						&& m_nPos.x <= EnemyPos.x + 40
-						&& m_nPos.z >= EnemyPos.z - 40
-						&& m_nPos.z <= EnemyPos.z + 40)
+					if (m_nPos.x >= EnemyPos.x - 30
+						&& m_nPos.x <= EnemyPos.x + 30
+						&& m_nPos.z >= EnemyPos.z - 30
+						&& m_nPos.z <= EnemyPos.z + 30)
 					{
 						Uninit();
 						p3denemy->EnemyDamage();
@@ -290,10 +290,10 @@ void C3dbullet::Update()
 				//プレイヤーの場合
 				if (type == CObject::TYPE::PLAYER)
 				{
-					if (m_nPos.x >= PlayerPos.x - 40
-						&& m_nPos.x <= PlayerPos.x + 40
-						&& m_nPos.z >= PlayerPos.z - 40
-						&& m_nPos.z <= PlayerPos.z + 40)
+					if (m_nPos.x >= PlayerPos.x - 30
+						&& m_nPos.x <= PlayerPos.x + 30
+						&& m_nPos.z >= PlayerPos.z - 30
+						&& m_nPos.z <= PlayerPos.z + 30)
 					{
 						p3dplayer->PlayerDamage(10);
 						Uninit();

@@ -161,6 +161,16 @@ C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
             D3DWall->SetType(TYPE::WALL_HEIGHT);
         }
 
+        if (nType == 2)
+        {
+            D3DWall->SetType(TYPE::WALL_WIDTH_SHORT);
+        }
+
+        if (nType == 3)
+        {
+            D3DWall->SetType(TYPE::WALL_HEIGHT_SHORT);
+        }
+
         D3DWall->LoadWallData();
 
         //D3DWall->Load();//テクスチャを設定(仮)
@@ -382,6 +392,8 @@ bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
 
         return bLanding;
     }
+
+
 }
 
 //===========================
@@ -394,6 +406,88 @@ bool C3dwall::Collision3DHeightWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3D
         bool bLanding = false; //重力を適応した場合のみ使用
         float fBlockWidth = -20.0f;
         float fBlockDepth = 105.0f;
+
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+
+        //右側当たり判定
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x + fBlockWidth + fWidth;
+        }
+
+        //左側当たり判定
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x - fBlockWidth - fWidth;
+        }
+
+        //上側当たり判定
+        if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
+        }
+
+        //下側当たり判定
+        else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z - fBlockDepth - 20.0f;
+
+        }
+
+        return bLanding;
+    }
+
+
+}
+
+bool C3dwall::Collision3DWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+{
+    if (GetType() == TYPE::WALL_WIDTH_SHORT)
+    {
+        bool bLanding = false; //重力を適応した場合のみ使用
+        float fBlockWidth = 26.0f;
+        float fBlockDepth = 0.0f;
+
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+
+        //右側当たり判定
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x + fBlockWidth + fWidth;
+        }
+
+        //左側当たり判定
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->x = Pos.x - fBlockWidth - fWidth;
+        }
+
+        //上側当たり判定
+        if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z + fBlockDepth - 20.0f + fHeight;
+        }
+
+        //下側当たり判定
+        else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+        {
+            pPos->z = Pos.z - fBlockDepth - 20.0f;
+
+        }
+
+        return bLanding;
+    }
+}
+
+bool C3dwall::Collision3DHeightWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+{
+    if (GetType() == TYPE::WALL_HEIGHT_SHORT)
+    {
+        bool bLanding = false; //重力を適応した場合のみ使用
+        float fBlockWidth = -20.0f;
+        float fBlockDepth = 52.0f;
 
         D3DXVECTOR3 Pos = CObject3D::GetPos();
 

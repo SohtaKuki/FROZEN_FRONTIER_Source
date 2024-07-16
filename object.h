@@ -74,7 +74,6 @@ public:
 	static CObject* GetObj(int nPriority ,int nIdx);
 	TYPE GetType() { return m_type; }
 	void SetType(TYPE type);
-protected:
 	void Release();
 
 private:

@@ -194,12 +194,38 @@ void C3dbullet::Update()
 			}
 
 			//ブロックの場合
+			if (type == CObject::TYPE::WALL_WIDTH_SHORT)
+			{
+				if (m_nPos.x >= WallPos.x - 60
+					&& m_nPos.x <= WallPos.x + 60
+					&& m_nPos.z >= WallPos.z - 20
+					&& m_nPos.z <= WallPos.z + 20)
+				{
+					Uninit();
+					return;
+				}
+			}
+
+			//ブロックの場合
 			if (type == CObject::TYPE::WALL_HEIGHT)
 			{
 				if (m_nPos.x >= WallPos.x - 20
 					&& m_nPos.x <= WallPos.x + 20
 					&& m_nPos.z >= WallPos.z - 120
 					&& m_nPos.z <= WallPos.z + 120)
+				{
+					Uninit();
+					return;
+				}
+			}
+
+			//ブロックの場合
+			if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
+			{
+				if (m_nPos.x >= WallPos.x - 20
+					&& m_nPos.x <= WallPos.x + 20
+					&& m_nPos.z >= WallPos.z - 60
+					&& m_nPos.z <= WallPos.z + 60)
 				{
 					Uninit();
 					return;

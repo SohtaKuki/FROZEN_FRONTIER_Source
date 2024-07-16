@@ -57,7 +57,9 @@ public:
 	static void Unload();
 	void LoadWallData();
 	bool Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	bool Collision3DWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	bool Collision3DHeightWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
+	bool Collision3DHeightWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 1000;	//オブジェクト最大数
 	D3DXVECTOR3& GetMoveBlock() { return m_nMove; } //Move値取得
 private:

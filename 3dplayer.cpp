@@ -89,7 +89,7 @@ void C3dplayer::Update()
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.x += PLAYER_MOVE_SPD * 2.0;
+                m_n3DPlayerMove.x += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                 m_rot.y = D3DX_PI * -0.5f;
             }
         }
@@ -104,7 +104,7 @@ void C3dplayer::Update()
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * 2.0;
+                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                 m_rot.y = D3DX_PI * 0.5f;
             }
         }
@@ -119,7 +119,7 @@ void C3dplayer::Update()
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z += PLAYER_MOVE_SPD * 2.0f;
+                m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                 m_rot.y = D3DX_PI;
             }
         }
@@ -134,7 +134,7 @@ void C3dplayer::Update()
 
             if (m_bPlayerBuff == true)
             {
-                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * 2.0f;
+                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                 m_rot.y = D3DX_PI * -0.0f;
             }
         }

@@ -18,7 +18,7 @@ SCRIPT			# この行は消さないでください！
 # 1:敵[0:横移動 1:縦移動]
 # 2:通常ブロック
 # 3:破壊可能ブロック
-# 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 3:タイマー追加]
+# 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 2:タイマー追加]
 # 5:壁ブロック[0:横長ブロック 1:縦長ブロック]
 #------------------------------------------------------------------------------
 STAGESET
@@ -274,7 +274,99 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = 190.0 -15.0 -274.0
+		POS = -50.0 -65.0 -273.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -100.0 -65.0 -116.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -100.0 -65.0 -323.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -54.0 -65.0 -373.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -50.0 -65.0 -164.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 70.0 -65.0 -164.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 130.0 -65.0 -164.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 201.0 -65.0 -116.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 201.0 -65.0 0.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 201.0 -65.0 50.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+		
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 201.0 -65.0 100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 152.0 -65.0 160.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -40.0 -65.0 112.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 32.0 -65.0 160.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2	
 	END_OBJECTSET

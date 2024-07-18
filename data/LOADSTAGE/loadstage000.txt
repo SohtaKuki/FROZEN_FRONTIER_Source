@@ -246,13 +246,6 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -182.0 -15.0 -382.0
-		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 1	
-	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 5					#壁ブロック 
 		POS = -320.0 -15.0 -92.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	
@@ -265,18 +258,27 @@ STAGESET
 		OBJ_TYPE2 = 3	
 	END_OBJECTSET
 	
+
+	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -250.0 -15.0 -274.0
+		POS = -192.0 -65.0 -273.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2	
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -50.0 -65.0 -273.0
+		POS = -192.0 -65.0 -373.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -240.0 -65.0 -323.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
 	END_OBJECTSET
 	
 	OBJECTSET
@@ -285,20 +287,7 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	
 	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 5					#壁ブロック 
-		POS = -100.0 -65.0 -323.0
-		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 3	
-	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 5					#壁ブロック 
-		POS = -54.0 -65.0 -373.0
-		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 2	
-	END_OBJECTSET
+
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
@@ -363,6 +352,28 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	
 	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 152.0 -65.0 60.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 92.0 -65.0 60.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 92.0 -65.0 -70.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 

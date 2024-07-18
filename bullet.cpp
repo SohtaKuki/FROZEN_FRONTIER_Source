@@ -106,7 +106,7 @@ void CBullet::Update()
 			{
 				if (CObject2D::GetPos().x >= EnemyPos.x - ENEMY_HITPOINT
 					&& CObject2D::GetPos().x <= EnemyPos.x + ENEMY_HITPOINT
-					&& CObject2D::GetPos().y >= EnemyPos.y  - ENEMY_HITPOINT
+					&& CObject2D::GetPos().y >= EnemyPos.y - ENEMY_HITPOINT
 					&& CObject2D::GetPos().y <= EnemyPos.y + ENEMY_HITPOINT)
 				{
 					CExplosion::Create(CObject2D::GetPos());

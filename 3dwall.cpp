@@ -366,7 +366,7 @@ bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
 
 
         //‰E‘¤“–‚½‚è”»’è
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 40.0f && pPos->z  > Pos.z - fBlockDepth + 0.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 40.0f && pPos->z  > Pos.z - fBlockDepth)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }
@@ -453,7 +453,7 @@ bool C3dwall::Collision3DWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DX
 
 
         //‰E‘¤“–‚½‚è”»’è
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 40.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 40.0f && pPos->z  > Pos.z - fBlockDepth)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }

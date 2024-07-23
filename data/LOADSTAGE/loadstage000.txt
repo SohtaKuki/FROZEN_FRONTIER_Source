@@ -354,6 +354,41 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
+		POS = 380.0 -65.0 105.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 380.0 -65.0 210.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 318.0 -65.0 258.5
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 218.0 -65.0 258.5
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+		OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 160.0 -65.0 210.5
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
 		POS = -240.0 -65.0 -333.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	

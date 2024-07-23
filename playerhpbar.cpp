@@ -106,6 +106,7 @@ void CPlayerHpBar::Update()
 
 	int nFadeState = CFade::GetFadeState();
 
+	
 	if (nFadeState == CFade::FADE_OUT)
 	{
 		CPlayerHpBar::Uninit();

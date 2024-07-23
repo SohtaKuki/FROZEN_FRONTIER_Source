@@ -86,6 +86,8 @@ void CObject::Release()
 		m_apObject[nPriority][nID] = nullptr;
 		m_nNumAll--;
 	}
+
+	
 }
 
 //======================
@@ -100,7 +102,7 @@ void CObject::ReleaseAll()
 		{
 			if (m_apObject[nCntPriority][nCnt] != nullptr)
 			{
-				delete m_apObject[nCntPriority][nCnt];
+				m_apObject[nCntPriority][nCnt]->Release();
 				m_apObject[nCntPriority][nCnt] = nullptr;
 			}
 		}

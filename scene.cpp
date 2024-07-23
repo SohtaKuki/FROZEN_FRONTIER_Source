@@ -9,10 +9,10 @@
 #include "objbg.h"
 #include "stagemanager.h"
 #include "floor.h"
-
-
 #include "timer.h"
 #include "playerhpbar.h"
+#include "result.h"
+#include "object2D.h"
 #include "result.h"
 
 
@@ -45,6 +45,7 @@ HRESULT CScene::Init()
 //======================
 void CScene::Uninit()
 {
+
 	CObject::ReleaseAll();
 }
 
@@ -187,6 +188,7 @@ HRESULT CResult::Init()
 //======================
 void CResult::Uninit()
 {
+	
 	CScene::Uninit();
 }
 

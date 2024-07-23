@@ -103,6 +103,11 @@ void CPlayerHpBar::Update()
 
 	//頂点バッファをアンロックする
 	CObject2D::GetBuff()->Unlock();
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CPlayerHpBar::Uninit();
+	}
 }
 
 //======================

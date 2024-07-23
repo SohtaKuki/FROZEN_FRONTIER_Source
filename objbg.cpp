@@ -78,7 +78,10 @@ void CObjectBG::Uninit()
 //======================
 void CObjectBG::Update()
 {
-
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CObjectBG::Uninit();
+	}
 }
 
 //======================

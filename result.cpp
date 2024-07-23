@@ -78,8 +78,10 @@ void CResultBG::Uninit()
 //======================
 void CResultBG::Update()
 {
-
-
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CResultBG::Uninit();
+	}
 }
 
 //======================

@@ -105,6 +105,13 @@ void CManager::Uninit()
 {
 	CObject::ReleaseAll();
 
+	if (m_pFade != nullptr)
+	{
+		m_pFade->Uninit();
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+
 	if (m_pRenderer != nullptr)
 	{
 		m_pRenderer->Uninit();

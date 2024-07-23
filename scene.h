@@ -27,9 +27,9 @@ public:
 	virtual void Update();
 	virtual void Draw();
 	static CScene* Create(MODE mode);
+	
 private:
 	MODE m_mode;
-
 };
 
 class CTitle : public CScene

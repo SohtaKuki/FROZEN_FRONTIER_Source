@@ -95,6 +95,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	CObject::ReleaseAll();
 
 	//ƒŒƒ“ƒ_ƒ‰[ŠJ•ú
+	g_pManager->Uninit();
 	delete g_pManager;
 	g_pManager = nullptr;
 

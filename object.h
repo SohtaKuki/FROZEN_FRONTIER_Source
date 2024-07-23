@@ -70,7 +70,7 @@ public:
 	static void ReleaseAll();
 	static void UpdateAll();
 	static void DrawAll();
-	static unsigned const int MAX_OBJECT = 1024;	//オブジェクト最大数
+	static const int MAX_OBJECT = 1024;	//オブジェクト最大数
 	static CObject* GetObj(int nPriority ,int nIdx);
 	TYPE GetType() { return m_type; }
 	void SetType(TYPE type);

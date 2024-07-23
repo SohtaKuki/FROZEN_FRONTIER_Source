@@ -375,7 +375,6 @@ bool C3ditem::Collision3DItem(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
     {
             bLanding = true;
             CObject3D::Uninit();
-    
     }
     
     //‰º‘¤“–‚½‚è”»’è

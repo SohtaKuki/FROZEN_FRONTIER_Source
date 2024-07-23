@@ -83,6 +83,7 @@ void CFade::Uninit()
         m_pVtxBuff->Release();
         m_pVtxBuff = nullptr;
     }
+
 }
 
 //============================

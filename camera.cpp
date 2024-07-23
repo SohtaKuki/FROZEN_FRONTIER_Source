@@ -32,7 +32,7 @@ CCamera::~CCamera()
 //======================
 HRESULT CCamera::Init()
 {
-	m_posV = D3DXVECTOR3(0.0f, 800.0f, -460.0f);
+	m_posV = D3DXVECTOR3(0.0f, 700.0f, -460.0f);
 	m_posR = D3DXVECTOR3(0.0f ,-600.0f, 200.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -66,8 +66,8 @@ void CCamera::Update()
 
 		m_posV.x = p3dPlayer->GetPos().x;
 		m_posR.x = p3dPlayer->GetPos().x;
-		m_posV.z = p3dPlayer->GetPos().z + 200.0f;
-		m_posR.z = p3dPlayer->GetPos().z + 200.0f;
+		m_posV.z = p3dPlayer->GetPos().z + 250.0f;
+		m_posR.z = p3dPlayer->GetPos().z + 250.0f;
 	}
 
 	if (CManager::GetKeyboard()->GetPress(DIK_RIGHT))

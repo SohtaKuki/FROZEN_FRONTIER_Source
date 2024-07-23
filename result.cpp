@@ -78,7 +78,9 @@ void CResultBG::Uninit()
 //======================
 void CResultBG::Update()
 {
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
 	{
 		CResultBG::Uninit();
 	}

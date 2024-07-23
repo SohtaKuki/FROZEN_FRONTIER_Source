@@ -22,6 +22,7 @@ CFade::CFade()
     m_Mode = CScene::MODE_TITLE;	
     m_bEndFade = true;				
     m_FadeState = CFade::FADE_NONE;	
+
 }
 
 //============================
@@ -91,6 +92,8 @@ void CFade::Uninit()
 //============================
 void CFade::Update()
 {
+
+
     if (!m_bEndFade)
     {
         switch (m_FadeState)

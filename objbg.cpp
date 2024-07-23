@@ -7,6 +7,7 @@
 
 #include "objbg.h"
 #include "manager.h"
+#include "fade.h"
 
 //======================
 // コンストラクタ
@@ -78,7 +79,9 @@ void CObjectBG::Uninit()
 //======================
 void CObjectBG::Update()
 {
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
 	{
 		CObjectBG::Uninit();
 	}

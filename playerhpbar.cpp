@@ -104,7 +104,9 @@ void CPlayerHpBar::Update()
 	//頂点バッファをアンロックする
 	CObject2D::GetBuff()->Unlock();
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
 	{
 		CPlayerHpBar::Uninit();
 	}

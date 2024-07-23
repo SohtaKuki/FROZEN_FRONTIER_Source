@@ -33,6 +33,7 @@ public:
 	void Draw();
 	void SetAlpha(int nAlpha);
 	static void SetFade(CScene::MODE mode);
+	static int GetFadeState() {return m_FadeState ; }
 
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

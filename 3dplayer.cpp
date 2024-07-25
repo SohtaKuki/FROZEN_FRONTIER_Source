@@ -240,7 +240,18 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z >= EnemyPos.z - 40
                     && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
-                    m_bPlayerBuff = true;
+                    //バフ効果が発動中の場合は効果時間をリセットする
+                    if (m_bPlayerBuff == true)
+                    { 
+                        m_nBuffTime = 0;
+                    }
+
+                    //バフ効果が付与されてない場合
+                    if (m_bPlayerBuff == false)
+                    {
+                        m_bPlayerBuff = true;
+                    }
+
                     p3dItem->Uninit();
                     return;
                 }
@@ -254,7 +265,18 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z >= EnemyPos.z - 40
                     && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
-                    m_bInstantShot = true; //即発射フラグを有効にする
+                    //バフ効果が発動中の場合は効果時間をリセットする
+                    if (m_bInstantShot == true)
+                    {
+                        m_nInstantShotTime = 0;
+                    }
+
+                    //バフ効果が付与されてない場合
+                    if (m_bInstantShot == false)
+                    {
+                        m_bInstantShot = true; //即発射フラグを有効にする
+                    }
+                    
                     p3dItem->Uninit();
                     return;
                 }
@@ -299,8 +321,13 @@ void C3dplayer::Update()
         if (m_nBuffTime == 600)
         {
             m_bPlayerBuff = false;
-            m_nBuffTime = 0;
         }
+    }
+
+    //プレイヤー移動速度上昇強化がfalseの場合
+    if (m_bPlayerBuff == false)
+    {
+        m_nBuffTime = 0;
     }
 
     //チャージショット即発射バフがtrueの場合
@@ -312,8 +339,13 @@ void C3dplayer::Update()
         if (m_nInstantShotTime == 360)
         {
             m_bInstantShot = false;
-            m_nInstantShotTime = 0;
         }
+    }
+
+    //チャージショット即発射バフがtrueの場合
+    if (m_bInstantShot == false)
+    {
+        m_nInstantShotTime = 0;
     }
 
     //ブロックとの当たり判定の補正

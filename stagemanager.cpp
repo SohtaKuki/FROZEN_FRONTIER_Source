@@ -17,6 +17,7 @@
 #include "3dwall.h"
 #include "3dgoalobj.h"
 #include "billboard.h"
+#include "timer.h"
 
 //======================
 //コンストラクタ
@@ -113,18 +114,29 @@ void CStageManager::LoadStageData()
                 continue;
             }
 
+            //ファイルを閉じる
             if (!strcmp(Datacheck, "END_STAGESET"))
             {
                 fclose(m_pFile);
                 break;
             }
 
+            //制限時間の設定
+            if (!strcmp(Datacheck, "TIMERSET"))
+            {
+                fscanf(m_pFile, "%s", Datacheck);
+                fscanf(m_pFile, "%d", &m_nTimer);
+                continue;
+            }
+
+            //オブジェクトの各種設定
             if (!strcmp(Datacheck, "OBJECTSET"))
             {
                 while (1)
                 {
                     fscanf(m_pFile, "%s", Datacheck);
 
+                    //オブジェクト情報読み込みの終了
                     if (!strcmp(Datacheck, "END_OBJECTSET"))
                     {
                         break;
@@ -171,6 +183,9 @@ void CStageManager::LoadStageData()
     //デバイスの取得
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
+
+    //制限時間を代入
+    CTimer::AddTimer(m_nTimer);
 
     //上記で得た情報を代入
     for (int nCnt = 0; nCnt < nCntObjectData; nCnt++)

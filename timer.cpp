@@ -20,7 +20,7 @@ int CTimer::m_nTime = 0;
 //============================
 CTimer::CTimer(int nPriority) : CObject2D(nPriority)
 {
-	m_nTime = 40;
+	m_nTime = 0;
 	m_nTimerCnt = 0;
 	bUpdateTime = false;
 }
@@ -202,16 +202,16 @@ void CTimer::Update()
 
 	if (m_nTime < 0)
 	{
+		Uninit();
 		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 		m_nTime = 0;
-		Uninit();
 	}
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
+		Uninit();
 		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 		m_nTime = 0;
-		Uninit();
 	}
 
 }

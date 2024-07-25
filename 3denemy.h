@@ -62,7 +62,7 @@ public:
 	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DPlayerPos; }//座標の取得
 	static unsigned const int MAX_ENEMY = 100;	//オブジェクト最大数
 	static const int SHOT_INTERVAL = 120;
-	static const int MOVE_INTERVAL = 170;
+	static const int MOVE_INTERVAL = 90;
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

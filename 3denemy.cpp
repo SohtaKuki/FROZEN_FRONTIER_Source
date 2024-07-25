@@ -410,6 +410,18 @@ C3denemy* C3denemy::Create(D3DXVECTOR3 pos,int MoveType)
             D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
         }
 
+        if (MoveType == 2)
+        {
+            D3Dplayer->SetType(TYPE::ENEMY_XMOVE);
+            D3Dplayer->m_nMoveInterval = MOVE_INTERVAL;
+        }
+
+        if (MoveType == 3)
+        {
+            D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
+            D3Dplayer->m_nMoveInterval = MOVE_INTERVAL;
+        }
+
         D3Dplayer->LoadPlayerData();
 
         D3Dplayer->CObject3D::SetPos(pos);

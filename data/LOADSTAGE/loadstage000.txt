@@ -45,24 +45,6 @@ STAGESET
 		POS = 445.0 0.0 250.0
 	END_OBJECTSET
 	
-	OBJECTSET
-		OBJ_TYPE = 4					#アイテム
-		POS = -50.0 0.0 50.0
-		OBJ_TYPE2 = 0					#アイテムの種類[移動速度上昇]
-	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 4					#アイテム 
-		POS = -150.0 0.0 50.0
-		OBJ_TYPE2 = 1					#アイテムの種類[充填式火炎弾]
-	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 4					#アイテム 
-		POS = -150.0 0.0 -50.0
-		OBJ_TYPE2 = 2					#アイテムの種類[追加タイマー]
-	END_OBJECTSET
-	
 	#==================================
 	#下側の壁の配置
 	#==================================
@@ -299,7 +281,7 @@ STAGESET
 		OBJ_TYPE = 4					#アイテムブロック 
 		POS = 325.0 0.0 -317.0
 		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 0
+		OBJ_TYPE2 = 4
 	END_OBJECTSET
 	
 	OBJECTSET

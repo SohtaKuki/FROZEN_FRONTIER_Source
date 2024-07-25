@@ -172,6 +172,11 @@ C3ditem* C3ditem::Create(D3DXVECTOR3 pos, int nType)
             D3Ditem->SetType(TYPE::ITEM_ADDTIMER);
         }
 
+        if (nType == 3)
+        {
+            D3Ditem->SetType(TYPE::ITEM_ADDLIFE);
+        }
+
         D3Ditem->LoadBlockData();
 
         //D3Ditem->Load();//テクスチャを設定(仮)
@@ -234,6 +239,11 @@ void C3ditem::LoadBlockData(void)
     if (m_nType == 2)
     {
         m_pFile = fopen("data\\MODEL_RING\\motion_addtimer.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 3)
+    {
+        m_pFile = fopen("data\\MODEL_RING\\motion_instant.txt", "r");//ファイルを開く
     }
 
     //ファイルが存在しない場合

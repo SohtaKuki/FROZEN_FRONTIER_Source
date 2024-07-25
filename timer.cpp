@@ -72,10 +72,10 @@ HRESULT CTimer::Init()
 		pVtx[3].rhw = 1.0f;
 
 		//頂点カラーの設定
-		pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, 255);
 
 		//テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -170,22 +170,7 @@ void CTimer::Update()
 		pVtx[1].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 0.0f);
 		pVtx[2].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 1.0f);
 		pVtx[3].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 1.0f);
-
-		if (m_nTime > 80)
-		{
-			pVtx[0].col = D3DCOLOR_RGBA(255, 252, 219, 255);
-			pVtx[1].col = D3DCOLOR_RGBA(255, 252, 219, 255);
-			pVtx[2].col = D3DCOLOR_RGBA(255, 252, 219, 255);
-			pVtx[3].col = D3DCOLOR_RGBA(255, 252, 219, 255);
-		}
-
-		else if (m_nTime > 20 < 80)
-		{
-			pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-			pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-			pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-			pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-		}									  
+						  
 
 		if (m_nTime < 20)
 		{
@@ -200,12 +185,21 @@ void CTimer::Update()
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
 
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
+	{
+		Uninit();
+		m_nTime = 0;
+	}
+
 	if (m_nTime < 0)
 	{
 		Uninit();
 		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 		m_nTime = 0;
 	}
+
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
 	{

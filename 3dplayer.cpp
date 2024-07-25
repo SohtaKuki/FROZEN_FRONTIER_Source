@@ -30,7 +30,7 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
     m_bInstantShot = false;
     m_nBuffTime = 0;
     m_nInstantShotTime = 0;
-    m_nLife = 48;
+    m_nLife = PLAYER_LIFE;
     m_bAButtonPressStartTime = false;
     m_bAButtonPressed = 0;
 }
@@ -75,6 +75,12 @@ void C3dplayer::Update()
     //SetPlayerPos();
 
     int nCnt = 0;
+
+    //プレイヤーの最大体力値を超えないようにする
+    if (m_nLife >= PLAYER_LIFE)
+    {
+        m_nLife = PLAYER_LIFE;
+    }
 
     //プレイヤーのHPが0以上の場合のみ通す
     if (m_nLife > 0)
@@ -229,10 +235,10 @@ void C3dplayer::Update()
             //プレイヤー移動速度上昇アイテムの場合
             if (type == CObject::TYPE::ITEM_WALKSPDUP)
             {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 50
-                    && CObject3D::GetPos().x <= EnemyPos.x + 50
-                    && CObject3D::GetPos().z >= EnemyPos.z - 50
-                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                    && CObject3D::GetPos().x <= EnemyPos.x + 40
+                    && CObject3D::GetPos().z >= EnemyPos.z - 40
+                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
                     m_bPlayerBuff = true;
                     p3dItem->Uninit();
@@ -243,10 +249,10 @@ void C3dplayer::Update()
             //チャージショット即発射バフアイテムの場合
             if (type == CObject::TYPE::ITEM_INSTANTSHOT)
             {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 50
-                    && CObject3D::GetPos().x <= EnemyPos.x + 50
-                    && CObject3D::GetPos().z >= EnemyPos.z - 50
-                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                    && CObject3D::GetPos().x <= EnemyPos.x + 40
+                    && CObject3D::GetPos().z >= EnemyPos.z - 40
+                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
                     m_bInstantShot = true; //即発射フラグを有効にする
                     p3dItem->Uninit();
@@ -256,12 +262,26 @@ void C3dplayer::Update()
             //チャージショット即発射バフアイテムの場合
             if (type == CObject::TYPE::ITEM_ADDTIMER)
             {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 50
-                    && CObject3D::GetPos().x <= EnemyPos.x + 50
-                    && CObject3D::GetPos().z >= EnemyPos.z - 50
-                    && CObject3D::GetPos().z <= EnemyPos.z + 50)
+                if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                    && CObject3D::GetPos().x <= EnemyPos.x + 40
+                    && CObject3D::GetPos().z >= EnemyPos.z - 40
+                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
                     CTimer::AddTimer(20); //残り時間を追加
+                    p3dItem->Uninit();
+                    return;
+                }
+            }
+
+            //チャージショット即発射バフアイテムの場合
+            if (type == CObject::TYPE::ITEM_ADDLIFE)
+            {
+                if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                    && CObject3D::GetPos().x <= EnemyPos.x + 40
+                    && CObject3D::GetPos().z >= EnemyPos.z - 40
+                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
+                {
+                    m_nLife += 15;
                     p3dItem->Uninit();
                     return;
                 }

@@ -17,6 +17,7 @@
 static const float PLAYER_MOVE_SPD = 0.4f; //プレイヤーの移動速度
 static const float PLAYER_MOVE_BOOST = 1.3f; //プレイヤーの移動速度上昇の倍率
 
+
 //オブジェクト3Dクラス
 class C3dplayer : public CModel
 {
@@ -64,6 +65,7 @@ public:
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
 	static int GetPlayerLife() {return m_nLife ; }
 	D3DXVECTOR3& GetPlayerPos() { return m_nOld3DPlayerPos; }//座標の取得
+	static const int PLAYER_LIFE = 48;
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

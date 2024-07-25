@@ -281,7 +281,7 @@ void C3dbullet::Update()
 			if (m_nType == 0)
 			{
 				//“G‚Ìê‡
-				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE)
+				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
 				{
 					if (m_nPos.x >= EnemyPos.x - 30
 						&& m_nPos.x <= EnemyPos.x + 30

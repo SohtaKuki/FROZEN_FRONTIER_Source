@@ -37,6 +37,7 @@ public:
 	{
 		NONE = 0,
 		ENEMY, //敵(2DObject用)
+		ENEMY_NORMAL, //敵(3DObject用 ノーマル)
 		ENEMY_XMOVE, //敵(X座標移動)
 		ENEMY_ZMOVE, //敵(Z座標移動)
 		START, //スタートマーカー

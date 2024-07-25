@@ -402,21 +402,26 @@ C3denemy* C3denemy::Create(D3DXVECTOR3 pos,int MoveType)
     {
         if (MoveType == 0)
         {
-            D3Dplayer->SetType(TYPE::ENEMY_XMOVE);
+            D3Dplayer->SetType(TYPE::ENEMY_NORMAL);
         }
 
         if (MoveType == 1)
         {
-            D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
+            D3Dplayer->SetType(TYPE::ENEMY_XMOVE);
         }
 
         if (MoveType == 2)
+        {
+            D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
+        }
+
+        if (MoveType == 3)
         {
             D3Dplayer->SetType(TYPE::ENEMY_XMOVE);
             D3Dplayer->m_nMoveInterval = MOVE_INTERVAL;
         }
 
-        if (MoveType == 3)
+        if (MoveType == 4)
         {
             D3Dplayer->SetType(TYPE::ENEMY_ZMOVE);
             D3Dplayer->m_nMoveInterval = MOVE_INTERVAL;

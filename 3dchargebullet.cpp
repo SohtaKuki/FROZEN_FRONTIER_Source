@@ -186,8 +186,8 @@ void C3dchargebullet::Update()
 			{
 				if (m_nPos.x >= WallPos.x - 120
 					&& m_nPos.x <= WallPos.x + 120
-					&& m_nPos.z >= WallPos.z - 40
-					&& m_nPos.z <= WallPos.z + 40)
+					&& m_nPos.z >= WallPos.z - 35
+					&& m_nPos.z <= WallPos.z + 35)
 				{
 					Uninit();
 					return;
@@ -210,8 +210,8 @@ void C3dchargebullet::Update()
 			//ブロックの場合
 			if (type == CObject::TYPE::WALL_HEIGHT)
 			{
-				if (m_nPos.x >= WallPos.x - 40
-					&& m_nPos.x <= WallPos.x + 40
+				if (m_nPos.x >= WallPos.x - 35
+					&& m_nPos.x <= WallPos.x + 35
 					&& m_nPos.z >= WallPos.z - 120
 					&& m_nPos.z <= WallPos.z + 120)
 				{
@@ -223,8 +223,8 @@ void C3dchargebullet::Update()
 			//ブロックの場合
 			if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
 			{
-				if (m_nPos.x >= WallPos.x - 40
-					&& m_nPos.x <= WallPos.x + 40
+				if (m_nPos.x >= WallPos.x - 35
+					&& m_nPos.x <= WallPos.x + 35
 					&& m_nPos.z >= WallPos.z - 60
 					&& m_nPos.z <= WallPos.z + 60)
 				{
@@ -278,7 +278,7 @@ void C3dchargebullet::Update()
 			D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
 
 			//敵の場合
-			if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE)
+			if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
 			{
 				if (m_nPos.x >= EnemyPos.x - 40
 					&& m_nPos.x <= EnemyPos.x + 40

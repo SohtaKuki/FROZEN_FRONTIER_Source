@@ -105,7 +105,7 @@ void CFade::Update()
 
             if (m_nAlpha < 255)
             {
-                m_nAlpha += 15;
+                m_nAlpha += FADE_SPEED;
 
                 SetAlpha(m_nAlpha);
 
@@ -125,7 +125,7 @@ void CFade::Update()
 
             if (m_nAlpha > 0)
             {
-                m_nAlpha -= 15;
+                m_nAlpha -= FADE_SPEED;
 
                 SetAlpha(m_nAlpha);
 

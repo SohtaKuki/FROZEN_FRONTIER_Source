@@ -188,7 +188,7 @@ void C3denemy::Update()
     //•ÇƒuƒƒbƒN‚Æ‚Ì“–‚½‚è”»’è
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
-        for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+        for (int nCntObj = 0; nCntObj < 200; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 

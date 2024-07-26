@@ -205,21 +205,21 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -320.0 -15.0 -382.0
+		POS = -320.0 -65.0 -382.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 1	
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -260.0 -15.0 -140.0
+		POS = -260.0 -65.0 -140.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2	
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -320.0 -15.0 -92.0
+		POS = -320.0 -65.0 -92.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	
 	END_OBJECTSET
@@ -246,7 +246,7 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -192.0 -15.0 -92.0
+		POS = -192.0 -65.0 -92.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3	
 	END_OBJECTSET
@@ -300,6 +300,20 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 1					#敵 
+		POS = -155.0 0.0 95.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = -115.0 0.0 165.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 4
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
 		POS = 245.0 0.0 -295.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 1
@@ -310,6 +324,34 @@ STAGESET
 		POS = 245.0 0.0 -335.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = -280.0 0.0 280.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = -250.0 0.0 280.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = -220.0 0.0 280.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテムブロック 
+		POS = -20.0 0.0 325.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
 	END_OBJECTSET
 	
 	OBJECTSET
@@ -441,11 +483,11 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -100.0 -65.0 -116.0
+		POS = -70.0 -65.0 -70.0
 		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 3	
+		OBJ_TYPE2 = 2	
 	END_OBJECTSET
-
+	
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
@@ -463,7 +505,7 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = 130.0 -65.0 -164.0
+		POS = -146.0 -65.0 -164.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2	
 	END_OBJECTSET
@@ -535,12 +577,7 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2
 	END_OBJECTSET
-	
-		OBJECTSET
-		OBJ_TYPE = 4					#ゴールマーカー 
-		POS = 190.0 0.0 445.0
-		OBJ_TYPE2 = 0
-	END_OBJECTSET
+
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 

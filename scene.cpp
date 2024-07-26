@@ -14,6 +14,7 @@
 #include "result.h"
 #include "object2D.h"
 #include "result.h"
+#include "titlebg.h"
 
 
 //======================
@@ -233,7 +234,8 @@ CTitle::~CTitle()
 //======================
 HRESULT CTitle::Init()
 {
-	CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+	CTitleBG::Create();
+	//CObjectBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
 
 	return S_OK;
 }

@@ -4,7 +4,7 @@
 #include "object2D.h"
 
 //ƒ}ƒNƒ’è‹`
-#define NUM_BG	(4)	//”wŒi‚Ì”
+#define NUM_BG	(6)	//”wŒi‚Ì”
 
 class CTitleBG : public CObject2D
 {

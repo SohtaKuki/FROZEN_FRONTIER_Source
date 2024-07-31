@@ -137,7 +137,7 @@ void CTitleBG::Update()
         }
         else if (nCntBG == 2)
         {
-            m_aPosTexV[nCntBG] -= 0.0060f;
+            m_aPosTexV[nCntBG] -= 0.0020f;
         }
         else if (nCntBG == 3)
         {
@@ -216,7 +216,7 @@ CTitleBG* CTitleBG::Create()
         switch (nCntBG)
         {
         case 0:
-            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier_bgtitle.png", &pTexture[nCntBG]);
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier_title_bg0.png", &pTexture[nCntBG]);
             break;
         case 1:
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier_title_bg1.png", &pTexture[nCntBG]);
@@ -226,6 +226,12 @@ CTitleBG* CTitleBG::Create()
             break;
         case 3:
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier_title_bg3.png", &pTexture[nCntBG]);
+            break;
+        case 4:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier title_logo1.png", &pTexture[nCntBG]);
+            break;
+        case 5:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier title_logo2.png", &pTexture[nCntBG]);
             break;
         }
 

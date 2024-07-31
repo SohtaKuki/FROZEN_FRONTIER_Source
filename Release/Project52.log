@@ -1,8 +1,9 @@
-﻿  3dwall.cpp
+﻿  playerhpbar.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\playerhpbar.cpp(93,54): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\student\Desktop\ProjectC++_phase2\playerhpbar.cpp(99,54): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
   コード生成しています。
-C:\Users\student\Desktop\ProjectC++_phase2\3dwall.cpp(482): warning C4715: 'C3dwall::Collision3DWallShort': 値を返さないコントロール パスがあります。
-  1 of 372 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  2 of 387 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2\Release\ProjectC++_phase2.exe

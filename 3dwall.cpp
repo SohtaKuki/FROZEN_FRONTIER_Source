@@ -173,7 +173,7 @@ C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
 
         D3DWall->LoadWallData();
 
-        //D3DWall->Load();//テクスチャを設定(仮)
+        D3DWall->Load();//テクスチャを設定(仮)
 
         D3DWall->CObject3D::SetPos(pos);
 
@@ -195,7 +195,7 @@ HRESULT C3dwall::Load()
     pDevice = CManager::GetRenderer()->GetDevice();
 
 
-    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
+    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\icetexture003.png", &m_pTexBuff)))
     {
         return E_FAIL;
     }

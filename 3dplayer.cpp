@@ -100,6 +100,16 @@ void C3dplayer::Update()
             }
         }
 
+        if (CManager::GetKeyboard()->GetPress(DIK_L))
+        {
+            m_n3DPlayerMove.y += PLAYER_MOVE_SPD;
+        }
+
+        if (CManager::GetKeyboard()->GetPress(DIK_M))
+        {
+            m_n3DPlayerMove.y -= PLAYER_MOVE_SPD;
+        }
+
         if (CManager::GetKeyboard()->GetPress(DIK_A))
         {
             if (m_bPlayerBuff == false)
@@ -217,6 +227,7 @@ void C3dplayer::Update()
     m_nOld3DPlayerPos = Pos;
 
     Pos.x += m_n3DPlayerMove.x;
+    Pos.y += m_n3DPlayerMove.y;
     Pos.z += m_n3DPlayerMove.z;
 
     //バフアイテムの当たり判定
@@ -545,6 +556,9 @@ void C3dplayer::Update()
 
     //X座標の移動量を更新
     m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
+
+    //Y座標の移動量を更新
+    m_n3DPlayerMove.y += (Length_value2 - m_n3DPlayerMove.y) * Attenuation_value;
 
     //Z座標の移動量を更新
     m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;

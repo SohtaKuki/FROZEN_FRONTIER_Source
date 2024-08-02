@@ -60,10 +60,10 @@ HRESULT CTimer::Init()
 	for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
 	{
 		//’¸“_À•W‚ðÝ’è
-		pVtx[0].pos = D3DXVECTOR3(620.0f + (nCntTime * TEX_TIME_INTERVAL), 40.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(670.0f + (nCntTime * TEX_TIME_INTERVAL), 40.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(620.0f + (nCntTime * TEX_TIME_INTERVAL), 90.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(670.0f + (nCntTime * TEX_TIME_INTERVAL), 90.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(600.0f + (nCntTime * TEX_TIME_INTERVAL), 70.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(630.0f + (nCntTime * TEX_TIME_INTERVAL), 70.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(600.0f + (nCntTime * TEX_TIME_INTERVAL), 100.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(630.0f + (nCntTime * TEX_TIME_INTERVAL), 100.0f, 0.0f);
 
 		//rhw‚ÌÝ’è
 		pVtx[0].rhw = 1.0f;

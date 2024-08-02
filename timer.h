@@ -15,7 +15,7 @@
 
 static const int NUM_TIME = 3;
 static const int MAX_TIMESPEED = 60;
-static const int TEX_TIME_INTERVAL = 40;
+static const int TEX_TIME_INTERVAL = 25;
 
 //アイテムオブジェクトクラス
 class CTimer : public CObject2D

@@ -15,6 +15,7 @@
 #include "object2D.h"
 #include "result.h"
 #include "titlebg.h"
+#include "gameui.h"
 
 
 //======================
@@ -124,12 +125,14 @@ HRESULT CGame::Init()
 {
 	CScene::Init();
 
-	CTimer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CTimer::Create(D3DXVECTOR3(-60.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
+
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1000.0f, 0.0f, 1000.0f));
 
 	//ステージマネージャー初期化処理
 	CStageManager::Create();
+	CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 	return S_OK;
 }

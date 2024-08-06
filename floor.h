@@ -12,8 +12,6 @@
 #include "object3D.h"
 
 
-#define FLOOR_SIZE (2000.0f)
-
 //オブジェクト2Dクラス
 class CFloor : public CObject3D
 {
@@ -28,6 +26,7 @@ public:
 	static CFloor* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	static HRESULT Load();
 	static void Unload();
+	bool Collision3DFloor(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	void SetPos(D3DXVECTOR3 pos);
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;

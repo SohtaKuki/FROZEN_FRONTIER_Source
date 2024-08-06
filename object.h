@@ -60,6 +60,7 @@ public:
 		PLAYER_BULLET, //プレイヤー通常弾
 		CHBULLET, //プレイヤー特殊弾(チャージショット)
 		ENEMY_BULLET, //敵通常弾
+		FLOOR,
 		MAX_TYPE,
 	}TYPE;
 

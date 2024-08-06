@@ -129,7 +129,7 @@ void C3denemy::Update()
     }
 
     //“G‚ÌHP‚ðŒ¸‚ç‚·
-    if (CManager::GetKeyboard()->GetTrigger(DIK_M))
+    if (CManager::GetKeyboard()->GetTrigger(DIK_9))
     {
         m_nLife -= 1;
     }

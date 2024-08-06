@@ -102,6 +102,8 @@ CFloor* CFloor::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	//初期化に成功した場合
 	if (SUCCEEDED(Floor->Init()))
 	{
+		Floor->SetType(TYPE::FLOOR);
+
 		Floor->Load();
 
 		Floor->m_nPos = pos;
@@ -143,4 +145,44 @@ void CFloor::Unload()
 		m_pTexBuff->Release();
 		m_pTexBuff = nullptr;
 	}
+}
+
+//===========================
+// 床の当たり判定
+//===========================
+bool CFloor::Collision3DFloor(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+{
+	bool bLanding = false; // 重力を適応した場合のみ使用
+
+	D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+	// 右側当たり判定
+	if (pPos->x - fWidth <= Pos.x + m_nSize.x && pPosOld->x - fWidth >= Pos.x + m_nSize.x && pPos->z - fHeight < Pos.z + m_nSize.z && pPos->z > Pos.z - m_nSize.z && pPos->y < Pos.y+ m_nSize.y && pPos->y > Pos.y- m_nSize.y)
+	{
+		pPos->x = Pos.x + m_nSize.x + fWidth;
+	}
+	// 左側当たり判定
+	else if (pPos->x + fWidth >= Pos.x - m_nSize.x && pPosOld->x + fWidth <= Pos.x - m_nSize.x && pPos->z - fHeight < Pos.z + m_nSize.z && pPos->z > Pos.z - m_nSize.z && pPos->y < Pos.y+ m_nSize.y && pPos->y > Pos.y- m_nSize.y)
+	{
+		pPos->x = Pos.x - m_nSize.x - fWidth;
+	}
+	// 前側当たり判定
+	if (pPos->x - fWidth < Pos.x + m_nSize.x && pPos->x + fWidth > Pos.x - m_nSize.x && pPos->z - fHeight <= Pos.z + m_nSize.z && pPosOld->z - fHeight >= Pos.z + m_nSize.z && pPos->y < Pos.y+ m_nSize.y && pPos->y > Pos.y- m_nSize.y)
+	{
+		pPos->z = Pos.z + m_nSize.z + fHeight;
+	}
+	// 後側当たり判定
+	else if (pPos->x - fWidth < Pos.x + m_nSize.x && pPos->x + fWidth > Pos.x - m_nSize.x && pPos->z >= Pos.z - m_nSize.z && pPosOld->z <= Pos.z - m_nSize.z && pPos->y < Pos.y+ m_nSize.y && pPos->y > Pos.y- m_nSize.y)
+	{
+		pPos->z = Pos.z - m_nSize.z - fHeight;
+		bLanding = true;
+	}
+
+	// y座標上側当たり判定
+	if (pPos->x - fWidth < Pos.x + m_nSize.x && pPos->x + fWidth > Pos.x - m_nSize.x && pPos->y - fHeight <= Pos.y+ m_nSize.y && pPosOld->y - fHeight >= Pos.y+ m_nSize.y && pPos->z < Pos.z + m_nSize.z && pPos->z > Pos.z - m_nSize.z)
+	{
+		pPos->y = Pos.y+ m_nSize.y + fHeight;
+	}
+
+	return bLanding;
 }

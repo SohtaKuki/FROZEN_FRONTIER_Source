@@ -316,9 +316,6 @@ void C3dblock::LoadBlockData(void)
 //===========================
 // ブロックの当たり判定
 //===========================
-//===========================
-// ブロックの当たり判定
-//===========================
 bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
     bool bLanding = false; // 重力を適応した場合のみ使用
@@ -349,15 +346,16 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
         pPos->z = Pos.z - fBlockDepth - fHeight;
         bLanding = true;
     }
-    // 上側当たり判定
-    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y - fHeight <= Pos.y + fBlockHeight && pPosOld->y - fHeight >= Pos.y + fBlockHeight && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
+
+    // y座標上側当たり判定
+    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y - fHeight <= Pos.y + fBlockHeight - 10.0f && pPosOld->y - fHeight >= Pos.y + fBlockHeight - 10.0f && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
     {
-        pPos->y = Pos.y + fBlockHeight + fHeight;
+        pPos->y = Pos.y + fBlockHeight - 10.0f + fHeight;
     }
-    // 下側当たり判定
-    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y >= Pos.y - fBlockHeight && pPosOld->y <= Pos.y - fBlockHeight && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
+    // y座標下側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y >= Pos.y - fBlockHeight -10.0f && pPosOld->y <= Pos.y - fBlockHeight - 10.0f && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
     {
-        pPos->y = Pos.y - fBlockHeight - fHeight;
+        pPos->y = Pos.y - fBlockHeight - 10.0f - fHeight;
         bLanding = true;
     }
 

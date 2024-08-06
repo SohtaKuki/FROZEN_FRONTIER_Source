@@ -17,6 +17,7 @@
 #include "3dwall.h"
 #include "3dgoalobj.h"
 #include "timer.h"
+#include "floor.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -526,6 +527,27 @@ void C3dplayer::Update()
 
                 }
 
+            }
+        }
+    }
+
+    //ÉuÉçÉbÉNÇ∆ÇÃìñÇΩÇËîªíËÇÃï‚ê≥
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < 10; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                if (type == CObject::TYPE::FLOOR)
+                {
+                    CFloor* p3dfloor = (CFloor*)pObj;
+
+                    bool bIsCollision = p3dfloor->Collision3DFloor(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 0.0f);
+                }
             }
         }
     }

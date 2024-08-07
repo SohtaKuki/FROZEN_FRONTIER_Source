@@ -83,6 +83,9 @@ void C3dplayer::Update()
         m_nLife = PLAYER_LIFE;
     }
 
+    //重力の適用
+    m_n3DPlayerMove.y -= 1.0f;
+
     //プレイヤーのHPが0以上の場合のみ通す
     if (m_nLife > 0)
     {
@@ -101,14 +104,11 @@ void C3dplayer::Update()
             }
         }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_L))
-        {
-            m_n3DPlayerMove.y += PLAYER_MOVE_SPD;
-        }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_M))
+
+        if (CManager::GetKeyboard()->GetTrigger(DIK_M))
         {
-            m_n3DPlayerMove.y -= PLAYER_MOVE_SPD;
+            m_n3DPlayerMove.y += 30.0f;
         }
 
         if (CManager::GetKeyboard()->GetPress(DIK_A))
@@ -379,14 +379,16 @@ void C3dplayer::Update()
 
                     if (bIsCollision == true)
                     {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f)
+                        if (p3dblock->GetMoveBlock().z >= 0.01f)
                         {
+                            m_n3DPlayerMove.y = 0.0f;
                             Pos.z += p3dblock->GetMoveBlock().z;
                         }
 
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dblock->GetMoveBlock().z >= 0.1f)
+                        if ( p3dblock->GetMoveBlock().z <= -0.01f)
                         {
-                            Pos.z += (p3dblock->GetMoveBlock().z * 2);
+                            m_n3DPlayerMove.y = 0.0f;
+                            Pos.z += p3dblock->GetMoveBlock().z;
                         }
                     }
 
@@ -531,10 +533,10 @@ void C3dplayer::Update()
         }
     }
 
-    //ブロックとの当たり判定の補正
+    //床との当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
-        for (int nCntObj = 0; nCntObj < 10; nCntObj++)
+        for (int nCntObj = 0; nCntObj < 1; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
@@ -547,10 +549,17 @@ void C3dplayer::Update()
                     CFloor* p3dfloor = (CFloor*)pObj;
 
                     bool bIsCollision = p3dfloor->Collision3DFloor(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 0.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        m_n3DPlayerMove.y = 0.0f;
+                    }
                 }
             }
         }
     }
+
+
 
     //ゴールマーカーとの当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)

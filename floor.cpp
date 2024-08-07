@@ -175,13 +175,14 @@ bool CFloor::Collision3DFloor(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
 	else if (pPos->x - fWidth < Pos.x + m_nSize.x && pPos->x + fWidth > Pos.x - m_nSize.x && pPos->z >= Pos.z - m_nSize.z && pPosOld->z <= Pos.z - m_nSize.z && pPos->y < Pos.y+ m_nSize.y && pPos->y > Pos.y- m_nSize.y)
 	{
 		pPos->z = Pos.z - m_nSize.z - fHeight;
-		bLanding = true;
+
 	}
 
 	// yÀ•Wã‘¤“–‚½‚è”»’è
 	if (pPos->x - fWidth < Pos.x + m_nSize.x && pPos->x + fWidth > Pos.x - m_nSize.x && pPos->y - fHeight <= Pos.y+ m_nSize.y && pPosOld->y - fHeight >= Pos.y+ m_nSize.y && pPos->z < Pos.z + m_nSize.z && pPos->z > Pos.z - m_nSize.z)
 	{
 		pPos->y = Pos.y+ m_nSize.y + fHeight;
+		bLanding = true;
 	}
 
 	return bLanding;

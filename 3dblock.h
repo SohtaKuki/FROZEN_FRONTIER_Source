@@ -74,7 +74,9 @@ private:
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
+    int m_nTurnCnt;
 	bool m_bLanding;
+	bool m_bTurn;
 
 protected:
 	D3DXVECTOR3 m_nMove;

@@ -15,7 +15,8 @@ LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
 //======================
 C3dblock::C3dblock(int nPriority) : CModel(nPriority)
 {
-
+    m_nTurnCnt = 0;
+    m_bTurn = false;
 }
 
 //======================
@@ -53,7 +54,63 @@ void C3dblock::Uninit()
 //======================
 void C3dblock::Update()
 {
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        //ブロックの当たり判定
+        for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                //ブロックだった場合
+                if (type == CObject::TYPE::BLOCK)
+                {
+                    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+                    if (m_bTurn == false)
+                    {
+                        m_nMove.z += 0.1f;
+
+                        m_nTurnCnt += 5;
+
+                        if (m_nTurnCnt == 600)
+                        {
+                            m_bTurn = true;
+                            m_nTurnCnt = 0;
+                        }
+                    }
+
+                    if (m_bTurn == true)
+                    {
+                        m_nMove.z -= 0.1f;
+                        m_nTurnCnt += 5;
+
+                        if (m_nTurnCnt == 600)
+                        {
+                            m_bTurn = false;
+                            m_nTurnCnt = 0;
+                        }
+                    }
+
+                    Pos.x += m_nMove.x;
+                    Pos.z += m_nMove.z;
+
+                    SetPos(Pos);
+
+                    //X座標の移動量を更新
+                    m_nMove.x += (0.0f - m_nMove.x) * 0.1f;
+
+                    //Z座標の移動量を更新
+                    m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
+
+                }
+
+            }
+        }
+    }
 }
 
 //======================
@@ -322,7 +379,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
     bool bLanding = false; // 重力を適応した場合のみ使用
     float fBlockWidth = 20.0f;
     float fBlockDepth = 30.0f;
-    float fBlockHeight = 20.0f;
+    float fBlockHeight = 0.0f;
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
@@ -345,18 +402,18 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
     else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth && pPosOld->z <= Pos.z - fBlockDepth && pPos->y < Pos.y + fBlockHeight && pPos->y > Pos.y - fBlockHeight)
     {
         pPos->z = Pos.z - fBlockDepth + 50.0f - fHeight;
-        bLanding = true;
     }
     // 上側当たり判定
     if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y - fHeight <= Pos.y + fBlockHeight && pPosOld->y - fHeight >= Pos.y + fBlockHeight && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
     {
         pPos->y = Pos.y + fBlockHeight + fHeight;
+        bLanding = true;
     }
     // 下側当たり判定
     else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->y >= Pos.y - fBlockHeight && pPosOld->y <= Pos.y - fBlockHeight && pPos->z < Pos.z + fBlockDepth && pPos->z > Pos.z - fBlockDepth)
     {
         pPos->y = Pos.y - fBlockHeight - fHeight;
-        bLanding = true;
+
     }
 
     return bLanding;

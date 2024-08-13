@@ -178,6 +178,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="score.cpp" />
     <ClCompile Include="stagemanager.cpp" />
     <ClCompile Include="startobj.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="score.h" />
     <ClInclude Include="stagemanager.h" />
     <ClInclude Include="startobj.h" />
     <ClInclude Include="texture.h" />

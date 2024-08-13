@@ -18,6 +18,7 @@
 #include "3dgoalobj.h"
 #include "timer.h"
 #include "floor.h"
+#include "score.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -215,6 +216,11 @@ void C3dplayer::Update()
     if (CManager::GetKeyboard()->GetPress(DIK_K))
     {
         m_nLife -= 1;
+    }
+
+    if (CManager::GetKeyboard()->GetPress(DIK_N))
+    {
+        CScore::AddScore(2000); //残り時間を追加
     }
 
     //プレイヤーの体力が0以下になった場合リザルト画面へ遷移

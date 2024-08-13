@@ -16,6 +16,7 @@
 #include "result.h"
 #include "titlebg.h"
 #include "gameui.h"
+#include "score.h"
 
 
 //======================
@@ -125,7 +126,8 @@ HRESULT CGame::Init()
 {
 	CScene::Init();
 
-	CTimer::Create(D3DXVECTOR3(-60.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CTimer::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CScore::Create(D3DXVECTOR3(-300.0f, 0.0f, 0.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
 
 	CFloor::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 0.0f, 500.0f));

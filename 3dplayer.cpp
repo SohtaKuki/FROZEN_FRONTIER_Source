@@ -159,7 +159,7 @@ void C3dplayer::Update()
     }
 
     //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
     {
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == false)
@@ -203,7 +203,7 @@ void C3dplayer::Update()
     }
 
     //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
     {
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == true)

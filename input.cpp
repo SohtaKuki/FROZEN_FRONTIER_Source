@@ -164,3 +164,100 @@ bool CInputKeyboard::GetRelease(int nKey)
 {
     return ((m_aKeyStateRelease[nKey] & 0x80) != 0) ? false : true;
 }
+
+//============================
+//コントローラーのコンストラクタ
+//============================
+CInputJoypad::CInputJoypad()
+{
+
+}
+
+//============================
+//コントローラーのデストラクタ
+//============================
+CInputJoypad::~CInputJoypad()
+{
+
+}
+
+//============================
+//コントローラーのデストラクタ
+//============================
+HRESULT CInputJoypad::Init()
+{
+    //メモリのクリア
+    memset(&m_aKeyState, 0, sizeof(XINPUT_STATE));
+    memset(&m_aKeyStateTrigger, 0, sizeof(XINPUT_STATE));
+
+    //XInputのステート設定(有効にする)
+    XInputEnable(true);
+
+    // コントローラーの振動制御の0クリア
+    ZeroMemory(&m_joykeyMoter, sizeof(XINPUT_VIBRATION));
+
+    // 振動制御用の初期化
+    m_Time = 0;
+    m_Strength = 0;
+
+    return S_OK;
+}
+
+//============================
+//コントローラーの終了処理
+//============================
+void CInputJoypad::Uninit()
+{
+    //XInputのステートを設定
+    XInputEnable(false);
+}
+
+//============================
+//コントローラーの更新処理
+//============================
+void CInputJoypad::Update()
+{
+    XINPUT_STATE joykeystate; //コントローラーの入力情報
+
+    //コントローラーの情報を取得
+    if (XInputGetState(0, &joykeystate) == ERROR_SUCCESS)
+    {
+        m_Button = m_joykeyState.Gamepad.wButtons;							//現在のボタンの情報を設定
+        m_joykeyStateTrigger.Gamepad.wButtons = m_Button & ~m_OldButton;	//トリガーの情報を設定
+        m_OldButton = m_joykeyState.Gamepad.wButtons;						//前回のボタンの情報を更新
+
+        m_joykeyState = joykeystate; //コントローラーのプレス情報を保存
+
+        // 振動
+        m_joykeyMoter.wLeftMotorSpeed = m_Strength;		// 左側振動
+        m_joykeyMoter.wRightMotorSpeed = m_Strength;	// 右側振動
+        XInputSetState(0, &m_joykeyMoter);				// 振動情報送信
+
+        // 振動時間の減算
+        if (m_Time > 0)
+        {
+            m_Time--;
+        }
+        else
+        {
+            m_Time = 0;
+            m_Strength = 0;
+        }
+    }
+}
+
+//============================
+//コントローラーのプレス情報を取得
+//============================
+bool CInputJoypad::GetPress(JOYKEY key)
+{
+    return m_joykeyState.Gamepad.wButtons & (0x01 << key);
+}
+
+//============================
+//コントローラーのトリガー情報を取得
+//============================
+bool CInputJoypad::GetTrigger(JOYKEY key)
+{
+    return m_joykeyStateTrigger.Gamepad.wButtons & (0x01 << key);
+}

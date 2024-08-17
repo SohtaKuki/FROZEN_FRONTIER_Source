@@ -27,6 +27,7 @@ public:
 	void Draw();
 	static CRenderer* GetRenderer();
 	static CInputKeyboard* GetKeyboard();
+	static CInputJoypad* GetJoypad();
 	static CCamera* GetCamera();
 	static CLight* GetLight();
 	static CFade* GetFade();
@@ -34,6 +35,7 @@ public:
 private:
 	static CRenderer* m_pRenderer;
 	static CInputKeyboard* m_pKeyboard;
+	static CInputJoypad* m_pJoypad;
 	static CCamera* m_pCamera;
 	static CLight* m_pLight;
 	static CScene* m_pScene;

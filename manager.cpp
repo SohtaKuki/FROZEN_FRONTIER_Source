@@ -20,6 +20,7 @@
 
 CRenderer* CManager::m_pRenderer = nullptr;
 CInputKeyboard* CManager::m_pKeyboard = nullptr;
+CInputJoypad* CManager::m_pJoypad = nullptr;
 CCamera* CManager::m_pCamera = nullptr;
 CLight* CManager::m_pLight = nullptr;
 CScene* CManager::m_pScene = nullptr;
@@ -54,6 +55,15 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 	m_pRenderer->Init(hWnd, bWindow);
 
 	m_pKeyboard->Init(hInstance, hWnd);
+
+
+
+	m_pJoypad = new CInputJoypad();
+
+	if (FAILED(m_pJoypad->Init()))
+	{
+		return E_FAIL;
+	}
 
 	m_pCamera = new CCamera();
 
@@ -129,6 +139,8 @@ void CManager::Update()
 
 	m_pKeyboard->Update();
 
+	m_pJoypad->Update();
+
 	m_pLight->Update();
 
 	m_pCamera->Update();
@@ -179,6 +191,14 @@ CRenderer* CManager::GetRenderer()
 CInputKeyboard* CManager::GetKeyboard()
 {
 	return m_pKeyboard;
+}
+
+//============================
+//コントローラーの取得
+//============================
+CInputJoypad* CManager::GetJoypad()
+{
+	return m_pJoypad;
 }
 
 //======================

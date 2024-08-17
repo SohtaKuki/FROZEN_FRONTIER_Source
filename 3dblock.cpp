@@ -381,6 +381,7 @@ bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVEC
     float fBlockDepth = 30.0f;
     float fBlockHeight = 0.0f;
 
+
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
     // ‰E‘¤“–‚½‚è”»’è

@@ -5,6 +5,7 @@
 //
 //=================================================
 
+#include "resultscore.h"
 #include "score.h"
 #include "manager.h"
 #include "object2D.h"
@@ -13,22 +14,22 @@
 #include "enemy.h"
 #include "block.h"
 
-int CScore::m_nScore = 0;
+int CResultScore::m_nResultScore = 0;
 
 //============================
 //コンストラクタ
 //============================
-CScore::CScore(int nPriority) : CObject2D(nPriority)
+CResultScore::CResultScore(int nPriority) : CObject2D(nPriority)
 {
-	m_nScore = 0;
-	m_nScoreCnt = 0;
+	m_nResultScore = 0;
+	m_nResultScoreCnt = 0;
 	bUpdateTime = false;
 }
 
 //============================
 //デストラクタ
 //============================
-CScore::~CScore()
+CResultScore::~CResultScore()
 {
 
 }
@@ -36,7 +37,7 @@ CScore::~CScore()
 //============================
 //アイテムの初期化処理
 //============================
-HRESULT CScore::Init()
+HRESULT CResultScore::Init()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -57,13 +58,13 @@ HRESULT CScore::Init()
 
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	for (int nCntTime = 0; nCntTime < NUM_SCORE; nCntTime++)
+	for (int nCntTime = 0; nCntTime < NUM_RESULTSCORE; nCntTime++)
 	{
 		//頂点座標を設定
-		pVtx[0].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_SCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_SCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_SCORE_INTERVAL), 100.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_SCORE_INTERVAL), 100.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 70.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 70.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 100.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 100.0f, 0.0f);
 
 		//rhwの設定
 		pVtx[0].rhw = 1.0f;
@@ -95,7 +96,7 @@ HRESULT CScore::Init()
 //============================
 //アイテムの初期化処理
 //============================
-void CScore::Uninit()
+void CResultScore::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{
@@ -115,18 +116,20 @@ void CScore::Uninit()
 //============================
 //アイテムの更新処理
 //============================
-void CScore::Update()
+void CResultScore::Update()
 {
 	VERTEX_2D* pVtx;
 
-	int aPosTexU[NUM_SCORE];
+	int aPosTexU[NUM_RESULTSCORE];
+
+	m_nResultScore = CScore::GetScore();
 
 
 	// 時間の値をコピー
-	int CopyTime = m_nScore;
+	int CopyTime = m_nResultScore;
 
 	// 各桁の値を計算
-	for (int nCntTime = NUM_SCORE - 1; nCntTime >= 0; nCntTime--)
+	for (int nCntTime = NUM_RESULTSCORE - 1; nCntTime >= 0; nCntTime--)
 	{
 		aPosTexU[nCntTime] = CopyTime % 10;
 		CopyTime /= 10;
@@ -136,7 +139,7 @@ void CScore::Update()
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//テクスチャ座標の更新
-	for (int nCntTime = 0; nCntTime < NUM_SCORE; nCntTime++)
+	for (int nCntTime = 0; nCntTime < NUM_RESULTSCORE; nCntTime++)
 	{
 		pVtx[0].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 0.0f);
 		pVtx[1].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 0.0f);
@@ -156,6 +159,7 @@ void CScore::Update()
 	if (nFadeState == CFade::FADE_OUT)
 	{
 		Uninit();
+		m_nResultScore = 0;
 	}
 
 }
@@ -163,7 +167,7 @@ void CScore::Update()
 //============================
 //アイテムの描画処理
 //============================
-void CScore::Draw()
+void CResultScore::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -174,7 +178,7 @@ void CScore::Draw()
 
 	pDevice->SetTexture(0, m_pTexBuff);
 
-	for (int nCntTime = 0; nCntTime < NUM_SCORE; nCntTime++)
+	for (int nCntTime = 0; nCntTime < NUM_RESULTSCORE; nCntTime++)
 	{
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntTime * 4, 2);
 	}
@@ -183,38 +187,38 @@ void CScore::Draw()
 //============================
 //アイテムの生成処理
 //============================
-CScore* CScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CResultScore* CResultScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	CScore* pScore;
+	CResultScore* pResultScore;
 
-	pScore = new CScore;
+	pResultScore = new CResultScore;
 
-	pScore->SetType(TYPE::SCORE);
-	pScore->m_nPos = pos;
-	pScore->m_rot = rot;
+	pResultScore->SetType(TYPE::SCORE);
+	pResultScore->m_nPos = pos;
+	pResultScore->m_rot = rot;
 
 	//アイテムの初期化
-	pScore->Init();
+	pResultScore->Init();
 
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込む
 	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER.png", &pTexture);
 
-	pScore->BindTexture(pTexture);
+	pResultScore->BindTexture(pTexture);
 
-	return pScore;
+	return pResultScore;
 }
 
-void CScore::AddScore(int nTime)
+void CResultScore::AddResultScore(int nTime)
 {
-	m_nScore += nTime;
+	m_nResultScore += nTime;
 }
 
 //=======================
 //テクスチャの設定
 //=======================
-void CScore::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+void CResultScore::BindTexture(LPDIRECT3DTEXTURE9 pTex)
 {
 	m_pTexBuff = pTex;
 }

@@ -17,6 +17,7 @@
 #include "titlebg.h"
 #include "gameui.h"
 #include "score.h"
+#include "resultscore.h"
 
 
 //======================
@@ -185,6 +186,7 @@ CResult::~CResult()
 HRESULT CResult::Init()
 {
 	CResultBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
+	CResultScore::Create(D3DXVECTOR3(-300.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return S_OK;
 }

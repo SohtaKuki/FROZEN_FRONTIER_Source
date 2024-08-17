@@ -1,39 +1,39 @@
 //=================================================
 //
-// スコア処理 (score.h)
+// リザルトの処理 (score.h)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#ifndef _SCORE_H_
-#define _SCORE_H_
+#ifndef _RESULTSCORE_H_
+#define _RESULTSCORE_H_
 
 
 #include "object.h"
 #include "object2D.h"
 #include "player.h"
 
-static const int NUM_SCORE = 8;
-static const int TEX_SCORE_INTERVAL = 25;
+static const int NUM_RESULTSCORE = 8;
+static const int TEX_RESULTSCORE_INTERVAL = 25;
 
 //アイテムオブジェクトクラス
-class CScore : public CObject2D
+class CResultScore : public CObject2D
 {
 public:
-	CScore(int nPriority = 6);
-	~CScore() override;
+	CResultScore(int nPriority = 6);
+	~CResultScore() override;
 	HRESULT Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
-	static void AddScore(int nTime);
-	static int GetScore() { return m_nScore; }
-	static CScore* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static void AddResultScore(int nTime);
+	int GetResultScore() { return m_nResultScore; }
+	static CResultScore* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
-	static int m_nScore;
-	int m_nScoreCnt;
+	static int m_nResultScore;
+	int m_nResultScoreCnt;
 	bool bUpdateTime;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;

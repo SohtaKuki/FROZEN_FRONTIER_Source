@@ -6,6 +6,7 @@
 //=================================================
 
 #include "3dblock.h"
+#include "3dmoveblock.h"
 #include "player.h"
 #include "block.h"
 #include "startobj.h"
@@ -299,7 +300,7 @@ void C3dplayer::Update()
                     return;
                 }
             }
-            //チャージショット即発射バフアイテムの場合
+            //タイマー追加アイテムの場合
             if (type == CObject::TYPE::ITEM_ADDTIMER)
             {
                 if (CObject3D::GetPos().x >= EnemyPos.x - 40
@@ -313,7 +314,7 @@ void C3dplayer::Update()
                 }
             }
 
-            //チャージショット即発射バフアイテムの場合
+            //体力追加アイテムの場合
             if (type == CObject::TYPE::ITEM_ADDLIFE)
             {
                 if (CObject3D::GetPos().x >= EnemyPos.x - 40
@@ -369,7 +370,7 @@ void C3dplayer::Update()
     //ブロックとの当たり判定の補正
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
-        for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+        for (int nCntObj = 0; nCntObj < C3dblock::GetMaxBlock() +10; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
@@ -391,10 +392,48 @@ void C3dplayer::Update()
                             Pos.z += p3dblock->GetMoveBlock().z;
                         }
 
-                        if ( p3dblock->GetMoveBlock().z <= -0.01f)
+                        if (p3dblock->GetMoveBlock().z <= -0.01f)
                         {
                             m_n3DPlayerMove.y = 0.0f;
                             Pos.z += p3dblock->GetMoveBlock().z;
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    //ブロックとの当たり判定の補正
+    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
+    {
+        for (int nCntObj = 0; nCntObj < 10; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                if (type == CObject::TYPE::MOVEBLOCK_Z)
+                {
+                    C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
+
+                    bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+                        if (p3dmoveblock->GetMoveBlockZ().z >= 0.01f)
+                        {
+                            m_n3DPlayerMove.y = 0.0f;
+                            Pos.z += (p3dmoveblock->GetMoveBlockZ().z * 2);
+                        }
+
+                        if (p3dmoveblock->GetMoveBlockZ().z <= -0.01f)
+                        {
+                            m_n3DPlayerMove.y = 0.0f;
+                            Pos.z += (p3dmoveblock->GetMoveBlockZ().z * 2);
                         }
                     }
 

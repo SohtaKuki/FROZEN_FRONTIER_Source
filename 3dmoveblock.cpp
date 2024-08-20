@@ -1,20 +1,19 @@
 //=================================================
 //
-// 3Dモデルのブロックの表示処理 (3dblock.cpp)
+// 3Dモデルのブロックの表示処理 (3dmoveblock.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
-#include "3dblock.h"
+#include "3dmoveblock.h"
 #include "3dplayer.h"
 
-LPDIRECT3DTEXTURE9 C3dblock::m_pTexBuff = nullptr;
-int C3dblock::m_nMaxBlock = 0;
+LPDIRECT3DTEXTURE9 C3dmoveblock::m_pTexBuff = nullptr;
 
 //======================
 // コンストラクタ
 //======================
-C3dblock::C3dblock(int nPriority) : CModel(nPriority)
+C3dmoveblock::C3dmoveblock(int nPriority) : CModel(nPriority)
 {
     m_nTurnCnt = 0;
     m_bTurn = false;
@@ -23,7 +22,7 @@ C3dblock::C3dblock(int nPriority) : CModel(nPriority)
 //======================
 // デストラクタ
 //======================
-C3dblock::~C3dblock()
+C3dmoveblock::~C3dmoveblock()
 {
 
 }
@@ -31,7 +30,7 @@ C3dblock::~C3dblock()
 //======================
 // 初期化処理
 //======================
-HRESULT C3dblock::Init()
+HRESULT C3dmoveblock::Init()
 {
     //初期化
     if (FAILED(CModel::Init()))
@@ -39,16 +38,13 @@ HRESULT C3dblock::Init()
         return E_FAIL;
     }
 
-    //ブロック数をカウント
-    m_nMaxBlock++;
-
     return S_OK;
 }
 
 //======================
 // 終了処理
 //======================
-void C3dblock::Uninit()
+void C3dmoveblock::Uninit()
 {
     CModel::Uninit();
 }
@@ -56,12 +52,12 @@ void C3dblock::Uninit()
 //======================
 // 更新処理
 //======================
-void C3dblock::Update()
+void C3dmoveblock::Update()
 {
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
         //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+        for (int nCntObj = 0; nCntObj < C3dmoveblock::MAX_BLOCK; nCntObj++)
         {
             CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
@@ -74,6 +70,33 @@ void C3dblock::Update()
                 {
                     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
+                    if (m_bTurn == false)
+                    {
+                        m_nMove.z += 0.1f;
+
+                        m_nTurnCnt += 5;
+
+                        if (m_nTurnCnt == 600)
+                        {
+                            m_bTurn = true;
+                            m_nTurnCnt = 0;
+                        }
+                    }
+
+                    if (m_bTurn == true)
+                    {
+                        m_nMove.z -= 0.1f;
+                        m_nTurnCnt += 5;
+
+                        if (m_nTurnCnt == 600)
+                        {
+                            m_bTurn = false;
+                            m_nTurnCnt = 0;
+                        }
+                    }
+
+                    Pos.x += m_nMove.x;
+                    Pos.z += m_nMove.z;
 
                     SetPos(Pos);
 
@@ -93,7 +116,7 @@ void C3dblock::Update()
 //======================
 // 描画処理
 //======================
-void C3dblock::Draw()
+void C3dmoveblock::Draw()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -176,36 +199,34 @@ void C3dblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dblock* C3dblock::Create(D3DXVECTOR3 pos)
+C3dmoveblock* C3dmoveblock::Create(D3DXVECTOR3 pos)
 {
-    C3dblock* D3DBlock = nullptr;
+    C3dmoveblock* D3DMoveblock = nullptr;
 
-    D3DBlock = new C3dblock;
+    D3DMoveblock = new C3dmoveblock;
 
     //初期化に成功した場合
-    if (SUCCEEDED(D3DBlock->Init()))
+    if (SUCCEEDED(D3DMoveblock->Init()))
     {
-        D3DBlock->SetType(TYPE::BLOCK);
+        D3DMoveblock->SetType(TYPE::MOVEBLOCK_Z);
 
-        D3DBlock->LoadBlockData();
+        D3DMoveblock->LoadMoveblockData();
 
-        //D3DBlock->Load();//テクスチャを設定(仮)
+        //D3DMoveblock->Load();//テクスチャを設定(仮)
 
-        D3DBlock->CObject3D::SetPos(pos);
+        D3DMoveblock->CObject3D::SetPos(pos);
 
         ////テクスチャの設定
         //Model->BindTexture(m_pTexBuff);
-
-
     }
 
-    return D3DBlock;
+    return D3DMoveblock;
 }
 
 //======================
 // テクスチャロード処理
 //======================
-HRESULT C3dblock::Load()
+HRESULT C3dmoveblock::Load()
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
@@ -222,7 +243,7 @@ HRESULT C3dblock::Load()
 //======================
 // テクスチャアンロード(終了)処理
 //======================
-void C3dblock::Unload()
+void C3dmoveblock::Unload()
 {
     CModel::Unload();
 }
@@ -232,13 +253,13 @@ void C3dblock::Unload()
 //===========================
 // 外部ファイル読み込み処理
 //===========================
-void C3dblock::LoadBlockData(void)
+void C3dmoveblock::LoadMoveblockData(void)
 {
     char Datacheck[MAX_CHAR];
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_Block\\icecrystal_profile.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_block\\icecrystal_profile.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -353,37 +374,47 @@ void C3dblock::LoadBlockData(void)
 //===========================
 // ブロックの当たり判定
 //===========================
-bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
+bool C3dmoveblock::Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-    bool bLanding = false; //重力を適応した場合のみ使用
-    float fBlockWidth = -20.0f;
-    float fBlockDepth = 0.0f;
+    bool bLanding = false; // 重力を適応した場合のみ使用
+    float fMoveblockWidth = 20.0f;
+    float fMoveblockDepth = 30.0f;
+    float fMoveblockHeight = 0.0f;
+
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-    //右側当たり判定
-    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+    // 右側当たり判定
+    if (pPos->x - fWidth <= Pos.x + fMoveblockWidth && pPosOld->x - fWidth >= Pos.x + fMoveblockWidth && pPos->z - fHeight < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->x = Pos.x + fBlockWidth + fWidth;
+        pPos->x = Pos.x + fMoveblockWidth + fWidth;
     }
-
-    //左側当たり判定
-    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+    // 左側当たり判定
+    else if (pPos->x + fWidth >= Pos.x - fMoveblockWidth && pPosOld->x + fWidth <= Pos.x - fMoveblockWidth && pPos->z - fHeight < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->x = Pos.x - fBlockWidth - fWidth;
+        pPos->x = Pos.x - fMoveblockWidth - fWidth;
     }
-
-    //上側当たり判定
-    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+    // 前側当たり判定
+    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z - fHeight <= Pos.z + fMoveblockDepth - 30.0f && pPosOld->z - fHeight >= Pos.z + fMoveblockDepth - 30.0f && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z + fBlockDepth + fHeight - 20.0f;
+        pPos->z = Pos.z + fMoveblockDepth - 30.0f + fHeight;
     }
-
-    //下側当たり判定
-    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+    // 後側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z >= Pos.z - fMoveblockDepth && pPosOld->z <= Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z - fBlockDepth - 20.0f;
+        pPos->z = Pos.z - fMoveblockDepth + 50.0f - fHeight;
+    }
+    // 上側当たり判定
+    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y - fHeight <= Pos.y + fMoveblockHeight && pPosOld->y - fHeight >= Pos.y + fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
+    {
+        pPos->y = Pos.y + fMoveblockHeight + fHeight;
         bLanding = true;
+    }
+    // 下側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y >= Pos.y - fMoveblockHeight && pPosOld->y <= Pos.y - fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
+    {
+        pPos->y = Pos.y - fMoveblockHeight - fHeight;
+
     }
 
     return bLanding;

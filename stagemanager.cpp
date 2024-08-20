@@ -18,6 +18,8 @@
 #include "3dgoalobj.h"
 #include "billboard.h"
 #include "timer.h"
+#include "floor.h"
+#include "3dmoveblock.h"
 
 //======================
 //コンストラクタ
@@ -167,6 +169,15 @@ void CStageManager::LoadStageData()
                         fscanf(m_pFile, "%f", &m_nRot[nCntObjectData].z);
                     }
 
+                    //オブジェクトの向き
+                    if (!strcmp(Datacheck, "SIZE"))
+                    {
+                        fscanf(m_pFile, "%s", Datacheck);
+                        fscanf(m_pFile, "%f", &m_nSize[nCntObjectData].x);
+                        fscanf(m_pFile, "%f", &m_nSize[nCntObjectData].y);
+                        fscanf(m_pFile, "%f", &m_nSize[nCntObjectData].z);
+                    }
+
                     //オブジェクトの詳細設定 (一部のオブジェクトでしか使用しない)
                     if (!strcmp(Datacheck, "OBJ_TYPE2"))
                     {
@@ -231,6 +242,18 @@ void CStageManager::LoadStageData()
         if (CreateObjType[nCnt] == 6)
         {
             C3dgoalobj::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+        }
+
+        //床の生成
+        if (CreateObjType[nCnt] == 7)
+        {
+            CFloor::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z) ,D3DXVECTOR3(m_nSize[nCnt].x, m_nSize[nCnt].y, m_nSize[nCnt].z));
+        }
+
+        //ブロック生成の場合
+        if (CreateObjType[nCnt] == 8)
+        {
+            C3dmoveblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
         }
 
     }

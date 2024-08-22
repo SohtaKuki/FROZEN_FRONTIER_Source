@@ -1,0 +1,323 @@
+#==============================================================================
+#
+# 「Frozen Frontier」ステージ配置情報ファイル [loadstage000.txt]
+# Author : Sohta Kuki
+#
+#==============================================================================
+SCRIPT			# この行は消さないでください！
+
+#---------------------------------------------------------------------------------
+ステージの制限時間
+#---------------------------------------------------------------------------------
+TIMERSET = 60
+#---------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# オブジェクト配置情報
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# オブジェクト各ID (OBJ_TYPE)
+#
+# 7:床生成 ※(これがないと進行できません)
+
+
+# 0:プレイヤー初期位置
+# 1:敵[0:右移動 1:上移動 2:左移動 3:下移動]
+# 2:通常ブロック
+# 3:破壊可能ブロック
+# 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 2:タイマー追加]
+# 5:壁ブロック[0:横長ブロック 1:縦長ブロック 2:横長ブロック (短) 3:縦長ブロック (短)]
+# 6:ゴールマーカー
+# 8:移動床ブロック
+#------------------------------------------------------------------------------
+
+STAGESET
+
+	OBJECTSET
+		OBJ_TYPE = 7					#床ブロック 
+		POS = 0.0 0.0 0.0
+		SIZE = 500.0 0.0 500.0
+	END_OBJECTSET
+
+	OBJECTSET
+		OBJ_TYPE = 0					#プレイヤー初期位置
+		POS = 0.0 0.0 0.0
+	END_OBJECTSET
+
+	#==================================
+	#下側の壁の配置
+	#==================================
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -380.0 -15.0 -490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -140.0 -15.0 -490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -15.0 -490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 340.0 -15.0 -490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -15.0 -490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	#==================================
+	#上側の壁の配置
+	#==================================
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -380.-15.0 490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -140.0 -15.0 490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -15.0 490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 340.0 -15.0 490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -15.0 490.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	#==================================
+	#右側の壁の配置
+	#==================================
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 470.0 -15.0 -382.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 470.0 -15.0 -142.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 470.0 -15.0 98.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 470.0 -15.0 196.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 470.0 -15.0 380.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	#==================================
+	#左側の壁の配置
+	#==================================
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -470.0 -15.0 -382.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -470.0 -15.0 -142.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -470.0 -15.0 98.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -470.0 -15.0 196.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -470.0 -15.0 380.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1	
+	END_OBJECTSET
+	
+
+	
+	OBJECTSET
+		OBJ_TYPE = 6					#ゴールマーカー 
+		POS = 350.0 0.0 400.0
+	END_OBJECTSET
+	
+	#==================================
+	#任意の壁、オブジェクト設置
+	#==================================
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 0.0 -45.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 50.0 -45.0 100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -50.0 -45.0 100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -120.0 -45.0 50.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -220.0 -45.0 50.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -230.0 -45.0 -150.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -330.0 -45.0 -150.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -380.0 -45.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -420.0 -45.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -420.0 -45.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -420.0 -45.0 50.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -370.0 -45.0 100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -280.0 -45.0 100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -120.0 -45.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	#============================
+	#右側の任意設置
+	#============================
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -45.0 50.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	
+
+END_STAGESET # この行は消さないでください！

@@ -20,7 +20,7 @@ CTitleBG::CTitleBG(int nPriority) : CObject2D(nPriority)
 //============================
 CTitleBG::~CTitleBG()
 {
-    Uninit(); // デストラクタでリソースを解放する
+
 }
 
 //=====================
@@ -112,6 +112,8 @@ void CTitleBG::Uninit()
         m_pVtxBuff->Release();
         m_pVtxBuff = NULL;
     }
+
+    CObject::Release();
 }
 
 //=========================
@@ -153,8 +155,18 @@ void CTitleBG::Update()
         pVtx += 4;
     }
 
+
     //頂点バッファをアンロックする
     m_pVtxBuff->Unlock();
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        CTitleBG::Uninit();
+    }
+
 }
 
 //==================================================================================================

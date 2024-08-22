@@ -91,7 +91,7 @@ void C3dplayer::Update()
     //プレイヤーのHPが0以上の場合のみ通す
     if (m_nLife > 0)
     {
-        if (CManager::GetKeyboard()->GetPress(DIK_D))
+        if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT))
         {
             if (m_bPlayerBuff == false)
             {
@@ -107,13 +107,13 @@ void C3dplayer::Update()
         }
 
 
-
-        if (CManager::GetKeyboard()->GetTrigger(DIK_M))
+        //プレイヤーのジャンプ処理
+        if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
         {
             m_n3DPlayerMove.y += 30.0f;
         }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_A))
+        if (CManager::GetKeyboard()->GetPress(DIK_A)|| CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT))
         {
             if (m_bPlayerBuff == false)
             {
@@ -128,7 +128,7 @@ void C3dplayer::Update()
             }
         }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_W))
+        if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP))
         {
             if (m_bPlayerBuff == false)
             {
@@ -143,7 +143,7 @@ void C3dplayer::Update()
             }
         }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_S))
+        if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN))
         {
             if (m_bPlayerBuff == false)
             {
@@ -160,7 +160,7 @@ void C3dplayer::Update()
     }
 
     //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
     {
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == false)
@@ -170,7 +170,7 @@ void C3dplayer::Update()
     }
 
     // スペースキーが押されたとき (長押し発射)
-    if (CManager::GetKeyboard()->GetPress(DIK_SPACE))
+    if (CManager::GetKeyboard()->GetPress(DIK_SPACE) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
     {
         // スペースキーがまだ押されていない場合
         if (!m_bAButtonPressed)
@@ -179,7 +179,7 @@ void C3dplayer::Update()
             m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
         }
         //スペースキーを2秒以上長押ししている場合
-        else if (CManager::GetKeyboard()->GetPress(DIK_SPACE) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000))
+        else if ((CManager::GetKeyboard()->GetPress(DIK_SPACE) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000))|| (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000)))
         {
 
         }
@@ -204,7 +204,7 @@ void C3dplayer::Update()
     }
 
     //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
+    if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
     {
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == true)

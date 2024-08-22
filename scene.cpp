@@ -205,7 +205,7 @@ void CResult::Uninit()
 void CResult::Update()
 {
 	//エンターキーが押されたとき
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
 	}
@@ -259,7 +259,7 @@ void CTitle::Uninit()
 //======================
 void CTitle::Update()
 {
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 	}

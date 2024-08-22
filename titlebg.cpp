@@ -1,6 +1,6 @@
 //=================================================
 //
-// タイトル画面背景の処理 (timer.cpp)
+// タイトル画面背景の処理 (titlebg.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
@@ -197,9 +197,9 @@ void CTitleBG::Draw()
 
 void CTitleBG::BindTexture(LPDIRECT3DTEXTURE9 pTex[NUM_BG])
 {
-    for (int i = 0; i < NUM_BG; i++)
+    for (int nCnt = 0; nCnt < NUM_BG; nCnt++)
     {
-        m_pTexBuff[i] = pTex[i];
+        m_pTexBuff[nCnt] = pTex[nCnt];
     }
 }
 

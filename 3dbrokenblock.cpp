@@ -57,6 +57,14 @@ void C3dbrokenblock::Update()
     {
         Uninit();
     }
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dbrokenblock::Uninit();
+    }
 }
 
 //======================

@@ -204,7 +204,7 @@ void CTimer::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 		m_nTime = 0;
 	}
 

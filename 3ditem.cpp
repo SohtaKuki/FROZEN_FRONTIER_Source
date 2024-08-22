@@ -58,6 +58,14 @@ void C3ditem::Update()
     {
         m_aModel[nCnt].rot.y -= 0.1f;
     }
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3ditem::Uninit();
+    }
 }
 
 //======================

@@ -53,7 +53,13 @@ void C3dgoalobj::Uninit()
 //======================
 void C3dgoalobj::Update()
 {
+    int nFadeState = CFade::GetFadeState();
 
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dgoalobj::Uninit();
+    }
 }
 
 //======================
@@ -118,6 +124,7 @@ void C3dgoalobj::Draw()
         {
             //マトリックスの設定
             pDevice->SetTransform(D3DTS_WORLD, &m_aModel[nCntParts].mtxworld);
+
 
             pMat = (D3DXMATERIAL*)m_pBuffMat[nCntParts]->GetBufferPointer();
 

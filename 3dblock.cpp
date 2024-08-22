@@ -88,6 +88,14 @@ void C3dblock::Update()
             }
         }
     }
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dblock::Uninit();
+    }
 }
 
 //======================

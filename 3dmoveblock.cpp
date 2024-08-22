@@ -111,6 +111,14 @@ void C3dmoveblock::Update()
             }
         }
     }
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dmoveblock::Uninit();
+    }
 }
 
 //======================

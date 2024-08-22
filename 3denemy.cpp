@@ -288,6 +288,14 @@ void C3denemy::Update()
         }
     }
 
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3denemy::Uninit();
+    }
+
     //À•W‚ğİ’è
     SetPos(Pos);
 

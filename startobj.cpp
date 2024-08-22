@@ -52,7 +52,13 @@ void C3dstartobj::Uninit()
 //======================
 void C3dstartobj::Update()
 {
+    int nFadeState = CFade::GetFadeState();
 
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dstartobj::Uninit();
+    }
 }
 
 //======================

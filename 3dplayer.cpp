@@ -231,6 +231,13 @@ void C3dplayer::Update()
         CManager::GetFade()->SetFade(CScene::MODE_RESULT);
     }
 
+    //タイマーの処理を無効にしてる時のみ使用
+    //if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+    //{
+    //    Uninit();
+    //    CManager::GetFade()->SetFade(CScene::MODE_GAME);
+    //}
+
     //過去座標を保存
     m_nOld3DPlayerPos = Pos;
 

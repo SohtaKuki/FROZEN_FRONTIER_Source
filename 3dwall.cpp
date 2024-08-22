@@ -53,7 +53,14 @@ void C3dwall::Uninit()
 //======================
 void C3dwall::Update()
 {
+    int nFadeState = CFade::GetFadeState();
 
+    //•s‹ï‡‚ª‹N‚«‚½ê‡Á‚µ‚Ü‚µ‚å‚¤
+    if (nFadeState == CFade::FADE_OUT)
+    {
+
+        C3dwall::Uninit();
+    }
 }
 
 //======================

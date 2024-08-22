@@ -80,6 +80,13 @@ void CFloor::Update()
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 	CObject3D::GetBuff()->Unlock();
+
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
+	{
+		CFloor::Uninit();
+	}
 }
 
 //======================

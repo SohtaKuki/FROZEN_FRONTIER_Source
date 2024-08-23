@@ -12,7 +12,8 @@
 //======================
 CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 {
-
+	m_pTexBuff = nullptr;
+	m_pVtxBuff = nullptr;
 }
 
 //======================
@@ -92,6 +93,7 @@ void CObject2D::Uninit()
 		m_pTexBuff->Release();
 		m_pTexBuff = nullptr;
 	}
+
 
 	CObject::Release();
 }

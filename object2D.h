@@ -37,8 +37,6 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
-	int AnimationPTN;
-	bool bUse;
 protected:
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;

@@ -128,6 +128,7 @@ void C3dplayer::Update()
             }
         }
 
+        //Wキーまたは、十字キー上押下時
         if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP))
         {
             if (m_bPlayerBuff == false)
@@ -143,6 +144,7 @@ void C3dplayer::Update()
             }
         }
 
+        //Sキーまたは、十字キー下押下時
         if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN))
         {
             if (m_bPlayerBuff == false)
@@ -231,7 +233,7 @@ void C3dplayer::Update()
         CManager::GetFade()->SetFade(CScene::MODE_RESULT);
     }
 
-    //タイマーの処理を無効にしてる時のみ使用
+    ////タイマーの処理を無効にしてる時のみ使用
     //if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
     //{
     //    Uninit();

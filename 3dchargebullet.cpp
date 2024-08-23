@@ -84,6 +84,12 @@ HRESULT C3dchargebullet::Init()
 //======================
 void C3dchargebullet::Uninit()
 {
+	if (m_pTexture != nullptr)
+	{
+		m_pTexture->Release();
+		m_pTexture = nullptr;
+	}
+
 	CObject3D::Uninit();
 }
 

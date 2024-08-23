@@ -16,7 +16,7 @@
 //======================
 C3dbullet::C3dbullet(int nPriority) : CObject3D(nPriority)
 {
-
+	
 }
 
 //======================
@@ -84,6 +84,12 @@ HRESULT C3dbullet::Init()
 //======================
 void C3dbullet::Uninit()
 {
+	if (m_pTexture != nullptr)
+	{
+		m_pTexture->Release();
+		m_pTexture = nullptr;
+	}
+
 	CObject3D::Uninit();
 }
 

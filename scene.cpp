@@ -134,7 +134,7 @@ HRESULT CGame::Init()
 
 	//ステージマネージャー初期化処理
 	CStageManager::Create();
-	CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
+	//CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 	return S_OK;
 }

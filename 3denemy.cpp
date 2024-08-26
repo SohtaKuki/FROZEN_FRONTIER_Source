@@ -76,7 +76,7 @@ void C3denemy::Update()
     //‹…”­ŽË(1•b”¼‚ÌŠÔŠu‚Å”­ŽË)
     if (m_nShotInterval == SHOT_INTERVAL)
     {
-        C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot, 1);
+        C3dbullet::Create(Pos, D3DXVECTOR3(7.0f, 7.0f, 0.0f), m_rot, 1);
         m_nShotInterval = 0;
     }
 

@@ -26,7 +26,7 @@ TIMERSET = 90
 # 1:敵[0:無移動(下) 1:右移動 2:上下移動 3:左移動]
 # 2:通常ブロック
 # 3:破壊可能ブロック
-# 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 2:タイマー追加]
+# 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 2:タイマー追加 3:医療キット]
 # 5:壁ブロック[0:横長ブロック 1:縦長ブロック 2:横長ブロック (短) 3:縦長ブロック (短)]
 # 6:ゴールマーカー
 # 8:移動床ブロック
@@ -204,6 +204,11 @@ STAGESET
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
 		POS = 430.0 0.0 150.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 6					#ゴールマーカー 
+		POS = 428.0 0.0 -242.5
 	END_OBJECTSET
 	
 	#==================================
@@ -512,6 +517,13 @@ STAGESET
 		OBJ_TYPE2 = 2
 	END_OBJECTSET
 	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 167.0 -75.0 -100.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
 	##右側下壁
 	
 	OBJECTSET
@@ -694,6 +706,18 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 3					#破壊可能ブロック 
+		POS = -340.0 0.0 50.0
+		ROT = 0.0 0.0 0.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 3					#破壊可能ブロック 
+		POS = -310.0 0.0 50.0
+		ROT = 0.0 0.0 0.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 3					#破壊可能ブロック 
 		POS = -15.0 0.0 -205.0
 		ROT = 0.0 0.0 0.0
 	END_OBJECTSET
@@ -712,6 +736,20 @@ STAGESET
 		POS = 20.0 -45.0 -250.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 393.0 -45.0 -249.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 440.0 -45.0 -297.9
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
 	END_OBJECTSET
 	
 	OBJECTSET
@@ -738,9 +776,16 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 4					#アイテム 
+		POS = 168.0 -0.0 -163.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1					#充填式火炎弾 即発射
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
 		POS = -427.0 -0.0 170.0
 		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 2					#タイマー残り時間追加
+		OBJ_TYPE2 = 3					#医療キット
 	END_OBJECTSET
 	
 	OBJECTSET
@@ -749,7 +794,13 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3					#右移動
 	END_OBJECTSET
-
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 114.8 -0.0 -144.3
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3					#右移動
+	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 1					#敵 
@@ -767,7 +818,28 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 1					#敵 
+		POS = 353.4 -0.0 -131.8
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0					#無移動
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 261.3 -0.0 -165.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3					#右移動
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
 		POS = 425.0 -0.0 311.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2					#上下移動
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = -225.0 -0.0 239.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2					#上下移動
 	END_OBJECTSET

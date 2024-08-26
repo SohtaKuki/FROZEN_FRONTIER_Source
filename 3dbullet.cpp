@@ -36,7 +36,7 @@ HRESULT C3dbullet::Init()
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
 	//テクスチャの読込み
-	D3DXCreateTextureFromFile(pDevice, "data\\texture\\billboard000.png", &m_pTexture);
+	D3DXCreateTextureFromFile(pDevice, "data\\texture\\bullet_RGB.png", &m_pTexture);
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * 1, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &m_pVtxBuff, NULL);
@@ -60,10 +60,10 @@ HRESULT C3dbullet::Init()
 	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	//頂点カラーの初期設定
-	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[0].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[1].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[2].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[3].col = D3DCOLOR_RGBA(255,255,255,255);
 
 	//テクスチャ座標の初期設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -128,10 +128,10 @@ void C3dbullet::Update()
 	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	//頂点カラーの初期設定
-	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[0].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[1].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[2].col = D3DCOLOR_RGBA(255,255,255,255);
+	pVtx[3].col = D3DCOLOR_RGBA(255,255,255,255);
 
 	//テクスチャ座標の初期設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -286,6 +286,24 @@ void C3dbullet::Update()
 			//弾の種別がプレイヤーだった場合
 			if (m_nType == 0)
 			{
+				//頂点情報のポインタ
+				VERTEX_3D* pVtx;
+
+				//頂点バッファをロックし頂点情報時へのポインタを取得
+				m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+				//頂点カラーの初期設定
+				pVtx[0].col = D3DCOLOR_RGBA(255,46,46,255);
+				pVtx[1].col = D3DCOLOR_RGBA(255,46,46,255);
+				pVtx[2].col = D3DCOLOR_RGBA(255,46,46,255);
+				pVtx[3].col = D3DCOLOR_RGBA(255,46,46,255);
+
+				pVtx += 4;
+
+				//頂点バッファをアンロック
+				m_pVtxBuff->Unlock();
+
+
 				//敵の場合
 				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
 				{
@@ -319,6 +337,23 @@ void C3dbullet::Update()
 			//弾の種別が敵だった場合
 			if (m_nType == 1)
 			{
+				//頂点情報のポインタ
+				VERTEX_3D* pVtx;
+
+				//頂点バッファをロックし頂点情報時へのポインタを取得
+				m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+				//頂点カラーの初期設定
+				pVtx[0].col = D3DCOLOR_RGBA(0,90,255,255);
+				pVtx[1].col = D3DCOLOR_RGBA(0,90,255,255);
+				pVtx[2].col = D3DCOLOR_RGBA(0,90,255,255);
+				pVtx[3].col = D3DCOLOR_RGBA(0,90,255,255);
+
+				pVtx += 4;
+
+				//頂点バッファをアンロック
+				m_pVtxBuff->Unlock();
+
 				//プレイヤーの場合
 				if (type == CObject::TYPE::PLAYER)
 				{
@@ -350,8 +385,8 @@ void C3dbullet::Draw()
 	//ビューマトリックス取得
 	D3DXMATRIX mtxView;
 
-	////ライトを無効にする
-	//pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//ライトを無効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//=========================
 	// 壁めり込み防止コード
@@ -415,8 +450,8 @@ void C3dbullet::Draw()
 	////Zバッファに書き込む
 	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-	////ライトを無効にする
-	//pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//ライトを有効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 //======================

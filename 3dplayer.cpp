@@ -173,7 +173,7 @@ void C3dplayer::Update()
         //チャージショット即発射バフが有効の場合は通さない
         if (m_bInstantShot == false)
         {
-            C3dbullet::Create(Pos, D3DXVECTOR3(10.0f, 10.0f, 0.0f), m_rot,0);
+            C3dbullet::Create(Pos, D3DXVECTOR3(7.0f, 7.0f, 0.0f), m_rot,0);
         }
     }
 

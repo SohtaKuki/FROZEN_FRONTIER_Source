@@ -126,7 +126,7 @@ void CObject2D::Draw()
 
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
-	pDevice->SetTexture(0, m_pTexBuff);
+ 	pDevice->SetTexture(0, m_pTexBuff);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }

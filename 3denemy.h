@@ -60,7 +60,7 @@ public:
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
 	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DPlayerPos; }//座標の取得
-	static unsigned const int MAX_ENEMY = 100;	//オブジェクト最大数
+	static unsigned const int MAX_ENEMY = 300;	//オブジェクト最大数
 	static const int SHOT_INTERVAL = 120;
 	static const int MOVE_INTERVAL = 90;
 private:

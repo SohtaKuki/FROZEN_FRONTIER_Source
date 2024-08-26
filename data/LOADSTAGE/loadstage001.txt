@@ -9,7 +9,7 @@ SCRIPT			# この行は消さないでください！
 #---------------------------------------------------------------------------------
 ステージの制限時間
 #---------------------------------------------------------------------------------
-TIMERSET = 60
+TIMERSET = 90
 #---------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ TIMERSET = 60
 
 
 # 0:プレイヤー初期位置
-# 1:敵[0:右移動 1:上移動 2:左移動 3:下移動]
+# 1:敵[0:無移動(下) 1:右移動 2:上下移動 3:左移動]
 # 2:通常ブロック
 # 3:破壊可能ブロック
 # 4:アイテム[0:移動速度 1:充填式火炎弾 即発射 2:タイマー追加]
@@ -203,7 +203,7 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
-		POS = 350.0 0.0 400.0
+		POS = 430.0 0.0 150.0
 	END_OBJECTSET
 	
 	#==================================
@@ -241,7 +241,36 @@ STAGESET
 		OBJ_TYPE = 5					#壁ブロック 
 		POS = 0.0 -45.0 260.0
 		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 3
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 120.0 -45.0 260.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 220.0 -45.0 260.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 120.0 -45.0 150.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 220.0 -45.0 150.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
 	END_OBJECTSET
 	
 		OBJECTSET
@@ -354,6 +383,121 @@ STAGESET
 		OBJ_TYPE2 = 3
 	END_OBJECTSET
 	
+		
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 390.0 -45.0 245.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 290.0 -45.0 245.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 390.0 -45.0 315.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 340.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 220.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 100.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -20.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -120.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -170.0 -45.0 265.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -280.0 -45.0 285.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -280.0 -45.0 305.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -280.0 -45.0 335.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -230.0 -45.0 385.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -370.0 -45.0 205.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -370.0 -45.0 305.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -370.0 -45.0 335.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
 		POS = 290.0 -45.0 175.0
@@ -446,20 +590,26 @@ STAGESET
 	END_OBJECTSET
 	
 	OBJECTSET
+		OBJ_TYPE = 3					#壁ブロック 
+		POS = -280.0 0.0 200.0
+		ROT = 0.0 0.0 0.0
+	END_OBJECTSET
+	
+	##左側下部分
+	
+	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = 70.0 -45.0 -300.0
+		POS = 70.0 -85.0 -300.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = -40.0 -45.0 -300.0
+		POS = -40.0 -85.0 -300.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 2
 	END_OBJECTSET
-	
-	##左側下部分
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
@@ -478,6 +628,13 @@ STAGESET
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
 		POS = -210.0 -45.0 -350.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = -210.0 -45.0 -420.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3
 	END_OBJECTSET
@@ -510,13 +667,6 @@ STAGESET
 		OBJ_TYPE2 = 3
 	END_OBJECTSET
 	
-	OBJECTSET
-		OBJ_TYPE = 5					#壁ブロック 
-		POS = 30.0 -45.0 -400.0
-		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 2
-	END_OBJECTSET
-	
 	
 	OBJECTSET
 		OBJ_TYPE = 3					#破壊可能ブロック 
@@ -536,6 +686,18 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 	END_OBJECTSET
 	
+	OBJECTSET
+		OBJ_TYPE = 3					#破壊可能ブロック 
+		POS = -55.0 0.0 -205.0
+		ROT = 0.0 0.0 0.0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 3					#破壊可能ブロック 
+		POS = -15.0 0.0 -205.0
+		ROT = 0.0 0.0 0.0
+	END_OBJECTSET
+	
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
@@ -550,6 +712,64 @@ STAGESET
 		POS = 20.0 -45.0 -250.0
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 3
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
+		POS = -230.0 -0.0 335.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0					#移動速度上昇
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
+		POS = -32.0 -0.0 -253.5
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 0					#移動速度上昇
+	END_OBJECTSET
+	
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
+		POS = -391.0 -0.0 -139.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1					#充填式火炎弾 即発射
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
+		POS = -427.0 -0.0 170.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2					#タイマー残り時間追加
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 73.3 -0.0 358.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3					#右移動
+	END_OBJECTSET
+
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 73.3 -0.0 358.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 3					#右移動
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 35.0 -0.0 466.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 1					#左移動
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 425.0 -0.0 311.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2					#上下移動
 	END_OBJECTSET
 	
 	

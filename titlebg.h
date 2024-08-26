@@ -22,6 +22,7 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexBuff[NUM_BG];
 	D3DXVECTOR3 m_nPos[NUM_BG];
 	float m_aPosTexV[NUM_BG];
+	float m_aPosTexXV[NUM_BG];
 };
 
 #endif

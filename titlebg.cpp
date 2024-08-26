@@ -77,10 +77,10 @@ HRESULT CTitleBG::Init()
         pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
 
         //テクスチャ座標の設定
-        pVtx[0].tex = D3DXVECTOR2(0.0f, m_aPosTexV[nCntBG]);
-        pVtx[1].tex = D3DXVECTOR2(1.0f, m_aPosTexV[nCntBG]);
-        pVtx[2].tex = D3DXVECTOR2(0.0f, m_aPosTexV[nCntBG] + 1.0f);
-        pVtx[3].tex = D3DXVECTOR2(1.0f, m_aPosTexV[nCntBG] + 1.0f);
+        pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+        pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+        pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+        pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
 
         pVtx += 4;
     }
@@ -133,6 +133,7 @@ void CTitleBG::Update()
         {
             m_aPosTexV[nCntBG] -= 0.00f;
         }
+        //==========={ここから背景画像関連}==================
         else if (nCntBG == 1)
         {
             m_aPosTexV[nCntBG] -= 0.003f;
@@ -145,12 +146,13 @@ void CTitleBG::Update()
         {
             m_aPosTexV[nCntBG] -= 0.0040f;
         }
+        //==========={ここまで}==================
 
         //テクスチャ座標の設定
-        pVtx[0].tex = D3DXVECTOR2(0.0f, m_aPosTexV[nCntBG]);
-        pVtx[1].tex = D3DXVECTOR2(1.0f, m_aPosTexV[nCntBG]);
-        pVtx[2].tex = D3DXVECTOR2(0.0f, m_aPosTexV[nCntBG] + 1.0f);
-        pVtx[3].tex = D3DXVECTOR2(1.0f, m_aPosTexV[nCntBG] + 1.0f);
+        pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+        pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+        pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+        pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
 
         pVtx += 4;
     }

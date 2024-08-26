@@ -334,25 +334,25 @@ bool C3dgoalobj::Collision3DGoalobj(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3D
     //‰E‘¤“–‚½‚è”»’è
     if (pPos->x - fWidth <= Pos.x + fGoalobjWidth && pPosOld->x - fWidth >= Pos.x + fGoalobjWidth && pPos->z - fHeight < Pos.z + fGoalobjDepth - 20.0f && pPos->z  > Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        CManager::GetFade()->SetFade(CScene::MODE_GAME);
     }
 
     //¶‘¤“–‚½‚è”»’è
     else if (pPos->x + fWidth >= Pos.x - fGoalobjWidth && pPosOld->x + fWidth <= Pos.x - fGoalobjWidth && pPos->z - fHeight < Pos.z + fGoalobjDepth - 20.0f && pPos->z > Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        CManager::GetFade()->SetFade(CScene::MODE_GAME);
     }
 
     //ã‘¤“–‚½‚è”»’è
     if (pPos->x - fWidth < Pos.x + fGoalobjWidth && pPos->x + fWidth > Pos.x - fGoalobjWidth && pPos->z - fHeight <= Pos.z + fGoalobjDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        CManager::GetFade()->SetFade(CScene::MODE_GAME);
     }
 
     //‰º‘¤“–‚½‚è”»’è
     else if (pPos->x - fWidth < Pos.x + fGoalobjWidth && pPos->x + fWidth > Pos.x - fGoalobjWidth && pPos->z >= Pos.z - fGoalobjDepth - 20.0f && pPosOld->z <= Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        CManager::GetFade()->SetFade(CScene::MODE_GAME);
     }
 
     return bLanding;

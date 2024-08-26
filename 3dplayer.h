@@ -81,14 +81,15 @@ private:
 	LoadEnemy m_aLoadEnemy[NUM_MODEL];
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
-	DWORD m_bAButtonPressStartTime;
-	bool m_bAButtonPressed;
+	DWORD m_bAButtonPressStartTime; //ボタンを押した時刻
+	bool m_bAButtonPressed; //ボタンを押したかどうか(長押し処理)
 	FILE* m_pFile;//ファイルポインタを宣言
-	bool m_bPlayerBuff;
-	bool m_bInstantShot;
-	int m_nBuffTime;
-	int m_nInstantShotTime;
-	int m_KeyStart;
+	bool m_bPlayerBuff; //プレイヤーのバフが付与されているか
+	bool m_bInstantShot; //チャージショットが有効かどうか
+	int m_nBuffTime; //プレイヤーのバフ付与時間
+	int m_nInstantShotTime; //チャージショットを打った時間
+	int m_nJumpCnt; //ジャンプした回数
+	
 	static int m_nLife;
 protected:
 	D3DXVECTOR3 m_n3DPlayerMove;

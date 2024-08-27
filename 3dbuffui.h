@@ -16,6 +16,22 @@
 class CBuffUI : public CObject2D
 {
 public:
+	//UI表示構造体
+	typedef enum
+	{
+		ICON_SPDUP = 0,
+		ICON_INSTANTSHOT,
+		ICON_MAX,
+	}ICONDISPLAY;
+
+	//UI表示構造体
+	typedef enum
+	{
+		UI_DISPLAY = 0,
+		UI_HIDDEN,
+		UI_MAX,
+	}UIDISPLAY;
+
 	CBuffUI(int nPriority = 6);
 	~CBuffUI() override;
 	HRESULT Init() override;

@@ -295,13 +295,13 @@ CBuffUI* CBuffUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 bool CBuffUI::DisplayBuffUI(int nDisplayID, int DisplayOption)
 {
     //ï\é¶Ç∑ÇÈèÍçá
-    if (DisplayOption == 0)
+    if (DisplayOption == CBuffUI::UIDISPLAY::UI_DISPLAY)
     {
         m_bUse[nDisplayID] = true;
     }
 
     //îÒï\é¶Ç…Ç∑ÇÈèÍçá
-    if (DisplayOption == 1)
+    if (DisplayOption == CBuffUI::UIDISPLAY::UI_HIDDEN)
     {
         m_bUse[nDisplayID] = false;
     }

@@ -289,7 +289,7 @@ void C3dplayer::Update()
                     if (m_bPlayerBuff == false)
                     {
                         m_bPlayerBuff = true;
-                        CBuffUI::DisplayBuffUI(0,0);
+                        CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_DISPLAY);
                     }
 
                     p3dItem->Uninit();
@@ -315,7 +315,7 @@ void C3dplayer::Update()
                     if (m_bInstantShot == false)
                     {
                         m_bInstantShot = true; //‘¦”­ŽËƒtƒ‰ƒO‚ð—LŒø‚É‚·‚é
-                        CBuffUI::DisplayBuffUI(1,0);
+                        CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_DISPLAY);
                     }
                     
                     p3dItem->Uninit();
@@ -362,7 +362,7 @@ void C3dplayer::Update()
         //10•b‚½‚Á‚½‚çfalse‚É‚·‚é
         if (m_nBuffTime == 600)
         {
-            CBuffUI::DisplayBuffUI(0, 1);
+            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_HIDDEN);
             m_bPlayerBuff = false;
         }
     }
@@ -381,7 +381,7 @@ void C3dplayer::Update()
         //6•b‚½‚Á‚½‚çfalse‚É‚·‚é
         if (m_nInstantShotTime == 360)
         {
-            CBuffUI::DisplayBuffUI(1, 1);
+            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_HIDDEN);
             m_bInstantShot = false;
         }
     }

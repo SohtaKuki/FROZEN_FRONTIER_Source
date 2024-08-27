@@ -148,6 +148,7 @@
     <ClCompile Include="3daddlifeui.cpp" />
     <ClCompile Include="3dblock.cpp" />
     <ClCompile Include="3dbrokenblock.cpp" />
+    <ClCompile Include="3dbuffui.cpp" />
     <ClCompile Include="3dbullet.cpp" />
     <ClCompile Include="3dchargebullet.cpp" />
     <ClCompile Include="3dchargeshotui.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="3daddlifeui.h" />
     <ClInclude Include="3dblock.h" />
     <ClInclude Include="3dbrokenblock.h" />
+    <ClInclude Include="3dbuffui.h" />
     <ClInclude Include="3dbullet.h" />
     <ClInclude Include="3dchargebullet.h" />
     <ClInclude Include="3dchargeshotui.h" />

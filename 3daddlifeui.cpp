@@ -115,7 +115,7 @@ void CAddlifeui::Update()
 	if (m_bUse == true)
 	{
 		m_nDisplaytime++;
-		m_nAlpha += 5.0f;
+		m_nAlpha += 5;
 
 		if (m_nPos.x <= 150.0f)
 		{

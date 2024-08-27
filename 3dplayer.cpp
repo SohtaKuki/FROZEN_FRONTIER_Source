@@ -22,6 +22,7 @@
 #include "score.h"
 #include "3dchargeshotui.h"
 #include "3daddlifeui.h"
+#include "3dbuffui.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -288,6 +289,7 @@ void C3dplayer::Update()
                     if (m_bPlayerBuff == false)
                     {
                         m_bPlayerBuff = true;
+                        CBuffUI::DisplayBuffUI(0,0);
                     }
 
                     p3dItem->Uninit();
@@ -313,6 +315,7 @@ void C3dplayer::Update()
                     if (m_bInstantShot == false)
                     {
                         m_bInstantShot = true; //‘¦”­ŽËƒtƒ‰ƒO‚ð—LŒø‚É‚·‚é
+                        CBuffUI::DisplayBuffUI(1,0);
                     }
                     
                     p3dItem->Uninit();
@@ -359,6 +362,7 @@ void C3dplayer::Update()
         //10•b‚½‚Á‚½‚çfalse‚É‚·‚é
         if (m_nBuffTime == 600)
         {
+            CBuffUI::DisplayBuffUI(0, 1);
             m_bPlayerBuff = false;
         }
     }
@@ -377,6 +381,7 @@ void C3dplayer::Update()
         //6•b‚½‚Á‚½‚çfalse‚É‚·‚é
         if (m_nInstantShotTime == 360)
         {
+            CBuffUI::DisplayBuffUI(1, 1);
             m_bInstantShot = false;
         }
     }

@@ -20,6 +20,7 @@
 #include "resultscore.h"
 #include "3dchargeshotui.h"
 #include "3daddlifeui.h"
+#include "3dbuffui.h"
 
 
 //======================
@@ -138,6 +139,7 @@ HRESULT CGame::Init()
 	CStageManager::Create();
 	CChargeshotui::Create(D3DXVECTOR3(-100.0f, 100.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CAddlifeui::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
+	CBuffUI::Create(D3DXVECTOR3(70.0f, 70.0f, 0.0f), D3DXVECTOR3(40.0f, 80.0f, 0));
 	//CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 	return S_OK;

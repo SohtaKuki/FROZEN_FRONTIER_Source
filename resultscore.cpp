@@ -61,10 +61,10 @@ HRESULT CResultScore::Init()
 	for (int nCntTime = 0; nCntTime < NUM_RESULTSCORE; nCntTime++)
 	{
 		//頂点座標を設定
-		pVtx[0].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 100.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_RESULTSCORE_INTERVAL), 100.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(m_nPos.x + (nCntTime * TEX_RESULTSCORE_INTERVAL), m_nPos.y, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x + (nCntTime * TEX_RESULTSCORE_INTERVAL), m_nPos.y, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(m_nPos.x + (nCntTime * TEX_RESULTSCORE_INTERVAL), (m_nPos.y + m_nSize.y), 0.0f);
+		pVtx[3].pos = D3DXVECTOR3((m_nPos.x + m_nSize.x+ (nCntTime * TEX_RESULTSCORE_INTERVAL)), (m_nPos.y + m_nSize.y), 0.0f);
 
 		//rhwの設定
 		pVtx[0].rhw = 1.0f;
@@ -187,7 +187,7 @@ void CResultScore::Draw()
 //============================
 //アイテムの生成処理
 //============================
-CResultScore* CResultScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CResultScore* CResultScore::Create(D3DXVECTOR3 pos,D3DXVECTOR3 size)
 {
 	CResultScore* pResultScore;
 
@@ -195,7 +195,7 @@ CResultScore* CResultScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pResultScore->SetType(TYPE::SCORE);
 	pResultScore->m_nPos = pos;
-	pResultScore->m_rot = rot;
+	pResultScore->m_nSize = size;
 
 	//アイテムの初期化
 	pResultScore->Init();

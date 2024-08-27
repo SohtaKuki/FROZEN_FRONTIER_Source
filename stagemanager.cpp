@@ -97,7 +97,7 @@ void CStageManager::LoadStageData()
     int CreateObjType[MAX_OBJ];
     int CreateObjType2[MAX_OBJ];
 
-    m_pFile = fopen("data\\LOADSTAGE\\loadstage001.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\LOADSTAGE\\loadstage000.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)

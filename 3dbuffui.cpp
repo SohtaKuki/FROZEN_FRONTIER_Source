@@ -242,7 +242,7 @@ void CBuffUI::BindTexture(LPDIRECT3DTEXTURE9 pTex[NUM_ICON])
 }
 
 //============================
-//タイトルの生成処理
+//バフ付与UIの生成処理
 //============================
 CBuffUI* CBuffUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
@@ -292,6 +292,9 @@ CBuffUI* CBuffUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
     return pBuffUI;
 }
 
+//============================
+//UIを表示させる処理
+//============================
 bool CBuffUI::DisplayBuffUI(int nDisplayID, int DisplayOption)
 {
     //表示する場合

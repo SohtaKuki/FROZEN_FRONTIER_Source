@@ -5,16 +5,15 @@
 //
 //=================================================
 
-#include "3dchargeshotui.h"
+#include "3daddlifeui.h"
 #include "manager.h"
-#include "3dplayer.h"
 
-bool CChargeshotui::m_bUse = false;
+bool CAddlifeui::m_bUse = false;
 
 //======================
 // コンストラクタ
 //======================
-CChargeshotui::CChargeshotui()
+CAddlifeui::CAddlifeui()
 {
 	m_bUse = false;
 	m_nDisplaytime = 0;
@@ -24,7 +23,7 @@ CChargeshotui::CChargeshotui()
 //======================
 // デストラクタ
 //======================
-CChargeshotui::~CChargeshotui()
+CAddlifeui::~CAddlifeui()
 {
 
 }
@@ -32,7 +31,7 @@ CChargeshotui::~CChargeshotui()
 //======================
 // 初期化処理
 //======================
-HRESULT CChargeshotui::Init()
+HRESULT CAddlifeui::Init()
 {
 	m_nAlpha = 0;
 
@@ -67,10 +66,10 @@ HRESULT CChargeshotui::Init()
 	pVtx[3].rhw = 1.0f;
 
 	//頂点カラーの設定
-	pVtx[0].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[1].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[2].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[3].col = D3DCOLOR_RGBA(255,255,255,0);
+	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 0);
+	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 0);
+	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 0);
+	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 0);
 
 	//テクスチャ座標の設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -88,7 +87,7 @@ HRESULT CChargeshotui::Init()
 //======================
 // 終了処理
 //======================
-void CChargeshotui::Uninit()
+void CAddlifeui::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{
@@ -109,7 +108,7 @@ void CChargeshotui::Uninit()
 //======================
 // 更新処理
 //======================
-void CChargeshotui::Update()
+void CAddlifeui::Update()
 {
 
 	//テクスチャ表示済みだったら
@@ -129,7 +128,7 @@ void CChargeshotui::Update()
 		}
 
 		//既定の時間になったら非表示＆リセット
-		if (m_nDisplaytime >= 90 && C3dplayer::GetShotButtonPreesed() == false)
+		if (m_nDisplaytime >= 90)
 		{
 			m_nDisplaytime = 0;
 			m_bUse = false;
@@ -163,14 +162,14 @@ void CChargeshotui::Update()
 	//フェードアウトしたら強制削除
 	if (nFadeState == CFade::FADE_OUT)
 	{
-		CChargeshotui::Uninit();
+		CAddlifeui::Uninit();
 	}
 }
 
 //======================
 // 描画処理
 //======================
-void CChargeshotui::Draw()
+void CAddlifeui::Draw()
 {
 	CRenderer* Renderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
@@ -191,30 +190,30 @@ void CChargeshotui::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CChargeshotui* CChargeshotui::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CAddlifeui* CAddlifeui::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	CChargeshotui* Chargeshotui = new CChargeshotui;
+	CAddlifeui* Addlifeui = new CAddlifeui;
 
-	Chargeshotui->m_nPos = pos;
+	Addlifeui->m_nPos = pos;
 
-	Chargeshotui->m_nSize = size;
+	Addlifeui->m_nSize = size;
 
-	Chargeshotui->Init();
+	Addlifeui->Init();
 
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\chargeshot_allok.png", &pTexture);
+	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\chargeshot_addlife.png", &pTexture);
 
-	Chargeshotui->BindTexture(pTexture);
+	Addlifeui->BindTexture(pTexture);
 
-	return Chargeshotui;
+	return Addlifeui;
 }
 
 //=======================
 //テクスチャの設定
 //=======================
-void CChargeshotui::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+void CAddlifeui::BindTexture(LPDIRECT3DTEXTURE9 pTex)
 {
 	m_pTexBuff = pTex;
 }
@@ -223,7 +222,7 @@ void CChargeshotui::BindTexture(LPDIRECT3DTEXTURE9 pTex)
 //======================
 //テクスチャを表示させる
 //======================
-bool CChargeshotui::DisplayShotOKUI()
+bool CAddlifeui::DisplayAddLifeUI()
 {
 	m_bUse = true;
 

@@ -5,26 +5,26 @@
 //
 //=================================================
 
-#ifndef _CHARGESHOTUI_H_
-#define _CHARGESHOTUI_H_
+#ifndef _ADDLIFEUI_H_
+#define _ADDLIFEUI_H_
 
 #include "object.h"
 #include "object2D.h"
 
 //背景オブジェクトクラス
-class CChargeshotui :public CObject2D
+class CAddlifeui :public CObject2D
 {
 public:
-	CChargeshotui();
-	~CChargeshotui()override;
+	CAddlifeui();
+	~CAddlifeui()override;
 	HRESULT Init()override;
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
 
-	static CChargeshotui* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	static CAddlifeui* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
-	static bool DisplayShotOKUI();
+	static bool DisplayAddLifeUI();
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;

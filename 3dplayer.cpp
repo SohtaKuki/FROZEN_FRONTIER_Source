@@ -21,9 +21,11 @@
 #include "floor.h"
 #include "score.h"
 #include "3dchargeshotui.h"
+#include "3daddlifeui.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
+bool C3dplayer::m_bAButtonPressed = false;
 
 //======================
 // コンストラクタ
@@ -198,6 +200,7 @@ void C3dplayer::Update()
         // スペースキーが離された場合かつ長押し時間が2秒以上の場合
         if (m_bAButtonPressed && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))
         {
+            
             //チャージショット即発射バフが有効の場合は通さない
             if (m_bInstantShot == false)
             {
@@ -338,6 +341,7 @@ void C3dplayer::Update()
                     && CObject3D::GetPos().z >= EnemyPos.z - 40
                     && CObject3D::GetPos().z <= EnemyPos.z + 40)
                 {
+                    CAddlifeui::DisplayAddLifeUI();
                     m_nLife += 15;
                     p3dItem->Uninit();
                     return;

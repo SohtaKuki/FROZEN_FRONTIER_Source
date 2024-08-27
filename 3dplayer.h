@@ -65,6 +65,7 @@ public:
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
 	static int GetPlayerLife() {return m_nLife ; }
 	D3DXVECTOR3& GetPlayerPos() { return m_nOld3DPlayerPos; }//座標の取得
+	static bool GetShotButtonPreesed() { return m_bAButtonPressed; }//射撃ボタンの押下状態を取得
 	static const int PLAYER_LIFE = 48;
 private:
 	D3DXMATRIX m_mtxworld;
@@ -82,7 +83,7 @@ private:
 	ModelPartsEnemy m_aModel[NUM_MODEL];
 	bool bUse;
 	DWORD m_bAButtonPressStartTime; //ボタンを押した時刻
-	bool m_bAButtonPressed; //ボタンを押したかどうか(長押し処理)
+	static bool m_bAButtonPressed; //ボタンを押したかどうか(長押し処理)
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff; //プレイヤーのバフが付与されているか
 	bool m_bInstantShot; //チャージショットが有効かどうか

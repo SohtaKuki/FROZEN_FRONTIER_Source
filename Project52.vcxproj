@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3daddlifeui.cpp" />
     <ClCompile Include="3dblock.cpp" />
     <ClCompile Include="3dbrokenblock.cpp" />
     <ClCompile Include="3dbullet.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="titlebg.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3daddlifeui.h" />
     <ClInclude Include="3dblock.h" />
     <ClInclude Include="3dbrokenblock.h" />
     <ClInclude Include="3dbullet.h" />

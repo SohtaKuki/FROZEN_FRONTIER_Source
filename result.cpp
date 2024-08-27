@@ -29,12 +29,24 @@ CResultBG::~CResultBG()
 //======================
 HRESULT CResultBG::Init()
 {
-	CObject2D::Init();
+	CRenderer* Renderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
+
+	if (FAILED(pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4 * MAX_OBJECT,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&m_pVtxBuff,
+		nullptr)))
+	{
+		return E_FAIL;
+	}
 
 	VERTEX_2D* pVtx;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	CObject2D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -60,7 +72,7 @@ HRESULT CResultBG::Init()
 
 	pVtx += 4;
 
-	CObject2D::GetBuff()->Unlock();
+	m_pVtxBuff->Unlock();
 
 	return S_OK;
 }
@@ -70,7 +82,20 @@ HRESULT CResultBG::Init()
 //======================
 void CResultBG::Uninit()
 {
-	CObject2D::Uninit();
+	if (m_pVtxBuff != nullptr)
+	{
+		m_pVtxBuff->Release();
+		m_pVtxBuff = nullptr;
+	}
+
+	if (m_pTexBuff != nullptr)
+	{
+		m_pTexBuff->Release();
+		m_pTexBuff = nullptr;
+	}
+
+
+	CObject::Release();
 }
 
 //======================
@@ -91,7 +116,16 @@ void CResultBG::Update()
 //======================
 void CResultBG::Draw()
 {
-	CObject2D::Draw();
+	CRenderer* Renderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
+
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+
+	pDevice->SetFVF(FVF_VERTEX_2D);
+
+	pDevice->SetTexture(0, m_pTexBuff);
+
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
 
 //======================
@@ -115,4 +149,12 @@ CResultBG* CResultBG::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	ResultBG->BindTexture(pTexture);
 
 	return ResultBG;
+}
+
+//=======================
+//テクスチャの設定
+//=======================
+void CResultBG::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+{
+	m_pTexBuff = pTex;
 }

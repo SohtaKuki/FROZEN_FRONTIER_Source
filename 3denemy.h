@@ -59,7 +59,7 @@ public:
 	void EnemyDamage();
 	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
 	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
-	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DPlayerPos; }//座標の取得
+	D3DXVECTOR3& GetEnemyPos() { return m_nOld3DEnemyPos; }//座標の取得
 	static unsigned const int MAX_ENEMY = 300;	//オブジェクト最大数
 	static const int SHOT_INTERVAL = 120;
 	static const int MOVE_INTERVAL = 90;
@@ -68,7 +68,7 @@ private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	static LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_nOld3DPlayerPos;
+	D3DXVECTOR3 m_nOld3DEnemyPos;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;
 	LPD3DXMESH m_pMesh[NUM_MODEL];

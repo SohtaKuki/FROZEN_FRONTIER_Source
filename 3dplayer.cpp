@@ -20,6 +20,7 @@
 #include "timer.h"
 #include "floor.h"
 #include "score.h"
+#include "3dchargeshotui.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -187,9 +188,9 @@ void C3dplayer::Update()
             m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
         }
         //スペースキーを2秒以上長押ししている場合
-        else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000))|| (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000 - 1000)))
+        else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))|| (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
         {
-
+            CChargeshotui::DisplayShotOKUI();
         }
     }
     else

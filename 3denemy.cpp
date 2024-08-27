@@ -141,7 +141,7 @@ void C3denemy::Update()
 
 
     //‰ß‹ŽÀ•W‚ð•Û‘¶
-    m_nOld3DPlayerPos = Pos;
+    m_nOld3DEnemyPos = Pos;
 
     Pos.x += m_n3DEnemyMove.x;
     Pos.z += m_n3DEnemyMove.z;
@@ -161,7 +161,7 @@ void C3denemy::Update()
                 {
                     C3dblock* p3dblock = (C3dblock*)pObj;
 
-                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DEnemyPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {
@@ -200,7 +200,7 @@ void C3denemy::Update()
                 {
                     C3dwall* p3dwall = (C3dwall*)pObj;
 
-                    bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DEnemyPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {
@@ -221,7 +221,7 @@ void C3denemy::Update()
                 {
                     C3dwall* p3dwall = (C3dwall*)pObj;
 
-                    bool bIsCollision = p3dwall->Collision3DWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dwall->Collision3DWallShort(&Pos, &m_nOld3DEnemyPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {
@@ -244,7 +244,7 @@ void C3denemy::Update()
                     C3dwall* p3dwall = (C3dwall*)pObj;
 
 
-                    bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DEnemyPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {
@@ -267,7 +267,7 @@ void C3denemy::Update()
                 {
                     C3dwall* p3dwall = (C3dwall*)pObj;
 
-                    bool bIsCollision = p3dwall->Collision3DHeightWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DEnemyMove, 50.0f, 50.0f);
+                    bool bIsCollision = p3dwall->Collision3DHeightWallShort(&Pos, &m_nOld3DEnemyPos, &m_n3DEnemyMove, 50.0f, 50.0f);
 
                     if (bIsCollision == true)
                     {

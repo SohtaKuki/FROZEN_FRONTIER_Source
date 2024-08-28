@@ -83,6 +83,7 @@ void CGameui::Update()
 	if (nFadeState == CFade::FADE_OUT)
 	{
 		CGameui::Uninit();
+		return;
 	}
 }
 

@@ -18,6 +18,9 @@ CBuffUI::CBuffUI(int nPriority) : CObject2D(nPriority)
     {
         m_bUse[nCntBG] = false;
     }
+
+    m_nAlphaCnt = 255;
+    m_bAlphaSwitch = false;
 }
 
 //============================
@@ -165,6 +168,26 @@ void CBuffUI::Update()
     //頂点バッファロック
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+    if (m_bAlphaSwitch == false)
+    {
+        m_nAlphaCnt--;
+    }
+
+    if (m_bAlphaSwitch == true)
+    {
+        m_nAlphaCnt++;
+    }
+
+    if (m_nAlphaCnt == 205)
+    {
+        m_bAlphaSwitch = true;
+    }
+
+    if (m_nAlphaCnt == 255)
+    {
+        m_bAlphaSwitch = false;
+    }
+
     for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
     {
 
@@ -186,6 +209,15 @@ void CBuffUI::Update()
         //pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
         //pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
         //pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
+
+
+
+        pVtx[0].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[1].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[2].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[3].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+
+
 
         pVtx += 4;
     }

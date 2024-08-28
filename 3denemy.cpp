@@ -294,6 +294,7 @@ void C3denemy::Update()
     {
 
         C3denemy::Uninit();
+        return;
     }
 
     //À•W‚ğİ’è

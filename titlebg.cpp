@@ -167,6 +167,7 @@ void CTitleBG::Update()
     {
 
         CTitleBG::Uninit();
+        return;
     }
 
 }

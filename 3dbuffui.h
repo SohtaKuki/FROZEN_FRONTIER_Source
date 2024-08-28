@@ -49,6 +49,8 @@ private:
 	float m_aPosTexV[NUM_ICON];
 	float m_aPosTexXV[NUM_ICON];
 	static bool m_bUse[NUM_ICON];
+	int m_nAlphaCnt;
+	bool m_bAlphaSwitch;
 };
 
 #endif

@@ -133,14 +133,14 @@ HRESULT CGame::Init()
 	CTimer::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CScore::Create(D3DXVECTOR3(-300.0f, 0.0f, 0.0f),D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CPlayerHpBar::Create(D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(-25.0f, -20.0f, 0.0f));
+	//CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 
 	//ステージマネージャー初期化処理
 	CStageManager::Create();
-	CChargeshotui::Create(D3DXVECTOR3(-100.0f, 100.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
-	CAddlifeui::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
+	CChargeshotUI::Create(D3DXVECTOR3(-100.0f, 100.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
+	//CAddlifeui::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CBuffUI::Create(D3DXVECTOR3(70.0f, 70.0f, 0.0f), D3DXVECTOR3(40.0f, 80.0f, 0));
-	CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 	return S_OK;
 }

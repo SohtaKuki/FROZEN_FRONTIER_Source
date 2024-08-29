@@ -17,8 +17,10 @@ CBuffUI::CBuffUI(int nPriority) : CObject2D(nPriority)
     for (int nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
     {
         m_bUse[nCntBG] = false;
+        m_pTexBuff[nCntBG] = nullptr;
     }
 
+    m_pVtxBuff = nullptr;
     m_nAlphaCnt = 255;
     m_bAlphaSwitch = false;
 }
@@ -140,18 +142,18 @@ void CBuffUI::Uninit()
     //テクスチャの破棄
     for (int nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
     {
-        if (m_pTexBuff[nCntBG] != NULL)
+        if (m_pTexBuff[nCntBG] != nullptr)
         {
             m_pTexBuff[nCntBG]->Release();
-            m_pTexBuff[nCntBG] = NULL;
+            m_pTexBuff[nCntBG] = nullptr;
         }
     }
 
     //頂点バッファの破棄
-    if (m_pVtxBuff != NULL)
+    if (m_pVtxBuff != nullptr)
     {
         m_pVtxBuff->Release();
-        m_pVtxBuff = NULL;
+        m_pVtxBuff = nullptr;
     }
 
     CObject::Release();
@@ -230,7 +232,6 @@ void CBuffUI::Update()
 
     if (nFadeState == CFade::FADE_OUT)
     {
-
         CBuffUI::Uninit();
     }
 

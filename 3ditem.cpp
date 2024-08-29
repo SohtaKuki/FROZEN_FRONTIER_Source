@@ -16,7 +16,8 @@ int C3ditem::m_nType = 0;				// オブジェクト総数
 //======================
 C3ditem::C3ditem(int nPriority) : CModel(nPriority)
 {
-
+    m_nFrameCnt = 0;
+    m_bSwitchYpos = false;
 }
 
 //======================
@@ -54,16 +55,47 @@ void C3ditem::Uninit()
 //======================
 void C3ditem::Update()
 {
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
     for (int nCnt = 0; nCnt < 1; nCnt++)
     {
-        m_aModel[nCnt].rot.y -= 0.1f;
+        m_aModel[nCnt].rot.y -= 0.035f;
     }
+
+    if (m_nFrameCnt == 0)
+    {
+        m_bSwitchYpos = false;
+    }
+
+    if (m_nFrameCnt == 90)
+    {
+        m_bSwitchYpos = true;
+    }
+
+    if (m_bSwitchYpos == false)
+    {
+        m_nFrameCnt++;
+        m_Move.y += 0.04f;
+    }
+
+    if (m_bSwitchYpos == true)
+    {
+        m_nFrameCnt--;
+        m_Move.y -= 0.04f;
+    }
+
+    Pos.y += m_Move.y;
+
+    //座標を設定
+    SetPos(Pos);
+
+    //X座標の移動量を更新
+    m_Move.y += (0.0f - m_Move.y) * 0.08f;
 
     int nFadeState = CFade::GetFadeState();
 
     if (nFadeState == CFade::FADE_OUT)
     {
-
         C3ditem::Uninit();
     }
 }

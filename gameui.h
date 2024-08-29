@@ -15,7 +15,7 @@
 class CGameui :public CObject2D
 {
 public:
-	CGameui();
+	CGameui(int nPriority = 4);
 	~CGameui()override;
 	HRESULT Init()override;
 	void Uninit()override;
@@ -24,15 +24,9 @@ public:
 
 	static CGameui* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 private:
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	LPDIRECT3DTEXTURE9 m_pTexBuff;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;
 	bool bUse;
-	int m_CurrentFrame = 0;           // 現在のフレーム
-	int m_Numframes = 8;        // アニメーションの総フレーム数
-	float m_FrameDuration = 0.5f; // フレームの表示時間
-	float m_Frametimer = 0.0f;        // フレームの経過時間
 };
 
 #endif

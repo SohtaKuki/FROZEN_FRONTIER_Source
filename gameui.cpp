@@ -11,7 +11,7 @@
 //======================
 // コンストラクタ
 //======================
-CGameui::CGameui()
+CGameui::CGameui(int nPriority) : CObject2D(nPriority)
 {
 
 }
@@ -83,7 +83,6 @@ void CGameui::Update()
 	if (nFadeState == CFade::FADE_OUT)
 	{
 		CGameui::Uninit();
-		return;
 	}
 }
 

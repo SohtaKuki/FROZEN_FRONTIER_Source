@@ -76,11 +76,10 @@ private:
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bLanding;
-
-protected:
-	D3DXVECTOR3 m_nMove;
+	D3DXVECTOR3 m_Move;
 	D3DXVECTOR3 m_rot;
-
+	int m_nFrameCnt;
+	bool m_bSwitchYpos;
 };
 
 #endif

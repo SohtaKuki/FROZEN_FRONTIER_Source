@@ -48,7 +48,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 
 	// ウィンドウを生成
-	hWnd = CreateWindowEx(0, "WindowClass", "C++環境下でのDirectX基本処理", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, (rect.right - rect.left), (rect.bottom - rect.top), NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindowEx(0, "WindowClass", "FROZEN FRONTIER [フローズン・フロンティア]", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, (rect.right - rect.left), (rect.bottom - rect.top), NULL, NULL, hInstance, NULL);
 
 	g_pManager = new CManager;
 

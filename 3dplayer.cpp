@@ -193,7 +193,8 @@ void C3dplayer::Update()
         //スペースキーを2秒以上長押ししている場合
         else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))|| (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
         {
-            CChargeshotui::DisplayShotOKUI();
+            CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+            //CChargeshotUI::DisplayChargeshotUI(1, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
         }
     }
     else

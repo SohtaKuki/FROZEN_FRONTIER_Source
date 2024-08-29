@@ -1,231 +1,375 @@
 //=================================================
 //
-// チャージショット充填完了UI表示処理 (3dchargeshotui.cpp)
+// タイトル画面背景の処理 (titlebg.cpp)
 // Author: Sohta Kuki
 //
 //=================================================
 
 #include "3dchargeshotui.h"
-#include "manager.h"
 #include "3dplayer.h"
 
-bool CChargeshotui::m_bUse = false;
+bool CChargeshotUI::m_bUse[NUM_ICON] = {};
 
-//======================
-// コンストラクタ
-//======================
-CChargeshotui::CChargeshotui()
+//============================
+//コンストラクタ
+//============================
+CChargeshotUI::CChargeshotUI(int nPriority) : CObject2D(nPriority)
 {
-	m_bUse = false;
-	m_nDisplaytime = 0;
-	m_nAlpha = 0;
+    for (int nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        m_bUse[nCntBG] = false;
+        m_pTexBuff[nCntBG] = nullptr;
+    }
+
+    m_pVtxBuff = nullptr;
+    m_nAlphaCnt = 255;
+    m_nMoveCnt = 0;
+    m_bAlphaSwitch = false;
 }
 
-//======================
-// デストラクタ
-//======================
-CChargeshotui::~CChargeshotui()
+//============================
+//デストラクタ
+//============================
+CChargeshotUI::~CChargeshotUI()
 {
 
 }
 
+//=====================
+// 背景初期化処理
 //======================
-// 初期化処理
-//======================
-HRESULT CChargeshotui::Init()
+HRESULT CChargeshotUI::Init()
 {
-	m_nAlpha = 0;
 
-	CRenderer* Renderer = CManager::GetRenderer();
-	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
+    CRenderer* Renderer = CManager::GetRenderer();
+    LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
-	if (FAILED(pDevice->CreateVertexBuffer(
-		sizeof(VERTEX_2D) * 4 * MAX_OBJECT,
-		D3DUSAGE_WRITEONLY,
-		FVF_VERTEX_2D,
-		D3DPOOL_MANAGED,
-		&m_pVtxBuff,
-		nullptr)))
-	{
-		return E_FAIL;
-	}
+    int nCntBG;
 
-	VERTEX_2D* pVtx;
+    //テクスチャ座標の開始位置（V値）の初期化
+    for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        m_aPosTexV[nCntBG] = 0.0f;
+    }
 
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+    if (FAILED(pDevice->CreateVertexBuffer(
+        sizeof(VERTEX_2D) * 4 * NUM_ICON,
+        D3DUSAGE_WRITEONLY,
+        FVF_VERTEX_2D,
+        D3DPOOL_MANAGED,
+        &m_pVtxBuff,
+        nullptr)))
+    {
+        return E_FAIL;
+    }
 
-	//頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
+    VERTEX_2D* pVtx; //頂点情報へのポインタ
 
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
+    //頂点バッファロック
+    m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	//頂点カラーの設定
-	pVtx[0].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[1].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[2].col = D3DCOLOR_RGBA(255,255,255,0);
-	pVtx[3].col = D3DCOLOR_RGBA(255,255,255,0);
+    for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        switch (nCntBG)
+        {
+        case 0:
+            //頂点座標の設定
+            pVtx[0].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y, 0.0f);
+            pVtx[1].pos = D3DXVECTOR3(m_nPos[nCntBG].x + m_nSize[nCntBG].x, m_nPos[nCntBG].y, 0.0f);
+            pVtx[2].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+            pVtx[3].pos = D3DXVECTOR3(m_nPos[nCntBG].x + m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
 
-	//テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+            //rhwの設定
+            pVtx[0].rhw = 1.0f;
+            pVtx[1].rhw = 1.0f;
+            pVtx[2].rhw = 1.0f;
+            pVtx[3].rhw = 1.0f;
 
-	pVtx += 4;
+            //頂点カラー
+            pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
 
-	m_pVtxBuff->Unlock();
+            //テクスチャ座標の設定
+            pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+            pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+            pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+            pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
 
-	return S_OK;
+            pVtx += 4;
+            break;
+        case 1:
+            //頂点座標の設定
+            pVtx[0].pos = D3DXVECTOR3((m_nPos[nCntBG].x - m_nSize[nCntBG].x) + 100.0f, m_nPos[nCntBG].y, 0.0f);
+            pVtx[1].pos = D3DXVECTOR3((m_nPos[nCntBG].x + m_nSize[nCntBG].x) + 100.0f, m_nPos[nCntBG].y, 0.0f);
+            pVtx[2].pos = D3DXVECTOR3((m_nPos[nCntBG].x - m_nSize[nCntBG].x) + 100.0f, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+            pVtx[3].pos = D3DXVECTOR3((m_nPos[nCntBG].x + m_nSize[nCntBG].x) + 100.0f, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+
+            //rhwの設定
+            pVtx[0].rhw = 1.0f;
+            pVtx[1].rhw = 1.0f;
+            pVtx[2].rhw = 1.0f;
+            pVtx[3].rhw = 1.0f;
+
+            //頂点カラー
+            pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+
+            //テクスチャ座標の設定
+            pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+            pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+            pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+            pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
+
+            pVtx += 4;
+            break;
+        }
+
+    }
+
+    //頂点バッファアンロック
+    m_pVtxBuff->Unlock();
+
+    return S_OK;
 }
 
-//======================
-// 終了処理
-//======================
-void CChargeshotui::Uninit()
+//=================================
+// 背景終了処理
+//=================================
+void CChargeshotUI::Uninit()
 {
-	if (m_pVtxBuff != nullptr)
-	{
-		m_pVtxBuff->Release();
-		m_pVtxBuff = nullptr;
-	}
+    //テクスチャの破棄
+    for (int nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        if (m_pTexBuff[nCntBG] != nullptr)
+        {
+            m_pTexBuff[nCntBG]->Release();
+            m_pTexBuff[nCntBG] = nullptr;
+        }
+    }
 
-	if (m_pTexBuff != nullptr)
-	{
-		m_pTexBuff->Release();
-		m_pTexBuff = nullptr;
-	}
+    //頂点バッファの破棄
+    if (m_pVtxBuff != nullptr)
+    {
+        m_pVtxBuff->Release();
+        m_pVtxBuff = nullptr;
+    }
 
-
-	CObject::Release();
+    CObject::Release();
 }
 
-//======================
-// 更新処理
-//======================
-void CChargeshotui::Update()
+//=========================
+// 背景更新処理
+//=========================
+void CChargeshotUI::Update()
 {
+    int nCntBG;
+    VERTEX_2D* pVtx; //頂点情報へのポインタ
 
-	//テクスチャ表示済みだったら
-	if (m_bUse == true)
-	{
-		m_nDisplaytime++;
-		m_nAlpha += 5.0f;
+    //頂点バッファロック
+    m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-		if (m_nPos.x <= 150.0f)
-		{
-			m_nPos.x += 20.0f;
-		}
+    if (m_bAlphaSwitch == false)
+    {
+        m_nAlphaCnt--;
+    }
 
-		if (m_nPos.x >= 150.0f)
-		{
-			m_nPos.x = 150.0f;
-		}
+    if (m_bAlphaSwitch == true)
+    {
+        m_nAlphaCnt++;
+    }
 
-		//既定の時間になったら非表示＆リセット
-		if (m_nDisplaytime >= 90 && C3dplayer::GetShotButtonPreesed() == false)
-		{
-			m_nDisplaytime = 0;
-			m_bUse = false;
-			m_nPos.x = -100.0f;
-		}
-	}
+    if (m_nAlphaCnt == 205)
+    {
+        m_bAlphaSwitch = true;
+    }
 
-	VERTEX_2D* pVtx;
+    if (m_nAlphaCnt == 255)
+    {
+        m_bAlphaSwitch = false;
+    }
 
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+    for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
 
-	//頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(m_nPos.x - m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x, m_nPos.y + m_nSize.y, 0.0f);
+        //if (nCntBG == 0)
+        //{
+        //    m_aPosTexV[nCntBG] -= 0.00f;
+        //}
+        //else if (nCntBG == 1)
+        //{
+        //    m_aPosTexV[nCntBG] -= 0.003f;
+        //}
+        //else if (nCntBG == 2)
+        //{
+        //    m_aPosTexV[nCntBG] -= 0.0020f;
+        //}
 
-	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, m_nAlpha);
-	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, m_nAlpha);
-	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, m_nAlpha);
-	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, m_nAlpha);
+        ////テクスチャ座標の設定
+        //pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+        //pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+        //pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+        //pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
 
-	pVtx += 4;
+        if (m_bUse[nCntBG] == true)
+        {
+            m_nMoveCnt++;
+            m_nPos[nCntBG].x += 3.0f;
 
-	m_pVtxBuff->Unlock();
+            if (m_nPos[nCntBG].x <= 150.0f)
+            {
+                m_nPos[nCntBG].x += 20.0f;
+            }
 
-	//フェードの状態を取得
-	int nFadeState = CFade::GetFadeState();
+            if (m_nPos[nCntBG].x >= 150.0f)
+            {
+                m_nPos[nCntBG].x = 150.0f;
+            }
 
-	//フェードアウトしたら強制削除
-	if (nFadeState == CFade::FADE_OUT)
-	{
-		CChargeshotui::Uninit();
-	}
+            if (m_nMoveCnt >= 90 && C3dplayer::GetShotButtonPreesed() == false)
+            {
+                m_nMoveCnt = 0;
+                m_nPos[nCntBG].x = -100.0f;
+                m_bUse[nCntBG] = false;
+            }
+        }
+
+        //頂点座標の設定
+        pVtx[0].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y, 0.0f);
+        pVtx[1].pos = D3DXVECTOR3(m_nPos[nCntBG].x + m_nSize[nCntBG].x, m_nPos[nCntBG].y, 0.0f);
+        pVtx[2].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+        pVtx[3].pos = D3DXVECTOR3(m_nPos[nCntBG].x + m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+
+        pVtx[0].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[1].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[2].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[3].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+
+
+
+        pVtx += 4;
+    }
+
+
+    //頂点バッファをアンロックする
+    m_pVtxBuff->Unlock();
+
+    int nFadeState = CFade::GetFadeState();
+
+    if (nFadeState == CFade::FADE_OUT)
+    {
+        CChargeshotUI::Uninit();
+    }
+
 }
 
-//======================
-// 描画処理
-//======================
-void CChargeshotui::Draw()
+//=========================
+// 背景描画処理
+//=========================
+void CChargeshotUI::Draw()
 {
-	CRenderer* Renderer = CManager::GetRenderer();
-	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
+    int nCntBG;
 
-	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+    CRenderer* Renderer = CManager::GetRenderer();
+    LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
-	pDevice->SetFVF(FVF_VERTEX_2D);
+    //頂点バッファをデータストリームに設定
+    pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
 
+    //頂点フォーマットの設定
+    pDevice->SetFVF(FVF_VERTEX_2D);
 
-	if (m_bUse == true)
-	{
-		pDevice->SetTexture(0, m_pTexBuff);
+    for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        if (m_bUse[nCntBG] == true)
+        {
+            //テクスチャの設定
+            pDevice->SetTexture(0, m_pTexBuff[nCntBG]);
 
-		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-	}
+            //ポリゴンの描画
+            pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntBG * 4, 2);
+        }
+    }
 }
 
-//======================
-// オブジェクト生成処理
-//======================
-CChargeshotui* CChargeshotui::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+void CChargeshotUI::BindTexture(LPDIRECT3DTEXTURE9 pTex[NUM_ICON])
 {
-	CChargeshotui* Chargeshotui = new CChargeshotui;
-
-	Chargeshotui->m_nPos = pos;
-
-	Chargeshotui->m_nSize = size;
-
-	Chargeshotui->Init();
-
-	LPDIRECT3DTEXTURE9 pTexture;
-
-	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\chargeshot_allok.png", &pTexture);
-
-	Chargeshotui->BindTexture(pTexture);
-
-	return Chargeshotui;
+    for (int nCnt = 0; nCnt < NUM_ICON; nCnt++)
+    {
+        m_pTexBuff[nCnt] = pTex[nCnt];
+    }
 }
 
-//=======================
-//テクスチャの設定
-//=======================
-void CChargeshotui::BindTexture(LPDIRECT3DTEXTURE9 pTex)
+//============================
+//バフ付与UIの生成処理
+//============================
+CChargeshotUI* CChargeshotUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	m_pTexBuff = pTex;
+    CChargeshotUI* pChargeshotUI;
+
+    pChargeshotUI = new CChargeshotUI;
+
+    for (int nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        pChargeshotUI->m_nPos[nCntBG] = pos;
+        pChargeshotUI->m_nSize[nCntBG] = size;
+    }
+
+    if (FAILED(pChargeshotUI->Init()))
+    {
+        delete pChargeshotUI;
+        return nullptr;
+    }
+
+    int nCntBG;
+
+    LPDIRECT3DTEXTURE9 pTexture[NUM_ICON];
+
+    //テクスチャ読み込み
+    for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
+    {
+        switch (nCntBG)
+        {
+        case 0:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\chargeshot_allok.png", &pTexture[nCntBG]);
+            break;
+        case 1:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\chargeshot_charging.png", &pTexture[nCntBG]);
+            break;
+        }
+
+        if (!pTexture[nCntBG])
+        {
+            pChargeshotUI->Uninit();
+            delete pChargeshotUI;
+            return nullptr;
+        }
+    }
+
+    pChargeshotUI->BindTexture(pTexture);
+
+    return pChargeshotUI;
 }
 
-
-//======================
-//テクスチャを表示させる
-//======================
-bool CChargeshotui::DisplayShotOKUI()
+//============================
+//UIを表示させる処理
+//============================
+bool CChargeshotUI::DisplayChargeshotUI(int nDisplayID, int DisplayOption)
 {
-	m_bUse = true;
+    //表示する場合
+    if (DisplayOption == CChargeshotUI::UIDISPLAY::UI_DISPLAY)
+    {
+        m_bUse[nDisplayID] = true;
+    }
 
-	return m_bUse;
+    //非表示にする場合
+    if (DisplayOption == CChargeshotUI::UIDISPLAY::UI_HIDDEN)
+    {
+        m_bUse[nDisplayID] = false;
+    }
+
+    return m_bUse[nDisplayID];
 }

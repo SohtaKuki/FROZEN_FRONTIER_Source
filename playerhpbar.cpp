@@ -14,8 +14,7 @@
 //======================
 CPlayerHpBar::CPlayerHpBar(int nPriority) : CObject2D(nPriority)
 {
-	m_pTexBuff = nullptr;
-	m_pVtxBuff = nullptr;
+
 	bUse = true;
 }
 

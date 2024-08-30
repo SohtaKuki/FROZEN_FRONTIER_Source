@@ -45,6 +45,27 @@ HRESULT C3dbrokenblock::Init()
 //======================
 void C3dbrokenblock::Uninit()
 {
+    // すでに解放されている場合は処理をスキップ
+    if (m_pTexBuff != nullptr) {
+        m_pTexBuff->Release();
+        m_pTexBuff = nullptr;
+    }
+
+    // メッシュやマテリアルの解放
+    for (int i = 0; i < NUM_MODEL; i++)
+    {
+        if (m_pMesh[i] != nullptr)
+        {
+            m_pMesh[i]->Release();
+            m_pMesh[i] = nullptr;
+        }
+        if (m_pBuffMat[i] != nullptr)
+        {
+            m_pBuffMat[i]->Release();
+            m_pBuffMat[i] = nullptr;
+        }
+    }
+
     CModel::Uninit();
 }
 

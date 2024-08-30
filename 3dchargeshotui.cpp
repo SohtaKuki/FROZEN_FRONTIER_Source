@@ -243,10 +243,10 @@ void CChargeshotUI::Update()
         pVtx[2].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
         pVtx[3].pos = D3DXVECTOR3(m_nPos[nCntBG].x + m_nSize[nCntBG].x, m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
 
-        pVtx[0].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[1].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[2].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[3].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[0].col = D3DCOLOR_RGBA(255, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[1].col = D3DCOLOR_RGBA(255, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[2].col = D3DCOLOR_RGBA(255, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[3].col = D3DCOLOR_RGBA(255, m_nAlphaCnt, m_nAlphaCnt, 255);
 
 
 

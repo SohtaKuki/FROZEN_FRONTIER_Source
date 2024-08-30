@@ -29,7 +29,7 @@ public:
 	void Draw() override;
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static void AddTimer(int nTime);
-	int GetTimer() { return m_nTime; }
+	static int GetTimer() { return m_nTime; }
 	static CTimer* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:

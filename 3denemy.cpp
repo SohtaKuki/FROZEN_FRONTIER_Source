@@ -15,6 +15,7 @@
 #include "3dchargebullet.h"
 #include "3dbrokenblock.h"
 #include "3dwall.h"
+#include "score.h"
 
 LPDIRECT3DTEXTURE9 C3denemy::m_pTexBuff = nullptr;
 //======================
@@ -55,6 +56,27 @@ HRESULT C3denemy::Init()
 //======================
 void C3denemy::Uninit()
 {
+    // すでに解放されている場合は処理をスキップ
+    if (m_pTexBuff != nullptr) {
+        m_pTexBuff->Release();
+        m_pTexBuff = nullptr;
+    }
+
+    // メッシュやマテリアルの解放
+    for (int i = 0; i < NUM_MODEL; i++)
+    {
+        if (m_pMesh[i] != nullptr)
+        {
+            m_pMesh[i]->Release();
+            m_pMesh[i] = nullptr;
+        }
+        if (m_pBuffMat[i] != nullptr)
+        {
+            m_pBuffMat[i]->Release();
+            m_pBuffMat[i] = nullptr;
+        }
+    }
+
     CModel::Uninit();
 }
 
@@ -136,7 +158,9 @@ void C3denemy::Update()
 
     if (m_nLife <= 0)
     {
-         Uninit();
+        CScore::AddScore(17000);
+        Uninit();
+        return;
     }
 
 

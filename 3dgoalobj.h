@@ -56,6 +56,7 @@ public:
 	static HRESULT Load();
 	static void Unload();
 	void LoadGoalobjData();
+	void ResultMove();
 	bool Collision3DGoalobj(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 1000;	//オブジェクト最大数
 private:

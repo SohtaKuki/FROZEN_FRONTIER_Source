@@ -196,7 +196,7 @@ void CTimer::Update()
 	if (m_nTime < 0)
 	{
 		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 		m_nTime = 0;
 	}
 
@@ -204,7 +204,7 @@ void CTimer::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 		m_nTime = 0;
 	}
 

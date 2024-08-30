@@ -179,11 +179,13 @@
     <ClCompile Include="object3D.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerhpbar.cpp" />
+    <ClCompile Include="playerwindow.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="resultscore.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="scorewindow.cpp" />
     <ClCompile Include="stagemanager.cpp" />
     <ClCompile Include="startobj.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -225,11 +227,13 @@
     <ClInclude Include="object3D.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerhpbar.h" />
+    <ClInclude Include="playerwindow.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="resultscore.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="scorewindow.h" />
     <ClInclude Include="stagemanager.h" />
     <ClInclude Include="startobj.h" />
     <ClInclude Include="texture.h" />

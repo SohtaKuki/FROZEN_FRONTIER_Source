@@ -44,6 +44,37 @@ HRESULT C3dstartobj::Init()
 //======================
 void C3dstartobj::Uninit()
 {
+    // メッシュとバッファの解放
+    for (int nCntParts = 0; nCntParts < NUM_MODEL; nCntParts++)
+    {
+        if (m_pMesh[nCntParts] != NULL)
+        {
+            m_pMesh[nCntParts]->Release();
+            m_pMesh[nCntParts] = NULL;
+        }
+
+        if (m_pBuffMat[nCntParts] != NULL)
+        {
+            m_pBuffMat[nCntParts]->Release();
+            m_pBuffMat[nCntParts] = NULL;
+        }
+    }
+
+    // テクスチャバッファの解放
+    if (m_pTexBuff != NULL)
+    {
+        m_pTexBuff->Release();
+        m_pTexBuff = NULL;
+    }
+
+    // ファイルポインタの解放
+    if (m_pFile != NULL)
+    {
+        fclose(m_pFile);
+        m_pFile = NULL;
+    }
+
+    // 基底クラスのUninitを呼び出し
     CModel::Uninit();
 }
 

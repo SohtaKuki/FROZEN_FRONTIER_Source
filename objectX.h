@@ -55,7 +55,7 @@ public:
 	virtual void LoadModelData(const char* filename);
 private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	static LPDIRECT3DTEXTURE9 m_pTexBuff;
+
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nPos;
 	D3DXVECTOR3 m_nSize;

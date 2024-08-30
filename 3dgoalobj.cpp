@@ -7,6 +7,8 @@
 
 #include "3dgoalobj.h"
 #include "3dplayer.h"
+#include "timer.h"
+#include "score.h"
 
 LPDIRECT3DTEXTURE9 C3dgoalobj::m_pTexBuff = nullptr;
 
@@ -334,26 +336,47 @@ bool C3dgoalobj::Collision3DGoalobj(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3D
     //右側当たり判定
     if (pPos->x - fWidth <= Pos.x + fGoalobjWidth && pPosOld->x - fWidth >= Pos.x + fGoalobjWidth && pPos->z - fHeight < Pos.z + fGoalobjDepth - 20.0f && pPos->z  > Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_GAME);
+        C3dgoalobj::ResultMove();
     }
 
     //左側当たり判定
     else if (pPos->x + fWidth >= Pos.x - fGoalobjWidth && pPosOld->x + fWidth <= Pos.x - fGoalobjWidth && pPos->z - fHeight < Pos.z + fGoalobjDepth - 20.0f && pPos->z > Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_GAME);
+        C3dgoalobj::ResultMove();
     }
 
     //上側当たり判定
     if (pPos->x - fWidth < Pos.x + fGoalobjWidth && pPos->x + fWidth > Pos.x - fGoalobjWidth && pPos->z - fHeight <= Pos.z + fGoalobjDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_GAME);
+        C3dgoalobj::ResultMove();
     }
 
     //下側当たり判定
     else if (pPos->x - fWidth < Pos.x + fGoalobjWidth && pPos->x + fWidth > Pos.x - fGoalobjWidth && pPos->z >= Pos.z - fGoalobjDepth - 20.0f && pPosOld->z <= Pos.z - fGoalobjDepth - 20.0f)
     {
-        CManager::GetFade()->SetFade(CScene::MODE_GAME);
+        C3dgoalobj::ResultMove();
+
     }
 
     return bLanding;
+}
+
+void C3dgoalobj::ResultMove()
+{
+    int nTimer = 0;
+
+    nTimer = CTimer::GetTimer();
+
+    //ボーナススコアの付与処理
+    if(nTimer >= 55)
+    { 
+        CScore::AddScore(20000);
+    }
+
+    if (nTimer <= 55)
+    {
+        CScore::AddScore(5000);
+    }
+
+    CManager::GetFade()->SetFade(CScene::MODE_RESULT);
 }

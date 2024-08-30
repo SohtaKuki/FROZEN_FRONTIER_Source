@@ -10,6 +10,7 @@
 #include "3denemy.h"
 #include "3dbrokenblock.h"
 #include "3dwall.h"
+#include "score.h"
 
 //======================
 // コンストラクタ
@@ -262,6 +263,7 @@ void C3dbullet::Update()
 					&& m_nPos.z >= BlockPos.z - 30
 					&& m_nPos.z <= BlockPos.z + 30)
 				{
+					CScore::AddScore(500);
 					Uninit();
 					p3dbrokenblock->BrokenBlockDamage();
 					return;
@@ -313,6 +315,7 @@ void C3dbullet::Update()
 						&& m_nPos.z <= EnemyPos.z + 30)
 					{
 						Uninit();
+						CScore::AddScore(300);
 						p3denemy->EnemyDamage();
 						return;
 					}

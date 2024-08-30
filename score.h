@@ -14,7 +14,7 @@
 #include "player.h"
 
 static const int NUM_SCORE = 8;
-static const int TEX_SCORE_INTERVAL = 25;
+static const int TEX_SCORE_INTERVAL = 28;
 
 //アイテムオブジェクトクラス
 class CScore : public CObject2D
@@ -38,6 +38,7 @@ private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	LPDIRECT3DTEXTURE9 m_pTexBuff;
 	D3DXVECTOR3 m_nPos;
+	D3DXVECTOR3 m_nSize;
 };
 
 #endif

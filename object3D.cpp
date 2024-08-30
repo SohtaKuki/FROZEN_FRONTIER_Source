@@ -88,6 +88,7 @@ void CObject3D::Uninit()
 		m_pVtxBuff = nullptr;
 	}
 
+	//CObject3D::Unload();
 	CObject::Release();
 
 }

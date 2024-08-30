@@ -45,11 +45,33 @@ HRESULT C3dblock::Init()
     return S_OK;
 }
 
-//======================
-// 終了処理
-//======================
 void C3dblock::Uninit()
 {
+    // すでに解放されている場合は処理をスキップ
+    if (m_pTexBuff != nullptr) {
+        m_pTexBuff->Release();
+        m_pTexBuff = nullptr;
+    }
+
+    // メッシュやマテリアルの解放
+    for (int i = 0; i < NUM_MODEL; i++) 
+    {
+        if (m_pMesh[i] != nullptr) 
+        {
+            m_pMesh[i]->Release();
+            m_pMesh[i] = nullptr;
+        }
+        if (m_pBuffMat[i] != nullptr) 
+        {
+            m_pBuffMat[i]->Release();
+            m_pBuffMat[i] = nullptr;
+        }
+    }
+
+    // ブロック数を減らす
+    m_nMaxBlock--;
+
+    // 基底クラスの終了処理を呼び出す
     CModel::Uninit();
 }
 

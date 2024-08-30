@@ -60,10 +60,10 @@ HRESULT CScore::Init()
 	for (int nCntTime = 0; nCntTime < NUM_SCORE; nCntTime++)
 	{
 		//頂点座標を設定
-		pVtx[0].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_SCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_SCORE_INTERVAL), 70.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(1000.0f + (nCntTime * TEX_SCORE_INTERVAL), 100.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(1030.0f + (nCntTime * TEX_SCORE_INTERVAL), 100.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(m_nPos.x + (nCntTime * TEX_SCORE_INTERVAL), m_nPos.y, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(m_nPos.x + m_nSize.x + (nCntTime * TEX_SCORE_INTERVAL), m_nPos.y, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(m_nPos.x + (nCntTime * TEX_SCORE_INTERVAL), (m_nPos.y + m_nSize.y), 0.0f);
+		pVtx[3].pos = D3DXVECTOR3((m_nPos.x + m_nSize.x + (nCntTime * TEX_SCORE_INTERVAL)), (m_nPos.y + m_nSize.y), 0.0f);
 
 		//rhwの設定
 		pVtx[0].rhw = 1.0f;
@@ -72,10 +72,10 @@ HRESULT CScore::Init()
 		pVtx[3].rhw = 1.0f;
 
 		//頂点カラーの設定
-		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, 255);
-		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, 255);
+		pVtx[0].col = D3DCOLOR_RGBA(255,255,255, 255);
+		pVtx[1].col = D3DCOLOR_RGBA(255,255,255, 255);
+		pVtx[2].col = D3DCOLOR_RGBA(255,255,255, 255);
+		pVtx[3].col = D3DCOLOR_RGBA(255,255,255, 255);
 
 		//テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -183,7 +183,7 @@ void CScore::Draw()
 //============================
 //アイテムの生成処理
 //============================
-CScore* CScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CScore* CScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	CScore* pScore;
 
@@ -191,7 +191,7 @@ CScore* CScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	pScore->SetType(TYPE::SCORE);
 	pScore->m_nPos = pos;
-	pScore->m_rot = rot;
+	pScore->m_nSize = size;
 
 	//アイテムの初期化
 	pScore->Init();
@@ -199,7 +199,7 @@ CScore* CScore::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	LPDIRECT3DTEXTURE9 pTexture;
 
 	//テクスチャの読み込む
-	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER.png", &pTexture);
+	D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\SCORE_NUMBER_type3.png", &pTexture);
 
 	pScore->BindTexture(pTexture);
 

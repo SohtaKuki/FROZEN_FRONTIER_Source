@@ -11,7 +11,7 @@
 #include "object2D.h"
 
 //ƒ}ƒNƒ’è‹`
-#define NUM_BG	(6)	//”wŒi‚Ì”
+#define NUM_BG	(8)	//”wŒi‚Ì”
 
 class CTitleBG : public CObject2D
 {

@@ -53,7 +53,7 @@ public:
 	void Draw()override;
 	static C3dwall* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
-	static HRESULT Load();
+	HRESULT Load(LPCSTR textureFileName);
 	static void Unload();
 	void LoadWallData();
 	bool Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
@@ -65,7 +65,7 @@ public:
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	static LPDIRECT3DTEXTURE9 m_pTexBuff;
+	LPDIRECT3DTEXTURE9 m_pTexBuff;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXVECTOR3 m_nSize;
 	D3DXMATRIX m_mtxWorld;

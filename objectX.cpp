@@ -7,7 +7,6 @@
 
 #include "objectX.h"
 
-LPDIRECT3DTEXTURE9 CModel::m_pTexBuff = nullptr;
 
 //======================
 // コンストラクタ
@@ -126,7 +125,7 @@ void CModel::Draw()
                 pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
                 //テクスチャの設定
-                pDevice->SetTexture(0, m_pTexBuff);
+                pDevice->SetTexture(0, nullptr);
 
                 //モデル(パーツ)の描画
                 m_pMesh[nCntParts]->DrawSubset(nCntMat);
@@ -167,13 +166,7 @@ CModel* CModel::Create(D3DXVECTOR3 pos)
 //======================
 HRESULT CModel::Load()
 {
-	LPDIRECT3DDEVICE9 pDevice = nullptr;
-	pDevice = CManager::GetRenderer()->GetDevice();
 
-	if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\samplepos.png", &m_pTexBuff)))
-	{
-		return E_FAIL;
-	}
 
 	return S_OK;
 }
@@ -183,11 +176,7 @@ HRESULT CModel::Load()
 //======================
 void CModel::Unload()
 {
-	if (m_pTexBuff != nullptr)
-	{
-		m_pTexBuff->Release();
-		m_pTexBuff = nullptr;
-	}
+
 }
 
 

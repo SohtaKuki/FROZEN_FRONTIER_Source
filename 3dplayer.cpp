@@ -1,3 +1,4 @@
+
 //=================================================
 //
 // 3Dモデルのプレイヤーの表示処理 (3dplayer.cpp)
@@ -71,6 +72,12 @@ HRESULT C3dplayer::Init()
 void C3dplayer::Uninit()
 {
     CModel::Uninit();
+
+    if (m_pTexBuff != nullptr)
+    {
+        m_pTexBuff->Release();
+        m_pTexBuff = nullptr;
+    }
 }
 
 //======================
@@ -762,7 +769,7 @@ void C3dplayer::Draw()
                 pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
                 //テクスチャの設定
-                pDevice->SetTexture(0, m_pTexBuff);
+                pDevice->SetTexture(0, NULL);
 
                 //テクスチャが存在する
                 if (pMat[nCntMat].pTextureFilename != NULL)

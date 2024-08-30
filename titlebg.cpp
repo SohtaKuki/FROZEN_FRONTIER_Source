@@ -146,6 +146,7 @@ void CTitleBG::Update()
         {
             m_aPosTexV[nCntBG] -= 0.0040f;
         }
+
         //==========={ここまで}==================
 
         //テクスチャ座標の設定
@@ -248,6 +249,13 @@ CTitleBG* CTitleBG::Create()
         case 5:
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\frozen_frontier title_logo2.png", &pTexture[nCntBG]);
             break;
+        case 6:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\PRESS_START_BIGBUT.png", &pTexture[nCntBG]);
+            break;
+        case 7:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\title_exit_button.png", &pTexture[nCntBG]);
+            break;
+
         }
 
         if (!pTexture[nCntBG])

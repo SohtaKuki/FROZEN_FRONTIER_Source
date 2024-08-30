@@ -8,7 +8,6 @@
 #include "3dwall.h"
 #include "3dplayer.h"
 
-LPDIRECT3DTEXTURE9 C3dwall::m_pTexBuff = nullptr;
 
 //======================
 // コンストラクタ
@@ -45,6 +44,12 @@ HRESULT C3dwall::Init()
 //======================
 void C3dwall::Uninit()
 {
+    if (m_pTexBuff != nullptr)
+    {
+        m_pTexBuff->Release();
+        m_pTexBuff = nullptr;
+    }
+
     CModel::Uninit();
 }
 
@@ -71,49 +76,33 @@ void C3dwall::Draw()
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
-    D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
-    D3DMATERIAL9 matDef; //現在のマテリアル保存用
-    D3DXMATERIAL* pMat; //マテリアルデータへのポインタ
+    D3DXMATRIX mtxRot, mtxTrans;
+    D3DMATERIAL9 matDef;
+    D3DXMATERIAL* pMat;
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-    //ワールドマトリックスの初期化
     D3DXMatrixIdentity(&m_mtxworld);
-
-    //向きを反映
     D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxRot);
-
-    //位置を反映
     D3DXMatrixTranslation(&mtxTrans, Pos.x, Pos.y, Pos.z);
     D3DXMatrixMultiply(&m_mtxworld, &m_mtxworld, &mtxTrans);
 
-    //ワールドマトリックスの設定
     pDevice->SetTransform(D3DTS_WORLD, &m_mtxworld);
-
-    //マテリアルを取得
     pDevice->GetMaterial(&matDef);
 
     for (int nCntParts = 0; nCntParts < NUM_MODEL; nCntParts++)
     {
-        //ワールドマトリックスの初期化
         D3DXMatrixIdentity(&m_aModel[nCntParts].mtxworld);
-
-        //向きを反映
         D3DXMatrixRotationYawPitchRoll(&mtxRot, m_aModel[nCntParts].rot.y, m_aModel[nCntParts].rot.x, m_aModel[nCntParts].rot.z);
         D3DXMatrixMultiply(&m_aModel[nCntParts].mtxworld, &m_aModel[nCntParts].mtxworld, &mtxRot);
-
-        //位置を反映
         D3DXMatrixTranslation(&mtxTrans, m_aModel[nCntParts].pos.x, m_aModel[nCntParts].pos.y, m_aModel[nCntParts].pos.z);
         D3DXMatrixMultiply(&m_aModel[nCntParts].mtxworld, &m_aModel[nCntParts].mtxworld, &mtxTrans);
 
-        //親子関係
         D3DXMATRIX mtxParent;
-
         if (m_aModel[nCntParts].nIdxModelParent == -1)
         {
             mtxParent = m_mtxworld;
         }
-
         else
         {
             mtxParent = m_aModel[m_aModel[nCntParts].nIdxModelParent].mtxworld;
@@ -123,28 +112,22 @@ void C3dwall::Draw()
 
         if (m_aModel[nCntParts].bUse == true)
         {
-            //マトリックスの設定
             pDevice->SetTransform(D3DTS_WORLD, &m_aModel[nCntParts].mtxworld);
 
             pMat = (D3DXMATERIAL*)m_pBuffMat[nCntParts]->GetBufferPointer();
 
             for (int nCntMat = 0; nCntMat < (int)m_nNumMat[nCntParts]; nCntMat++)
             {
-                //マテリアルの設定
                 pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
-
-                //テクスチャの設定
-                pDevice->SetTexture(0, m_pTexBuff);
-
-                //モデル(パーツ)の描画
+                pDevice->SetTexture(0, m_pTexBuff);  //インスタンスのテクスチャを使用
                 m_pMesh[nCntParts]->DrawSubset(nCntMat);
             }
         }
-
     }
 
     pDevice->SetMaterial(&matDef);
 }
+
 
 //======================
 // オブジェクト生成処理
@@ -161,26 +144,29 @@ C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
         if (nType == 0)
         {
             D3DWall->SetType(TYPE::WALL_WIDTH);
+            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
         }
 
         if (nType == 1)
         {
             D3DWall->SetType(TYPE::WALL_HEIGHT);
+            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
         }
 
         if (nType == 2)
         {
             D3DWall->SetType(TYPE::WALL_WIDTH_SHORT);
+            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
         }
 
         if (nType == 3)
         {
             D3DWall->SetType(TYPE::WALL_HEIGHT_SHORT);
+            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
         }
 
         D3DWall->LoadWallData();
 
-        D3DWall->Load();//テクスチャを設定(仮)
 
         D3DWall->CObject3D::SetPos(pos);
 
@@ -196,13 +182,12 @@ C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
 //======================
 // テクスチャロード処理
 //======================
-HRESULT C3dwall::Load()
+HRESULT C3dwall::Load(LPCSTR textureFileName)
 {
     LPDIRECT3DDEVICE9 pDevice = nullptr;
     pDevice = CManager::GetRenderer()->GetDevice();
 
-
-    if (FAILED(D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\icetexture003.png", &m_pTexBuff)))
+    if (FAILED(D3DXCreateTextureFromFile(pDevice, textureFileName, &m_pTexBuff)))
     {
         return E_FAIL;
     }

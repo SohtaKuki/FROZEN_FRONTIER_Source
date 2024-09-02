@@ -24,7 +24,7 @@
 #include "scorewindow.h"
 #include "playerwindow.h"
 #include "blizardfloor.h"
-
+#include "stageselect.h"
 
 //======================
 //コンストラクタ
@@ -86,6 +86,9 @@ CScene* CScene::Create(MODE mode)
 	{
 	case MODE_TITLE:
 		Scene = new CTitle();
+		break;
+	case MODE_STAGESELECT:
+		Scene = new CStageSelectSc();
 		break;
 	case MODE_GAME:
 		Scene = new CGame;
@@ -216,6 +219,12 @@ void CResult::Uninit()
 void CResult::Update()
 {
 	//エンターキーが押されたとき
+	if (CManager::GetKeyboard()->GetTrigger(DIK_Q) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_B))
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+	}
+
+	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
@@ -272,7 +281,7 @@ void CTitle::Update()
 {
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
-		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
 	}
 
 }
@@ -281,6 +290,62 @@ void CTitle::Update()
 //描画処理
 //======================
 void CTitle::Draw()
+{
+
+}
+
+//======================
+//コンストラクタ
+//======================
+CStageSelectSc::CStageSelectSc()
+{
+
+}
+
+//======================
+//デストラクタ
+//======================
+CStageSelectSc::~CStageSelectSc()
+{
+
+}
+
+//======================
+//初期化処理
+//======================
+HRESULT CStageSelectSc::Init()
+{
+	CStageSelect::Create();
+
+	return S_OK;
+}
+
+//======================
+//終了処理
+//======================
+void CStageSelectSc::Uninit()
+{
+
+	CScene::Uninit();
+}
+
+//======================
+//更新処理
+//======================
+void CStageSelectSc::Update()
+{
+
+	//エンターキーが押されたとき
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+	}
+}
+
+//======================
+//描画処理
+//======================
+void CStageSelectSc::Draw()
 {
 
 }

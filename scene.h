@@ -16,6 +16,7 @@ public:
 	typedef enum
 	{
 		MODE_TITLE = 0,
+		MODE_STAGESELECT,
 		MODE_GAME,
 		MODE_RESULT,
 		MODE_MAX,
@@ -37,6 +38,18 @@ class CTitle : public CScene
 public:
 	CTitle();
 	~CTitle();
+	HRESULT Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
+private:
+};
+
+class CStageSelectSc : public CScene
+{
+public:
+	CStageSelectSc();
+	~CStageSelectSc();
 	HRESULT Init() override;
 	void Uninit() override;
 	void Update() override;

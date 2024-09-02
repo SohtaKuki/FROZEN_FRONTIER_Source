@@ -42,6 +42,8 @@ HRESULT CCamera::Init()
 	m_fStartPos = 10.0f;
 	m_fEndPos = 10000.0f;
 	m_fFogDisity = 0.00075f;
+	m_fBlizCnt = 0.00075f;
+	m_bBlizSwitch = false;
 
 	return S_OK;
 }
@@ -100,16 +102,6 @@ void CCamera::Update()
 		m_posR.y -= 2.0f;
 	}
 
-	if (CManager::GetKeyboard()->GetPress(DIK_E))
-	{
-		m_rot.y += 0.03f;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_Q))
-	{
-		m_rot.y -= 0.03f;
-	}
-
 
 	if (CManager::GetKeyboard()->GetPress(DIK_F))
 	{
@@ -127,6 +119,28 @@ void CCamera::Update()
 	{
 		SetShake(60,10.0f);
 	}
+
+	//if (m_fFogDisity > 0.001f)
+	//{
+	//	m_bBlizSwitch = true;
+	//}
+
+	//if (m_fFogDisity < 0.00075f)
+	//{
+	//	m_bBlizSwitch = false;
+	//}
+	//
+	//if (m_bBlizSwitch == false)
+	//{
+	//	m_fBlizCnt += 0.000005f;
+	//}
+
+	//if (m_bBlizSwitch == true)
+	//{
+	//	m_fBlizCnt -= 0.000005f;
+	//}
+
+	//m_fFogDisity += m_fBlizCnt;
 
 	m_posV.x = m_posR.x - sinf(m_rot.y) * 600;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * 600;
@@ -188,7 +202,7 @@ void CCamera::SetCamera()
 
 	pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
 
-	pDevice->SetRenderState(D3DRS_FOGDENSITY,*(DWORD*)(&m_fFogDisity));
+	pDevice->SetRenderState(D3DRS_FOGDENSITY,*(DWORD*)(&m_fBlizCnt));
 
 	//pDevice->SetRenderState(D3DRS_FOGSTART,*(DWORD*)(&m_fStartPos));
 	//pDevice->SetRenderState(D3DRS_FOGEND,*(DWORD*)(&m_fEndPos));

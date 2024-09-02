@@ -30,6 +30,8 @@ private:
 	D3DXMATRIX m_mtxView;		//ビューマトリックス
 	static int m_nShakeframe;
 	static float m_fShake;
+	bool m_bBlizSwitch;
+	float m_fBlizCnt; //吹雪表現再現アニメカウント
 	float m_fStartPos; //フォグの開始地点
 	float m_fEndPos; //フォグの終了地点
 	float m_fFogDisity; //フォグの密度

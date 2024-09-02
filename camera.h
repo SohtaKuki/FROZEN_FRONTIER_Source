@@ -20,7 +20,7 @@ public:
 	void Uninit();
 	void Update();
 	void SetCamera();
-	void SetShake(int shakeframe,float shake);
+	static void SetShake(int shakeframe,float shake);
 private:
 	D3DXVECTOR3 m_posV;	//視点
 	D3DXVECTOR3 m_posR;	//注視点
@@ -28,8 +28,11 @@ private:
 	D3DXVECTOR3 m_rot;	//回転
 	D3DXMATRIX m_mtxProjection;	//プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;		//ビューマトリックス
-	int m_nShakeframe;
-	float m_fShake;
+	static int m_nShakeframe;
+	static float m_fShake;
+	float m_fStartPos; //フォグの開始地点
+	float m_fEndPos; //フォグの終了地点
+	float m_fFogDisity; //フォグの密度
 	float m_fDistance;
 	
 };

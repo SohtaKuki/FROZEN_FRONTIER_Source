@@ -35,10 +35,17 @@ TIMERSET = 60
 STAGESET
 
 	OBJECTSET
+		OBJ_TYPE = 9					#床ブロック 
+		POS = 0.0 -500.0 0.0
+		SIZE = 5000.0 0.0 5000.0
+	END_OBJECTSET
+
+	OBJECTSET
 		OBJ_TYPE = 7					#床ブロック 
 		POS = 0.0 0.0 0.0
 		SIZE = 500.0 0.0 500.0
 	END_OBJECTSET
+	
 
 	OBJECTSET
 		OBJ_TYPE = 0					#プレイヤー初期位置

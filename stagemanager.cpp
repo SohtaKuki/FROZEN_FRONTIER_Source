@@ -20,6 +20,7 @@
 #include "timer.h"
 #include "floor.h"
 #include "3dmoveblock.h"
+#include "blizardfloor.h"
 
 //======================
 //コンストラクタ
@@ -256,5 +257,10 @@ void CStageManager::LoadStageData()
             C3dmoveblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
         }
 
+        //吹雪床ブロックの場合
+        if (CreateObjType[nCnt] == 9)
+        {
+            CBlizardfloor ::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), D3DXVECTOR3(m_nSize[nCnt].x, m_nSize[nCnt].y, m_nSize[nCnt].z));
+        }
     }
 }

@@ -23,6 +23,7 @@
 #include "3dbuffui.h"
 #include "scorewindow.h"
 #include "playerwindow.h"
+#include "blizardfloor.h"
 
 
 //======================

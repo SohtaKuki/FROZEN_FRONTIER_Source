@@ -39,6 +39,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex[NUM_ICON]);
+	void SetAlpha(int nAlpha);
 	static CBuffUI* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 	static bool DisplayBuffUI(int nDisplayID, int DisplayOption);
 private:

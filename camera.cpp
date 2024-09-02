@@ -10,6 +10,8 @@
 #include "object.h"
 #include "3dplayer.h"
 
+int CCamera::m_nShakeframe = 0;
+float CCamera::m_fShake = 0.0f;
 
 //======================
 // コンストラクタ
@@ -37,6 +39,9 @@ HRESULT CCamera::Init()
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDistance = sqrtf((0.0f * 0.0f * 100.0f) + (m_posV.z * m_posV.z));
+	m_fStartPos = 10.0f;
+	m_fEndPos = 10000.0f;
+	m_fFogDisity = 0.00075f;
 
 	return S_OK;
 }
@@ -175,6 +180,20 @@ void CCamera::SetCamera()
 
 	//ビューマトリックスの設定
 	pDevice->SetTransform(D3DTS_VIEW, &m_mtxView);
+
+	//フォグ関係の処理
+	pDevice->SetRenderState(D3DRS_FOGENABLE,TRUE);
+
+	pDevice->SetRenderState(D3DRS_FOGCOLOR, 0x00FFFFFF);
+
+	pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
+
+	pDevice->SetRenderState(D3DRS_FOGDENSITY,*(DWORD*)(&m_fFogDisity));
+
+	//pDevice->SetRenderState(D3DRS_FOGSTART,*(DWORD*)(&m_fStartPos));
+	//pDevice->SetRenderState(D3DRS_FOGEND,*(DWORD*)(&m_fEndPos));
+
+
 }
 
 

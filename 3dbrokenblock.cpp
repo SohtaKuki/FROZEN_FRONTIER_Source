@@ -76,6 +76,7 @@ void C3dbrokenblock::Update()
 {
     if (m_nLife <= 0)
     {
+        CCamera::SetShake(3, 4.0f);
         Uninit();
     }
 

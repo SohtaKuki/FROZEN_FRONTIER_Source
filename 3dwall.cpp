@@ -150,13 +150,13 @@ C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
         if (nType == 1)
         {
             D3DWall->SetType(TYPE::WALL_HEIGHT);
-            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
+            D3DWall->Load("data\\TEXTURE\\icetexture000.png");
         }
 
         if (nType == 2)
         {
             D3DWall->SetType(TYPE::WALL_WIDTH_SHORT);
-            D3DWall->Load("data\\TEXTURE\\icetexture003.png");
+            D3DWall->Load("data\\TEXTURE\\icetexture000.png");
         }
 
         if (nType == 3)

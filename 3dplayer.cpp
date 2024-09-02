@@ -242,7 +242,7 @@ void C3dplayer::Update()
 
     if (CManager::GetKeyboard()->GetPress(DIK_N))
     {
-        CScore::AddScore(2000); //残り時間を追加
+        CScore::AddScore(2000);
     }
 
     //プレイヤーの体力が0以下になった場合リザルト画面へ遷移

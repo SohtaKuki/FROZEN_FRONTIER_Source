@@ -11,6 +11,7 @@
 #include "3dbrokenblock.h"
 #include "3dwall.h"
 #include "score.h"
+#include "camera.h"
 
 //======================
 // コンストラクタ
@@ -365,6 +366,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= PlayerPos.z - 30
 						&& m_nPos.z <= PlayerPos.z + 30)
 					{
+						CCamera::SetShake(3, 8.0f);
 						p3dplayer->PlayerDamage(10);
 						Uninit();
 						return;

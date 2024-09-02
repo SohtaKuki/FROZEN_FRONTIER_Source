@@ -1,3 +1,4 @@
+
 //=================================================
 //
 // タイトル画面背景の処理 (titlebg.cpp)
@@ -164,11 +165,7 @@ void CBuffUI::Uninit()
 //=========================
 void CBuffUI::Update()
 {
-    int nCntBG;
-    VERTEX_2D* pVtx; //頂点情報へのポインタ
 
-    //頂点バッファロック
-    m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
     if (m_bAlphaSwitch == false)
     {
@@ -189,6 +186,28 @@ void CBuffUI::Update()
     {
         m_bAlphaSwitch = false;
     }
+
+    SetAlpha(m_nAlphaCnt);
+
+
+    //フェードの状態を取得
+    int nFadeState = CFade::GetFadeState();
+
+    //フェードアウトになった場合、終了処理に移行
+    if (nFadeState == CFade::FADE_OUT)
+    {
+        CBuffUI::Uninit();
+    }
+
+}
+
+void CBuffUI::SetAlpha(int nAlpha)
+{
+    int nCntBG;
+    VERTEX_2D* pVtx; //頂点情報へのポインタ
+
+    //頂点バッファロック
+    m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
     for (nCntBG = 0; nCntBG < NUM_ICON; nCntBG++)
     {
@@ -214,10 +233,10 @@ void CBuffUI::Update()
 
 
 
-        pVtx[0].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[1].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[2].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
-        pVtx[3].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, 255);
+        pVtx[0].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt);
+        pVtx[1].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt);
+        pVtx[2].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt);
+        pVtx[3].col = D3DCOLOR_RGBA(m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt, m_nAlphaCnt);
 
 
 
@@ -227,14 +246,6 @@ void CBuffUI::Update()
 
     //頂点バッファをアンロックする
     m_pVtxBuff->Unlock();
-
-    int nFadeState = CFade::GetFadeState();
-
-    if (nFadeState == CFade::FADE_OUT)
-    {
-        CBuffUI::Uninit();
-    }
-
 }
 
 //=========================
@@ -248,7 +259,7 @@ void CBuffUI::Draw()
     LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
     //頂点バッファをデータストリームに設定
-    pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+    pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(CObject::VERTEX_2D));
 
     //頂点フォーマットの設定
     pDevice->SetFVF(FVF_VERTEX_2D);

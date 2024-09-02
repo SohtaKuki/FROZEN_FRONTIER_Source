@@ -264,6 +264,7 @@ void C3dchargebullet::Update()
 					&& m_nPos.z <= BlockPos.z + 40)
 				{
 					Uninit();
+					CCamera::SetShake(3, 4.0f);
 					p3dbrokenblock->Uninit();
 					return;
 				}

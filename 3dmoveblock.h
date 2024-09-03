@@ -51,14 +51,14 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dmoveblock* Create(D3DXVECTOR3 pos);
+	static C3dmoveblock* Create(D3DXVECTOR3 pos,int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
 	void LoadMoveblockData();
 	bool Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight);
 	static unsigned const int MAX_BLOCK = 100;	//オブジェクト最大数
-	D3DXVECTOR3& GetMoveBlockZ() { return m_nMove; } //Move値取得
+	D3DXVECTOR3& GetMoveBlock() { return m_nMove; } //Move値取得
 private:
 	D3DXMATRIX m_mtxworld;
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
@@ -75,6 +75,7 @@ private:
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
 	int m_nTurnCnt;
+	int m_nType;
 	bool m_bLanding;
 	bool m_bTurn;
 

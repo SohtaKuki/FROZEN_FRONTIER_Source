@@ -64,9 +64,16 @@ STAGESET
 		POS = 445.0 0.0 250.0
 	END_OBJECTSET
 	
-		OBJECTSET
-		OBJ_TYPE = 8					#通常ブロック 
-		POS = 445.0 0.0 350.0
+	OBJECTSET
+		OBJ_TYPE = 8					#移動床ブロック 
+		POS = 415.0 -50.0 550.0
+		OBJ_TYPE2 = 0	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 8					#移動床ブロック 
+		POS = 415.0 -50.0 600.0
+		OBJ_TYPE2 = 1	
 	END_OBJECTSET
 	
 	#==================================
@@ -131,13 +138,7 @@ STAGESET
 		ROT = 0.0 0.0 0.0
 		OBJ_TYPE2 = 0	
 	END_OBJECTSET
-	
-	OBJECTSET
-		OBJ_TYPE = 5					#壁ブロック 
-		POS = 340.0 -15.0 490.0
-		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 0	
-	END_OBJECTSET
+
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 

@@ -252,12 +252,20 @@ void C3dplayer::Update()
         CManager::GetFade()->SetFade(CScene::MODE_RESULT);
     }
 
+
     ////タイマーの処理を無効にしてる時のみ使用
     //if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
     //{
     //    Uninit();
     //    CManager::GetFade()->SetFade(CScene::MODE_GAME);
     //}
+
+    //プレイヤーが落下した際の処理
+    if (Pos.y <= -300.0f)
+    {
+        Uninit();
+        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+    }
 
     //過去座標を保存
     m_nOld3DPlayerPos = Pos;
@@ -449,6 +457,22 @@ void C3dplayer::Update()
             {
                 CObject::TYPE type = pObj->GetType();
 
+                if (type == CObject::TYPE::MOVEBLOCK_X)
+                {
+                    C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
+
+                    bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                    if (bIsCollision == true)
+                    {
+
+                          m_n3DPlayerMove.y = 0.0f;
+                          m_nJumpCnt = 0;
+                          Pos.x += (p3dmoveblock->GetMoveBlock().x);
+
+                    }
+                }
+
                 if (type == CObject::TYPE::MOVEBLOCK_Z)
                 {
                     C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
@@ -457,19 +481,9 @@ void C3dplayer::Update()
 
                     if (bIsCollision == true)
                     {
-                        if (p3dmoveblock->GetMoveBlockZ().z >= 0.01f)
-                        {
-                            m_n3DPlayerMove.y = 0.0f;
-                            m_nJumpCnt = 0;
-                            Pos.z += (p3dmoveblock->GetMoveBlockZ().z * 2);
-                        }
-
-                        if (p3dmoveblock->GetMoveBlockZ().z <= -0.01f)
-                        {
-                            m_n3DPlayerMove.y = 0.0f;
-                            m_nJumpCnt = 0;
-                            Pos.z += (p3dmoveblock->GetMoveBlockZ().z * 2);
-                        }
+                        m_n3DPlayerMove.y = 0.0f;
+                        m_nJumpCnt = 0;
+                        Pos.z += (p3dmoveblock->GetMoveBlock().z);
                     }
 
                 }

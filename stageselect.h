@@ -30,14 +30,14 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
-	int GetStageSelect(void);
+	static int GetStageSelect();
 	static CStageSelect* Create();
 private:
 	//ÉOÉçÅ[ÉoÉãïœêî
 	LPDIRECT3DTEXTURE9 m_pTexturePauseSelect[PAUSE_SELECT_NUM] = {};
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffPauseSelect = NULL;
 
-	int m_nPauseSelect;
+	static int m_nPauseSelect;
 }; 
 
 #endif

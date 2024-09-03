@@ -8,6 +8,8 @@
 #include "stageselect.h"
 #include "input.h"
 
+int CStageSelect::m_nPauseSelect = 0;
+
 //==========================
 //コンストラクタ
 //==========================

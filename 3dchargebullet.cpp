@@ -161,10 +161,10 @@ void C3dchargebullet::Update()
 			//ブロックの場合
 			if (type == CObject::TYPE::BLOCK)
 			{
-				if (m_nPos.x >= BlockPos.x - 40
-					&& m_nPos.x <= BlockPos.x + 40
-					&& m_nPos.z >= BlockPos.z - 40
-					&& m_nPos.z <= BlockPos.z + 40)
+				if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
+					&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
+					&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
+					&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
 				{
 					Uninit();
 					return;
@@ -258,10 +258,10 @@ void C3dchargebullet::Update()
 			//破壊可能ブロックの場合
 			if (type == CObject::TYPE::BROKENBLOCK)
 			{
-				if (m_nPos.x >= BlockPos.x - 40
-					&& m_nPos.x <= BlockPos.x + 40
-					&& m_nPos.z >= BlockPos.z - 40
-					&& m_nPos.z <= BlockPos.z + 40)
+				if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
+					&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
+					&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
+					&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
 				{
 					Uninit();
 					CCamera::SetShake(3, 4.0f);
@@ -288,10 +288,10 @@ void C3dchargebullet::Update()
 			//敵の場合
 			if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
 			{
-				if (m_nPos.x >= EnemyPos.x - 40
-					&& m_nPos.x <= EnemyPos.x + 40
-					&& m_nPos.z >= EnemyPos.z - 40
-					&& m_nPos.z <= EnemyPos.z + 40)
+				if (m_nPos.x >= EnemyPos.x - NORMAL_BLOCK_COLISION
+					&& m_nPos.x <= EnemyPos.x + NORMAL_BLOCK_COLISION
+					&& m_nPos.z >= EnemyPos.z - NORMAL_BLOCK_COLISION
+					&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
 				{
 					CScore::AddScore(17000);
 					p3denemy->Uninit();

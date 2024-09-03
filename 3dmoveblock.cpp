@@ -54,6 +54,60 @@ void C3dmoveblock::Uninit()
 //======================
 void C3dmoveblock::Update()
 {
+    D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+    if (m_bTurn == false)
+    {
+        if (GetType() == TYPE::MOVEBLOCK_X)
+        {
+            m_nMove.x += 0.2f;
+        }
+
+        if (GetType() == TYPE::MOVEBLOCK_Z)
+        {
+            m_nMove.z += 0.2f;
+        }
+
+        m_nTurnCnt += 5;
+
+        if (m_nTurnCnt == 600)
+        {
+            m_bTurn = true;
+            m_nTurnCnt = 0;
+        }
+    }
+
+    if (m_bTurn == true)
+    {
+        if (GetType() == TYPE::MOVEBLOCK_X)
+        {
+            m_nMove.x -= 0.2f;
+        }
+
+        if (GetType() == TYPE::MOVEBLOCK_Z)
+        {
+            m_nMove.z -= 0.2f;
+        }
+        m_nTurnCnt += 5;
+
+        if (m_nTurnCnt == 600)
+        {
+            m_bTurn = false;
+            m_nTurnCnt = 0;
+        }
+    }
+
+    Pos.x += m_nMove.x;
+    Pos.z += m_nMove.z;
+
+    SetPos(Pos);
+
+    //X座標の移動量を更新
+    m_nMove.x += (0.0f - m_nMove.x) * 0.1f;
+
+    //Z座標の移動量を更新
+    m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
+
     for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
     {
         //ブロックの当たり判定
@@ -68,43 +122,6 @@ void C3dmoveblock::Update()
                 //ブロックだった場合
                 if (type == CObject::TYPE::BLOCK)
                 {
-                    D3DXVECTOR3 Pos = CObject3D::GetPos();
-
-                    if (m_bTurn == false)
-                    {
-                        m_nMove.z += 0.1f;
-
-                        m_nTurnCnt += 5;
-
-                        if (m_nTurnCnt == 600)
-                        {
-                            m_bTurn = true;
-                            m_nTurnCnt = 0;
-                        }
-                    }
-
-                    if (m_bTurn == true)
-                    {
-                        m_nMove.z -= 0.1f;
-                        m_nTurnCnt += 5;
-
-                        if (m_nTurnCnt == 600)
-                        {
-                            m_bTurn = false;
-                            m_nTurnCnt = 0;
-                        }
-                    }
-
-                    Pos.x += m_nMove.x;
-                    Pos.z += m_nMove.z;
-
-                    SetPos(Pos);
-
-                    //X座標の移動量を更新
-                    m_nMove.x += (0.0f - m_nMove.x) * 0.1f;
-
-                    //Z座標の移動量を更新
-                    m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
 
                 }
 
@@ -207,7 +224,7 @@ void C3dmoveblock::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dmoveblock* C3dmoveblock::Create(D3DXVECTOR3 pos)
+C3dmoveblock* C3dmoveblock::Create(D3DXVECTOR3 pos,int nType)
 {
     C3dmoveblock* D3DMoveblock = nullptr;
 
@@ -216,7 +233,15 @@ C3dmoveblock* C3dmoveblock::Create(D3DXVECTOR3 pos)
     //初期化に成功した場合
     if (SUCCEEDED(D3DMoveblock->Init()))
     {
-        D3DMoveblock->SetType(TYPE::MOVEBLOCK_Z);
+        if (nType == 0)
+        {
+            D3DMoveblock->SetType(TYPE::MOVEBLOCK_X);
+        }
+
+        if (nType == 1)
+        {
+            D3DMoveblock->SetType(TYPE::MOVEBLOCK_Z);
+        }
 
         D3DMoveblock->LoadMoveblockData();
 
@@ -267,7 +292,7 @@ void C3dmoveblock::LoadMoveblockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_block\\icecrystal_profile.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_block\\brokenice_profile.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -388,7 +413,6 @@ bool C3dmoveblock::Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld,
     float fMoveblockWidth = 20.0f;
     float fMoveblockDepth = 30.0f;
     float fMoveblockHeight = 0.0f;
-
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 

@@ -73,7 +73,7 @@ void CStageManager::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-CStageManager* CStageManager::Create()
+CStageManager* CStageManager::Create(int nType)
 {
     CStageManager* D3DStageManager = nullptr;
 
@@ -82,6 +82,8 @@ CStageManager* CStageManager::Create()
     //初期化に成功した場合
     if (SUCCEEDED(D3DStageManager->Init()))
     {
+        D3DStageManager->m_nType = nType;
+
         D3DStageManager->LoadStageData();
     }
 
@@ -98,7 +100,21 @@ void CStageManager::LoadStageData()
     int CreateObjType[MAX_OBJ];
     int CreateObjType2[MAX_OBJ];
 
-    m_pFile = fopen("data\\LOADSTAGE\\loadstage001.txt", "r");//ファイルを開く
+    //ステージを生成するデータを読み込む先をintで識別
+    if (m_nType == 0)
+    {
+        m_pFile = fopen("data\\LOADSTAGE\\loadstage000.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 1)
+    {
+        m_pFile = fopen("data\\LOADSTAGE\\loadstage001.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 2)
+    {
+        m_pFile = fopen("data\\LOADSTAGE\\loadstage002.txt", "r");//ファイルを開く
+    }
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -251,10 +267,10 @@ void CStageManager::LoadStageData()
             CFloor::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z) ,D3DXVECTOR3(m_nSize[nCnt].x, m_nSize[nCnt].y, m_nSize[nCnt].z));
         }
 
-        //ブロック生成の場合
+        //移動床ブロック生成の場合
         if (CreateObjType[nCnt] == 8)
         {
-            C3dmoveblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+            C3dmoveblock::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z),CreateObjType2[nCnt]);
         }
 
         //吹雪床ブロックの場合

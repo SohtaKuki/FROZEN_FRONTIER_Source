@@ -143,7 +143,15 @@ HRESULT CGame::Init()
 
 
 	////ステージマネージャー初期化処理
-	CStageManager::Create();
+	if (CStageSelect::GetStageSelect() == 0)
+	{
+		CStageManager::Create(0);
+	}
+
+	if (CStageSelect::GetStageSelect() == 1)
+	{
+		CStageManager::Create(1);
+	}
 	CChargeshotUI::Create(D3DXVECTOR3(-100.0f, 120.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CAddlifeui::Create(D3DXVECTOR3(-100.0f, 220.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CBuffUI::Create(D3DXVECTOR3(70.0f, 90.0f, 0.0f), D3DXVECTOR3(40.0f, 80.0f, 0));

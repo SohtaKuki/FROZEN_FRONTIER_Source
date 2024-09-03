@@ -45,6 +45,7 @@ public:
 		PLAYER, //プレイヤー
 		BLOCK, //ブロック
 		BROKENBLOCK, //破壊可能ブロック
+		MOVEBLOCK_X, //移動ブロック（X軸）
 		MOVEBLOCK_Z, //移動ブロック（Z軸）
 		WALL_WIDTH, //壁 (横長)
 		WALL_HEIGHT, //壁 (縦長)

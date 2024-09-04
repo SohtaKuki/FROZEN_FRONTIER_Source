@@ -268,7 +268,7 @@ void C3dblock::LoadBlockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_Block\\icecrystal_profile.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_Block\\block.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -385,35 +385,43 @@ void C3dblock::LoadBlockData(void)
 //===========================
 bool C3dblock::Collision3DBlock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-    bool bLanding = false; //重力を適応した場合のみ使用
-    float fBlockWidth = -20.0f;
-    float fBlockDepth = 0.0f;
+    bool bLanding = false; // 重力が適用された場合のみ使用
+    float fMoveblockWidth = 25.0f;
+    float fMoveblockDepth = 70.0f;
+    float fMoveblockHeight = -15.0f;
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-    //右側当たり判定
-    if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+    // 右側当たり判定
+    if (pPos->x - fWidth <= Pos.x + fMoveblockWidth && pPosOld->x - fWidth >= Pos.x + fMoveblockWidth && pPos->z - fHeight < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->x = Pos.x + fBlockWidth + fWidth;
+        pPos->x = Pos.x + fMoveblockWidth + fWidth;
     }
-
-    //左側当たり判定
-    else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+    // 左側当たり判定
+    else if (pPos->x + fWidth >= Pos.x - fMoveblockWidth && pPosOld->x + fWidth <= Pos.x - fMoveblockWidth && pPos->z - fHeight < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->x = Pos.x - fBlockWidth - fWidth;
+        pPos->x = Pos.x - fMoveblockWidth - fWidth;
     }
-
-    //上側当たり判定
-    if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z - fHeight <= Pos.z + fBlockDepth - 20.0f && pPosOld->z - fHeight >= Pos.z + fBlockDepth - 20.0f)
+    // 前側当たり判定
+    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z - fHeight <= Pos.z + fMoveblockDepth && pPosOld->z - fHeight >= Pos.z + fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z + fBlockDepth + fHeight - 20.0f;
+        pPos->z = Pos.z + fMoveblockDepth + fHeight;
     }
-
-    //下側当たり判定
-    else if (pPos->x - fWidth < Pos.x + fBlockWidth && pPos->x + fWidth > Pos.x - fBlockWidth && pPos->z >= Pos.z - fBlockDepth - 20.0f && pPosOld->z <= Pos.z - fBlockDepth - 20.0f)
+    // 後側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z >= Pos.z - fMoveblockDepth && pPosOld->z <= Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z - fBlockDepth - 20.0f;
+        pPos->z = Pos.z - fMoveblockDepth - fHeight;
+    }
+    // 上側当たり判定
+    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y - fHeight <= Pos.y + fMoveblockHeight && pPosOld->y - fHeight >= Pos.y + fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
+    {
+        pPos->y = Pos.y + fMoveblockHeight + fHeight;
         bLanding = true;
+    }
+    // 下側当たり判定
+    else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y >= Pos.y - fMoveblockHeight && pPosOld->y <= Pos.y - fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
+    {
+        pPos->y = Pos.y - fMoveblockHeight - fHeight;
     }
 
     return bLanding;

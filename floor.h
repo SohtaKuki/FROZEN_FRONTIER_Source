@@ -9,11 +9,11 @@
 #define _FLOOR_H_
 
 #include "object.h"
-#include "object3D.h"
+#include "objectX.h"
 
 
 //オブジェクト2Dクラス
-class CFloor : public CObject3D
+class CFloor : public CModel
 {
 public:
 	CFloor(int nPriority = 3);

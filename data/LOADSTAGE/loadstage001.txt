@@ -203,12 +203,12 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
-		POS = 430.0 0.0 150.0
+		POS = 430.0 100.0 150.0
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
-		POS = 428.0 0.0 -242.5
+		POS = 428.0 100.0 -242.5
 	END_OBJECTSET
 	
 	#==================================

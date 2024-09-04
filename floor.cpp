@@ -12,7 +12,7 @@ LPDIRECT3DTEXTURE9 CFloor::m_pTexBuff = nullptr;
 //======================
 // コンストラクタ
 //======================
-CFloor::CFloor(int nPriority) : CObject3D(nPriority)
+CFloor::CFloor(int nPriority) : CModel(nPriority)
 {
 
 }
@@ -56,10 +56,10 @@ void CFloor::Update()
 
 	CObject3D::GetBuff()->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(-m_nSize.x, 0.0f, m_nSize.z);
-	pVtx[1].pos = D3DXVECTOR3(m_nSize.x, 0.0f, m_nSize.z);
-	pVtx[2].pos = D3DXVECTOR3(-m_nSize.x, 0.0f, -m_nSize.z);
-	pVtx[3].pos = D3DXVECTOR3(m_nSize.x, 0.0f, -m_nSize.z);
+	pVtx[0].pos = D3DXVECTOR3((m_nPos.x - m_nSize.x), m_nPos.y, (m_nPos.z + m_nSize.z));
+	pVtx[1].pos = D3DXVECTOR3((m_nPos.x + m_nSize.x), m_nPos.y, (m_nPos.z + m_nSize.z));
+	pVtx[2].pos = D3DXVECTOR3((m_nPos.x - m_nSize.x), m_nPos.y, (m_nPos.z -m_nSize.z));
+	pVtx[3].pos = D3DXVECTOR3((m_nPos.x + m_nSize.x), m_nPos.y, (m_nPos.z -m_nSize.z));
 
 	// 法線ベクトルの設定
 	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -80,6 +80,10 @@ void CFloor::Update()
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 	CObject3D::GetBuff()->Unlock();
+
+	D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+	Pos = m_nPos;
 
 	int nFadeState = CFade::GetFadeState();
 

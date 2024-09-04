@@ -77,30 +77,6 @@ void CCamera::Update()
 		m_posR.z = p3dPlayer->GetPos().z + 250.0f;
 	}
 
-	if (CManager::GetKeyboard()->GetPress(DIK_RIGHT))
-	{
-		m_posV.x += 2.0f;
-		m_posR.x += 2.0f;
-
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_LEFT))
-	{
-		m_posV.x -= 2.0f;
-		m_posR.x -= 2.0f;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_UP))
-	{
-		m_posV.y += 2.0f;
-		m_posR.y += 2.0f;
-	}
-
-	if (CManager::GetKeyboard()->GetPress(DIK_DOWN))
-	{
-		m_posV.y -= 2.0f;
-		m_posR.y -= 2.0f;
-	}
 
 
 	if (CManager::GetKeyboard()->GetPress(DIK_F))
@@ -203,6 +179,12 @@ void CCamera::SetCamera()
 	pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_EXP);
 
 	pDevice->SetRenderState(D3DRS_FOGDENSITY,*(DWORD*)(&m_fBlizCnt));
+
+	pDevice->SetRenderState(D3DRS_SHADEMODE, 2);
+
+	pDevice->SetRenderState(D3DRS_DEPTHBIAS, 1);
+
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
 	//pDevice->SetRenderState(D3DRS_FOGSTART,*(DWORD*)(&m_fStartPos));
 	//pDevice->SetRenderState(D3DRS_FOGEND,*(DWORD*)(&m_fEndPos));

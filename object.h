@@ -46,7 +46,9 @@ public:
 		BLOCK, //ブロック
 		BROKENBLOCK, //破壊可能ブロック
 		MOVEBLOCK_X, //移動ブロック（X軸）
+		MOVEBLOCK_X_REV, //移動ブロック (X軸反転)
 		MOVEBLOCK_Z, //移動ブロック（Z軸）
+		MOVEBLOCK_Z_REV, //移動ブロック（Z軸）
 		WALL_WIDTH, //壁 (横長)
 		WALL_HEIGHT, //壁 (縦長)
 		WALL_WIDTH_SHORT,//壁 (横長ショート)

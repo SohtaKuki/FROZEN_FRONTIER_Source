@@ -16,7 +16,17 @@ LPDIRECT3DTEXTURE9 C3dmoveblock::m_pTexBuff = nullptr;
 C3dmoveblock::C3dmoveblock(int nPriority) : CModel(nPriority)
 {
     m_nTurnCnt = 0;
-    m_bTurn = false;
+
+    //if (GetType() == TYPE::MOVEBLOCK_X || GetType() == TYPE::MOVEBLOCK_Z)
+    //{
+    //    m_bTurn = false;
+    //}
+
+
+    //if (GetType() == TYPE::MOVEBLOCK_X_REV || GetType() == TYPE::MOVEBLOCK_Z_REV)
+    //{
+    //    m_bTurn = true;
+    //}
 }
 
 //======================
@@ -37,6 +47,8 @@ HRESULT C3dmoveblock::Init()
     {
         return E_FAIL;
     }
+
+
 
     return S_OK;
 }
@@ -108,26 +120,7 @@ void C3dmoveblock::Update()
     //Z座標の移動量を更新
     m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
 
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        //ブロックの当たり判定
-        for (int nCntObj = 0; nCntObj < C3dmoveblock::MAX_BLOCK; nCntObj++)
-        {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
-            {
-                CObject::TYPE type = pObj->GetType();
-
-                //ブロックだった場合
-                if (type == CObject::TYPE::BLOCK)
-                {
-
-                }
-
-            }
-        }
-    }
+  
 
     int nFadeState = CFade::GetFadeState();
 
@@ -233,14 +226,29 @@ C3dmoveblock* C3dmoveblock::Create(D3DXVECTOR3 pos,int nType)
     //初期化に成功した場合
     if (SUCCEEDED(D3DMoveblock->Init()))
     {
+        //ブロックの種類の識別
         if (nType == 0)
         {
             D3DMoveblock->SetType(TYPE::MOVEBLOCK_X);
+            D3DMoveblock->m_bTurn = false;
         }
 
         if (nType == 1)
         {
+            D3DMoveblock->SetType(TYPE::MOVEBLOCK_X);
+            D3DMoveblock->m_bTurn = true;
+        }
+
+        if (nType == 2)
+        {
             D3DMoveblock->SetType(TYPE::MOVEBLOCK_Z);
+            D3DMoveblock->m_bTurn = false;
+        }
+
+        if (nType == 3)
+        {
+            D3DMoveblock->SetType(TYPE::MOVEBLOCK_Z);
+            D3DMoveblock->m_bTurn = true;
         }
 
         D3DMoveblock->LoadMoveblockData();
@@ -292,7 +300,7 @@ void C3dmoveblock::LoadMoveblockData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL\\MODEL_block\\brokenice_profile.txt", "r");//ファイルを開く
+    m_pFile = fopen("data\\MODEL\\MODEL_block\\moveblock000.txt", "r");//ファイルを開く
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)
@@ -409,10 +417,10 @@ void C3dmoveblock::LoadMoveblockData(void)
 //===========================
 bool C3dmoveblock::Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fWidth, float fHeight)
 {
-    bool bLanding = false; // 重力を適応した場合のみ使用
-    float fMoveblockWidth = 20.0f;
-    float fMoveblockDepth = 30.0f;
-    float fMoveblockHeight = 0.0f;
+    bool bLanding = false; // 重力が適用された場合のみ使用
+    float fMoveblockWidth = 45.0f;
+    float fMoveblockDepth = 45.0f;  // fMoveblockWidthと同じ値に設定
+    float fMoveblockHeight = -15.0f;
 
     D3DXVECTOR3 Pos = CObject3D::GetPos();
 
@@ -427,14 +435,14 @@ bool C3dmoveblock::Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld,
         pPos->x = Pos.x - fMoveblockWidth - fWidth;
     }
     // 前側当たり判定
-    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z - fHeight <= Pos.z + fMoveblockDepth - 30.0f && pPosOld->z - fHeight >= Pos.z + fMoveblockDepth - 30.0f && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
+    if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z - fHeight <= Pos.z + fMoveblockDepth && pPosOld->z - fHeight >= Pos.z + fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z + fMoveblockDepth - 30.0f + fHeight;
+        pPos->z = Pos.z + fMoveblockDepth + fHeight;
     }
     // 後側当たり判定
     else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->z >= Pos.z - fMoveblockDepth && pPosOld->z <= Pos.z - fMoveblockDepth && pPos->y < Pos.y + fMoveblockHeight && pPos->y > Pos.y - fMoveblockHeight)
     {
-        pPos->z = Pos.z - fMoveblockDepth + 50.0f - fHeight;
+        pPos->z = Pos.z - fMoveblockDepth - fHeight;
     }
     // 上側当たり判定
     if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y - fHeight <= Pos.y + fMoveblockHeight && pPosOld->y - fHeight >= Pos.y + fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
@@ -446,8 +454,8 @@ bool C3dmoveblock::Collision3DMoveblock(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld,
     else if (pPos->x - fWidth < Pos.x + fMoveblockWidth && pPos->x + fWidth > Pos.x - fMoveblockWidth && pPos->y >= Pos.y - fMoveblockHeight && pPosOld->y <= Pos.y - fMoveblockHeight && pPos->z < Pos.z + fMoveblockDepth && pPos->z > Pos.z - fMoveblockDepth)
     {
         pPos->y = Pos.y - fMoveblockHeight - fHeight;
-
     }
 
     return bLanding;
 }
+

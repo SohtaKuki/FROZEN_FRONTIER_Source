@@ -115,6 +115,14 @@ void CPauseSelect::Uninit(void)
 
 void CPauseSelect::Update(void)
 {
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
+	{
+		CPauseSelect::Uninit();
+		return;
+	}
+
 	VERTEX_2D* pVtx;	//頂点情報のポインタ
 
 	//頂点バッファをロックして、頂点情報へのポインタを取得
@@ -195,7 +203,6 @@ void CPauseSelect::Update(void)
 	}
 	//頂点バッファのアンロック
 	m_pVtxBuffPauseSelect->Unlock();
-
 
 }
 //=============================

@@ -112,6 +112,14 @@ void CStageSelect::Uninit(void)
 
 void CStageSelect::Update(void)
 {
+	int nFadeState = CFade::GetFadeState();
+
+	if (nFadeState == CFade::FADE_OUT)
+	{
+		CStageSelect::Uninit();
+		return;
+	}
+
 	VERTEX_2D* pVtx;	//頂点情報のポインタ
 
 	//頂点バッファをロックして、頂点情報へのポインタを取得
@@ -170,6 +178,8 @@ void CStageSelect::Update(void)
 	}
 	//頂点バッファのアンロック
 	m_pVtxBuffPauseSelect->Unlock();
+
+
 }
 //=============================
 //ポーズ画面の描画処理

@@ -12,6 +12,7 @@
 #include "explosion.h"
 #include "enemy.h"
 #include "block.h"
+#include "scene.h"
 
 int CTimer::m_nTime = 0;
 
@@ -117,97 +118,98 @@ void CTimer::Uninit()
 //============================
 void CTimer::Update()
 {
-
-	VERTEX_2D* pVtx;
-
-	int aPosTexU[NUM_TIME];
-
-	if (bUpdateTime == false)
+	if (CScene::GetUpdateStat() == true)
 	{
-	m_nTimerCnt++;
+		VERTEX_2D* pVtx;
 
-		if (m_nTimerCnt == MAX_TIMESPEED)
-		{
-			m_nTime--; //時間を1秒減らす
-			m_nTimerCnt = 0; //フレームカウントリセット
-		}
-	}
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_F1))
-	{
+		int aPosTexU[NUM_TIME];
 
 		if (bUpdateTime == false)
 		{
-			bUpdateTime = true;
-		}
-	}
+			m_nTimerCnt++;
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_F2))
-	{
-		if (bUpdateTime == true)
+			if (m_nTimerCnt == MAX_TIMESPEED)
+			{
+				m_nTime--; //時間を1秒減らす
+				m_nTimerCnt = 0; //フレームカウントリセット
+			}
+		}
+
+		if (CManager::GetKeyboard()->GetTrigger(DIK_F1))
 		{
-			bUpdateTime = false;
+
+			if (bUpdateTime == false)
+			{
+				bUpdateTime = true;
+			}
 		}
-	}
 
-	// 時間の値をコピー
-	int CopyTime = m_nTime;
-
-	// 各桁の値を計算
-	for (int nCntTime = NUM_TIME - 1; nCntTime >= 0; nCntTime--)
-	{
-		aPosTexU[nCntTime] = CopyTime % 10;
-		CopyTime /= 10;
-	}
-
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	//テクスチャ座標の更新
-	for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
-	{
-		pVtx[0].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 1.0f);
-		pVtx[3].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 1.0f);
-						  
-
-		if (m_nTime < 20)
+		if (CManager::GetKeyboard()->GetTrigger(DIK_F2))
 		{
-			pVtx[0].col = D3DCOLOR_RGBA(255, 0, 0, 255);
-			pVtx[1].col = D3DCOLOR_RGBA(255, 0, 0, 255);
-			pVtx[2].col = D3DCOLOR_RGBA(255, 0, 0, 255);
-			pVtx[3].col = D3DCOLOR_RGBA(255, 0, 0, 255);
+			if (bUpdateTime == true)
+			{
+				bUpdateTime = false;
+			}
 		}
-		pVtx += 4;
+
+		// 時間の値をコピー
+		int CopyTime = m_nTime;
+
+		// 各桁の値を計算
+		for (int nCntTime = NUM_TIME - 1; nCntTime >= 0; nCntTime--)
+		{
+			aPosTexU[nCntTime] = CopyTime % 10;
+			CopyTime /= 10;
+		}
+
+		//頂点バッファをロックし、頂点情報へのポインタを取得
+		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		//テクスチャ座標の更新
+		for (int nCntTime = 0; nCntTime < NUM_TIME; nCntTime++)
+		{
+			pVtx[0].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 0.0f);
+			pVtx[1].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 0.0f);
+			pVtx[2].tex = D3DXVECTOR2(aPosTexU[nCntTime] / 10.0f, 1.0f);
+			pVtx[3].tex = D3DXVECTOR2((aPosTexU[nCntTime] + 1) / 10.0f, 1.0f);
+
+
+			if (m_nTime < 20)
+			{
+				pVtx[0].col = D3DCOLOR_RGBA(255, 0, 0, 255);
+				pVtx[1].col = D3DCOLOR_RGBA(255, 0, 0, 255);
+				pVtx[2].col = D3DCOLOR_RGBA(255, 0, 0, 255);
+				pVtx[3].col = D3DCOLOR_RGBA(255, 0, 0, 255);
+			}
+			pVtx += 4;
+		}
+
+		//頂点バッファをアンロックする
+		m_pVtxBuff->Unlock();
+
+		int nFadeState = CFade::GetFadeState();
+
+		if (nFadeState == CFade::FADE_OUT)
+		{
+			Uninit();
+			m_nTime = 0;
+		}
+
+		if (m_nTime < 0)
+		{
+			Uninit();
+			CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+			m_nTime = 0;
+		}
+
+
+		//if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+		//{
+		//	Uninit();
+		//	CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+		//	m_nTime = 0;
+		//}
 	}
-
-	//頂点バッファをアンロックする
-	m_pVtxBuff->Unlock();
-
-	int nFadeState = CFade::GetFadeState();
-
-	if (nFadeState == CFade::FADE_OUT)
-	{
-		Uninit();
-		m_nTime = 0;
-	}
-
-	if (m_nTime < 0)
-	{
-		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-		m_nTime = 0;
-	}
-
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
-	{
-		Uninit();
-		CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-		m_nTime = 0;
-	}
-
 }
 
 //============================

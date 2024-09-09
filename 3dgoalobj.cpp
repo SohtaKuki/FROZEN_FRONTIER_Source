@@ -151,7 +151,7 @@ void C3dgoalobj::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dgoalobj* C3dgoalobj::Create(D3DXVECTOR3 pos)
+C3dgoalobj* C3dgoalobj::Create(D3DXVECTOR3 pos,int nType)
 {
     C3dgoalobj* D3DGoalobj = nullptr;
 
@@ -161,6 +161,8 @@ C3dgoalobj* C3dgoalobj::Create(D3DXVECTOR3 pos)
     if (SUCCEEDED(D3DGoalobj->Init()))
     {
         D3DGoalobj->SetType(TYPE::GOAL);
+
+        D3DGoalobj->m_nType = nType;
 
         D3DGoalobj->LoadGoalobjData();
 
@@ -211,7 +213,16 @@ void C3dgoalobj::LoadGoalobjData(void)
     int nCntEnemyData = 0;
     int EnemyModelSave = 0;
 
-    m_pFile = fopen("data\\MODEL_Crystal\\motion_crs2.txt", "r");//ファイルを開く
+
+    if (m_nType == 0)
+    {
+        m_pFile = fopen("data\\MODEL_Crystal\\motion_crs2.txt", "r");//ファイルを開く
+    }
+
+    if (m_nType == 1)
+    {
+        m_pFile = fopen("data\\MODEL\\MODEL_GOAL\\motion_basement.txt", "r");//ファイルを開く
+    }
 
     //ファイルが存在しない場合
     if (m_pFile == NULL)

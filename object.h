@@ -83,13 +83,13 @@ public:
 	TYPE GetType() { return m_type; }
 	void SetType(TYPE type);
 	void Release();
-
 private:
 	static CObject* m_apObject[MAX_PRIORITY][MAX_OBJECT];	//オブジェクト管理
 	TYPE m_type;
 	static int m_nNumAll;	//オブジェクトの総数
 	int m_nID;	// 自分自身のID
 	int m_nPriority;
+protected:
 };
 
 #endif

@@ -72,7 +72,6 @@ protected:
 	D3DXMATRIX m_mtxworld;
 	D3DXVECTOR3 m_nMove;
 	D3DXVECTOR3 m_rot;
-
 };
 
 #endif

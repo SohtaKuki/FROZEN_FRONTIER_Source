@@ -7,6 +7,7 @@
 
 #include "3dmoveblock.h"
 #include "3dplayer.h"
+#include "scene.h"
 
 LPDIRECT3DTEXTURE9 C3dmoveblock::m_pTexBuff = nullptr;
 
@@ -66,68 +67,71 @@ void C3dmoveblock::Uninit()
 //======================
 void C3dmoveblock::Update()
 {
-    D3DXVECTOR3 Pos = CObject3D::GetPos();
-
-    if (m_bTurn == false)
+    if (CScene::GetUpdateStat() == true)
     {
-        if (GetType() == TYPE::MOVEBLOCK_X)
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
+
+        if (m_bTurn == false)
         {
-            m_nMove.x += 0.2f;
+            if (GetType() == TYPE::MOVEBLOCK_X)
+            {
+                m_nMove.x += 0.2f;
+            }
+
+            if (GetType() == TYPE::MOVEBLOCK_Z)
+            {
+                m_nMove.z += 0.2f;
+            }
+
+            m_nTurnCnt += 5;
+
+            if (m_nTurnCnt == 600)
+            {
+                m_bTurn = true;
+                m_nTurnCnt = 0;
+            }
         }
 
-        if (GetType() == TYPE::MOVEBLOCK_Z)
+        if (m_bTurn == true)
         {
-            m_nMove.z += 0.2f;
+            if (GetType() == TYPE::MOVEBLOCK_X)
+            {
+                m_nMove.x -= 0.2f;
+            }
+
+            if (GetType() == TYPE::MOVEBLOCK_Z)
+            {
+                m_nMove.z -= 0.2f;
+            }
+            m_nTurnCnt += 5;
+
+            if (m_nTurnCnt == 600)
+            {
+                m_bTurn = false;
+                m_nTurnCnt = 0;
+            }
         }
 
-        m_nTurnCnt += 5;
+        Pos.x += m_nMove.x;
+        Pos.z += m_nMove.z;
 
-        if (m_nTurnCnt == 600)
+        SetPos(Pos);
+
+        //X座標の移動量を更新
+        m_nMove.x += (0.0f - m_nMove.x) * 0.1f;
+
+        //Z座標の移動量を更新
+        m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
+
+
+
+        int nFadeState = CFade::GetFadeState();
+
+        if (nFadeState == CFade::FADE_OUT)
         {
-            m_bTurn = true;
-            m_nTurnCnt = 0;
+
+            C3dmoveblock::Uninit();
         }
-    }
-
-    if (m_bTurn == true)
-    {
-        if (GetType() == TYPE::MOVEBLOCK_X)
-        {
-            m_nMove.x -= 0.2f;
-        }
-
-        if (GetType() == TYPE::MOVEBLOCK_Z)
-        {
-            m_nMove.z -= 0.2f;
-        }
-        m_nTurnCnt += 5;
-
-        if (m_nTurnCnt == 600)
-        {
-            m_bTurn = false;
-            m_nTurnCnt = 0;
-        }
-    }
-
-    Pos.x += m_nMove.x;
-    Pos.z += m_nMove.z;
-
-    SetPos(Pos);
-
-    //X座標の移動量を更新
-    m_nMove.x += (0.0f - m_nMove.x) * 0.1f;
-
-    //Z座標の移動量を更新
-    m_nMove.z += (0.0f - m_nMove.z) * 0.1f;
-
-  
-
-    int nFadeState = CFade::GetFadeState();
-
-    if (nFadeState == CFade::FADE_OUT)
-    {
-
-        C3dmoveblock::Uninit();
     }
 }
 

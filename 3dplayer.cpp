@@ -1,4 +1,3 @@
-
 //=================================================
 //
 // 3Dモデルのプレイヤーの表示処理 (3dplayer.cpp)
@@ -24,6 +23,7 @@
 #include "3dchargeshotui.h"
 #include "3daddlifeui.h"
 #include "3dbuffui.h"
+#include "scene.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -85,601 +85,603 @@ void C3dplayer::Uninit()
 //======================
 void C3dplayer::Update()
 {
-    D3DXVECTOR3 Pos = CObject3D::GetPos();
-
-    //SetPlayerPos();
-
-    int nCnt = 0;
-
-    //プレイヤーの最大体力値を超えないようにする
-    if (m_nLife >= PLAYER_LIFE)
+    if (CScene::GetUpdateStat() == true)
     {
-        m_nLife = PLAYER_LIFE;
-    }
+        D3DXVECTOR3 Pos = CObject3D::GetPos();
 
-    //重力の適用
-    m_n3DPlayerMove.y -= 1.0f;
+        //SetPlayerPos();
 
-    //プレイヤーのHPが0以上の場合のみ通す
-    if (m_nLife > 0)
-    {
-        if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT))
+        int nCnt = 0;
+
+        //プレイヤーの最大体力値を超えないようにする
+        if (m_nLife >= PLAYER_LIFE)
         {
-            if (m_bPlayerBuff == false)
+            m_nLife = PLAYER_LIFE;
+        }
+
+        //重力の適用
+        m_n3DPlayerMove.y -= 1.0f;
+
+        //プレイヤーのHPが0以上の場合のみ通す
+        if (m_nLife > 0)
+        {
+            if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT))
             {
-                m_n3DPlayerMove.x += PLAYER_MOVE_SPD;
-                m_rot.y = D3DX_PI * -0.5f;
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.x += PLAYER_MOVE_SPD;
+                    m_rot.y = D3DX_PI * -0.5f;
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.x += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    m_rot.y = D3DX_PI * -0.5f;
+                }
             }
 
-            if (m_bPlayerBuff == true)
+
+            //プレイヤーのジャンプ処理
+            if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
             {
-                m_n3DPlayerMove.x += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                m_rot.y = D3DX_PI * -0.5f;
+                //プレイヤーのジャンプ数が0の場合(2段以上のジャンプ防止)
+                if (m_nJumpCnt == 0)
+                {
+                    m_n3DPlayerMove.y += 30.0f;
+                    m_nJumpCnt++;
+                }
+            }
+
+            if (CManager::GetKeyboard()->GetPress(DIK_A) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT))
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD;
+                    m_rot.y = D3DX_PI * 0.5f;
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    m_rot.y = D3DX_PI * 0.5f;
+                }
+            }
+
+            //Wキーまたは、十字キー上押下時
+            if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP))
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD;
+                    m_rot.y = D3DX_PI;
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    m_rot.y = D3DX_PI;
+                }
+            }
+
+            //Sキーまたは、十字キー下押下時
+            if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN))
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD;
+                    m_rot.y = -D3DX_PI * -0.0f;
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    m_rot.y = D3DX_PI * -0.0f;
+                }
             }
         }
 
-
-        //プレイヤーのジャンプ処理
-        if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
+        //球発射
+        if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
         {
-            //プレイヤーのジャンプ数が0の場合(2段以上のジャンプ防止)
-            if (m_nJumpCnt == 0)
-            {
-                m_n3DPlayerMove.y += 30.0f;
-                m_nJumpCnt++;
-            }
-        }
-
-        if (CManager::GetKeyboard()->GetPress(DIK_A)|| CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT))
-        {
-            if (m_bPlayerBuff == false)
-            {
-                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD;
-                m_rot.y = D3DX_PI * 0.5f;
-            }
-
-            if (m_bPlayerBuff == true)
-            {
-                m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                m_rot.y = D3DX_PI * 0.5f;
-            }
-        }
-
-        //Wキーまたは、十字キー上押下時
-        if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP))
-        {
-            if (m_bPlayerBuff == false)
-            {
-                m_n3DPlayerMove.z += PLAYER_MOVE_SPD;
-                m_rot.y = D3DX_PI;
-            }
-
-            if (m_bPlayerBuff == true)
-            {
-                m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                m_rot.y = D3DX_PI;
-            }
-        }
-
-        //Sキーまたは、十字キー下押下時
-        if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN))
-        {
-            if (m_bPlayerBuff == false)
-            {
-                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD;
-                m_rot.y = -D3DX_PI * -0.0f;
-            }
-
-            if (m_bPlayerBuff == true)
-            {
-                m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                m_rot.y = D3DX_PI * -0.0f;
-            }
-        }
-    }
-
-    //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
-    {
-        //チャージショット即発射バフが有効の場合は通さない
-        if (m_bInstantShot == false)
-        {
-            C3dbullet::Create(Pos, D3DXVECTOR3(7.0f, 7.0f, 0.0f), m_rot,0);
-        }
-    }
-
-    // スペースキーが押されたとき (長押し発射)
-    if (CManager::GetKeyboard()->GetPress(DIK_M) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
-    {
-        // スペースキーがまだ押されていない場合
-        if (!m_bAButtonPressed)
-        {
-            m_bAButtonPressed = true;
-            m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
-        }
-        //スペースキーを2秒以上長押ししている場合
-        else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))|| (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
-        {
-            CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
-            //CChargeshotUI::DisplayChargeshotUI(1, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
-        }
-    }
-    else
-    {
-        // スペースキーが離された場合かつ長押し時間が2秒以上の場合
-        if (m_bAButtonPressed && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))
-        {
-            
             //チャージショット即発射バフが有効の場合は通さない
             if (m_bInstantShot == false)
             {
-                // 玉の発射を実行
+                C3dbullet::Create(Pos, D3DXVECTOR3(7.0f, 7.0f, 0.0f), m_rot, 0);
+            }
+        }
+
+        // スペースキーが押されたとき (長押し発射)
+        if (CManager::GetKeyboard()->GetPress(DIK_M) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
+        {
+            // スペースキーがまだ押されていない場合
+            if (!m_bAButtonPressed)
+            {
+                m_bAButtonPressed = true;
+                m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
+            }
+            //スペースキーを2秒以上長押ししている場合
+            else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
+            {
+                CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+                //CChargeshotUI::DisplayChargeshotUI(1, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+            }
+        }
+        else
+        {
+            // スペースキーが離された場合かつ長押し時間が2秒以上の場合
+            if (m_bAButtonPressed && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))
+            {
+
+                //チャージショット即発射バフが有効の場合は通さない
+                if (m_bInstantShot == false)
+                {
+                    // 玉の発射を実行
+                    C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+                }
+
+            }
+            // Jキーのフラグをリセット
+            m_bAButtonPressed = false;
+
+
+        }
+
+        //球発射
+        if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
+        {
+            //チャージショット即発射バフが有効の場合は通さない
+            if (m_bInstantShot == true)
+            {
                 C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
             }
-
         }
-        // Jキーのフラグをリセット
-        m_bAButtonPressed = false;
+
+        //プレイヤーのHPを減らす
+        if (CManager::GetKeyboard()->GetPress(DIK_K))
+        {
+            m_nLife -= 1;
+        }
+
+        if (CManager::GetKeyboard()->GetPress(DIK_N))
+        {
+            CScore::AddScore(2000);
+        }
+
+        //プレイヤーの体力が0以下になった場合リザルト画面へ遷移
+        if (m_nLife <= 0)
+        {
+            Uninit();
+            CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        }
 
 
-    }
+        ////タイマーの処理を無効にしてる時のみ使用
+        //if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+        //{
+        //    Uninit();
+        //    CManager::GetFade()->SetFade(CScene::MODE_GAME);
+        //}
 
-    //球発射
-    if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
-    {
-        //チャージショット即発射バフが有効の場合は通さない
+        //プレイヤーが落下した際の処理
+        if (Pos.y <= -300.0f)
+        {
+            Uninit();
+            CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+        }
+
+        //過去座標を保存
+        m_nOld3DPlayerPos = Pos;
+
+        Pos.x += m_n3DPlayerMove.x;
+        Pos.y += m_n3DPlayerMove.y;
+        Pos.z += m_n3DPlayerMove.z;
+
+        //バフアイテムの当たり判定
+        for (int nCntObj = 0; nCntObj < C3ditem::MAX_ITEM; nCntObj++)
+        {
+            CObject* pObj = CObject::GetObj(3, nCntObj);
+
+            if (pObj != nullptr)
+            {
+                CObject::TYPE type = pObj->GetType();
+
+                C3ditem* p3dItem = (C3ditem*)pObj;
+
+                D3DXVECTOR3 EnemyPos = p3dItem->GetPos();
+
+                //プレイヤー移動速度上昇アイテムの場合
+                if (type == CObject::TYPE::ITEM_WALKSPDUP)
+                {
+                    if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                        && CObject3D::GetPos().x <= EnemyPos.x + 40
+                        && CObject3D::GetPos().z >= EnemyPos.z - 40
+                        && CObject3D::GetPos().z <= EnemyPos.z + 40)
+                    {
+                        //バフ効果が発動中の場合は効果時間をリセットする
+                        if (m_bPlayerBuff == true)
+                        {
+                            m_nBuffTime = 0;
+                        }
+
+                        //バフ効果が付与されてない場合
+                        if (m_bPlayerBuff == false)
+                        {
+                            m_bPlayerBuff = true;
+                            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_DISPLAY);
+                        }
+
+                        p3dItem->Uninit();
+                        return;
+                    }
+                }
+
+                //チャージショット即発射バフアイテムの場合
+                if (type == CObject::TYPE::ITEM_INSTANTSHOT)
+                {
+                    if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                        && CObject3D::GetPos().x <= EnemyPos.x + 40
+                        && CObject3D::GetPos().z >= EnemyPos.z - 40
+                        && CObject3D::GetPos().z <= EnemyPos.z + 40)
+                    {
+                        //バフ効果が発動中の場合は効果時間をリセットする
+                        if (m_bInstantShot == true)
+                        {
+                            m_nInstantShotTime = 0;
+                        }
+
+                        //バフ効果が付与されてない場合
+                        if (m_bInstantShot == false)
+                        {
+                            m_bInstantShot = true; //即発射フラグを有効にする
+                            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_DISPLAY);
+                        }
+
+                        p3dItem->Uninit();
+                        return;
+                    }
+                }
+                //タイマー追加アイテムの場合
+                if (type == CObject::TYPE::ITEM_ADDTIMER)
+                {
+                    if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                        && CObject3D::GetPos().x <= EnemyPos.x + 40
+                        && CObject3D::GetPos().z >= EnemyPos.z - 40
+                        && CObject3D::GetPos().z <= EnemyPos.z + 40)
+                    {
+                        CTimer::AddTimer(20); //残り時間を追加
+                        p3dItem->Uninit();
+                        return;
+                    }
+                }
+
+                //体力追加アイテムの場合
+                if (type == CObject::TYPE::ITEM_ADDLIFE)
+                {
+                    if (CObject3D::GetPos().x >= EnemyPos.x - 40
+                        && CObject3D::GetPos().x <= EnemyPos.x + 40
+                        && CObject3D::GetPos().z >= EnemyPos.z - 40
+                        && CObject3D::GetPos().z <= EnemyPos.z + 40)
+                    {
+                        CAddlifeui::DisplayAddLifeUI();
+                        m_nLife += 15;
+                        p3dItem->Uninit();
+                        return;
+                    }
+                }
+            }
+        }
+
+
+        //プレイヤー移動速度上昇強化がtrueの場合
+        if (m_bPlayerBuff == true)
+        {
+            m_nBuffTime++;
+
+            //10秒たったらfalseにする
+            if (m_nBuffTime == 600)
+            {
+                CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_HIDDEN);
+                m_bPlayerBuff = false;
+            }
+        }
+
+        //プレイヤー移動速度上昇強化がfalseの場合
+        if (m_bPlayerBuff == false)
+        {
+            m_nBuffTime = 0;
+        }
+
+        //チャージショット即発射バフがtrueの場合
         if (m_bInstantShot == true)
         {
-            C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+            m_nInstantShotTime++;
+
+            //6秒たったらfalseにする
+            if (m_nInstantShotTime == 360)
+            {
+                CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_HIDDEN);
+                m_bInstantShot = false;
+            }
         }
-    }
 
-    //プレイヤーのHPを減らす
-    if (CManager::GetKeyboard()->GetPress(DIK_K))
-    {
-        m_nLife -= 1;
-    }
-
-    if (CManager::GetKeyboard()->GetPress(DIK_N))
-    {
-        CScore::AddScore(2000);
-    }
-
-    //プレイヤーの体力が0以下になった場合リザルト画面へ遷移
-    if (m_nLife <= 0)
-    {
-        Uninit();
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-    }
-
-
-    ////タイマーの処理を無効にしてる時のみ使用
-    //if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
-    //{
-    //    Uninit();
-    //    CManager::GetFade()->SetFade(CScene::MODE_GAME);
-    //}
-
-    //プレイヤーが落下した際の処理
-    if (Pos.y <= -300.0f)
-    {
-        Uninit();
-        CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-    }
-
-    //過去座標を保存
-    m_nOld3DPlayerPos = Pos;
-
-    Pos.x += m_n3DPlayerMove.x;
-    Pos.y += m_n3DPlayerMove.y;
-    Pos.z += m_n3DPlayerMove.z;
-
-    //バフアイテムの当たり判定
-    for (int nCntObj = 0; nCntObj < C3ditem::MAX_ITEM; nCntObj++)
-    {
-        CObject* pObj = CObject::GetObj(3, nCntObj);
-
-        if (pObj != nullptr)
+        //チャージショット即発射バフがtrueの場合
+        if (m_bInstantShot == false)
         {
-            CObject::TYPE type = pObj->GetType();
-
-            C3ditem * p3dItem = (C3ditem*)pObj;
-
-            D3DXVECTOR3 EnemyPos = p3dItem->GetPos();
-
-            //プレイヤー移動速度上昇アイテムの場合
-            if (type == CObject::TYPE::ITEM_WALKSPDUP)
-            {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 40
-                    && CObject3D::GetPos().x <= EnemyPos.x + 40
-                    && CObject3D::GetPos().z >= EnemyPos.z - 40
-                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
-                {
-                    //バフ効果が発動中の場合は効果時間をリセットする
-                    if (m_bPlayerBuff == true)
-                    { 
-                        m_nBuffTime = 0;
-                    }
-
-                    //バフ効果が付与されてない場合
-                    if (m_bPlayerBuff == false)
-                    {
-                        m_bPlayerBuff = true;
-                        CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_DISPLAY);
-                    }
-
-                    p3dItem->Uninit();
-                    return;
-                }
-            }
-
-            //チャージショット即発射バフアイテムの場合
-            if (type == CObject::TYPE::ITEM_INSTANTSHOT)
-            {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 40
-                    && CObject3D::GetPos().x <= EnemyPos.x + 40
-                    && CObject3D::GetPos().z >= EnemyPos.z - 40
-                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
-                {
-                    //バフ効果が発動中の場合は効果時間をリセットする
-                    if (m_bInstantShot == true)
-                    {
-                        m_nInstantShotTime = 0;
-                    }
-
-                    //バフ効果が付与されてない場合
-                    if (m_bInstantShot == false)
-                    {
-                        m_bInstantShot = true; //即発射フラグを有効にする
-                        CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_DISPLAY);
-                    }
-                    
-                    p3dItem->Uninit();
-                    return;
-                }
-            }
-            //タイマー追加アイテムの場合
-            if (type == CObject::TYPE::ITEM_ADDTIMER)
-            {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 40
-                    && CObject3D::GetPos().x <= EnemyPos.x + 40
-                    && CObject3D::GetPos().z >= EnemyPos.z - 40
-                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
-                {
-                    CTimer::AddTimer(20); //残り時間を追加
-                    p3dItem->Uninit();
-                    return;
-                }
-            }
-
-            //体力追加アイテムの場合
-            if (type == CObject::TYPE::ITEM_ADDLIFE)
-            {
-                if (CObject3D::GetPos().x >= EnemyPos.x - 40
-                    && CObject3D::GetPos().x <= EnemyPos.x + 40
-                    && CObject3D::GetPos().z >= EnemyPos.z - 40
-                    && CObject3D::GetPos().z <= EnemyPos.z + 40)
-                {
-                    CAddlifeui::DisplayAddLifeUI();
-                    m_nLife += 15;
-                    p3dItem->Uninit();
-                    return;
-                }
-            }
+            m_nInstantShotTime = 0;
         }
-    }
 
-
-    //プレイヤー移動速度上昇強化がtrueの場合
-    if (m_bPlayerBuff == true)
-    {
-        m_nBuffTime++;
-
-        //10秒たったらfalseにする
-        if (m_nBuffTime == 600)
+        //ブロックとの当たり判定の補正
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_SPDUP, CBuffUI::UIDISPLAY::UI_HIDDEN);
-            m_bPlayerBuff = false;
-        }
-    }
-
-    //プレイヤー移動速度上昇強化がfalseの場合
-    if (m_bPlayerBuff == false)
-    {
-        m_nBuffTime = 0;
-    }
-
-    //チャージショット即発射バフがtrueの場合
-    if (m_bInstantShot == true)
-    {
-        m_nInstantShotTime++;
-
-        //6秒たったらfalseにする
-        if (m_nInstantShotTime == 360)
-        {
-            CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_HIDDEN);
-            m_bInstantShot = false;
-        }
-    }
-
-    //チャージショット即発射バフがtrueの場合
-    if (m_bInstantShot == false)
-    {
-        m_nInstantShotTime = 0;
-    }
-
-    //ブロックとの当たり判定の補正
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < C3dblock::GetMaxBlock() +10; nCntObj++)
-        {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < C3dblock::GetMaxBlock() + 10; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::BLOCK)
+                if (pObj != nullptr)
                 {
-                    C3dblock* p3dblock = (C3dblock*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dblock->Collision3DBlock(&Pos,&m_nOld3DPlayerPos,&m_n3DPlayerMove,50.0f,50.0f);
-
-                    if (bIsCollision == true)
+                    if (type == CObject::TYPE::BLOCK)
                     {
-                        m_nJumpCnt = 0;
-                        m_n3DPlayerMove.y = 0.0f;
+                        C3dblock* p3dblock = (C3dblock*)pObj;
+
+                        bool bIsCollision = p3dblock->Collision3DBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
+                        {
+                            m_nJumpCnt = 0;
+                            m_n3DPlayerMove.y = 0.0f;
+                        }
+
                     }
 
                 }
-
             }
         }
-    }
 
-    //ブロックとの当たり判定の補正
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < 10; nCntObj++)
+        //ブロックとの当たり判定の補正
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < 10; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::MOVEBLOCK_X)
+                if (pObj != nullptr)
                 {
-                    C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
+                    if (type == CObject::TYPE::MOVEBLOCK_X)
                     {
+                        C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
 
-                          m_n3DPlayerMove.y = 0.0f;
-                          m_nJumpCnt = 0;
-                          Pos.x += (p3dmoveblock->GetMoveBlock().x);
+                        bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
 
-                    }
-                }
+                        if (bIsCollision == true)
+                        {
 
-                if (type == CObject::TYPE::MOVEBLOCK_Z)
-                {
-                    C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
+                            m_n3DPlayerMove.y = 0.0f;
+                            m_nJumpCnt = 0;
+                            Pos.x += (p3dmoveblock->GetMoveBlock().x);
 
-                    bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
-                    {
-                        m_n3DPlayerMove.y = 0.0f;
-                        m_nJumpCnt = 0;
-                        Pos.z += (p3dmoveblock->GetMoveBlock().z);
+                        }
                     }
 
-                }
+                    if (type == CObject::TYPE::MOVEBLOCK_Z)
+                    {
+                        C3dmoveblock* p3dmoveblock = (C3dmoveblock*)pObj;
 
+                        bool bIsCollision = p3dmoveblock->Collision3DMoveblock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
+                        {
+                            m_n3DPlayerMove.y = 0.0f;
+                            m_nJumpCnt = 0;
+                            Pos.z += (p3dmoveblock->GetMoveBlock().z);
+                        }
+
+                    }
+
+                }
             }
         }
-    }
 
-    //破壊可能ブロックとの当たり判定
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+        //破壊可能ブロックとの当たり判定
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::BROKENBLOCK)
+                if (pObj != nullptr)
                 {
-                    C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dbrokenblock->Collision3DBrokenBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
+                    if (type == CObject::TYPE::BROKENBLOCK)
                     {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f)
+                        C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
+
+                        bool bIsCollision = p3dbrokenblock->Collision3DBrokenBlock(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
                         {
-                            Pos.z += p3dbrokenblock->GetMoveBlock().z;
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f)
+                            {
+                                Pos.z += p3dbrokenblock->GetMoveBlock().z;
+                            }
+
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f)
+                            {
+                                Pos.z += (p3dbrokenblock->GetMoveBlock().z * PLAYER_MOVE_BOOST);
+                            }
                         }
 
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dbrokenblock->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dbrokenblock->GetMoveBlock().z >= 0.1f)
-                        {
-                            Pos.z += (p3dbrokenblock->GetMoveBlock().z * PLAYER_MOVE_BOOST);
-                        }
                     }
 
                 }
-
             }
         }
-    }
 
-    //壁ブロックとの当たり判定
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
+        //壁ブロックとの当たり判定
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::WALL_WIDTH)
+                if (pObj != nullptr)
                 {
-                    C3dwall* p3dwall = (C3dwall*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
+                    if (type == CObject::TYPE::WALL_WIDTH)
                     {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                        C3dwall* p3dwall = (C3dwall*)pObj;
+
+                        bool bIsCollision = p3dwall->Collision3DWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
                         {
-                            Pos.z += p3dwall->GetMoveBlock().z;
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                            {
+                                Pos.z += p3dwall->GetMoveBlock().z;
+                            }
+
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                            {
+                                Pos.z += (p3dwall->GetMoveBlock().z * PLAYER_MOVE_BOOST);
+                            }
                         }
 
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                    }
+
+                    if (type == CObject::TYPE::WALL_WIDTH_SHORT)
+                    {
+                        C3dwall* p3dwall = (C3dwall*)pObj;
+
+                        bool bIsCollision = p3dwall->Collision3DWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
                         {
-                            Pos.z += (p3dwall->GetMoveBlock().z * PLAYER_MOVE_BOOST);
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                            {
+                                Pos.z += p3dwall->GetMoveBlock().z;
+                            }
+
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                            {
+                                Pos.z += (p3dwall->GetMoveBlock().z * PLAYER_MOVE_BOOST);
+                            }
                         }
+
+                    }
+
+                    if (type == CObject::TYPE::WALL_HEIGHT)
+                    {
+                        C3dwall* p3dwall = (C3dwall*)pObj;
+
+                        bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
+                        {
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                            {
+                                Pos.z += p3dwall->GetMoveBlock().z;
+                            }
+
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                            {
+                                Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                            }
+                        }
+
+                    }
+
+                    if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
+                    {
+                        C3dwall* p3dwall = (C3dwall*)pObj;
+
+                        bool bIsCollision = p3dwall->Collision3DHeightWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+
+                        if (bIsCollision == true)
+                        {
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
+                            {
+                                Pos.z += p3dwall->GetMoveBlock().z;
+                            }
+
+                            if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
+                            {
+                                Pos.z += (p3dwall->GetMoveBlock().z * 2);
+                            }
+                        }
+
                     }
 
                 }
-
-                if (type == CObject::TYPE::WALL_WIDTH_SHORT)
-                {
-                    C3dwall* p3dwall = (C3dwall*)pObj;
-
-                    bool bIsCollision = p3dwall->Collision3DWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
-                    {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
-                        {
-                            Pos.z += p3dwall->GetMoveBlock().z;
-                        }
-
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
-                        {
-                            Pos.z += (p3dwall->GetMoveBlock().z * PLAYER_MOVE_BOOST);
-                        }
-                    }
-
-                }
-
-                if (type == CObject::TYPE::WALL_HEIGHT)
-                {
-                    C3dwall* p3dwall = (C3dwall*)pObj;
-
-                    bool bIsCollision = p3dwall->Collision3DHeightWall(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
-                    {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
-                        {
-                            Pos.z += p3dwall->GetMoveBlock().z;
-                        }
-
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
-                        {
-                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
-                        }
-                    }
-
-                }
-
-                if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
-                {
-                    C3dwall* p3dwall = (C3dwall*)pObj;
-
-                    bool bIsCollision = p3dwall->Collision3DHeightWallShort(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
-
-                    if (bIsCollision == true)
-                    {
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z >= 0.1f || m_n3DPlayerMove.z <= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f)
-                        {
-                            Pos.z += p3dwall->GetMoveBlock().z;
-                        }
-
-                        if (m_n3DPlayerMove.z >= 0.1f && p3dwall->GetMoveBlock().z <= -0.1f || m_n3DPlayerMove.z <= -0.1f && p3dwall->GetMoveBlock().z >= 0.1f)
-                        {
-                            Pos.z += (p3dwall->GetMoveBlock().z * 2);
-                        }
-                    }
-
-                }
-
             }
         }
-    }
 
-    //床との当たり判定の補正
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < 1; nCntObj++)
+        //床との当たり判定の補正
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < 1; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::FLOOR)
+                if (pObj != nullptr)
                 {
-                    CFloor* p3dfloor = (CFloor*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dfloor->Collision3DFloor(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 0.0f);
-
-                    if (bIsCollision == true)
+                    if (type == CObject::TYPE::FLOOR)
                     {
-                        m_nJumpCnt = 0;
-                        m_n3DPlayerMove.y = 0.0f;
+                        CFloor* p3dfloor = (CFloor*)pObj;
+
+                        bool bIsCollision = p3dfloor->Collision3DFloor(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 0.0f);
+
+                        if (bIsCollision == true)
+                        {
+                            m_nJumpCnt = 0;
+                            m_n3DPlayerMove.y = 0.0f;
+                        }
                     }
                 }
             }
         }
-    }
 
 
 
-    //ゴールマーカーとの当たり判定の補正
-    for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
-    {
-        for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+        //ゴールマーカーとの当たり判定の補正
+        for (int nCntPriority = 0; nCntPriority < MAX_PRIORITY; nCntPriority++)
         {
-            CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
-
-            if (pObj != nullptr)
+            for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
             {
-                CObject::TYPE type = pObj->GetType();
+                CObject* pObj = CObject::GetObj(nCntPriority, nCntObj);
 
-                if (type == CObject::TYPE::GOAL)
+                if (pObj != nullptr)
                 {
-                    C3dgoalobj* p3dgoalobj = (C3dgoalobj*)pObj;
+                    CObject::TYPE type = pObj->GetType();
 
-                    bool bIsCollision = p3dgoalobj->Collision3DGoalobj(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+                    if (type == CObject::TYPE::GOAL)
+                    {
+                        C3dgoalobj* p3dgoalobj = (C3dgoalobj*)pObj;
+
+                        bool bIsCollision = p3dgoalobj->Collision3DGoalobj(&Pos, &m_nOld3DPlayerPos, &m_n3DPlayerMove, 50.0f, 50.0f);
+                    }
                 }
             }
         }
+
+        //座標を設定
+        SetPos(Pos);
+
+        //X座標の移動量を更新
+        m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
+
+        //Y座標の移動量を更新
+        m_n3DPlayerMove.y += (Length_value2 - m_n3DPlayerMove.y) * Attenuation_value;
+
+        //Z座標の移動量を更新
+        m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
     }
-
-    //座標を設定
-    SetPos(Pos);
-
-    //X座標の移動量を更新
-    m_n3DPlayerMove.x += (Length_value2 - m_n3DPlayerMove.x) * Attenuation_value;
-
-    //Y座標の移動量を更新
-    m_n3DPlayerMove.y += (Length_value2 - m_n3DPlayerMove.y) * Attenuation_value;
-
-    //Z座標の移動量を更新
-    m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
-
  
 }
 

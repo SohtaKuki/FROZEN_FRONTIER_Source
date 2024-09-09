@@ -51,7 +51,7 @@ public:
 	void Uninit()override;
 	void Update()override;
 	void Draw()override;
-	static C3dgoalobj* Create(D3DXVECTOR3 pos);
+	static C3dgoalobj* Create(D3DXVECTOR3 pos,int nType);
 	//void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	static HRESULT Load();
 	static void Unload();
@@ -75,6 +75,7 @@ private:
 	bool bUse;
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bLanding;
+	int m_nType;
 
 protected:
 	D3DXVECTOR3 m_nMove;

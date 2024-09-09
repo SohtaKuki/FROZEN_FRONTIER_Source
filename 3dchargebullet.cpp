@@ -11,6 +11,7 @@
 #include "3dbrokenblock.h"
 #include "3dwall.h"
 #include "score.h"
+#include "scene.h"
 
 //======================
 // コンストラクタ
@@ -99,209 +100,211 @@ void C3dchargebullet::Uninit()
 //======================
 void C3dchargebullet::Update()
 {
-	//頂点情報のポインタ
-	VERTEX_3D* pVtx;
-
-	//頂点バッファをロックし頂点情報時へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	m_nPos += m_nMove;
-
-	m_nLife--;
-
-	//弾寿命が0の場合
-	if (m_nLife <= 0)
+	if (CScene::GetUpdateStat() == true)
 	{
-		Uninit();
-		return;
-	}
+		//頂点情報のポインタ
+		VERTEX_3D* pVtx;
 
-	//頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3((-m_nSize.x), (m_nSize.y), (m_nSize.z));
-	pVtx[1].pos = D3DXVECTOR3((m_nSize.x), (m_nSize.y), (m_nSize.z));
-	pVtx[2].pos = D3DXVECTOR3((-m_nSize.x), (-m_nSize.y), (m_nSize.z));
-	pVtx[3].pos = D3DXVECTOR3((m_nSize.x), (-m_nSize.y), (m_nSize.z));
+		//頂点バッファをロックし頂点情報時へのポインタを取得
+		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	//法線ベクトルの設定
-	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		m_nPos += m_nMove;
 
-	//頂点カラーの初期設定
-	pVtx[0].col = D3DCOLOR_RGBA(255, 46, 46, 255);
-	pVtx[1].col = D3DCOLOR_RGBA(255, 46, 46, 255);
-	pVtx[2].col = D3DCOLOR_RGBA(255, 46, 46, 255);
-	pVtx[3].col = D3DCOLOR_RGBA(255, 46, 46, 255);
+		m_nLife--;
 
-	//テクスチャ座標の初期設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-
-	pVtx += 4;
-
-	//頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
-
-	//弾とブロックの当たり判定
-	for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
-	{
-		CObject* pObj = CObject::GetObj(3, nCntObj);
-
-		if (pObj != nullptr)
+		//弾寿命が0の場合
+		if (m_nLife <= 0)
 		{
-			CObject::TYPE type = pObj->GetType();
+			Uninit();
+			return;
+		}
 
-			C3dblock* p3dblock = (C3dblock*)pObj;
+		//頂点座標の設定
+		pVtx[0].pos = D3DXVECTOR3((-m_nSize.x), (m_nSize.y), (m_nSize.z));
+		pVtx[1].pos = D3DXVECTOR3((m_nSize.x), (m_nSize.y), (m_nSize.z));
+		pVtx[2].pos = D3DXVECTOR3((-m_nSize.x), (-m_nSize.y), (m_nSize.z));
+		pVtx[3].pos = D3DXVECTOR3((m_nSize.x), (-m_nSize.y), (m_nSize.z));
 
-			D3DXVECTOR3 BlockPos = p3dblock->GetPos();
+		//法線ベクトルの設定
+		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-			//ブロックの場合
-			if (type == CObject::TYPE::BLOCK)
+		//頂点カラーの初期設定
+		pVtx[0].col = D3DCOLOR_RGBA(255, 46, 46, 255);
+		pVtx[1].col = D3DCOLOR_RGBA(255, 46, 46, 255);
+		pVtx[2].col = D3DCOLOR_RGBA(255, 46, 46, 255);
+		pVtx[3].col = D3DCOLOR_RGBA(255, 46, 46, 255);
+
+		//テクスチャ座標の初期設定
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		pVtx += 4;
+
+		//頂点バッファをアンロック
+		m_pVtxBuff->Unlock();
+
+		//弾とブロックの当たり判定
+		for (int nCntObj = 0; nCntObj < C3dblock::MAX_BLOCK; nCntObj++)
+		{
+			CObject* pObj = CObject::GetObj(3, nCntObj);
+
+			if (pObj != nullptr)
 			{
-				if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
-					&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
-					&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
-					&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
+				CObject::TYPE type = pObj->GetType();
+
+				C3dblock* p3dblock = (C3dblock*)pObj;
+
+				D3DXVECTOR3 BlockPos = p3dblock->GetPos();
+
+				//ブロックの場合
+				if (type == CObject::TYPE::BLOCK)
 				{
-					Uninit();
-					return;
+					if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
+						&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
+						&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
+						&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
+					{
+						Uninit();
+						return;
+					}
 				}
+
 			}
 
 		}
 
-	}
-
-	//弾とブロックの当たり判定
-	for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
-	{
-		CObject* pObj = CObject::GetObj(3, nCntObj);
-
-		if (pObj != nullptr)
+		//弾とブロックの当たり判定
+		for (int nCntObj = 0; nCntObj < MAX_OBJECT; nCntObj++)
 		{
-			CObject::TYPE type = pObj->GetType();
+			CObject* pObj = CObject::GetObj(3, nCntObj);
 
-			C3dwall* p3dwall = (C3dwall*)pObj;
-
-			D3DXVECTOR3 WallPos = p3dwall->GetPos();
-
-			//ブロックの場合
-			if (type == CObject::TYPE::WALL_WIDTH)
+			if (pObj != nullptr)
 			{
-				if (m_nPos.x >= WallPos.x - 120
-					&& m_nPos.x <= WallPos.x + 120
-					&& m_nPos.z >= WallPos.z - 35
-					&& m_nPos.z <= WallPos.z + 35)
+				CObject::TYPE type = pObj->GetType();
+
+				C3dwall* p3dwall = (C3dwall*)pObj;
+
+				D3DXVECTOR3 WallPos = p3dwall->GetPos();
+
+				//ブロックの場合
+				if (type == CObject::TYPE::WALL_WIDTH)
 				{
-					Uninit();
-					return;
+					if (m_nPos.x >= WallPos.x - 120
+						&& m_nPos.x <= WallPos.x + 120
+						&& m_nPos.z >= WallPos.z - 35
+						&& m_nPos.z <= WallPos.z + 35)
+					{
+						Uninit();
+						return;
+					}
 				}
-			}
 
-			//ブロックの場合
-			if (type == CObject::TYPE::WALL_WIDTH_SHORT)
-			{
-				if (m_nPos.x >= WallPos.x - 60
-					&& m_nPos.x <= WallPos.x + 60
-					&& m_nPos.z >= WallPos.z - 40
-					&& m_nPos.z <= WallPos.z + 40)
+				//ブロックの場合
+				if (type == CObject::TYPE::WALL_WIDTH_SHORT)
 				{
-					Uninit();
-					return;
+					if (m_nPos.x >= WallPos.x - 60
+						&& m_nPos.x <= WallPos.x + 60
+						&& m_nPos.z >= WallPos.z - 40
+						&& m_nPos.z <= WallPos.z + 40)
+					{
+						Uninit();
+						return;
+					}
 				}
-			}
 
-			//ブロックの場合
-			if (type == CObject::TYPE::WALL_HEIGHT)
-			{
-				if (m_nPos.x >= WallPos.x - 35
-					&& m_nPos.x <= WallPos.x + 35
-					&& m_nPos.z >= WallPos.z - 120
-					&& m_nPos.z <= WallPos.z + 120)
+				//ブロックの場合
+				if (type == CObject::TYPE::WALL_HEIGHT)
 				{
-					Uninit();
-					return;
+					if (m_nPos.x >= WallPos.x - 35
+						&& m_nPos.x <= WallPos.x + 35
+						&& m_nPos.z >= WallPos.z - 120
+						&& m_nPos.z <= WallPos.z + 120)
+					{
+						Uninit();
+						return;
+					}
 				}
-			}
 
-			//ブロックの場合
-			if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
-			{
-				if (m_nPos.x >= WallPos.x - 35
-					&& m_nPos.x <= WallPos.x + 35
-					&& m_nPos.z >= WallPos.z - 60
-					&& m_nPos.z <= WallPos.z + 60)
+				//ブロックの場合
+				if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
 				{
-					Uninit();
-					return;
+					if (m_nPos.x >= WallPos.x - 35
+						&& m_nPos.x <= WallPos.x + 35
+						&& m_nPos.z >= WallPos.z - 60
+						&& m_nPos.z <= WallPos.z + 60)
+					{
+						Uninit();
+						return;
+					}
 				}
 			}
 		}
-	}
 
-	//弾とブロックの当たり判定
-	for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
-	{
-		CObject* pObj = CObject::GetObj(3, nCntObj);
-
-		if (pObj != nullptr)
+		//弾とブロックの当たり判定
+		for (int nCntObj = 0; nCntObj < C3dbrokenblock::MAX_BLOCK; nCntObj++)
 		{
-			CObject::TYPE type = pObj->GetType();
+			CObject* pObj = CObject::GetObj(3, nCntObj);
 
-			C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
-
-			D3DXVECTOR3 BlockPos = p3dbrokenblock->GetPos();
-
-			//破壊可能ブロックの場合
-			if (type == CObject::TYPE::BROKENBLOCK)
+			if (pObj != nullptr)
 			{
-				if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
-					&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
-					&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
-					&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
+				CObject::TYPE type = pObj->GetType();
+
+				C3dbrokenblock* p3dbrokenblock = (C3dbrokenblock*)pObj;
+
+				D3DXVECTOR3 BlockPos = p3dbrokenblock->GetPos();
+
+				//破壊可能ブロックの場合
+				if (type == CObject::TYPE::BROKENBLOCK)
 				{
-					Uninit();
-					CCamera::SetShake(3, 4.0f);
-					p3dbrokenblock->Uninit();
-					return;
+					if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
+						&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
+						&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
+						&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
+					{
+						Uninit();
+						CCamera::SetShake(3, 4.0f);
+						p3dbrokenblock->Uninit();
+						return;
+					}
 				}
 			}
 		}
-	}
 
-	//弾と敵の当たり判定
-	for (int nCntObj = 0; nCntObj < C3denemy::MAX_ENEMY; nCntObj++)
-	{
-		CObject* pObj = CObject::GetObj(3, nCntObj);
-
-		if (pObj != nullptr)
+		//弾と敵の当たり判定
+		for (int nCntObj = 0; nCntObj < C3denemy::MAX_ENEMY; nCntObj++)
 		{
-			CObject::TYPE type = pObj->GetType();
+			CObject* pObj = CObject::GetObj(3, nCntObj);
 
-			C3denemy* p3denemy = (C3denemy*)pObj;
-
-			D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
-
-			//敵の場合
-			if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
+			if (pObj != nullptr)
 			{
-				if (m_nPos.x >= EnemyPos.x - NORMAL_BLOCK_COLISION
-					&& m_nPos.x <= EnemyPos.x + NORMAL_BLOCK_COLISION
-					&& m_nPos.z >= EnemyPos.z - NORMAL_BLOCK_COLISION
-					&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
-				{
-					CScore::AddScore(17000);
-					p3denemy->Uninit();
-					return;
-				}
-			}
+				CObject::TYPE type = pObj->GetType();
 
+				C3denemy* p3denemy = (C3denemy*)pObj;
+
+				D3DXVECTOR3 EnemyPos = p3denemy->GetPos();
+
+				//敵の場合
+				if (type == CObject::TYPE::ENEMY_XMOVE || type == CObject::TYPE::ENEMY_ZMOVE || type == CObject::TYPE::ENEMY_NORMAL)
+				{
+					if (m_nPos.x >= EnemyPos.x - NORMAL_BLOCK_COLISION
+						&& m_nPos.x <= EnemyPos.x + NORMAL_BLOCK_COLISION
+						&& m_nPos.z >= EnemyPos.z - NORMAL_BLOCK_COLISION
+						&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
+					{
+						CScore::AddScore(17000);
+						p3denemy->Uninit();
+						return;
+					}
+				}
+
+			}
 		}
 	}
-
 }
 
 //======================

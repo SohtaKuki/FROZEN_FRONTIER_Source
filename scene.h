@@ -28,9 +28,11 @@ public:
 	virtual void Update();
 	virtual void Draw();
 	static CScene* Create(MODE mode);
-	
+	static bool GetUpdateStat() { return bUpdate; }
+	static void UpdateSwitch(int nType);
 private:
 	MODE m_mode;
+	static bool bUpdate;
 };
 
 class CTitle : public CScene

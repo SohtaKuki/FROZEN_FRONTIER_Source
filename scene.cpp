@@ -25,6 +25,9 @@
 #include "playerwindow.h"
 #include "blizardfloor.h"
 #include "stageselect.h"
+#include "pause.h"
+
+bool CScene::bUpdate = {};
 
 //======================
 //コンストラクタ
@@ -47,6 +50,7 @@ CScene::~CScene()
 //======================
 HRESULT CScene::Init()
 {
+	bUpdate = true;
 	return S_OK;
 }
 
@@ -113,6 +117,22 @@ CScene* CScene::Create(MODE mode)
 	return nullptr;
 }
 
+//=====================================
+// 一部オブジェクトの更新をするかどうか
+//=====================================
+void CScene::UpdateSwitch(int nType)
+{
+	if (nType == 0)
+	{
+		bUpdate = false;
+	}
+
+	if (nType == 1)
+	{
+		bUpdate = true;
+	}
+}
+
 //======================
 //コンストラクタ
 //======================
@@ -152,6 +172,8 @@ HRESULT CGame::Init()
 	{
 		CStageManager::Create(1);
 	}
+
+	CPauseSelect::Create();
 	CChargeshotUI::Create(D3DXVECTOR3(-100.0f, 120.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CAddlifeui::Create(D3DXVECTOR3(-100.0f, 220.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CBuffUI::Create(D3DXVECTOR3(70.0f, 90.0f, 0.0f), D3DXVECTOR3(40.0f, 80.0f, 0));
@@ -174,7 +196,23 @@ void CGame::Uninit()
 //======================
 void CGame::Update()
 {
+	//ポーズ画面にてゲーム画面に戻る場合
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 0 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 0)
+	{
+		CPauseSelect::bUseSwitch(0);
+	}
 
+	//ポーズ画面にてステージセレクトに戻る場合
+	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 1 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 1)
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
+	}
+
+	//ポーズ画面にてタイトル画面に戻る場合
+	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 2 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 2)
+	{
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+	}
 }
 
 //======================

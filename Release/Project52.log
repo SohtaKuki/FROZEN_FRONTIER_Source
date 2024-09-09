@@ -1,7 +1,7 @@
-﻿  3dchargebullet.cpp
+﻿  timer.cpp
   コード生成しています。
-  1 of 499 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 525 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2\Release\ProjectC++_phase2.exe

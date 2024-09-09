@@ -35,6 +35,12 @@ TIMERSET = 90
 STAGESET
 
 	OBJECTSET
+		OBJ_TYPE = 9					#床ブロック 
+		POS = 0.0 -500.0 0.0
+		SIZE = 5000.0 0.0 5000.0
+	END_OBJECTSET
+
+	OBJECTSET
 		OBJ_TYPE = 7					#床ブロック 
 		POS = 0.0 0.0 0.0
 		SIZE = 550.0 0.0 550.0
@@ -204,11 +210,13 @@ STAGESET
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
 		POS = 430.0 100.0 150.0
+		OBJ_TYPE2 = 0
 	END_OBJECTSET
 	
 	OBJECTSET
 		OBJ_TYPE = 6					#ゴールマーカー 
-		POS = 428.0 100.0 -242.5
+		POS = 428.0 -10.0 -252.5
+		OBJ_TYPE2 = 1
 	END_OBJECTSET
 	
 	#==================================

@@ -151,7 +151,9 @@ CObject * CObject::GetObj(int nPriority ,int nIdx)
 	return m_apObject[nPriority][nIdx];
 }
 
-
+//=====================
+// ƒ^ƒCƒv‚ğ‘ã“ü‚·‚éˆ—
+//=====================
 void CObject::SetType(TYPE type)
 {
 	m_type = type;

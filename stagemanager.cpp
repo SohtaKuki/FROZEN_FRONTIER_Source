@@ -258,7 +258,7 @@ void CStageManager::LoadStageData()
         //ゴールマーカーの場合
         if (CreateObjType[nCnt] == 6)
         {
-            C3dgoalobj::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z));
+            C3dgoalobj::Create(D3DXVECTOR3(m_nPos[nCnt].x, m_nPos[nCnt].y, m_nPos[nCnt].z), CreateObjType2[nCnt]);
         }
 
         //床の生成

@@ -26,6 +26,7 @@
 #include "blizardfloor.h"
 #include "stageselect.h"
 #include "pause.h"
+#include "startcallui.h"
 
 bool CScene::bUpdate = {};
 
@@ -50,7 +51,7 @@ CScene::~CScene()
 //======================
 HRESULT CScene::Init()
 {
-	bUpdate = true;
+	bUpdate = false;
 	return S_OK;
 }
 
@@ -173,12 +174,13 @@ HRESULT CGame::Init()
 		CStageManager::Create(1);
 	}
 
-	CPauseSelect::Create();
 	CChargeshotUI::Create(D3DXVECTOR3(-100.0f, 120.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CAddlifeui::Create(D3DXVECTOR3(-100.0f, 220.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
 	CBuffUI::Create(D3DXVECTOR3(70.0f, 90.0f, 0.0f), D3DXVECTOR3(40.0f, 80.0f, 0));
 	CPlayerWindow::Create(D3DXVECTOR3(285.0f, -70.0f, 0.0f), D3DXVECTOR3(280.0f, 220.0f, 0.0f));
 	CScoreWindow::Create(D3DXVECTOR3(1150.0f, -20.0f, 0.0f), D3DXVECTOR3(180.0f, 180.0f, 0.0f));
+	CStartCallUI::Create(D3DXVECTOR3(640.0f, 160.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
+	CPauseSelect::Create();
 
 	return S_OK;
 }

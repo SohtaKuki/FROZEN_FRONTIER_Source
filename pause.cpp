@@ -8,6 +8,7 @@
 #include "pause.h"
 #include "input.h"
 #include "scene.h"
+#include "startcallui.h"
 
 int CPauseSelect::m_nPauseSelect = 0;
 bool CPauseSelect::m_bUse = false;
@@ -112,97 +113,99 @@ void CPauseSelect::Uninit(void)
 //=============================
 //ポーズ画面の更新処理
 //=============================
-
 void CPauseSelect::Update(void)
 {
-	int nFadeState = CFade::GetFadeState();
-
-	if (nFadeState == CFade::FADE_OUT)
+	if (CStartCallUI::GetStartStat() == true)
 	{
-		CPauseSelect::Uninit();
-		return;
-	}
+		int nFadeState = CFade::GetFadeState();
 
-	VERTEX_2D* pVtx;	//頂点情報のポインタ
-
-	//頂点バッファをロックして、頂点情報へのポインタを取得
-	m_pVtxBuffPauseSelect->Lock(0, 0, (void**)&pVtx, 0);
-
-	//ポーズ画面を表示させる場合
-	if (CManager::GetKeyboard()->GetTrigger(DIK_1) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_START))
-	{
-		m_bUse = m_bUse ? false : true;
-	}
-
-	if (m_bUse == false)
-	{
-		CScene::UpdateSwitch(1);
-	}
-
-	if (m_bUse == true)
-	{
-		CScene::UpdateSwitch(0);
-	}
-
-	//if (CManager::GetKeyboard()->GetTrigger(DIK_1) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_START) && m_bUse == true)
-	//{
-	//	m_bUse = false;
-	//}
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_W) && m_bUse == true)
-	{
-
-		if (m_nPauseSelect > 0)
+		if (nFadeState == CFade::FADE_OUT)
 		{
-			m_nPauseSelect--;
+			CPauseSelect::Uninit();
+			return;
 		}
 
-		else if (m_nPauseSelect <= 0)
+		VERTEX_2D* pVtx;	//頂点情報のポインタ
+
+		//頂点バッファをロックして、頂点情報へのポインタを取得
+		m_pVtxBuffPauseSelect->Lock(0, 0, (void**)&pVtx, 0);
+
+		//ポーズ画面を表示させる場合
+		if (CManager::GetKeyboard()->GetTrigger(DIK_1) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_START))
 		{
-			m_nPauseSelect = PAUSE_SELECT_3;
+			m_bUse = m_bUse ? false : true;
 		}
+
+		if (m_bUse == false)
+		{
+			CScene::UpdateSwitch(1);
+		}
+
+		if (m_bUse == true)
+		{
+			CScene::UpdateSwitch(0);
+		}
+
+		//if (CManager::GetKeyboard()->GetTrigger(DIK_1) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_START) && m_bUse == true)
+		//{
+		//	m_bUse = false;
+		//}
+
+		if (CManager::GetKeyboard()->GetTrigger(DIK_W) && m_bUse == true)
+		{
+
+			if (m_nPauseSelect > 0)
+			{
+				m_nPauseSelect--;
+			}
+
+			else if (m_nPauseSelect <= 0)
+			{
+				m_nPauseSelect = PAUSE_SELECT_3;
+			}
+		}
+
+		if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT) && m_bUse == true)
+		{
+
+			if (m_nPauseSelect > 0)
+			{
+				m_nPauseSelect--;
+			}
+			else if (m_nPauseSelect <= 0)
+			{
+				m_nPauseSelect = PAUSE_SELECT_3;
+			}
+		}
+
+		if (CManager::GetKeyboard()->GetTrigger(DIK_S) && m_bUse == true)
+		{
+
+			if (m_nPauseSelect < 2)
+			{
+				m_nPauseSelect++;
+			}
+			else if (m_nPauseSelect >= 2)
+			{
+				m_nPauseSelect = PAUSE_SELECT_1;
+			}
+		}
+
+		if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT) && m_bUse == true)
+		{
+
+			if (m_nPauseSelect < 2)
+			{
+				m_nPauseSelect++;
+			}
+			else if (m_nPauseSelect >= 2)
+			{
+				m_nPauseSelect = PAUSE_SELECT_1;
+			}
+		}
+		//頂点バッファのアンロック
+		m_pVtxBuffPauseSelect->Unlock();
 	}
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT) && m_bUse == true)
-	{
-
-		if (m_nPauseSelect > 0)
-		{
-			m_nPauseSelect--;
-		}
-		else if (m_nPauseSelect <= 0)
-		{
-			m_nPauseSelect = PAUSE_SELECT_3;
-		}
-	}
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_S) && m_bUse == true)
-	{
-
-		if (m_nPauseSelect < 2)
-		{
-			m_nPauseSelect++;
-		}
-		else if (m_nPauseSelect >= 2)
-		{
-			m_nPauseSelect = PAUSE_SELECT_1;
-		}
-	}
-
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT) && m_bUse == true)
-	{
-
-		if (m_nPauseSelect < 2)
-		{
-			m_nPauseSelect++;
-		}
-		else if (m_nPauseSelect >= 2)
-		{
-			m_nPauseSelect = PAUSE_SELECT_1;
-		}
-	}
-	//頂点バッファのアンロック
-	m_pVtxBuffPauseSelect->Unlock();
 
 }
 //=============================

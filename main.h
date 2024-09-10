@@ -14,6 +14,7 @@
 #include"d3dx9.h"
 #include "dinput.h"
 #include "Xinput.h"
+#include "xaudio2.h"
 
 #include "renderer.h"
 

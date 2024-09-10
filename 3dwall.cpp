@@ -358,13 +358,13 @@ bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
 
 
         //‰E‘¤“–‚½‚è”»’è
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 28.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 12.0f)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }
 
         //¶‘¤“–‚½‚è”»’è
-        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 28.0f)
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 12.0f)
         {
             pPos->x = Pos.x - fBlockWidth - fWidth;
         }
@@ -445,13 +445,13 @@ bool C3dwall::Collision3DWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DX
 
 
         //‰E‘¤“–‚½‚è”»’è
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 12.0f)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }
 
         //¶‘¤“–‚½‚è”»’è
-        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 12.0f)
         {
             pPos->x = Pos.x - fBlockWidth - fWidth;
         }

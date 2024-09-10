@@ -14,6 +14,7 @@
 #include "light.h"
 #include "scene.h"
 #include "fade.h"
+#include "sound.h"
 
 //マネージャクラス
 class CManager
@@ -31,12 +32,14 @@ public:
 	static CCamera* GetCamera();
 	static CLight* GetLight();
 	static CFade* GetFade();
+	static CSound* GetSound();
 	static void SetMode(CScene::MODE mode);
 private:
 	static CRenderer* m_pRenderer;
 	static CInputKeyboard* m_pKeyboard;
 	static CInputJoypad* m_pJoypad;
 	static CCamera* m_pCamera;
+	static CSound* m_pSound;
 	static CLight* m_pLight;
 	static CScene* m_pScene;
 	static CFade* m_pFade;

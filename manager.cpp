@@ -25,6 +25,7 @@ CCamera* CManager::m_pCamera = nullptr;
 CLight* CManager::m_pLight = nullptr;
 CScene* CManager::m_pScene = nullptr;
 CFade* CManager::m_pFade = nullptr;
+CSound* CManager::m_pSound = nullptr;
 
 
 //======================
@@ -54,9 +55,11 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd,BOOL bWindow)
 
 	m_pRenderer->Init(hWnd, bWindow);
 
+	m_pSound = new CSound;
+
+	m_pSound->Init(hWnd);
+
 	m_pKeyboard->Init(hInstance, hWnd);
-
-
 
 	m_pJoypad = new CInputJoypad();
 
@@ -127,6 +130,48 @@ void CManager::Uninit()
 		m_pRenderer->Uninit();
 		delete m_pRenderer;
 		m_pRenderer = nullptr;
+	}
+
+	if (m_pKeyboard != nullptr)
+	{
+		m_pKeyboard->Uninit();
+		delete m_pKeyboard;
+		m_pKeyboard = nullptr;
+	}
+
+	if (m_pJoypad != nullptr)
+	{
+		m_pJoypad->Uninit();
+		delete m_pJoypad;
+		m_pJoypad = nullptr;
+	}
+
+	if (m_pLight != nullptr)
+	{
+		m_pLight->Uninit();
+		delete m_pLight;
+		m_pLight = nullptr;
+	}
+
+	if (m_pCamera != nullptr)
+	{
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = nullptr;
+	}
+
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Uninit();
+		delete m_pScene;
+		m_pScene = nullptr;
+	}
+
+	if (m_pSound != nullptr)
+	{
+		m_pSound->Uninit();
+		delete m_pSound;
+		m_pSound = nullptr;
 	}
 }
 
@@ -223,6 +268,11 @@ CLight* CManager::GetLight()
 CFade* CManager::GetFade()
 {
 	return m_pFade;
+}
+
+CSound* CManager::GetSound()
+{
+	return m_pSound;
 }
 
 

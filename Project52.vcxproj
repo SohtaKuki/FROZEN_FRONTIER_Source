@@ -188,6 +188,7 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="scorewindow.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="stagemanager.cpp" />
     <ClCompile Include="stageselect.cpp" />
     <ClCompile Include="startcallui.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="scorewindow.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="stagemanager.h" />
     <ClInclude Include="stageselect.h" />
     <ClInclude Include="startcallui.h" />

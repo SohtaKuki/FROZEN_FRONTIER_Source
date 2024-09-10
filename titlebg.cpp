@@ -6,6 +6,8 @@
 //=================================================
 
 #include "titlebg.h"
+#include "sound.h"
+
 
 //============================
 //コンストラクタ
@@ -88,6 +90,8 @@ HRESULT CTitleBG::Init()
     //頂点バッファアンロック
     m_pVtxBuff->Unlock();
 
+    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM);
+
     return S_OK;
 }
 
@@ -166,7 +170,7 @@ void CTitleBG::Update()
 
     if (nFadeState == CFade::FADE_OUT)
     {
-
+        CManager::GetSound()->Stop();
         CTitleBG::Uninit();
         return;
     }

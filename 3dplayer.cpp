@@ -186,6 +186,7 @@ void C3dplayer::Update()
             //チャージショット即発射バフが有効の場合は通さない
             if (m_bInstantShot == false)
             {
+                CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
                 C3dbullet::Create(Pos, D3DXVECTOR3(7.0f, 7.0f, 0.0f), m_rot, 0);
             }
         }
@@ -217,6 +218,7 @@ void C3dplayer::Update()
                 {
                     // 玉の発射を実行
                     C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+                    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_INSTANTSHOT_FIRE);
                 }
 
             }
@@ -229,10 +231,11 @@ void C3dplayer::Update()
         //球発射
         if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
         {
-            //チャージショット即発射バフが有効の場合は通さない
+            //チャージショット即発射バフが有効の場合のみ通す
             if (m_bInstantShot == true)
             {
                 C3dchargebullet::Create(Pos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot);
+                CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_INSTANTSHOT_FIRE);
             }
         }
 
@@ -332,6 +335,7 @@ void C3dplayer::Update()
                         //バフ効果が付与されてない場合
                         if (m_bInstantShot == false)
                         {
+                            CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_INSTANTSHOT_UI);
                             m_bInstantShot = true; //即発射フラグを有効にする
                             CBuffUI::DisplayBuffUI(CBuffUI::ICONDISPLAY::ICON_INSTANTSHOT, CBuffUI::UIDISPLAY::UI_DISPLAY);
                         }
@@ -363,6 +367,7 @@ void C3dplayer::Update()
                         && CObject3D::GetPos().z <= EnemyPos.z + 40)
                     {
                         CAddlifeui::DisplayAddLifeUI();
+                        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ADDLIFE);
                         m_nLife += 15;
                         p3dItem->Uninit();
                         return;
@@ -859,6 +864,7 @@ void C3dplayer::Unload()
 
 void C3dplayer::PlayerDamage(int nDamage)
 {
+    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_PLAYER_DAMAGE);
     m_nLife -= nDamage;
 }
 

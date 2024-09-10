@@ -421,6 +421,7 @@ void C3denemy::Draw()
 
 void C3denemy::EnemyDamage()
 {
+    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ENEMY_DAMAGE);
     m_nLife--;
 }
 

@@ -80,6 +80,8 @@ HRESULT CStageSelect::Init()
 	//頂点バッファのアンロック
 	m_pVtxBuffPauseSelect->Unlock();
 
+	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_SELECT);
+
 	return S_OK;
 }
 
@@ -127,6 +129,8 @@ void CStageSelect::Update(void)
 	if (CManager::GetKeyboard()->GetTrigger(DIK_W))
 	{
 
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
+
 		if (m_nPauseSelect > 0)
 		{
 			m_nPauseSelect--;
@@ -140,6 +144,7 @@ void CStageSelect::Update(void)
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
 		if (m_nPauseSelect > 0)
 		{
@@ -153,6 +158,7 @@ void CStageSelect::Update(void)
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_S))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
 		if (m_nPauseSelect < 2)
 		{
@@ -166,6 +172,7 @@ void CStageSelect::Update(void)
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
 		if (m_nPauseSelect < 2)
 		{

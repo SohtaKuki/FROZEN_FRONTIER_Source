@@ -297,6 +297,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
 					{
 						CScore::AddScore(17000);
+						CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ENEMY_DAMAGE);
 						p3denemy->Uninit();
 						return;
 					}

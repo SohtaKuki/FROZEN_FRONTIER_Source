@@ -132,7 +132,7 @@ void C3dwall::Draw()
 //======================
 // オブジェクト生成処理
 //======================
-C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nType)
+C3dwall* C3dwall::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType)
 {
     C3dwall* D3DWall = nullptr;
 
@@ -358,13 +358,13 @@ bool C3dwall::Collision3DWall(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTO
 
 
         //右側当たり判定
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 12.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 28.0f)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }
 
         //左側当たり判定
-        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 12.0f)
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 28.0f)
         {
             pPos->x = Pos.x - fBlockWidth - fWidth;
         }
@@ -445,13 +445,13 @@ bool C3dwall::Collision3DWallShort(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DX
 
 
         //右側当たり判定
-        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z  > Pos.z - fBlockDepth - 12.0f)
+        if (pPos->x - fWidth <= Pos.x + fBlockWidth && pPosOld->x - fWidth >= Pos.x + fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z  > Pos.z - fBlockDepth - 20.0f)
         {
             pPos->x = Pos.x + fBlockWidth + fWidth;
         }
 
         //左側当たり判定
-        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 28.0f && pPos->z > Pos.z - fBlockDepth - 12.0f)
+        else if (pPos->x + fWidth >= Pos.x - fBlockWidth && pPosOld->x + fWidth <= Pos.x - fBlockWidth && pPos->z - fHeight < Pos.z + fBlockDepth - 20.0f && pPos->z > Pos.z - fBlockDepth - 20.0f)
         {
             pPos->x = Pos.x - fBlockWidth - fWidth;
         }

@@ -153,7 +153,7 @@ void CPauseSelect::Update(void)
 
 		if (CManager::GetKeyboard()->GetTrigger(DIK_W) && m_bUse == true)
 		{
-
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			if (m_nPauseSelect > 0)
 			{
 				m_nPauseSelect--;
@@ -167,7 +167,7 @@ void CPauseSelect::Update(void)
 
 		if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT) && m_bUse == true)
 		{
-
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			if (m_nPauseSelect > 0)
 			{
 				m_nPauseSelect--;
@@ -180,7 +180,7 @@ void CPauseSelect::Update(void)
 
 		if (CManager::GetKeyboard()->GetTrigger(DIK_S) && m_bUse == true)
 		{
-
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			if (m_nPauseSelect < 2)
 			{
 				m_nPauseSelect++;
@@ -193,6 +193,7 @@ void CPauseSelect::Update(void)
 
 		if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT) && m_bUse == true)
 		{
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
 			if (m_nPauseSelect < 2)
 			{

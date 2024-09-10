@@ -180,14 +180,19 @@ void CStartCallUI::Update()
             m_bUse[0] = false;
             m_nMissonAnim = 0;
             m_bImageSwitch = true;
+            CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
         }
     }
 
+    //=================
+    //別テクスチャを表示させる
+    //================
     if (m_bImageSwitch == true)
     {
         m_bUse[1] = true;
 
-        if (m_nPos[1].x >= 500.0f && m_nPos[1].x < 800.0f)
+
+        if (m_nPos[1].x >= 600.0f && m_nPos[1].x < 800.0f)
         {
             m_nPos[1].x -= 2.0f;
             CScene::UpdateSwitch(1);
@@ -209,6 +214,7 @@ void CStartCallUI::Update()
             m_bUse[1] = false;
         }
     }
+
 
     if (m_bAlphaSwitch == false)
     {

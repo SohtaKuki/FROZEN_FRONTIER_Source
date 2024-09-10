@@ -167,11 +167,13 @@ HRESULT CGame::Init()
 	if (CStageSelect::GetStageSelect() == 0)
 	{
 		CStageManager::Create(0);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_1);
 	}
 
 	if (CStageSelect::GetStageSelect() == 1)
 	{
 		CStageManager::Create(1);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_2);
 	}
 
 	CChargeshotUI::Create(D3DXVECTOR3(-100.0f, 120.0f, 0.0f), D3DXVECTOR3(150.0f, 150.0f, 0));
@@ -191,6 +193,7 @@ HRESULT CGame::Init()
 void CGame::Uninit()
 {
 	CScene::Uninit();
+	CManager::GetSound()->Stop();
 }
 
 //======================
@@ -386,6 +389,8 @@ void CStageSelectSc::Update()
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
+		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_STAGE_SELECT);
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 	}
 }

@@ -11,9 +11,9 @@
 //*****************************************************************************
 typedef struct
 {
-	const char* pFilename;	// ファイル名
-	int nCntLoop;			// ループカウント
-	float Volume;			// 音量
+	const char* pFilename;	// 音源のファイル名
+	int nCntLoop;			// 音源のループする回数
+	float Volume;			// 音源ボリューム
 } SOUNDINFO;
 
 //*****************************************************************************
@@ -25,7 +25,19 @@ HRESULT ReadChunkData(HANDLE hFile, void* pBuffer, DWORD dwBuffersize, DWORD dwB
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[CSound::SOUND_LABEL_MAX] =
 {
-	{"data\\SOUND\\BGM\\test000.wav", -1, 0.5f},		            //ステージ中のBGM
+	{"data\\SOUND\\BGM\\title000.wav", -1, 0.5f}, //タイトル画面BGM
+	{"data\\SOUND\\BGM\\stageselect000.wav", -1, 0.3f}, //ステージセレクト画面BGM
+	{"data\\SOUND\\BGM\\stage000.wav", -1, 0.3f}, //ステージ1BGM
+	{"data\\SOUND\\BGM\\stage001.wav", -1, 0.3f}, //ステージ2BGM
+	{"data\\SOUND\\SE\\select000.wav", 0, 0.5f}, //選択SE
+	{"data\\SOUND\\SE\\decide000.wav", 0, 0.5f}, //決定SE
+	{"data\\SOUND\\SE\\start000.wav", 0, 0.5f}, //スタートコールSE
+	{"data\\SOUND\\SE\\addlife000.wav", 0, 0.5f}, //プレイヤー回復SE
+	{"data\\SOUND\\SE\\shot_fire.wav", 0, 0.5f}, //弾発射SE
+	{"data\\SOUND\\SE\\instantshotget000.wav", 0, 0.5f}, //強化火炎弾アイテム取得SE
+	{"data\\SOUND\\SE\\chargeshot_fire.wav", 0, 0.5f}, //充填式火炎弾発射SE
+	{"data\\SOUND\\SE\\playerdamage000.wav", 0, 0.5f}, //プレイヤーダメージSE
+	{"data\\SOUND\\SE\\enemydamage000.wav", 0, 0.5f}, //敵ダメージSE
 };
 
 //=============================================================================

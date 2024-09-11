@@ -91,10 +91,6 @@ void CCamera::Update()
 		m_posR.z += 6.0f;
 	}
 
-	if (CManager::GetKeyboard()->GetPress(DIK_P))
-	{
-		SetShake(60,10.0f);
-	}
 
 	//if (m_fFogDisity > 0.001f)
 	//{

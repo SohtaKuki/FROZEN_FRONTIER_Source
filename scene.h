@@ -33,6 +33,9 @@ public:
 private:
 	MODE m_mode;
 	static bool bUpdate;
+protected:
+	int m_nScreenFadeTime;
+	bool m_bScreenSwitch;
 };
 
 class CTitle : public CScene

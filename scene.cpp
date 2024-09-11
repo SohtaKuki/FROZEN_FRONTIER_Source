@@ -35,7 +35,8 @@ bool CScene::bUpdate = {};
 //======================
 CScene::CScene()
 {
-
+	m_nScreenFadeTime = 0;
+	m_bScreenSwitch = false;
 }
 
 //======================
@@ -205,18 +206,21 @@ void CGame::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 0 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 0)
 	{
 		CPauseSelect::bUseSwitch(0);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 	}
 
 	//ポーズ画面にてステージセレクトに戻る場合
 	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 1 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 1)
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 	}
 
 	//ポーズ画面にてタイトル画面に戻る場合
 	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 2 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 2)
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 	}
 }
 
@@ -273,6 +277,7 @@ void CResult::Update()
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_Q) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_B))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
 		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
 	}
@@ -280,6 +285,7 @@ void CResult::Update()
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
 		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
 	}
@@ -335,7 +341,23 @@ void CTitle::Update()
 {
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
+		if (m_bScreenSwitch == false)
+		{
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTBTN);
+			m_bScreenSwitch = true;
+		}
+	}
+
+	if (m_bScreenSwitch == true)
+	{
+		m_nScreenFadeTime++;
+	}
+
+	if (m_nScreenFadeTime == 60)
+	{
 		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
+		m_bScreenSwitch = false;
+		m_nScreenFadeTime = 0;
 	}
 
 }
@@ -392,9 +414,25 @@ void CStageSelectSc::Update()
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
-		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
+		if (m_bScreenSwitch == false)
+		{
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
+
+			m_bScreenSwitch = true;
+		}
+	}
+
+	if (m_bScreenSwitch == true)
+	{
+		m_nScreenFadeTime++;
+	}
+
+	if (m_nScreenFadeTime == 40)
+	{
 		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_STAGE_SELECT);
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		m_bScreenSwitch = false;
+		m_nScreenFadeTime = 0;
 	}
 }
 

@@ -61,8 +61,7 @@ public:
 	static void Unload();
 	void PlayerDamage(int nDamage);
 	void LoadPlayerData();
-	//void OldPlayerPos() { m_nPos = m_nOld3DPlayerPos; }
-	//void OldPlayerPosZ() { m_nPos.z = m_nOld3DPlayerPos.z; }
+	void PlayerWalkSound();
 	static int GetPlayerLife() {return m_nLife ; }
 	D3DXVECTOR3& GetPlayerPos() { return m_nOld3DPlayerPos; }//座標の取得
 	static bool GetShotButtonPreesed() { return m_bAButtonPressed; }//射撃ボタンの押下状態を取得
@@ -87,9 +86,11 @@ private:
 	FILE* m_pFile;//ファイルポインタを宣言
 	bool m_bPlayerBuff; //プレイヤーのバフが付与されているか
 	bool m_bInstantShot; //チャージショットが有効かどうか
+	bool m_bWalkSound;
 	int m_nBuffTime; //プレイヤーのバフ付与時間
 	int m_nInstantShotTime; //チャージショットを打った時間
 	int m_nJumpCnt; //ジャンプした回数
+	int m_nWalkSoundCnt; //歩行SEの再生する間隔
 	
 	static int m_nLife;
 protected:

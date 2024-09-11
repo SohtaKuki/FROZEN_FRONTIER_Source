@@ -42,6 +42,7 @@ C3dplayer::C3dplayer(int nPriority) : CModel(nPriority)
     m_bAButtonPressStartTime = false;
     m_bAButtonPressed = 0;
     m_nJumpCnt = 0;
+    m_nWalkSoundCnt = 0;
 }
 
 //======================
@@ -118,6 +119,8 @@ void C3dplayer::Update()
                     m_n3DPlayerMove.x += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                     m_rot.y = D3DX_PI * -0.5f;
                 }
+
+                C3dplayer::PlayerWalkSound();
             }
 
 
@@ -127,6 +130,7 @@ void C3dplayer::Update()
                 //プレイヤーのジャンプ数が0の場合(2段以上のジャンプ防止)
                 if (m_nJumpCnt == 0)
                 {
+                    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_PLAYER_JUMP);
                     m_n3DPlayerMove.y += 30.0f;
                     m_nJumpCnt++;
                 }
@@ -145,6 +149,8 @@ void C3dplayer::Update()
                     m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                     m_rot.y = D3DX_PI * 0.5f;
                 }
+
+                C3dplayer::PlayerWalkSound();
             }
 
             //Wキーまたは、十字キー上押下時
@@ -161,6 +167,8 @@ void C3dplayer::Update()
                     m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                     m_rot.y = D3DX_PI;
                 }
+
+                C3dplayer::PlayerWalkSound();
             }
 
             //Sキーまたは、十字キー下押下時
@@ -177,8 +185,15 @@ void C3dplayer::Update()
                     m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
                     m_rot.y = D3DX_PI * -0.0f;
                 }
+
+                C3dplayer::PlayerWalkSound();
             }
         }
+
+        //if (m_n3DPlayerMove.x == 0.1f || m_n3DPlayerMove.z == 0.0f)
+        //{
+        //    
+        //}
 
         //球発射
         if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
@@ -191,7 +206,7 @@ void C3dplayer::Update()
             }
         }
 
-        // スペースキーが押されたとき (長押し発射)
+        // 射撃ボタンが押されたとき (長押し発射)
         if (CManager::GetKeyboard()->GetPress(DIK_M) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
         {
             // スペースキーがまだ押されていない場合
@@ -200,16 +215,28 @@ void C3dplayer::Update()
                 m_bAButtonPressed = true;
                 m_bAButtonPressStartTime = GetTickCount64(); // タイムスタンプを記録
             }
-            //スペースキーを2秒以上長押ししている場合
-            else if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
+
+            //チャージショット即発射バフが有効の場合は通さない
+            if (m_bInstantShot == false)
             {
-                CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
-                //CChargeshotUI::DisplayChargeshotUI(1, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+                //射撃ボタンを1秒以上長押ししている場合
+                if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)))
+                {
+                    CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_CHARGE_UP);
+                }
+
+                //射撃ボタンを2秒以上長押ししている場合
+                if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
+                {
+                    CManager::GetSound()->Stop(CSound::SOUND_LABEL_SE_CHARGE_UP);
+                    CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+                    //CChargeshotUI::DisplayChargeshotUI(1, CChargeshotUI::UIDISPLAY::UI_DISPLAY);
+                }
             }
         }
         else
         {
-            // スペースキーが離された場合かつ長押し時間が2秒以上の場合
+            // 射撃ボタンが離された場合かつ長押し時間が2秒以上の場合
             if (m_bAButtonPressed && (GetTickCount64() - m_bAButtonPressStartTime >= 2000))
             {
 
@@ -300,6 +327,7 @@ void C3dplayer::Update()
                         && CObject3D::GetPos().z >= EnemyPos.z - 40
                         && CObject3D::GetPos().z <= EnemyPos.z + 40)
                     {
+                        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ADD_SPDUP);
                         //バフ効果が発動中の場合は効果時間をリセットする
                         if (m_bPlayerBuff == true)
                         {
@@ -352,6 +380,7 @@ void C3dplayer::Update()
                         && CObject3D::GetPos().z >= EnemyPos.z - 40
                         && CObject3D::GetPos().z <= EnemyPos.z + 40)
                     {
+                        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ADD_SPDUP);
                         CTimer::AddTimer(20); //残り時間を追加
                         p3dItem->Uninit();
                         return;
@@ -647,6 +676,7 @@ void C3dplayer::Update()
                             m_nJumpCnt = 0;
                             m_n3DPlayerMove.y = 0.0f;
                         }
+
                     }
                 }
             }
@@ -686,6 +716,12 @@ void C3dplayer::Update()
 
         //Z座標の移動量を更新
         m_n3DPlayerMove.z += (Length_value2 - m_n3DPlayerMove.z) * Attenuation_value;
+
+        //ジャンプしてない時は歩行SEを流さない
+        if (m_n3DPlayerMove.y < 0.0f)
+        {
+            CManager::GetSound()->Stop(CSound::SOUND_LABEL_SE_PLAYER_WALK);
+        }
     }
  
 }
@@ -836,6 +872,21 @@ C3dplayer* C3dplayer::Create(D3DXVECTOR3 pos)
     }
 
     return D3Dplayer;
+}
+
+//======================
+// プレイヤー移動SE再生処理
+//======================
+void C3dplayer::PlayerWalkSound()
+{
+    m_nWalkSoundCnt++;
+    
+    if (m_nWalkSoundCnt == 20)
+    {
+        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_PLAYER_WALK);
+        m_nWalkSoundCnt = 0;
+    }
+
 }
 
 //======================

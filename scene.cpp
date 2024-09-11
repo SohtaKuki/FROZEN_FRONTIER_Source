@@ -251,6 +251,7 @@ HRESULT CResult::Init()
 {
 	CResultBG::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f));
 	CResultScore::Create(D3DXVECTOR3(150.0f, 378.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
+	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_RESULT);
 
 	return S_OK;
 }
@@ -273,12 +274,14 @@ void CResult::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_Q) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_B))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
 	}
 
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
 	}
 }
 

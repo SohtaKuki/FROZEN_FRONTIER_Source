@@ -227,15 +227,25 @@ void CChargeshotUI::Update()
             if (m_nPos[nCntBG].x >= 150.0f)
             {
                 m_nPos[nCntBG].x = 150.0f;
+
             }
 
             if (m_nMoveCnt >= 90 && C3dplayer::GetShotButtonPreesed() == false)
             {
-                m_nMoveCnt = 0;
                 m_nPos[nCntBG].x = -100.0f;
                 m_bUse[nCntBG] = false;
+                m_nMoveCnt = 0;
             }
         }
+
+        if (m_bUse[0] == true && C3dplayer::GetShotButtonPreesed() == true)
+        {
+            if (m_nPos[0].x == -77.0f)
+            {
+                CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_CHARGE_OK);
+            }
+        }
+
 
         //í∏ì_ç¿ïWÇÃê›íË
         pVtx[0].pos = D3DXVECTOR3(m_nPos[nCntBG].x - m_nSize[nCntBG].x, m_nPos[nCntBG].y, 0.0f);

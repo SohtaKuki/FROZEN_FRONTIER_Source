@@ -268,6 +268,7 @@ void C3dchargebullet::Update()
 					{
 						Uninit();
 						CCamera::SetShake(3, 4.0f);
+						CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_BRBLOCK_DEATH);
 						p3dbrokenblock->Uninit();
 						return;
 					}

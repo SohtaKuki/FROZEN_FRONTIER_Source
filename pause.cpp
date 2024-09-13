@@ -9,6 +9,7 @@
 #include "input.h"
 #include "scene.h"
 #include "startcallui.h"
+#include "endcallui.h"
 
 int CPauseSelect::m_nPauseSelect = 0;
 bool CPauseSelect::m_bUse = false;
@@ -115,7 +116,7 @@ void CPauseSelect::Uninit(void)
 //=============================
 void CPauseSelect::Update(void)
 {
-	if (CStartCallUI::GetStartStat() == true)
+	if (CStartCallUI::GetStartStat() == true && CEndCallUI::GetEndStat() == true)
 	{
 		int nFadeState = CFade::GetFadeState();
 
@@ -160,7 +161,7 @@ void CPauseSelect::Update(void)
 			}
 		}
 
-		if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT) && m_bUse == true)
+		if (CManager::GetKeyboard()->GetTrigger(DIK_UP) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) && m_bUse == true)
 		{
 			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			if (m_nPauseSelect > 0)
@@ -186,7 +187,7 @@ void CPauseSelect::Update(void)
 			}
 		}
 
-		if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT) && m_bUse == true)
+		if (CManager::GetKeyboard()->GetTrigger(DIK_DOWN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) && m_bUse == true)
 		{
 			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 

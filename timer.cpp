@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "block.h"
 #include "scene.h"
+#include "endcallui.h"
 
 int CTimer::m_nTime = 0;
 
@@ -197,8 +198,7 @@ void CTimer::Update()
 
 		if (m_nTime < 0)
 		{
-			Uninit();
-			CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+			CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
 			m_nTime = 0;
 		}
 

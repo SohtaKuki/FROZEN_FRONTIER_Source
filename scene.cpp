@@ -27,6 +27,7 @@
 #include "stageselect.h"
 #include "pause.h"
 #include "startcallui.h"
+#include "endcallui.h"
 
 bool CScene::bUpdate = {};
 
@@ -183,6 +184,7 @@ HRESULT CGame::Init()
 	CPlayerWindow::Create(D3DXVECTOR3(285.0f, -70.0f, 0.0f), D3DXVECTOR3(280.0f, 220.0f, 0.0f));
 	CScoreWindow::Create(D3DXVECTOR3(1150.0f, -20.0f, 0.0f), D3DXVECTOR3(180.0f, 180.0f, 0.0f));
 	CStartCallUI::Create(D3DXVECTOR3(640.0f, 160.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
+	CEndCallUI::Create(D3DXVECTOR3(640.0f, 160.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
 	CPauseSelect::Create();
 
 	return S_OK;
@@ -206,7 +208,6 @@ void CGame::Update()
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 0 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 0)
 	{
 		CPauseSelect::bUseSwitch(0);
-		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 	}
 
 	//ポーズ画面にてステージセレクトに戻る場合
@@ -414,25 +415,25 @@ void CStageSelectSc::Update()
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
 	{
-		if (m_bScreenSwitch == false)
-		{
+		//if (m_bScreenSwitch == false)
+		//{
 			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 
-			m_bScreenSwitch = true;
-		}
-	}
+	//		m_bScreenSwitch = true;
+	//	}
+	//}
 
-	if (m_bScreenSwitch == true)
-	{
-		m_nScreenFadeTime++;
-	}
+	//if (m_bScreenSwitch == true)
+	//{
+	//	m_nScreenFadeTime++;
+	//}
 
-	if (m_nScreenFadeTime == 40)
-	{
+	//if (m_nScreenFadeTime == 40)
+	//{
 		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_STAGE_SELECT);
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
-		m_bScreenSwitch = false;
-		m_nScreenFadeTime = 0;
+	//	m_bScreenSwitch = false;
+	//	m_nScreenFadeTime = 0;
 	}
 }
 

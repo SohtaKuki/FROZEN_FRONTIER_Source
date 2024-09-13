@@ -9,6 +9,7 @@
 #include "3dplayer.h"
 #include "timer.h"
 #include "score.h"
+#include "endcallui.h"
 
 LPDIRECT3DTEXTURE9 C3dgoalobj::m_pTexBuff = nullptr;
 
@@ -379,15 +380,15 @@ void C3dgoalobj::ResultMove()
     nTimer = CTimer::GetTimer();
 
     //ボーナススコアの付与処理
-    if(nTimer >= 55)
+    if(nTimer >= 50)
     { 
         CScore::AddScore(20000);
     }
 
-    if (nTimer <= 55)
+    if (nTimer <= 50)
     {
         CScore::AddScore(5000);
     }
 
-    CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+    CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
 }

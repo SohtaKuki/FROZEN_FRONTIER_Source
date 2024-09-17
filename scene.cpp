@@ -28,6 +28,7 @@
 #include "pause.h"
 #include "startcallui.h"
 #include "endcallui.h"
+#include "tutorialui.h"
 
 bool CScene::bUpdate = {};
 
@@ -170,6 +171,7 @@ HRESULT CGame::Init()
 	{
 		CStageManager::Create(0);
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_1);
+		CTutorialUI::Create();
 	}
 
 	if (CStageSelect::GetStageSelect() == 1)

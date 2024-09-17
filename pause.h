@@ -33,6 +33,7 @@ public:
 	static int GetPauseSelect();
 	static CPauseSelect* Create();
 	static bool bUseSwitch(int nType);
+	static bool GetbUseStat() { return m_bUse;}
 private:
 	//ƒOƒ[ƒoƒ‹•Ï”
 	LPDIRECT3DTEXTURE9 m_pTexturePauseSelect[PAUSE_SELECT_NUM] = {};

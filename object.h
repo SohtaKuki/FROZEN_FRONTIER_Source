@@ -66,6 +66,8 @@ public:
 		ENEMY_BULLET, //敵通常弾
 		FLOOR, //床
 		SCORE, //スコア
+		PLAYER_EXPLOSION, //プレイヤー爆発
+		ENEMY_EXPLOSION, //敵爆発
 		MAX_TYPE,
 	}TYPE;
 

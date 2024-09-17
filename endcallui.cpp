@@ -184,49 +184,56 @@ void CEndCallUI::Update()
 
     if (m_bUse[0] == true)
     {
-        m_bEndComplete = false;
         CScene::UpdateSwitch(0);
-        m_nMissonAnim++;
+        m_bEndComplete = false;
 
-        if (m_nMissonAnim == 160)
+        if (m_nPos[0].y <= 160.0f)
         {
-            CScene::UpdateSwitch(1);
-            m_bEndComplete = true;
-            CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-            m_bUse[0] = false;
-            m_nMissonAnim = 0;
-            //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
+            m_nPos[0].y += 6.0f;
+        }
+
+        if (m_nPos[0].y >= 160.0f)
+        {
+            m_nPos[0].y == 160.0f;
+            m_nMissonAnim++;
+
+            if (m_nMissonAnim == 160)
+            {
+                m_bEndComplete = true;
+                CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                m_bUse[0] = false;
+                m_nMissonAnim = 0;
+                //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
+            }
         }
     }
 
     //=================
     //別テクスチャを表示させる
     //================
-    if (m_bImageSwitch == true)
+    if (m_bUse[1] == true)
     {
-        m_bUse[1] = true;
+        CScene::UpdateSwitch(0);
+        m_bEndComplete = false;
 
-
-        if (m_nPos[1].x >= 600.0f && m_nPos[1].x < 800.0f)
+        if (m_nPos[1].y <= 160.0f)
         {
-            m_nPos[1].x -= 2.0f;
-            CScene::UpdateSwitch(1);
-            m_bEndComplete = true;
+            m_nPos[1].y += 6.0f;
         }
 
-        //if (m_nPos[1].x == 400.0f)
-        //{
-        //    CScene::UpdateSwitch(1);
-        //}
-
-        else
+        if (m_nPos[1].y >= 160.0f)
         {
-            m_nPos[1].x -= 40.0f;
-        }
+            m_nPos[1].y == 160.0f;
+            m_nMissonAnim++;
 
-        if (m_nPos[1].x < -400.0f)
-        {
-            m_bUse[1] = false;
+            if (m_nMissonAnim == 160)
+            {
+                m_bEndComplete = true;
+                CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                m_bUse[1] = false;
+                m_nMissonAnim = 0;
+                //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
+            }
         }
     }
 
@@ -357,8 +364,6 @@ CEndCallUI* CEndCallUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
         pEndCallUI->m_nSize[nCntBG] = size;
     }
 
-    pEndCallUI->m_nPos[1].x += 800.0f;
-
     if (FAILED(pEndCallUI->Init()))
     {
         delete pEndCallUI;
@@ -378,7 +383,7 @@ CEndCallUI* CEndCallUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\goal_window.png", &pTexture[nCntBG]);
             break;
         case 1:
-            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\start_window.png", &pTexture[nCntBG]);
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\dead_window.png", &pTexture[nCntBG]);
             break;
         }
 

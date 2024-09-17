@@ -153,6 +153,7 @@
     <ClCompile Include="3dchargebullet.cpp" />
     <ClCompile Include="3dchargeshotui.cpp" />
     <ClCompile Include="3denemy.cpp" />
+    <ClCompile Include="3dexplosion.cpp" />
     <ClCompile Include="3dgoalobj.cpp" />
     <ClCompile Include="3ditem.cpp" />
     <ClCompile Include="3dmoveblock.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="3dchargebullet.h" />
     <ClInclude Include="3dchargeshotui.h" />
     <ClInclude Include="3denemy.h" />
+    <ClInclude Include="3dexplosion.h" />
     <ClInclude Include="3dgoalobj.h" />
     <ClInclude Include="3ditem.h" />
     <ClInclude Include="3dmoveblock.h" />

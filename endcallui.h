@@ -20,7 +20,7 @@ public:
 	typedef enum
 	{
 		ICON_SUCCESS = 0,
-		ICON_INSTANTSHOT,
+		ICON_FAILED,
 		ICON_MAX,
 	}ICONDISPLAY;
 

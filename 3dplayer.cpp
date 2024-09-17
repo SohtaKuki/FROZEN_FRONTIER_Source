@@ -24,6 +24,7 @@
 #include "3daddlifeui.h"
 #include "3dbuffui.h"
 #include "scene.h"
+#include "endcallui.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -295,8 +296,8 @@ void C3dplayer::Update()
         //プレイヤーが落下した際の処理
         if (Pos.y <= -300.0f)
         {
+            CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_FAILED, CEndCallUI::UIDISPLAY::UI_DISPLAY);
             Uninit();
-            CManager::GetFade()->SetFade(CScene::MODE_RESULT);
         }
 
         //過去座標を保存

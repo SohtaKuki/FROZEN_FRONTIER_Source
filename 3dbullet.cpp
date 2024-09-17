@@ -10,6 +10,7 @@
 #include "3denemy.h"
 #include "3dbrokenblock.h"
 #include "3dwall.h"
+#include "3dexplosion.h"
 #include "score.h"
 #include "camera.h"
 #include "scene.h"
@@ -170,6 +171,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= BlockPos.z - 30
 						&& m_nPos.z <= BlockPos.z + 30)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot, 0);
 						Uninit();
 						return;
 					}
@@ -199,6 +201,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= WallPos.z - 20
 						&& m_nPos.z <= WallPos.z + 20)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot, 0);
 						Uninit();
 						return;
 					}
@@ -212,6 +215,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= WallPos.z - 20
 						&& m_nPos.z <= WallPos.z + 20)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot, 0);
 						Uninit();
 						return;
 					}
@@ -225,6 +229,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= WallPos.z - 120
 						&& m_nPos.z <= WallPos.z + 120)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot, 0);
 						Uninit();
 						return;
 					}
@@ -238,6 +243,7 @@ void C3dbullet::Update()
 						&& m_nPos.z >= WallPos.z - 60
 						&& m_nPos.z <= WallPos.z + 60)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f), m_rot, 0);
 						Uninit();
 						return;
 					}
@@ -319,6 +325,7 @@ void C3dbullet::Update()
 							&& m_nPos.z <= EnemyPos.z + 30)
 						{
 							Uninit();
+							C3dexplosion::Create(m_nPos, D3DXVECTOR3(20.0f, 20.0f, 0.0f),m_rot, 0);
 							CScore::AddScore(300);
 							p3denemy->EnemyDamage();
 							return;

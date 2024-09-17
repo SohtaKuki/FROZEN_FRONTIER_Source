@@ -165,7 +165,7 @@ HRESULT CGame::Init()
 	CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 
-	////ステージマネージャー初期化処理
+	//ステージマネージャー初期化処理
 	if (CStageSelect::GetStageSelect() == 0)
 	{
 		CStageManager::Create(0);
@@ -184,7 +184,7 @@ HRESULT CGame::Init()
 	CPlayerWindow::Create(D3DXVECTOR3(285.0f, -70.0f, 0.0f), D3DXVECTOR3(280.0f, 220.0f, 0.0f));
 	CScoreWindow::Create(D3DXVECTOR3(1150.0f, -20.0f, 0.0f), D3DXVECTOR3(180.0f, 180.0f, 0.0f));
 	CStartCallUI::Create(D3DXVECTOR3(640.0f, 160.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
-	CEndCallUI::Create(D3DXVECTOR3(640.0f, 160.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
+	CEndCallUI::Create(D3DXVECTOR3(640.0f, -100.0f, 0.0f), D3DXVECTOR3(180.0f, 150.0f, 0));
 	CPauseSelect::Create();
 
 	return S_OK;
@@ -211,14 +211,14 @@ void CGame::Update()
 	}
 
 	//ポーズ画面にてステージセレクトに戻る場合
-	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 1 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 1)
+	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 1 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 1 )
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 	}
 
 	//ポーズ画面にてタイトル画面に戻る場合
-	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 2 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 2)
+	else if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CPauseSelect::GetPauseSelect() == 2 || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) && CPauseSelect::GetPauseSelect() == 2 && CPauseSelect::GetbUseStat() == true)
 	{
 		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);

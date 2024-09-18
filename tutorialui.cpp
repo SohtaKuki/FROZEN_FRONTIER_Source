@@ -131,7 +131,7 @@ void CTutorialUI::Update(void)
 	D3DXVECTOR2 RightStickPos = CManager::GetJoypad()->GetStickPosition(CInputJoypad::STICKTYPE_RIGHT);
 
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || RightStickPos.x <= -0.2f)
+	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetStickTrigger(CInputJoypad::STICKTYPE_RIGHT, CInputJoypad::STICKANGLE_LEFT) == true)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
@@ -146,7 +146,7 @@ void CTutorialUI::Update(void)
 	}
 
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || RightStickPos.x >= 0.2f)
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetStickTrigger(CInputJoypad::STICKTYPE_RIGHT, CInputJoypad::STICKANGLE_RIGHT) == true)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 

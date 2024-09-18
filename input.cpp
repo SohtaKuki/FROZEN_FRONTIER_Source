@@ -287,3 +287,75 @@ D3DXVECTOR2 CInputJoypad::GetStickPosition(STICKTYPE stickType)
 
     return stickPos;
 }
+
+//============================
+// スティックのトリガー動作を取得
+//============================
+bool CInputJoypad::GetStickTrigger(STICKTYPE stickType, STICKANGLE angle)
+{
+    D3DXVECTOR2 stickPos = GetStickPosition(stickType); // スティックの現在の位置を取得
+
+    bool triggered = false;
+    const float threshold = 0.5f; // スティックの入力が有効と見なす閾値
+
+    // スティックの方向を判定
+    if (stickType == STICKTYPE_LEFT)
+    {
+        // 上方向のトリガー判定
+        if (angle == STICKANGLE_UP && stickPos.y > threshold && !m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_UP])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_UP] = true;
+        }
+        // 下方向のトリガー判定
+        else if (angle == STICKANGLE_DOWN && stickPos.y < -threshold && !m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_DOWN])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_DOWN] = true;
+        }
+        // 左方向のトリガー判定
+        else if (angle == STICKANGLE_LEFT && stickPos.x < -threshold && !m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_LEFT])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_LEFT] = true;
+        }
+        // 右方向のトリガー判定
+        else if (angle == STICKANGLE_RIGHT && stickPos.x > threshold && !m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_RIGHT])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_LEFT][STICKANGLE_RIGHT] = true;
+        }
+    }
+    else if (stickType == STICKTYPE_RIGHT)
+    {
+        // 同様に右スティックの方向判定を実装
+        if (angle == STICKANGLE_UP && stickPos.y > threshold && !m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_UP])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_UP] = true;
+        }
+        else if (angle == STICKANGLE_DOWN && stickPos.y < -threshold && !m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_DOWN])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_DOWN] = true;
+        }
+        else if (angle == STICKANGLE_LEFT && stickPos.x < -threshold && !m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_LEFT])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_LEFT] = true;
+        }
+        else if (angle == STICKANGLE_RIGHT && stickPos.x > threshold && !m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_RIGHT])
+        {
+            triggered = true;
+            m_stick.abAnglePress[STICKTYPE_RIGHT][STICKANGLE_RIGHT] = true;
+        }
+    }
+
+    // トリガーが発生しなかった場合、リセット処理
+    if (fabs(stickPos.x) < threshold && fabs(stickPos.y) < threshold)
+    {
+        m_stick.abAnglePress[stickType][angle] = false;
+    }
+
+    return triggered;
+}

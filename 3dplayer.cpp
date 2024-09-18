@@ -95,6 +95,9 @@ void C3dplayer::Update()
 
         int nCnt = 0;
 
+        D3DXVECTOR2 leftStickPos = CManager::GetJoypad()->GetStickPosition(CInputJoypad::STICKTYPE_LEFT);
+        D3DXVECTOR2 RightStickPos = CManager::GetJoypad()->GetStickPosition(CInputJoypad::STICKTYPE_RIGHT);
+
         //プレイヤーの最大体力値を超えないようにする
         if (m_nLife >= PLAYER_LIFE)
         {
@@ -107,7 +110,7 @@ void C3dplayer::Update()
         //プレイヤーのHPが0以上の場合のみ通す
         if (m_nLife > 0)
         {
-            if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT))
+            if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT) || leftStickPos.x >= 0.3f)
             {
                 if (m_bPlayerBuff == false)
                 {
@@ -137,7 +140,7 @@ void C3dplayer::Update()
                 }
             }
 
-            if (CManager::GetKeyboard()->GetPress(DIK_A) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT))
+            if (CManager::GetKeyboard()->GetPress(DIK_A) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT) || leftStickPos.x <= -0.3f)
             {
                 if (m_bPlayerBuff == false)
                 {
@@ -154,8 +157,9 @@ void C3dplayer::Update()
                 C3dplayer::PlayerWalkSound();
             }
 
+
             //Wキーまたは、十字キー上押下時
-            if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP))
+            if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP) || leftStickPos.y >= 0.3f)
             {
                 if (m_bPlayerBuff == false)
                 {
@@ -173,7 +177,7 @@ void C3dplayer::Update()
             }
 
             //Sキーまたは、十字キー下押下時
-            if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN))
+            if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN) || leftStickPos.y <= -0.3f)
             {
                 if (m_bPlayerBuff == false)
                 {

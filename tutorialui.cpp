@@ -40,6 +40,7 @@ HRESULT CTutorialUI::Init()
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\tutorial001.png", &m_pTexturePauseSelect[TUTORIAL_UI_2]);
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\tutorial002.png", &m_pTexturePauseSelect[TUTORIAL_UI_3]);
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\tutorial003.png", &m_pTexturePauseSelect[TUTORIAL_UI_4]);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\tutorial004.png", &m_pTexturePauseSelect[TUTORIAL_UI_5]);
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,
@@ -127,8 +128,10 @@ void CTutorialUI::Update(void)
 	//頂点バッファをロックして、頂点情報へのポインタを取得
 	m_pVtxBuffPauseSelect->Lock(0, 0, (void**)&pVtx, 0);
 
+	D3DXVECTOR2 RightStickPos = CManager::GetJoypad()->GetStickPosition(CInputJoypad::STICKTYPE_RIGHT);
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT))
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || RightStickPos.x <= -0.2f)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
@@ -138,16 +141,16 @@ void CTutorialUI::Update(void)
 		}
 		else if (m_nPauseSelect <= 0)
 		{
-			m_nPauseSelect = TUTORIAL_UI_4;
+			m_nPauseSelect = TUTORIAL_UI_5;
 		}
 	}
 
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || RightStickPos.x >= 0.2f)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
-		if (m_nPauseSelect < 3)
+		if (m_nPauseSelect < 4)
 		{
 			m_nPauseSelect++;
 		}

@@ -261,3 +261,29 @@ bool CInputJoypad::GetTrigger(JOYKEY key)
 {
     return m_joykeyStateTrigger.Gamepad.wButtons & (0x01 << key);
 }
+
+//============================
+// ƒXƒeƒBƒbƒN‚ÌXŽ²AYŽ²‚Ì’l‚ðŽæ“¾i”ÍˆÍ‚Í-32768`32767j
+//============================
+D3DXVECTOR2 CInputJoypad::GetStickPosition(STICKTYPE stickType)
+{
+    D3DXVECTOR2 stickPos = { 0.0f, 0.0f };
+
+    if (stickType == STICKTYPE_LEFT)
+    {
+        stickPos.x = m_joykeyState.Gamepad.sThumbLX / 32768.0f; // -1.0`1.0‚É³‹K‰»
+        stickPos.y = m_joykeyState.Gamepad.sThumbLY / 32768.0f; // -1.0`1.0‚É³‹K‰»
+    }
+    else if (stickType == STICKTYPE_RIGHT)
+    {
+        stickPos.x = m_joykeyState.Gamepad.sThumbRX / 32768.0f; // -1.0`1.0‚É³‹K‰»
+        stickPos.y = m_joykeyState.Gamepad.sThumbRY / 32768.0f; // -1.0`1.0‚É³‹K‰»
+    }
+
+    // ƒXƒeƒBƒbƒN‚Ìƒfƒbƒhƒ][ƒ“‚ÌÝ’è
+    const float deadZone = 0.2f;
+    if (fabs(stickPos.x) < deadZone) stickPos.x = 0.0f;
+    if (fabs(stickPos.y) < deadZone) stickPos.y = 0.0f;
+
+    return stickPos;
+}

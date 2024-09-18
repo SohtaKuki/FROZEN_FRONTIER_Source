@@ -110,6 +110,7 @@ public:
 	HRESULT Init(void);
 	void Uninit() override;
 	void Update() override;
+	D3DXVECTOR2 GetStickPosition(STICKTYPE stickType);
 
 	//キーの入力状態を返す
 	bool GetPress(JOYKEY key);		//プレス状態取得

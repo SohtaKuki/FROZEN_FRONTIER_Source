@@ -10,7 +10,7 @@
 
 #include "object2D.h"
 
-#define PAUSE_SELECT_NUM	(4)
+#define PAUSE_SELECT_NUM	(5)
 
 class CTutorialUI : public CObject2D
 {
@@ -21,6 +21,7 @@ public:
 		TUTORIAL_UI_2,
 		TUTORIAL_UI_3,
 		TUTORIAL_UI_4,
+		TUTORIAL_UI_5,
 		TUTORIAL_UI_MAX,
 	}TUTORIAL_UI;
 

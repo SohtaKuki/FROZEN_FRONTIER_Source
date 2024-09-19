@@ -322,6 +322,8 @@ void C3dbullet::Update()
 					{
 						if (m_nPos.x >= EnemyPos.x - 30
 							&& m_nPos.x <= EnemyPos.x + 30
+							&& m_nPos.y >= EnemyPos.y - 30
+							&& m_nPos.y <= EnemyPos.y + 30
 							&& m_nPos.z >= EnemyPos.z - 30
 							&& m_nPos.z <= EnemyPos.z + 30)
 						{
@@ -374,6 +376,8 @@ void C3dbullet::Update()
 					{
 						if (m_nPos.x >= PlayerPos.x - 30
 							&& m_nPos.x <= PlayerPos.x + 30
+							&& m_nPos.y >= PlayerPos.y - 30
+							&& m_nPos.y <= PlayerPos.y + 30
 							&& m_nPos.z >= PlayerPos.z - 30
 							&& m_nPos.z <= PlayerPos.z + 30)
 						{

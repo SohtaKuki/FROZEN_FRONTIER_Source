@@ -49,11 +49,11 @@ HRESULT CLight::Init()
 			break;
 		case 2:
 			//ライトの方向を設定
-			vecDir[nCnt] = D3DXVECTOR3(1.3f, 0.5f, 2.6f);
+			vecDir[nCnt] = D3DXVECTOR3(0.9f, 0.5f, 0.6f);
 			break;
 		case 3:
 			//ライトの方向を設定
-			vecDir[nCnt] = D3DXVECTOR3(-1.5f, 0.5f, 1.6f);
+			vecDir[nCnt] = D3DXVECTOR3(-0.9f, 0.5f, 0.5f);
 			break;
 		}
 	}

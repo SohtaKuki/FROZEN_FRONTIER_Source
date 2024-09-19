@@ -66,6 +66,12 @@ STAGESET
 	END_OBJECTSET
 	
 	OBJECTSET
+		OBJ_TYPE = 2					#移動床ブロック 
+		POS = 500.0 -50.0 -661.0
+	END_OBJECTSET
+
+	
+	OBJECTSET
 		OBJ_TYPE = 8					#移動床ブロック 
 		POS = 485.0 -50.0 840.0
 		OBJ_TYPE2 = 1	
@@ -763,6 +769,12 @@ STAGESET
 		OBJ_TYPE = 6					#ゴールマーカー 
 		POS = 164.0 100.0 860.0
 		OBJ_TYPE2 = 0
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 6					#ゴールマーカー 
+		POS = 500.0 -35.0 -720.0
+		OBJ_TYPE2 = 1
 	END_OBJECTSET
 	
 

@@ -198,8 +198,8 @@ void C3dchargebullet::Update()
 				{
 					if (m_nPos.x >= WallPos.x - 120
 						&& m_nPos.x <= WallPos.x + 120
-						&& m_nPos.z >= WallPos.z - 35
-						&& m_nPos.z <= WallPos.z + 35)
+						&& m_nPos.z >= WallPos.z - 10
+						&& m_nPos.z <= WallPos.z + 10)
 					{
 						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
 						Uninit();
@@ -212,8 +212,8 @@ void C3dchargebullet::Update()
 				{
 					if (m_nPos.x >= WallPos.x - 60
 						&& m_nPos.x <= WallPos.x + 60
-						&& m_nPos.z >= WallPos.z - 40
-						&& m_nPos.z <= WallPos.z + 40)
+						&& m_nPos.z >= WallPos.z - 10
+						&& m_nPos.z <= WallPos.z + 10)
 					{
 						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
 						Uninit();
@@ -224,8 +224,8 @@ void C3dchargebullet::Update()
 				//ブロックの場合
 				if (type == CObject::TYPE::WALL_HEIGHT)
 				{
-					if (m_nPos.x >= WallPos.x - 35
-						&& m_nPos.x <= WallPos.x + 35
+					if (m_nPos.x >= WallPos.x - 10
+						&& m_nPos.x <= WallPos.x + 10
 						&& m_nPos.z >= WallPos.z - 120
 						&& m_nPos.z <= WallPos.z + 120)
 					{
@@ -238,8 +238,8 @@ void C3dchargebullet::Update()
 				//ブロックの場合
 				if (type == CObject::TYPE::WALL_HEIGHT_SHORT)
 				{
-					if (m_nPos.x >= WallPos.x - 35
-						&& m_nPos.x <= WallPos.x + 35
+					if (m_nPos.x >= WallPos.x - 10
+						&& m_nPos.x <= WallPos.x + 10
 						&& m_nPos.z >= WallPos.z - 60
 						&& m_nPos.z <= WallPos.z + 60)
 					{

@@ -15,6 +15,8 @@ class C3dchargebullet :public CObject3D
 public:
 	static const int BULLET_SPD = 5;
 	static const int NORMAL_BLOCK_COLISION = 35;
+	static const int COLISION_X = 60;
+	static const int COLISION_Z = 30;
 	C3dchargebullet(int nPriority = 3);
 	~C3dchargebullet() override;
 	HRESULT Init()override;

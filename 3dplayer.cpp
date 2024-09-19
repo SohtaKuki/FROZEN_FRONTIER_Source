@@ -201,7 +201,7 @@ void C3dplayer::Update()
         //}
 
         //球発射
-        if (CManager::GetKeyboard()->GetTrigger(DIK_M) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
+        if (CManager::GetKeyboard()->GetTrigger(DIK_J) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
         {
             //チャージショット即発射バフが有効の場合は通さない
             if (m_bInstantShot == false)
@@ -212,7 +212,7 @@ void C3dplayer::Update()
         }
 
         // 射撃ボタンが押されたとき (長押し発射)
-        if (CManager::GetKeyboard()->GetPress(DIK_M) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
+        if (CManager::GetKeyboard()->GetPress(DIK_J) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB))
         {
             // スペースキーがまだ押されていない場合
             if (!m_bAButtonPressed)
@@ -225,13 +225,13 @@ void C3dplayer::Update()
             if (m_bInstantShot == false)
             {
                 //射撃ボタンを1秒以上長押ししている場合
-                if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)))
+                if ((CManager::GetKeyboard()->GetPress(DIK_J) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 1000)))
                 {
                     CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_CHARGE_UP);
                 }
 
                 //射撃ボタンを2秒以上長押ししている場合
-                if ((CManager::GetKeyboard()->GetPress(DIK_M) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
+                if ((CManager::GetKeyboard()->GetPress(DIK_J) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)) || (CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RB) == true && (GetTickCount64() - m_bAButtonPressStartTime >= 2000)))
                 {
                     CManager::GetSound()->Stop(CSound::SOUND_LABEL_SE_CHARGE_UP);
                     CChargeshotUI::DisplayChargeshotUI(0, CChargeshotUI::UIDISPLAY::UI_DISPLAY);

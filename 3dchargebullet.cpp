@@ -201,7 +201,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z >= WallPos.z - 10
 						&& m_nPos.z <= WallPos.z + 10)
 					{
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
+
 						Uninit();
 						return;
 					}
@@ -215,7 +215,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z >= WallPos.z - 10
 						&& m_nPos.z <= WallPos.z + 10)
 					{
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
+
 						Uninit();
 						return;
 					}
@@ -229,7 +229,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z >= WallPos.z - 120
 						&& m_nPos.z <= WallPos.z + 120)
 					{
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
+
 						Uninit();
 						return;
 					}
@@ -243,7 +243,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z >= WallPos.z - 60
 						&& m_nPos.z <= WallPos.z + 60)
 					{
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
+
 						Uninit();
 						return;
 					}

@@ -6,6 +6,7 @@
 //=================================================
 
 #include "titlebg.h"
+#include "scene.h"
 #include "sound.h"
 
 //============================
@@ -13,7 +14,7 @@
 //============================
 CTitleBG::CTitleBG(int nPriority) : CObject2D(nPriority)
 {
-
+    m_bAnimSwitch = false;
 }
 
 //============================
@@ -35,10 +36,11 @@ HRESULT CTitleBG::Init()
 
     int nCntBG;
 
-    //テクスチャ座標の開始位置（V値）の初期化
+    //テクスチャ関連の初期化
     for (nCntBG = 0; nCntBG < NUM_BG; nCntBG++)
     {
         m_aPosTexV[nCntBG] = 0.0f;
+        m_nColTex[nCntBG] = 255;
     }
 
     if (FAILED(pDevice->CreateVertexBuffer(
@@ -72,10 +74,10 @@ HRESULT CTitleBG::Init()
         pVtx[3].rhw = 1.0f;
 
         //頂点カラー
-        pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-        pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-        pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
-        pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+        pVtx[0].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[1].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[2].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[3].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
 
         //テクスチャ座標の設定
         pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
@@ -130,6 +132,27 @@ void CTitleBG::Update()
     //頂点バッファロック
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+    if (m_bAnimSwitch == false && CScene::GetScreenSwitch() == true)
+    {
+        m_nColTex[7] -= 4;
+    }
+
+    if (m_bAnimSwitch == true && CScene::GetScreenSwitch() == true)
+    {
+        m_nColTex[7] += 4;
+    }
+
+    if (m_nColTex[7] == 195)
+    {
+        m_bAnimSwitch = true;
+    }
+
+    if (m_nColTex[7] == 255)
+    {
+        m_bAnimSwitch = false;
+    }
+
+    //各種テクスチャの更新処理
     for (nCntBG = 0; nCntBG < NUM_BG; nCntBG++)
     {
         if (nCntBG == 0)
@@ -150,7 +173,14 @@ void CTitleBG::Update()
             m_aPosTexV[nCntBG] -= 0.0040f;
         }
 
+
         //==========={ここまで}==================
+
+        //頂点カラー
+        pVtx[0].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[1].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[2].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
+        pVtx[3].col = D3DCOLOR_RGBA(m_nColTex[nCntBG], m_nColTex[nCntBG], m_nColTex[nCntBG], 255);
 
         //テクスチャ座標の設定
         pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
@@ -169,7 +199,7 @@ void CTitleBG::Update()
 
     if (nFadeState == CFade::FADE_OUT)
     {
-        CManager::GetSound()->Stop();
+        
         CTitleBG::Uninit();
         return;
     }
@@ -256,6 +286,9 @@ CTitleBG* CTitleBG::Create()
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\PRESS_START_BIGBUT.png", &pTexture[nCntBG]);
             break;
         case 7:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\PRESS_START_BIGBUT_BG.png", &pTexture[nCntBG]);
+            break;
+        case 8:
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\title_exit_button.png", &pTexture[nCntBG]);
             break;
 

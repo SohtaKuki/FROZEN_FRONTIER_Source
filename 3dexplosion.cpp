@@ -196,11 +196,11 @@ void C3dexplosion::Draw()
 	// 壁めり込み防止コード
 	//=========================
 
-	////Zの比較方法変更
-	//pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	//Zの比較方法変更
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 
-	////Zバッファに書き込まない
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//Zバッファに書き込まない
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	//アルファテストを有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -253,11 +253,11 @@ void C3dexplosion::Draw()
 	// 壁めり込み防止コード
 	//=========================
 
-	////Zの比較方法変更
-	//pDevice->SetRenderState(D3DRS_ZFUNC,D3DCMP_LESSEQUAL);
+	//Zの比較方法変更
+	pDevice->SetRenderState(D3DRS_ZFUNC,D3DCMP_LESSEQUAL);
 
-	////Zバッファに書き込む
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//Zバッファに書き込む
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	//ライトを有効にする
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);

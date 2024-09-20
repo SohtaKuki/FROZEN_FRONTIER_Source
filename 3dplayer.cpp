@@ -25,6 +25,7 @@
 #include "3dbuffui.h"
 #include "scene.h"
 #include "endcallui.h"
+#include "3dexplosion.h"
 
 LPDIRECT3DTEXTURE9 C3dplayer::m_pTexBuff = nullptr;
 int C3dplayer::m_nLife = 0;
@@ -271,22 +272,14 @@ void C3dplayer::Update()
             }
         }
 
-        //プレイヤーのHPを減らす
-        if (CManager::GetKeyboard()->GetPress(DIK_K))
-        {
-            m_nLife -= 1;
-        }
 
-        if (CManager::GetKeyboard()->GetPress(DIK_N))
-        {
-            CScore::AddScore(2000);
-        }
 
         //プレイヤーの体力が0以下になった場合リザルト画面へ遷移
         if (m_nLife <= 0)
         {
+            C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(35.0f, 35.0f, 0.0f), m_rot, 0);
+            CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_FAILED, CEndCallUI::UIDISPLAY::UI_DISPLAY);
             Uninit();
-            CManager::GetFade()->SetFade(CScene::MODE_RESULT);
         }
 
 

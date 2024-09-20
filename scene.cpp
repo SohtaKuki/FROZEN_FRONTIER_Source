@@ -29,8 +29,10 @@
 #include "startcallui.h"
 #include "endcallui.h"
 #include "tutorialui.h"
+#include "stageselectbg.h"
 
 bool CScene::bUpdate = {};
+bool CScene::m_bScreenSwitch = false;
 
 //======================
 //コンストラクタ
@@ -166,7 +168,7 @@ HRESULT CGame::Init()
 	CGameui::Create(D3DXVECTOR3(640.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 140.0f, 0.0f));
 
 
-	//ステージマネージャー初期化処理
+	//ステージごとに生成する処理を変える
 	if (CStageSelect::GetStageSelect() == 0)
 	{
 		CStageManager::Create(0);
@@ -340,6 +342,7 @@ HRESULT CTitle::Init()
 //======================
 void CTitle::Uninit()
 {
+	CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM);
 	CScene::Uninit();
 }
 
@@ -400,6 +403,7 @@ CStageSelectSc::~CStageSelectSc()
 //======================
 HRESULT CStageSelectSc::Init()
 {
+	CStageSelectBG::Create();
 	CStageSelect::Create();
 
 	return S_OK;
@@ -419,6 +423,12 @@ void CStageSelectSc::Uninit()
 //======================
 void CStageSelectSc::Update()
 {
+
+	if (CManager::GetKeyboard()->GetTrigger(DIK_BACKSPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_B))
+	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTBTN);
+		CManager::GetFade()->SetFade(CScene::MODE_TITLE);
+	}
 
 	//エンターキーが押されたとき
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))

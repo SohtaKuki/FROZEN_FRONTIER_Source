@@ -188,17 +188,20 @@ void CTimer::Update()
 		//頂点バッファをアンロックする
 		m_pVtxBuff->Unlock();
 
+		//フェード状態取得
 		int nFadeState = CFade::GetFadeState();
 
+		//フェードアウト時に終了処理を入れる
 		if (nFadeState == CFade::FADE_OUT)
 		{
 			Uninit();
 			m_nTime = 0;
 		}
 
+		//残り時間が0以下になった場合、終了演出を入れる
 		if (m_nTime < 0)
 		{
-			CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+			CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_FAILED, CEndCallUI::UIDISPLAY::UI_DISPLAY);
 			m_nTime = 0;
 		}
 

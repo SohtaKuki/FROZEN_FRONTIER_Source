@@ -11,7 +11,7 @@
 #include "object2D.h"
 
 //É}ÉNÉçíËã`
-#define NUM_BG	(8)	//îwåiÇÃêî
+#define NUM_BG	(9)	//îwåiÇÃêî
 
 class CTitleBG : public CObject2D
 {
@@ -30,6 +30,9 @@ private:
 	D3DXVECTOR3 m_nPos[NUM_BG];
 	float m_aPosTexV[NUM_BG];
 	float m_aPosTexXV[NUM_BG];
+	int m_nColTex[NUM_BG];
+	int m_nAnimCnt;
+	bool m_bAnimSwitch;
 };
 
 #endif

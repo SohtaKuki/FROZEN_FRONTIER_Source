@@ -142,7 +142,7 @@ void CStageSelect::Update(void)
 		}
 	}
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_LEFT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_LEFT) || CManager::GetJoypad()->GetStickTrigger(CInputJoypad::STICKTYPE_LEFT, CInputJoypad::STICKANGLE_LEFT) == true)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 
@@ -170,7 +170,7 @@ void CStageSelect::Update(void)
 		}
 	}
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT))
+	if (CManager::GetKeyboard()->GetTrigger(DIK_RIGHT) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RIGHT) || CManager::GetJoypad()->GetStickTrigger(CInputJoypad::STICKTYPE_LEFT, CInputJoypad::STICKANGLE_RIGHT) == true)
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 

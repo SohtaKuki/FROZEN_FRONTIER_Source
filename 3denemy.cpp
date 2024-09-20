@@ -17,6 +17,7 @@
 #include "3dwall.h"
 #include "score.h"
 #include "scene.h"
+#include "3dexplosion.h"
 
 LPDIRECT3DTEXTURE9 C3denemy::m_pTexBuff = nullptr;
 //======================
@@ -161,6 +162,7 @@ void C3denemy::Update()
 
         if (m_nLife <= 0)
         {
+            C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(35.0f, 35.0f, 0.0f), m_rot, 0);
             CScore::AddScore(17000);
             Uninit();
             return;
@@ -419,9 +421,13 @@ void C3denemy::Draw()
     pDevice->SetMaterial(&matDef);
 }
 
+//======================
+// “G‚Ìƒ_ƒ[ƒWˆ—
+//======================
 void C3denemy::EnemyDamage()
 {
     CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ENEMY_DAMAGE);
+    C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(15.0f, 15.0f, 0.0f), m_rot, 0);
     m_nLife--;
 }
 

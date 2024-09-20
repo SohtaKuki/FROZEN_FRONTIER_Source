@@ -30,12 +30,13 @@ public:
 	static CScene* Create(MODE mode);
 	static bool GetUpdateStat() { return bUpdate; }
 	static void UpdateSwitch(int nType);
+	static bool GetScreenSwitch() { return m_bScreenSwitch;}
 private:
 	MODE m_mode;
 	static bool bUpdate;
 protected:
 	int m_nScreenFadeTime;
-	bool m_bScreenSwitch;
+	static bool m_bScreenSwitch;
 };
 
 class CTitle : public CScene

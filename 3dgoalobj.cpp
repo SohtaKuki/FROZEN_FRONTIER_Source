@@ -380,15 +380,29 @@ void C3dgoalobj::ResultMove()
     nTimer = CTimer::GetTimer();
 
     //ボーナススコアの付与処理
-    if(nTimer >= 50)
+    if(nTimer >= 60 && m_nType == 0)
     { 
-        CScore::AddScore(20000);
+        CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+        CScore::AddScore(30000);
     }
 
-    if (nTimer <= 50)
+    if (nTimer >= 60 && m_nType == 1)
     {
-        CScore::AddScore(5000);
+        CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SPSUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+        CScore::AddScore(55000);
     }
 
-    CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+    if (nTimer <= 60 && m_nType == 0)
+    {
+        CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+        CScore::AddScore(10000);
+    }
+
+    if (nTimer <= 60 && m_nType == 1)
+    {
+        CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_SPSUCCESS, CEndCallUI::UIDISPLAY::UI_DISPLAY);
+        CScore::AddScore(17000);
+    }
+
+
 }

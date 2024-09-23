@@ -154,15 +154,10 @@ void C3denemy::Update()
             }
         }
 
-        //“G‚ÌHP‚ðŒ¸‚ç‚·
-        if (CManager::GetKeyboard()->GetTrigger(DIK_9))
-        {
-            m_nLife -= 1;
-        }
 
         if (m_nLife <= 0)
         {
-            C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(35.0f, 35.0f, 0.0f), m_rot, 0);
+            C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(70.0f, 70.0f, 0.0f), m_rot, 0);
             CScore::AddScore(17000);
             Uninit();
             return;
@@ -427,7 +422,7 @@ void C3denemy::Draw()
 void C3denemy::EnemyDamage()
 {
     CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ENEMY_DAMAGE);
-    C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(15.0f, 15.0f, 0.0f), m_rot, 0);
+    C3dexplosion::Create(CObject3D::GetPos(), D3DXVECTOR3(35.0f, 35.0f, 0.0f), m_rot, 0);
     m_nLife--;
 }
 

@@ -14,8 +14,8 @@ class C3dexplosion :public CObject3D
 {
 public:
 	static const int BULLET_SPD = 6;
-	static const int EXPLOSION_PATTERN_ANIM = 8;  //爆発アニメのパターン数
-	static const int DELAY_ANIM = 4;//アニメの待機時間
+	static const int EXPLOSION_PATTERN_ANIM = 15;  //爆発アニメのパターン数
+	static const int DELAY_ANIM = 2;//アニメの待機時間
 	C3dexplosion(int nPriority = 3);
 	~C3dexplosion() override;
 	HRESULT Init()override;

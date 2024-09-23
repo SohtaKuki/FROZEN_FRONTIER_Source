@@ -172,14 +172,14 @@ HRESULT CGame::Init()
 	if (CStageSelect::GetStageSelect() == 0)
 	{
 		CStageManager::Create(0);
-		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_1);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_TUTORIAL);
 		CTutorialUI::Create();
 	}
 
 	if (CStageSelect::GetStageSelect() == 1)
 	{
 		CStageManager::Create(1);
-		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_2);
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_BGM_STAGE_1);
 	}
 
 	if (CStageSelect::GetStageSelect() == 2)
@@ -290,6 +290,14 @@ void CResult::Update()
 	{
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
 		CManager::GetFade()->SetFade(CScene::MODE_GAME);
+		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
+	}
+
+	//エンターキーが押されたとき
+	if (CManager::GetKeyboard()->GetTrigger(DIK_P) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_RB))
+	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_DECIDE);
+		CManager::GetFade()->SetFade(CScene::MODE_STAGESELECT);
 		CManager::GetSound()->Stop(CSound::SOUND_LABEL_BGM_RESULT);
 	}
 

@@ -83,6 +83,8 @@ void C3dplayer::Uninit()
     }
 }
 
+
+
 //======================
 // 更新処理
 //======================
@@ -111,23 +113,91 @@ void C3dplayer::Update()
         //プレイヤーのHPが0以上の場合のみ通す
         if (m_nLife > 0)
         {
-            if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_RIGHT) || leftStickPos.x >= 0.3f)
+            D3DXVECTOR3 moveDirection = { 0.0f, 0.0f, 0.0f };
+
+            // 移動処理
+            if (CManager::GetKeyboard()->GetPress(DIK_A) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT) || leftStickPos.x <= -0.3f)
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD;
+                    moveDirection.x += PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    moveDirection.x += PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+            }
+
+            if (CManager::GetKeyboard()->GetPress(DIK_D) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT) || leftStickPos.x >= 0.3f)
             {
                 if (m_bPlayerBuff == false)
                 {
                     m_n3DPlayerMove.x += PLAYER_MOVE_SPD;
-                    m_rot.y = D3DX_PI * -0.5f;
+                    moveDirection.x -= PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
                 }
 
                 if (m_bPlayerBuff == true)
                 {
                     m_n3DPlayerMove.x += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                    m_rot.y = D3DX_PI * -0.5f;
+                    moveDirection.x -= PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
                 }
-
-                C3dplayer::PlayerWalkSound();
             }
 
+            if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN) || leftStickPos.y <= -0.3f)
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD;
+                    moveDirection.z += PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    moveDirection.z += PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+            }
+
+            if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP) || leftStickPos.y >= 0.3f)
+            {
+                if (m_bPlayerBuff == false)
+                {
+                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD;
+                    moveDirection.z -= PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+
+                if (m_bPlayerBuff == true)
+                {
+                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
+                    moveDirection.z -= PLAYER_MOVE_SPD * (m_bPlayerBuff ? PLAYER_MOVE_BOOST : 1.0f);
+                }
+            }
+
+            // 向きの加算補正
+            if (moveDirection.x != 0.0f || moveDirection.z != 0.0f)
+            {
+                // 現在の向きから新しい向きを計算
+                float targetAngle = atan2(moveDirection.x, moveDirection.z);
+                float deltaAngle = targetAngle - m_rot.y;
+
+                // 角度を -π から π の範囲に収める
+                while (deltaAngle > D3DX_PI) deltaAngle -= 2 * D3DX_PI;
+                while (deltaAngle < -D3DX_PI) deltaAngle += 2 * D3DX_PI;
+
+                // 角度を少しずつ補正する（スムーズな向き変更）
+                const float rotationSpeed = 0.2f; // 回転速度の調整
+                if (fabs(deltaAngle) > rotationSpeed)
+                {
+                    m_rot.y += (deltaAngle > 0 ? rotationSpeed : -rotationSpeed);
+                }
+                else
+                {
+                    m_rot.y = targetAngle; // 目標角度に直接セット
+                }
+            }
 
             //プレイヤーのジャンプ処理
             if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetJoypad()->GetTrigger(CInputJoypad::JOYKEY_A))
@@ -139,60 +209,6 @@ void C3dplayer::Update()
                     m_n3DPlayerMove.y += 30.0f;
                     m_nJumpCnt++;
                 }
-            }
-
-            if (CManager::GetKeyboard()->GetPress(DIK_A) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_LEFT) || leftStickPos.x <= -0.3f)
-            {
-                if (m_bPlayerBuff == false)
-                {
-                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD;
-                    m_rot.y = D3DX_PI * 0.5f;
-                }
-
-                if (m_bPlayerBuff == true)
-                {
-                    m_n3DPlayerMove.x -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                    m_rot.y = D3DX_PI * 0.5f;
-                }
-
-                C3dplayer::PlayerWalkSound();
-            }
-
-
-            //Wキーまたは、十字キー上押下時
-            if (CManager::GetKeyboard()->GetPress(DIK_W) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_UP) || leftStickPos.y >= 0.3f)
-            {
-                if (m_bPlayerBuff == false)
-                {
-                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD;
-                    m_rot.y = D3DX_PI;
-                }
-
-                if (m_bPlayerBuff == true)
-                {
-                    m_n3DPlayerMove.z += PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                    m_rot.y = D3DX_PI;
-                }
-
-                C3dplayer::PlayerWalkSound();
-            }
-
-            //Sキーまたは、十字キー下押下時
-            if (CManager::GetKeyboard()->GetPress(DIK_S) || CManager::GetJoypad()->GetPress(CInputJoypad::JOYKEY_DOWN) || leftStickPos.y <= -0.3f)
-            {
-                if (m_bPlayerBuff == false)
-                {
-                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD;
-                    m_rot.y = -D3DX_PI * -0.0f;
-                }
-
-                if (m_bPlayerBuff == true)
-                {
-                    m_n3DPlayerMove.z -= PLAYER_MOVE_SPD * PLAYER_MOVE_BOOST;
-                    m_rot.y = D3DX_PI * -0.0f;
-                }
-
-                C3dplayer::PlayerWalkSound();
             }
         }
 

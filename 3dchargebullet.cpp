@@ -272,9 +272,9 @@ void C3dchargebullet::Update()
 						&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
 						&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
 					{
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(40.0f, 40.0f, 0.0f), m_rot, 0);
 						Uninit();
 						CCamera::SetShake(3, 4.0f);
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
 						CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_BRBLOCK_DEATH);
 						p3dbrokenblock->Uninit();
 						return;
@@ -305,7 +305,7 @@ void C3dchargebullet::Update()
 						&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
 					{
 						CScore::AddScore(17000);
-						C3dexplosion::Create(m_nPos, D3DXVECTOR3(25.0f, 25.0f, 0.0f), m_rot, 0);
+						C3dexplosion::Create(m_nPos, D3DXVECTOR3(50.0f, 50.0f, 0.0f), m_rot, 0);
 						CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_ENEMY_DAMAGE);
 						p3denemy->Uninit();
 						return;

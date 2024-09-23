@@ -22,6 +22,7 @@ CEndCallUI::CEndCallUI(int nPriority) : CObject2D(nPriority)
 
     m_bUse[0] = false;
     m_bUse[1] = false;
+    m_bUse[2] = false;
     m_pVtxBuff = nullptr;
     m_nAlphaCnt = 255;
     m_nMissonAnim = 0;
@@ -129,7 +130,36 @@ HRESULT CEndCallUI::Init()
 
             pVtx += 4;
             break;
+        case 2:
+            //頂点座標の設定
+            pVtx[0].pos = D3DXVECTOR3((m_nPos[nCntBG].x - m_nSize[nCntBG].x), m_nPos[nCntBG].y, 0.0f);
+            pVtx[1].pos = D3DXVECTOR3((m_nPos[nCntBG].x + m_nSize[nCntBG].x), m_nPos[nCntBG].y, 0.0f);
+            pVtx[2].pos = D3DXVECTOR3((m_nPos[nCntBG].x - m_nSize[nCntBG].x), m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+            pVtx[3].pos = D3DXVECTOR3((m_nPos[nCntBG].x + m_nSize[nCntBG].x), m_nPos[nCntBG].y + m_nSize[nCntBG].y, 0.0f);
+
+            //rhwの設定
+            pVtx[0].rhw = 1.0f;
+            pVtx[1].rhw = 1.0f;
+            pVtx[2].rhw = 1.0f;
+            pVtx[3].rhw = 1.0f;
+
+            //頂点カラー
+            pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+            pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+
+            //テクスチャ座標の設定
+            pVtx[0].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG]);
+            pVtx[1].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG]);
+            pVtx[2].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG], m_aPosTexV[nCntBG] + 1.0f);
+            pVtx[3].tex = D3DXVECTOR2(m_aPosTexXV[nCntBG] + 1.0f, m_aPosTexV[nCntBG] + 1.0f);
+
+            pVtx += 4;
+            break;
         }
+
+
 
     }
 
@@ -182,26 +212,26 @@ void CEndCallUI::Update()
     }
 
 
-    if (m_bUse[0] == true)
+    if (m_bUse[CEndCallUI::ICON_SUCCESS] == true)
     {
         CScene::UpdateSwitch(0);
         m_bEndComplete = false;
 
-        if (m_nPos[0].y <= 160.0f)
+        if (m_nPos[CEndCallUI::ICON_SUCCESS].y <= 160.0f)
         {
-            m_nPos[0].y += 6.0f;
+            m_nPos[CEndCallUI::ICON_SUCCESS].y += 6.0f;
         }
 
-        if (m_nPos[0].y >= 160.0f)
+        if (m_nPos[CEndCallUI::ICON_SUCCESS].y >= 160.0f)
         {
-            m_nPos[0].y == 160.0f;
+            m_nPos[CEndCallUI::ICON_SUCCESS].y == 160.0f;
             m_nMissonAnim++;
 
             if (m_nMissonAnim == 160)
             {
                 m_bEndComplete = true;
                 CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-                m_bUse[0] = false;
+                m_bUse[CEndCallUI::ICON_SUCCESS] = false;
                 m_nMissonAnim = 0;
                 //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
             }
@@ -211,26 +241,52 @@ void CEndCallUI::Update()
     //=================
     //別テクスチャを表示させる
     //================
-    if (m_bUse[1] == true)
+    if (m_bUse[CEndCallUI::ICON_FAILED] == true)
     {
         CScene::UpdateSwitch(0);
         m_bEndComplete = false;
 
-        if (m_nPos[1].y <= 160.0f)
+        if (m_nPos[CEndCallUI::ICON_FAILED].y <= 160.0f)
         {
-            m_nPos[1].y += 6.0f;
+            m_nPos[CEndCallUI::ICON_FAILED].y += 6.0f;
         }
 
-        if (m_nPos[1].y >= 160.0f)
+        if (m_nPos[CEndCallUI::ICON_FAILED].y >= 160.0f)
         {
-            m_nPos[1].y == 160.0f;
+            m_nPos[CEndCallUI::ICON_FAILED].y == 160.0f;
             m_nMissonAnim++;
 
             if (m_nMissonAnim == 160)
             {
                 m_bEndComplete = true;
                 CManager::GetFade()->SetFade(CScene::MODE_RESULT);
-                m_bUse[1] = false;
+                m_bUse[CEndCallUI::ICON_FAILED] = false;
+                m_nMissonAnim = 0;
+                //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
+            }
+        }
+    }
+
+    if (m_bUse[CEndCallUI::ICON_SPSUCCESS] == true)
+    {
+        CScene::UpdateSwitch(0);
+        m_bEndComplete = false;
+
+        if (m_nPos[CEndCallUI::ICON_SPSUCCESS].y <= 160.0f)
+        {
+            m_nPos[CEndCallUI::ICON_SPSUCCESS].y += 6.0f;
+        }
+
+        if (m_nPos[CEndCallUI::ICON_SPSUCCESS].y >= 160.0f)
+        {
+            m_nPos[CEndCallUI::ICON_SPSUCCESS].y == 160.0f;
+            m_nMissonAnim++;
+
+            if (m_nMissonAnim == 160)
+            {
+                m_bEndComplete = true;
+                CManager::GetFade()->SetFade(CScene::MODE_RESULT);
+                m_bUse[CEndCallUI::ICON_SPSUCCESS] = false;
                 m_nMissonAnim = 0;
                 //CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_STARTCALL2);
             }
@@ -385,6 +441,9 @@ CEndCallUI* CEndCallUI::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
         case 1:
             D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\dead_window.png", &pTexture[nCntBG]);
             break;
+        case 2:
+            D3DXCreateTextureFromFile(CManager::GetRenderer()->GetDevice(), "data\\TEXTURE\\spgoal_window.png", &pTexture[nCntBG]);
+            break;
         }
 
         if (!pTexture[nCntBG])
@@ -415,6 +474,25 @@ bool CEndCallUI::DisplayEndCallUI(int nDisplayID, int DisplayOption)
     if (DisplayOption == CEndCallUI::UIDISPLAY::UI_HIDDEN)
     {
         m_bUse[nDisplayID] = false;
+    }
+
+    //クリア時の音声
+    if (m_bUse[CEndCallUI::ICON_SUCCESS] == true)
+    {
+        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_CLEAR);
+    }
+
+
+    //SPクリア時の音声
+    else if (m_bUse[CEndCallUI::ICON_SPSUCCESS] == true)
+    {
+        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_CLEAR);
+    }
+
+    //失敗時の音声
+    else if (m_bUse[CEndCallUI::ICON_FAILED] == true)
+    {
+        CManager::GetSound()->PlaySound(CSound::SOUND_LABEL_SE_FAILED);
     }
 
     return m_bUse[nDisplayID];

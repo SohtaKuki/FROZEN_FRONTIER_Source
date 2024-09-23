@@ -39,7 +39,7 @@ HRESULT C3dexplosion::Init()
 	LPDIRECT3DDEVICE9 pDevice = Renderer->GetDevice();
 
 	//テクスチャの読込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\explosion000.png", &m_pTexture);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\exp.png", &m_pTexture);
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * 1, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &m_pVtxBuff, NULL);

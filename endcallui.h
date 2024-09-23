@@ -11,7 +11,7 @@
 #include "object2D.h"
 
 //マクロ定義
-#define NUM_ICON	(2)	//アイコンの数
+#define NUM_ICON	(3)	//アイコンの数
 
 class CEndCallUI : public CObject2D
 {
@@ -21,6 +21,7 @@ public:
 	{
 		ICON_SUCCESS = 0,
 		ICON_FAILED,
+		ICON_SPSUCCESS,
 		ICON_MAX,
 	}ICONDISPLAY;
 

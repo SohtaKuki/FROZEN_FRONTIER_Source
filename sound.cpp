@@ -29,6 +29,7 @@ SOUNDINFO g_aSoundInfo[CSound::SOUND_LABEL_MAX] =
 	{"data\\SOUND\\BGM\\stageselect000.wav", -1, 0.3f}, //ステージセレクト画面BGM
 	{"data\\SOUND\\BGM\\stage000.wav", -1, 0.3f}, //ステージ1BGM
 	{"data\\SOUND\\BGM\\stage001.wav", -1, 0.3f}, //ステージ2BGM
+	{"data\\SOUND\\BGM\\stage_tutorial.wav", -1, 0.3f}, //チュートリアルステージBGM
 	{"data\\SOUND\\BGM\\result000.wav", -1, 0.3f}, //リザルト画面BGM
 	{"data\\SOUND\\SE\\select000.wav", 0, 0.8f}, //選択SE
 	{"data\\SOUND\\SE\\decide000.wav", 0, 0.8f}, //決定SE
@@ -47,6 +48,8 @@ SOUNDINFO g_aSoundInfo[CSound::SOUND_LABEL_MAX] =
 	{"data\\SOUND\\SE\\BrokenBlock_Death.wav", 0, 0.7f}, //破壊可能ブロック破壊SE
 	{"data\\SOUND\\SE\\jump000.wav", 0, 0.3f}, //プレイヤージャンプSE
 	{"data\\SOUND\\SE\\startbtn000.wav", 0, 0.7f}, //スタートボタンSE
+	{"data\\SOUND\\SE\\Clear000.wav", 0, 0.7f}, //クリア成功SE
+	{"data\\SOUND\\SE\\failed000.wav", 0, 0.7f}, //クリア失敗SE
 };
 
 //=============================================================================

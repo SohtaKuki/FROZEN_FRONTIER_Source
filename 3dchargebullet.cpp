@@ -269,6 +269,8 @@ void C3dchargebullet::Update()
 				{
 					if (m_nPos.x >= BlockPos.x - NORMAL_BLOCK_COLISION
 						&& m_nPos.x <= BlockPos.x + NORMAL_BLOCK_COLISION
+						&& m_nPos.y >= BlockPos.y - NORMAL_BLOCK_COLISION
+						&& m_nPos.y <= BlockPos.y + NORMAL_BLOCK_COLISION
 						&& m_nPos.z >= BlockPos.z - NORMAL_BLOCK_COLISION
 						&& m_nPos.z <= BlockPos.z + NORMAL_BLOCK_COLISION)
 					{
@@ -301,6 +303,8 @@ void C3dchargebullet::Update()
 				{
 					if (m_nPos.x >= EnemyPos.x - NORMAL_BLOCK_COLISION
 						&& m_nPos.x <= EnemyPos.x + NORMAL_BLOCK_COLISION
+						&& m_nPos.y >= EnemyPos.y - NORMAL_BLOCK_COLISION
+						&& m_nPos.y <= EnemyPos.y + NORMAL_BLOCK_COLISION
 						&& m_nPos.z >= EnemyPos.z - NORMAL_BLOCK_COLISION
 						&& m_nPos.z <= EnemyPos.z + NORMAL_BLOCK_COLISION)
 					{

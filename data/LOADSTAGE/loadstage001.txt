@@ -393,6 +393,20 @@ STAGESET
 	END_OBJECTSET
 	
 	OBJECTSET
+		OBJ_TYPE = 4					#アイテム 
+		POS = 420.0 0.0 200.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 1					#敵 
+		POS = 420.0 0.0 -180.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2
+	END_OBJECTSET
+	
+	OBJECTSET
 		OBJ_TYPE = 4					#アイテムブロック 
 		POS = -20.0 0.0 325.0
 		ROT = 0.0 0.0 0.0

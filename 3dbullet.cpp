@@ -270,6 +270,8 @@ void C3dbullet::Update()
 				{
 					if (m_nPos.x >= BlockPos.x - 30
 						&& m_nPos.x <= BlockPos.x + 30
+						&& m_nPos.y >= BlockPos.y - 30
+						&& m_nPos.y <= BlockPos.y + 30
 						&& m_nPos.z >= BlockPos.z - 30
 						&& m_nPos.z <= BlockPos.z + 30)
 					{
@@ -322,8 +324,8 @@ void C3dbullet::Update()
 					{
 						if (m_nPos.x >= EnemyPos.x - 30
 							&& m_nPos.x <= EnemyPos.x + 30
-							&& m_nPos.y >= EnemyPos.y - 30
-							&& m_nPos.y <= EnemyPos.y + 30
+							&& m_nPos.y >= EnemyPos.y - 15
+							&& m_nPos.y <= EnemyPos.y + 15
 							&& m_nPos.z >= EnemyPos.z - 30
 							&& m_nPos.z <= EnemyPos.z + 30)
 						{
@@ -506,7 +508,7 @@ C3dbullet* C3dbullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size,D3DXVECTOR3 rot,i
 
 		bullet3d->m_nSize = size;
 
-		bullet3d->m_nLife = 80;
+		bullet3d->m_nLife = 60;
 
 		//’e‚Ì”­ŽË•ûŒü
  		bullet3d->m_nMove.x = sinf(bullet3d->m_rot.y + D3DX_PI) * BULLET_SPD;

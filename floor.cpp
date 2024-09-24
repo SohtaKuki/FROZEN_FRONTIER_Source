@@ -85,10 +85,11 @@ void CFloor::Update()
 
 	Pos = m_nPos;
 
-	int nFadeState = CFade::GetFadeState();
+	int nFadeState = CFade::GetFadeState();6
 
 	if (nFadeState == CFade::FADE_OUT)
 	{
+		CFloor::Unload();
 		CFloor::Uninit();
 	}
 }

@@ -201,8 +201,8 @@ void CTimer::Update()
 		//残り時間が0以下になった場合、終了演出を入れる
 		if (m_nTime < 0)
 		{
-			CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_FAILED, CEndCallUI::UIDISPLAY::UI_DISPLAY);
 			m_nTime = 0;
+			CEndCallUI::DisplayEndCallUI(CEndCallUI::ICONDISPLAY::ICON_FAILED, CEndCallUI::UIDISPLAY::UI_DISPLAY);
 		}
 
 

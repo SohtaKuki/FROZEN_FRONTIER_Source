@@ -1,81 +1,17 @@
-﻿  3daddlifeui.cpp
-  3dblock.cpp
-  3dbrokenblock.cpp
-  3dbuffui.cpp
-  3dbullet.cpp
+﻿  3dbullet.cpp
   3dchargebullet.cpp
-  3dchargeshotui.cpp
   3denemy.cpp
-  3dexplosion.cpp
-  3dgoalobj.cpp
-  3ditem.cpp
-  3dmoveblock.cpp
   3dplayer.cpp
 C:\Users\student\Desktop\ProjectC++_phase2\3dbuffui.h(14,1): warning C4005: 'NUM_ICON': マクロが再定義されました。
 C:\Users\student\Desktop\ProjectC++_phase2\3dchargeshotui.h(14): message : 'NUM_ICON' の以前の定義を確認してください
-C:\Users\student\Desktop\ProjectC++_phase2\3dplayer.cpp(222,58): warning C4244: '=': 'ULONGLONG' から 'DWORD' への変換です。データが失われる可能性があります。
-  3dwall.cpp
-  billboard.cpp
-  blizardfloor.cpp
-  block.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\block.cpp(59,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
-  bullet.cpp
-  camera.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(158,78): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(158,54): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\student\Desktop\ProjectC++_phase2\camera.cpp(158,31): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  endcallui.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\endcallui.cpp(197,25): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
-C:\Users\student\Desktop\ProjectC++_phase2\endcallui.cpp(226,25): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
-  コンパイル中...
-  enemy.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\enemy.cpp(59,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
-  explosion.cpp
-  fade.cpp
+C:\Users\student\Desktop\ProjectC++_phase2\endcallui.h(14,1): warning C4005: 'NUM_ICON': マクロが再定義されました。
+C:\Users\student\Desktop\ProjectC++_phase2\3dbuffui.h(14): message : 'NUM_ICON' の以前の定義を確認してください
+C:\Users\student\Desktop\ProjectC++_phase2\3dplayer.cpp(238,58): warning C4244: '=': 'ULONGLONG' から 'DWORD' への変換です。データが失われる可能性があります。
   floor.cpp
-  gameui.cpp
-  input.cpp
-  item.cpp
-  light.cpp
-  main.cpp
-  manager.cpp
-  objectX.cpp
-  objbg.cpp
-  object.cpp
-  object2D.cpp
-  object3D.cpp
-  pause.cpp
-  player.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\player.cpp(57,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
-  playerhpbar.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\playerhpbar.cpp(94,54): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\student\Desktop\ProjectC++_phase2\playerhpbar.cpp(100,54): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-  playerwindow.cpp
-  renderer.cpp
-  コンパイル中...
-  result.cpp
-  resultscore.cpp
-  scene.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\3dbuffui.h(14,1): warning C4005: 'NUM_ICON': マクロが再定義されました。
-C:\Users\student\Desktop\ProjectC++_phase2\3dchargeshotui.h(14): message : 'NUM_ICON' の以前の定義を確認してください
-C:\Users\student\Desktop\ProjectC++_phase2\tutorialui.h(13,1): warning C4005: 'PAUSE_SELECT_NUM': マクロが再定義されました。
-C:\Users\student\Desktop\ProjectC++_phase2\stageselect.h(13): message : 'PAUSE_SELECT_NUM' の以前の定義を確認してください
-C:\Users\student\Desktop\ProjectC++_phase2\stageselectbg.h(14,1): warning C4005: 'NUM_BG': マクロが再定義されました。
-C:\Users\student\Desktop\ProjectC++_phase2\titlebg.h(14): message : 'NUM_BG' の以前の定義を確認してください
-  score.cpp
-  scorewindow.cpp
-  sound.cpp
-  stagemanager.cpp
-  stageselect.cpp
-  stageselectbg.cpp
-  startcallui.cpp
-  startobj.cpp
   timer.cpp
-  titlebg.cpp
-  tutorialui.cpp
   コード生成しています。
-  102 of 622 functions (16.4%) were compiled, the rest were copied from previous compilation.
-    34 functions were new in current compilation
-    155 functions had inline decision re-evaluated but remain unchanged
+  6 of 624 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2\Release\ProjectC++_phase2.exe

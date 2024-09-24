@@ -85,7 +85,7 @@ void CFloor::Update()
 
 	Pos = m_nPos;
 
-	int nFadeState = CFade::GetFadeState();6
+	int nFadeState = CFade::GetFadeState();
 
 	if (nFadeState == CFade::FADE_OUT)
 	{

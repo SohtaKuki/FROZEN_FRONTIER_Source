@@ -1,13 +1,6 @@
-﻿  3daddlifeui.cpp
-  endcallui.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\endcallui.cpp(227,48): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
-C:\Users\student\Desktop\ProjectC++_phase2\endcallui.cpp(256,47): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
-C:\Users\student\Desktop\ProjectC++_phase2\endcallui.cpp(282,50): warning C4553: '==': 式の結果が使用されていません。'=' を意図していますか?
-  enemy.cpp
-C:\Users\student\Desktop\ProjectC++_phase2\enemy.cpp(59,6): warning C4101: 'nCntExplosion': ローカル変数は 1 度も使われていません。
-  floor.cpp
-  gameui.cpp
-  renderer.cpp
-  tutorialui.cpp
-  コードを生成中...
-  Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2\x64\Debug\ProjectC++_phase2.exe
+﻿  3dwall.cpp
+C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(389): warning C4715: 'C3dwall::Collision3DWall': 値を返さないコントロール パスがあります。
+C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(434): warning C4715: 'C3dwall::Collision3DHeightWall': 値を返さないコントロール パスがあります。
+C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(474): warning C4715: 'C3dwall::Collision3DWallShort': 値を返さないコントロール パスがあります。
+C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(514): warning C4715: 'C3dwall::Collision3DHeightWallShort': 値を返さないコントロール パスがあります。
+  Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2 backup\x64\Debug\ProjectC++_phase2.exe

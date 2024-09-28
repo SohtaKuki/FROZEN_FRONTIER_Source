@@ -682,9 +682,16 @@ STAGESET
 	
 	OBJECTSET
 		OBJ_TYPE = 5					#壁ブロック 
-		POS = 92.0 -65.0 -70.0
+		POS = 50.0 -65.0 -70.0
 		ROT = 0.0 0.0 0.0
-		OBJ_TYPE2 = 0	
+		OBJ_TYPE2 = 2	
+	END_OBJECTSET
+	
+	OBJECTSET
+		OBJ_TYPE = 5					#壁ブロック 
+		POS = 127.0 -65.0 -70.0
+		ROT = 0.0 0.0 0.0
+		OBJ_TYPE2 = 2	
 	END_OBJECTSET
 	
 	

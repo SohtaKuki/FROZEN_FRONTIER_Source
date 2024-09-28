@@ -382,7 +382,7 @@ void C3dbullet::Update()
 							&& m_nPos.z >= PlayerPos.z - 30
 							&& m_nPos.z <= PlayerPos.z + 30)
 						{
-							CCamera::SetShake(3, 8.0f);
+							CCamera::SetShake(3, 12.0f);
 							C3dexplosion::Create(m_nPos, D3DXVECTOR3(40.0f, 40.0f, 0.0f), m_rot, 0);
 							p3dplayer->PlayerDamage(10);
 							Uninit();

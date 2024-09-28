@@ -188,7 +188,7 @@ void C3dplayer::Update()
                 while (deltaAngle < -D3DX_PI) deltaAngle += 2 * D3DX_PI;
 
                 // 角度を少しずつ補正する（スムーズな向き変更）
-                const float rotationSpeed = 0.2f; // 回転速度の調整
+                const float rotationSpeed = 0.35f; // 回転速度の調整
                 if (fabs(deltaAngle) > rotationSpeed)
                 {
                     m_rot.y += (deltaAngle > 0 ? rotationSpeed : -rotationSpeed);

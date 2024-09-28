@@ -1,6 +1,1 @@
-﻿  3dwall.cpp
-C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(389): warning C4715: 'C3dwall::Collision3DWall': 値を返さないコントロール パスがあります。
-C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(434): warning C4715: 'C3dwall::Collision3DHeightWall': 値を返さないコントロール パスがあります。
-C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(474): warning C4715: 'C3dwall::Collision3DWallShort': 値を返さないコントロール パスがあります。
-C:\Users\student\Desktop\ProjectC++_phase2 backup\3dwall.cpp(514): warning C4715: 'C3dwall::Collision3DHeightWallShort': 値を返さないコントロール パスがあります。
-  Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2 backup\x64\Debug\ProjectC++_phase2.exe
+﻿  Project52.vcxproj -> C:\Users\student\Desktop\ProjectC++_phase2 backup\x64\Debug\ProjectC++_phase2.exe
